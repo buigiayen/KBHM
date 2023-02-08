@@ -1,0 +1,24 @@
+{
+  "Routes": [
+    //KBHM.api
+
+    //System.api
+    {
+      "DownstreamPathTemplate": "/v1/Region",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "System.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Region",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "BaseUrl": "host.docker.internal:7001"
+  }
+}

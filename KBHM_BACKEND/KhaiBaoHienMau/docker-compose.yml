@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  ocelot_apigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Ocelot_apigateway/Dockerfile
+
+  kbhm.api:
+    image: ${DOCKER_REGISTRY-}kbhmapi
+    build:
+      context: .
+      dockerfile: Services/KBHM.api/Dockerfile
+
+
+  system.api:
+    image: ${DOCKER_REGISTRY-}systemapi
+    build:
+      context: .
+      dockerfile: Services/System.api/Dockerfile
+
