@@ -60,6 +60,7 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()
         {
             int valueTransaction = 0;
+            _SqlConnection.Open();
             using (var sqlTransaction = _SqlConnection.BeginTransaction())
             {
                 try
@@ -76,7 +77,7 @@ namespace Services.lib.Sql
                     valueTransaction = -2;
                 }
             }
-
+            _SqlConnection.Close();
             return ReturnStatusObjectSql(valueTransaction);
         }
         public async Task<HttpObject.APIresult> SQLQueryAsync()
