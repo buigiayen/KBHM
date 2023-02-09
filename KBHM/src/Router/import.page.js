@@ -1,5 +1,6 @@
 
 import DangKyKhaiBao from '../pages/DangKyKhaiBao/index'
+import TraCuuThongTin from '../pages/TraCuuThongTin/index'
 
 const  RoutesPage = [
     {
@@ -12,7 +13,7 @@ const  RoutesPage = [
     },
     {
         path: '/TraCuuThongTin/:ID',
-        element: <DangKyKhaiBao />
+        element: <TraCuuThongTin />
     },
     {
         path: '/Login',
