@@ -21,7 +21,7 @@ const Index = () => {
             <span style={{ color: 'blue', fontStyle: 'italic' }}>Tóm tắt thông tin người đăng ký hiến máu</span>
         </Divider>
         <Row gutter={16}>
-            <Col xs={24} xl={8}>
+            <Col xs={24} xl={13}>
                 <h4>HỌ VÀ TÊN:  {InformationPerson?.Name?.toUpperCase()}</h4>
                 <p>
                     <span className="blod">Ngày sinh:</span> {InformationPerson?.BirthDay}
@@ -39,12 +39,17 @@ const Index = () => {
                     {DiaChiThuongTruCCCD &&
                         <span>{DiaChiThuongTruCCCD.Label}: {DiaChiThuongTruCCCD.value}</span>}
                 </p>
+                <p>
+                    <h4 style={{color:'red'}}>Lưu ý:</h4>
+                    <p>Để tránh lộ thông tin cá nhân và kết quả xét nghiệm sàng lọc túi máu Người hiến có trách nhiệm bảo mật thông tin hiện trên màn hình này!</p>
+                    <p>Chỉ tiết lộ cho cán bộ thuộc đơn vị lấy máu trong quá trình khám sàng lọc và lấy máu trước và trong khi thực hiện hiến máu.</p>
+                </p>
 
 
 
 
             </Col>
-            <Col xs={24} xl={8}>
+            <Col xs={24} xl={3}>
 
             </Col>
             <Col xs={24} xl={8}>
