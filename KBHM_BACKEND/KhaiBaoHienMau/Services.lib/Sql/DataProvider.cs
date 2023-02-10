@@ -66,19 +66,21 @@ namespace Services.lib.Sql
                 try
                 {
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    valueTransaction = await _SqlConnection.ExecuteAsync(_SQL, _dynamicParameters ?? null, sqlTransaction);
+                    valueTransaction = await _SqlConnection.ExecuteAsync(_SQL, _Pra ?? null, sqlTransaction);
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                     sqlTransaction.Commit();
+                    return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
                 {
                     Logger.Logger.Instance.Messenger("stop :" + ex.Message).build(Logger.Logger._TypeFile.Error);
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
+                    _SqlConnection.Close();
+                    return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
-            _SqlConnection.Close();
-            return ReturnStatusObjectSql(valueTransaction);
+          
         }
         public async Task<HttpObject.APIresult> SQLQueryAsync()
         {
@@ -99,13 +101,13 @@ namespace Services.lib.Sql
             }
             return httpObject;
         }
-        private HttpObject.APIresult ReturnStatusObjectSql(int status)
+        private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
         {
             var aPIresultObjects = new HttpObject.APIresult();
             switch (status)
             {
-                case -2: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error, Please check log transaction roll back " }; break;
-                case -1: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error system, Please check log" }; break;
+                case -2: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error, Please check log transaction roll back: " + exception ?? exception.Message }; break;
+                case -1: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error system, Please check log" + exception ?? exception.Message }; break;
                 default: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = status, Messenger = "Success transaction commit" }; break;
             }
             return aPIresultObjects;

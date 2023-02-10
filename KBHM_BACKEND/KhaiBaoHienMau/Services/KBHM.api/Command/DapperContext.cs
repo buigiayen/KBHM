@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System;
 
 namespace KBHM.api.Command
 {

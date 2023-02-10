@@ -2,6 +2,20 @@
   "Routes": [
     //KBHM.api
 
+    {
+      "DownstreamPathTemplate": "/v1/Person/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "KBHM.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Person/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+
+    },
+   
     //System.api
     {
       "DownstreamPathTemplate": "/v1/Region",

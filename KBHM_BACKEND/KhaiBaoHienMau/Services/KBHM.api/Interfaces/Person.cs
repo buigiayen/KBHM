@@ -7,6 +7,7 @@ namespace KBHM.api.Interfaces
     {
         Task<HttpObject.APIresult> PostPerson(Model.Person person);
         Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person);
+        Task<HttpObject.APIresult> GetRowIDPropertiesPerson(Model.Person person);
 
     }
 }

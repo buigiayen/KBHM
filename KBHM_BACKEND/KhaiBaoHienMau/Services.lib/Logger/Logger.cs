@@ -40,13 +40,17 @@ namespace Services.lib.Logger
                 {
                     Directory.CreateDirectory(path);
                 }
-                path += _FileName;
+                path += _FileName ?? "Logger.txt";
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                }
                 sw = new StreamWriter(path, true);
                 sw.WriteLine(_Messenge);
                 sw.Flush();
                 sw.Close();
             }
-            catch
+            catch (Exception ex)
             {
                 // ignored
             }

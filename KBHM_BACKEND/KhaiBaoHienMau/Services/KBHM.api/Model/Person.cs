@@ -5,7 +5,7 @@ namespace KBHM.api.Model
 {
     public class Person
     {
-        public Person() { PersonProperties = new List<PersonProperties>(); }
+      
         public Guid RowID { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }

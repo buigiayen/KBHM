@@ -1,6 +1,7 @@
 ﻿using KBHM.api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KBHM.api.Controllers
@@ -15,8 +16,19 @@ namespace KBHM.api.Controllers
         public async Task<IActionResult> PostPerson([FromBody] Person person)
         {
             var data = await _Person.PostPerson(person);
-            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ?  CreatedAtAction("Person", data) : BadRequest();
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ?  Created("Person", data) : BadRequest(data);
         }
-
+        [HttpGet("Person/{ID}")]
+        public async Task<IActionResult> GetPerson(Guid ID)
+        {
+            var data = await _Person.GetRowIDPerson(new Person { RowID = ID });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok( data) : BadRequest(data);
+        }
+        [HttpGet("Person/{ID}/Properties")]
+        public async Task<IActionResult> GetPropertiesPerson(Guid ID)
+        {
+            var data = await _Person.GetRowIDPropertiesPerson(new Person { RowID = ID });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
