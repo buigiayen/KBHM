@@ -14,3 +14,7 @@ export const GET_PropertiesPerson = async (prop) => {
 export const GET_Person = async (prop) => {
     return await HttpRequest( 'GET',`/Person/${prop}`);
 }
+//Person/:ID -- Tìm thông tin person số lượng dòng
+export const GET_PersonInfo = async (prop) => {
+    return await HttpRequest( 'GET',`/Person/${prop.text}/Find/${prop.row}`);
+}

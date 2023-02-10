@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Divider, Row, Col, Card } from 'antd'
+import dayjs from 'dayjs';
 import { GET_Person, GET_PropertiesPerson } from '../../Data/Api/DangKyKham'
+
 import Qrcode from '../../Components/QRCode'
+import './index.css'
 const Index = () => {
     let { ID } = useParams();
     const [InformationPerson, SetInfomationPerson] = useState();
@@ -24,25 +27,25 @@ const Index = () => {
             <Col xs={24} xl={13}>
                 <h4>HỌ VÀ TÊN:  {InformationPerson?.Name?.toUpperCase()}</h4>
                 <p>
-                    <span className="blod">Ngày sinh:</span> {InformationPerson?.BirthDay}
+                    <span className="label">Ngày sinh:</span> {dayjs(InformationPerson?.BirthDay).format("DD/MM/YYYY")}
                 </p>
                 <p>
-                    <span className="blod">Giới tính:</span> {InformationPerson?.Sex == 1 ? "Nam" : "Nữ"}
+                    <span className="label">Giới tính:</span> {InformationPerson?.Sex == 1 ? "Nam" : "Nữ"}
                 </p>
                 <p>
-                    <span className="blod">Số CCCD:</span> {InformationPerson?.CCCD}
+                    <span className="label">Số CCCD:</span> {InformationPerson?.CCCD}
                 </p>
                 <p>
-                    <span className="blod">Số điện thoại:</span> {InformationPerson?.Phone}
+                    <span className="label">Số điện thoại:</span> {InformationPerson?.Phone}
                 </p>
                 <p>
-                    {DiaChiThuongTruCCCD &&
-                        <span>{DiaChiThuongTruCCCD.Label}: {DiaChiThuongTruCCCD.value}</span>}
+                    {DiaChiThuongTruCCCD && <>  <span className="label">{DiaChiThuongTruCCCD.Label}: </span> {DiaChiThuongTruCCCD.value} </>
+                    }
                 </p>
                 <p>
-                    <h4 style={{color:'red'}}>Lưu ý:</h4>
-                    <p>Để tránh lộ thông tin cá nhân và kết quả xét nghiệm sàng lọc túi máu Người hiến có trách nhiệm bảo mật thông tin hiện trên màn hình này!</p>
-                    <p>Chỉ tiết lộ cho cán bộ thuộc đơn vị lấy máu trong quá trình khám sàng lọc và lấy máu trước và trong khi thực hiện hiến máu.</p>
+                    <h4 style={{ color: 'red' }}>Lưu ý:</h4>
+                    <p className="Waring-blue">Để tránh lộ thông tin cá nhân và kết quả xét nghiệm sàng lọc túi máu Người hiến có trách nhiệm bảo mật thông tin hiện trên màn hình này!</p>
+                    <p className="Waring-blue">Chỉ tiết lộ cho cán bộ thuộc đơn vị lấy máu trong quá trình khám sàng lọc và lấy máu trước và trong khi thực hiện hiến máu.</p>
                 </p>
 
 
@@ -53,7 +56,7 @@ const Index = () => {
 
             </Col>
             <Col xs={24} xl={8}>
-                <Qrcode value={"Yên đẹp trai"}></Qrcode>
+                <Qrcode value={`${ID}-${InformationPerson?.CCCD}`}></Qrcode>
             </Col>
 
         </Row>
