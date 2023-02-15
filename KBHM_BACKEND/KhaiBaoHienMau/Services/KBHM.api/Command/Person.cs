@@ -15,10 +15,15 @@ namespace KBHM.api.Command
             _context = context;
         }
 
+        public async Task<HttpObject.APIresult> GetFindPerson(Model.Person person)
+        {
+            string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE    Phone=@TEXT or CCCD=@TEXT order by DateRegister desc;";
+            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+        }
 
         public async Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person)
         {
-            
+
             string sql = $"SELECT        TOP (200) * FROM            Person WHERE        (RowID = @RowID);";
             return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
@@ -33,13 +38,13 @@ namespace KBHM.api.Command
         {
             Guid RowsID = Guid.NewGuid();
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{RowsID}';" +
-              " INSERT INTO [dbo].[Person] ([RowID] ,[Name] ,[BirthDay] ,[Sex] ,[CCCD] ,[Phone] ,[Email]) VALUES (@ROWIDs ,@Name ,@BirthDay ,@Sex ,@CCCD ,@Phone ,@Email); ";
+              " INSERT INTO [dbo].[Person] ([RowID] ,[Name] ,[BirthDay] ,[Sex] ,[CCCD] ,[Phone] ,[Email], [DiaChiThuongTru],[DiaChiThuongTru_ChiTiet] , [DiaChiLienLac] , [DiaChiThuongLienLac_ChiTiet] , [NoiCapCCCD]) VALUES (@ROWIDs ,@Name ,@BirthDay ,@Sex ,@CCCD ,@Phone ,@Email, @DiaChiThuongTru, @DiaChiThuongTru_ChiTiet  , @DiaChiLienLac ,@DiaChiLienLac_ChiTiet,@NoiCapCCCD); ";
             foreach (var item in person.PersonProperties)
             {
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";
             }
             sql += "select @ROWIDs as Code ";
-            return  await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
     }
 }

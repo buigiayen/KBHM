@@ -1,5 +1,6 @@
 
 import DangKyKhaiBao from '../pages/DangKyKhaiBao/index'
+import Login from '../pages/DangNhap/index'
 import TraCuuThongTin from '../pages/TraCuuThongTin/index'
 
 const  RoutesPage = [
@@ -17,7 +18,7 @@ const  RoutesPage = [
     },
     {
         path: '/Login',
-        element: <DangKyKhaiBao />,
+        element: <Login />,
         index : true
     },
 

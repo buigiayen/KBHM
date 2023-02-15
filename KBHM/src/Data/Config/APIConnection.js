@@ -47,7 +47,7 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     };
     try {
         data = await Connection(URI, method, body, params, Type);
-        return ExposeData(data);
+        return ExposeData(data, messageShow);
     }
     catch {
         ShowMessenger("error", 'server is not running!');
@@ -55,39 +55,41 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     return data;
 }
 
-const ExposeData = (datas) => {
-
-    switch (datas.status) {
-        case 200:
-            ShowMessenger("Info", 'Success!');
-            break;
-        case 201:
-            ShowMessenger("Info", 'Create new success!');
-            break;
-        case 204:
-            console.log('No content')
-            break;
-        case 400:
-            ShowMessenger("error", 'Bad request!');
-            break;
-        case 401:
-            ShowMessenger("error", 'Unauthorized!');
-            break;
-        case 405:
-            ShowMessenger("error", 'Method Not Allowed!');
-            break;
-        case 408:
-            ShowMessenger("error", 'Request Timeout!');
-            break;
-        case 409:
-            ShowMessenger("error", 'Conflict!');
-            break;
-        case 500:
-            ShowMessenger("error", 'Internal Server Error!');
-            break;
-        default:
-            ShowMessenger("error", 'Error backend!');
-            break;
+const ExposeData = (datas, ShowToast = true) => {
+    if (ShowToast) {
+        switch (datas.status) {
+            case 200:
+                ShowMessenger("Info", 'Success!');
+                break;
+            case 201:
+                ShowMessenger("Info", 'Create new success!');
+                break;
+            case 204:
+                console.log('No content')
+                break;
+            case 400:
+                ShowMessenger("error", 'Bad request!');
+                break;
+            case 401:
+                ShowMessenger("error", 'Unauthorized!');
+                break;
+            case 405:
+                ShowMessenger("error", 'Method Not Allowed!');
+                break;
+            case 408:
+                ShowMessenger("error", 'Request Timeout!');
+                break;
+            case 409:
+                ShowMessenger("error", 'Conflict!');
+                break;
+            case 500:
+                ShowMessenger("error", 'Internal Server Error!');
+                break;
+            default:
+                ShowMessenger("error", 'Error backend!');
+                break;
+        }
     }
+
     return datas.data.data ?? [];
 }

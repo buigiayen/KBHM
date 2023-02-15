@@ -9,15 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot_apigateway", "ApiGat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{8CFB44D7-2819-4B49-BFEF-3C23E882411B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.api", "Services\System.api\System.api.csproj", "{E58DCC17-173F-4961-90F2-51F6594ED89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.api", "Services\System.api\System.api.csproj", "{E58DCC17-173F-4961-90F2-51F6594ED89D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBHM.api", "Services\KBHM.api\KBHM.api.csproj", "{016271A4-C039-4CB6-BD6E-646D78EDFC41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KBHM.api", "Services\KBHM.api\KBHM.api.csproj", "{016271A4-C039-4CB6-BD6E-646D78EDFC41}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F0DFACF7-B30B-4E10-8AAB-3453B651E276}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{C329B7D2-11DA-4BED-82B8-5603380C76FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.lib", "Services.lib\Services.lib.csproj", "{C9015F1F-C809-44BC-95C5-45585ADBA89D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.lib", "Services.lib\Services.lib.csproj", "{C9015F1F-C809-44BC-95C5-45585ADBA89D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodBank.api", "Services\BloodBank.api\BloodBank.api.csproj", "{18AB6A48-3067-420E-999B-92F7C5CE18D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C9015F1F-C809-44BC-95C5-45585ADBA89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9015F1F-C809-44BC-95C5-45585ADBA89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9015F1F-C809-44BC-95C5-45585ADBA89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AB6A48-3067-420E-999B-92F7C5CE18D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AB6A48-3067-420E-999B-92F7C5CE18D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AB6A48-3067-420E-999B-92F7C5CE18D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AB6A48-3067-420E-999B-92F7C5CE18D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{E58DCC17-173F-4961-90F2-51F6594ED89D} = {8CFB44D7-2819-4B49-BFEF-3C23E882411B}
 		{016271A4-C039-4CB6-BD6E-646D78EDFC41} = {8CFB44D7-2819-4B49-BFEF-3C23E882411B}
 		{C9015F1F-C809-44BC-95C5-45585ADBA89D} = {C329B7D2-11DA-4BED-82B8-5603380C76FB}
+		{18AB6A48-3067-420E-999B-92F7C5CE18D4} = {8CFB44D7-2819-4B49-BFEF-3C23E882411B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3893D360-DA96-41F5-B357-FF049A06DD3B}

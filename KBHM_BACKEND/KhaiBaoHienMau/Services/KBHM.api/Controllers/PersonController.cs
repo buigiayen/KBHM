@@ -24,6 +24,12 @@ namespace KBHM.api.Controllers
             var data = await _Person.GetRowIDPerson(new Person { RowID = ID });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok( data) : BadRequest(data);
         }
+        [HttpGet("Person/{Text}/Find/{ROW}")]
+        public async Task<IActionResult> GetFindPerson(string Text, int ROW = 10)
+        {
+            var data = await _Person.GetFindPerson(new Person {Text = Text, Row = ROW });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
         [HttpGet("Person/{ID}/Properties")]
         public async Task<IActionResult> GetPropertiesPerson(Guid ID)
         {

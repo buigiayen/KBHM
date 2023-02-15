@@ -17,7 +17,8 @@ import {
     UploadOutlined ,
     EditOutlined ,
     ClockCircleOutlined,
-    DownloadOutlined 
+    DownloadOutlined ,
+    UserOutlined
    
 } from '@ant-design/icons';
 
@@ -41,6 +42,8 @@ const IconCombine = {
     UploadOutlined,
     EditOutlined,
     ClockCircleOutlined ,
-    DownloadOutlined
+    DownloadOutlined,
+    UserOutlined
+   
 }
 export default IconCombine;

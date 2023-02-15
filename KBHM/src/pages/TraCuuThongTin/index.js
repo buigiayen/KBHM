@@ -9,14 +9,8 @@ import './index.css'
 const Index = () => {
     let { ID } = useParams();
     const [InformationPerson, SetInfomationPerson] = useState();
-    const [InformationPersonProperties, SetInfomationPersonProperties] = useState();
-    const [DiaChiThuongTruCCCD, SetDiaChiThuongTruCCCD] = useState();
     useMemo(async () => {
         await GET_Person(ID).then(rs => { SetInfomationPerson(rs[0]) })
-        await GET_PropertiesPerson(ID).then(rs => {
-            SetDiaChiThuongTruCCCD(rs.filter(p => p.Key == 'DiaChiThuongTruCCCD')[0])
-        })
-
     }, [])
     return (<>
 
@@ -39,9 +33,9 @@ const Index = () => {
                     <span className="label">Số điện thoại:</span> {InformationPerson?.Phone}
                 </p>
                 <p>
-                    {DiaChiThuongTruCCCD && <>  <span className="label">{DiaChiThuongTruCCCD.Label}: </span> {DiaChiThuongTruCCCD.value} </>
-                    }
+                <span className="label">Địa chỉ thường trú (ghi trên CCCD):</span> {InformationPerson?.DiaChiThuongTru} -  {InformationPerson?.DiaChiThuongTru_ChiTiet}
                 </p>
+              
                 <p>
                     <h4 style={{ color: 'red' }}>Lưu ý:</h4>
                     <p className="Waring-blue">Để tránh lộ thông tin cá nhân và kết quả xét nghiệm sàng lọc túi máu Người hiến có trách nhiệm bảo mật thông tin hiện trên màn hình này!</p>

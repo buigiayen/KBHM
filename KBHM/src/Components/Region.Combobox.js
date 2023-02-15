@@ -31,7 +31,6 @@ const fetch = (value, callback) => {
     timeout = setTimeout(fake, 300);
 };
 const SearchInput = (props) => {
-
     const [data, setData] = useState([]);
     const [value, setValue] = useState();
     const handleSearch = (newValue) => {
@@ -50,7 +49,7 @@ const SearchInput = (props) => {
     return (
         <Select
             showSearch
-            value={value}
+            defaultValue={value}
             placeholder={props.placeholder}
             style={props.style}
             defaultActiveFirstOption={false}
@@ -68,7 +67,7 @@ const SearchInput = (props) => {
 };
 const App = (props) => (
 
-    <SearchInput
+    < SearchInput
         placeholder={props.Region ?? "Khu vực"}
         value={props.Region ?? "Khu vực"}
         {...props}

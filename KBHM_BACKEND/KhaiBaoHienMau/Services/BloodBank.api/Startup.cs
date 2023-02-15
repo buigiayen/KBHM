@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Services.lib.authorization;
 
-
-namespace KBHM.api
+namespace BloodBank.api
 {
     public class Startup
     {
@@ -29,14 +26,13 @@ namespace KBHM.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
             services.AddControllers();
             services.AddSingleton<IConnection, DapperContext>();
-            services.AddScoped<Interfaces.Person, Command.Person>();
-            services.JWTServices();
+            services.AddScoped<ILogger, DapperContext>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KBHM.api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BloodBank.api", Version = "v1" });
             });
         }
 
@@ -47,11 +43,13 @@ namespace KBHM.api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KBHM.api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BloodBank.api v1"));
             }
 
             app.UseRouting();
+
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

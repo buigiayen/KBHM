@@ -20,12 +20,12 @@ const Index = (props) => {
         Email: null,
         personProperties: [],
         NoiCapCCCD: null,
-        DiaChiThuongTruCCCD: null,
-        XPHT1: null,
+        DiaChiThuongTru_ChiTiet : null,
+        DiaChiThuongTru: null,
         DiaChiLienLac: null,
-        XPHT2: null
+        DiaChiLienLac_ChiTiet : null,
     });
-    const [DataPersonFind, SetDataPersonFind] = useState();
+
     useEffect(() => {
         if (props.dtPerson !== undefined) {
             props.dtPerson(DataPerson);
@@ -100,7 +100,7 @@ const Index = (props) => {
                             <Col span={12}>
                                 <Form.Item label={<b>Nơi cấp</b>}>
                                     <Input placeholder='Địa chỉ cấp'
-                                        value={DataPersonFind?.NoiCapCCCD}
+                                        value={DataPerson?.NoiCapCCCD}
                                         onChange={(e) => { SetDataPerson({ ...DataPerson, NoiCapCCCD: e.target.value }) }}></Input>
                                 </Form.Item>
                             </Col>
@@ -128,9 +128,9 @@ const Index = (props) => {
                                 <Form.Item label={<b>Địa chỉ thường trú (ghi trên CCCD)</b>} required>
                                     <Input
                                         placeholder="Số nhà A"
-                                        value={DataPersonFind?.DiaChiThuongTruCCCD}
+                                        value={DataPerson?.DiaChiThuongTru}
                                         onChange={(e) => {
-                                            SetDataPerson({ ...DataPerson, DiaChiThuongTruCCCD: e.target.value })
+                                            SetDataPerson({ ...DataPerson, DiaChiThuongTru: e.target.value })
                                         }}
                                     />
                                 </Form.Item>
@@ -141,7 +141,7 @@ const Index = (props) => {
                         <Row gutter={[16, 8]}>
                             <Col span={24}>
                                 <Form.Item label={<b>Xã/Phường/Huyện/Tỉnh</b>} required>
-                                    <RegionCombox valueChange={valueChange => { SetDataPerson({ ...DataPerson, XPHT1: valueChange }) }}></RegionCombox>
+                                    <RegionCombox  Region = {DataPerson.DiaChiThuongTru_ChiTiet} valueChange={valueChange => { SetDataPerson({ ...DataPerson, DiaChiThuongTru_ChiTiet: valueChange }) }}></RegionCombox>
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -150,7 +150,7 @@ const Index = (props) => {
                         <Row gutter={[16, 8]}>
                             <Col span={24}>
                                 <Form.Item label={<b>Địa chỉ liên lạc</b>} required>
-                                    <Input onChange={(e) => { SetDataPerson({ ...DataPerson, DiaChiLienLac: e.target.value }) }} />
+                                    <Input value={DataPerson.DiaChiLienLac} onChange={(e) => { SetDataPerson({ ...DataPerson, DiaChiLienLac: e.target.value }) }} />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -159,7 +159,7 @@ const Index = (props) => {
                         <Row gutter={[16, 8]}>
                             <Col span={24}>
                                 <Form.Item label={<b>Xã/Phường/Huyện/Tỉnh</b>} required>
-                                    <RegionCombox valueChange={valueChange => { SetDataPerson({ ...DataPerson, XPHT2: valueChange }) }}></RegionCombox>
+                                    <RegionCombox Region = {DataPerson.DiaChiLienLac_ChiTiet} valueChange={valueChange => { SetDataPerson({ ...DataPerson, DiaChiLienLac_ChiTiet: valueChange }) }}></RegionCombox>
                                 </Form.Item>
                             </Col>
                         </Row>

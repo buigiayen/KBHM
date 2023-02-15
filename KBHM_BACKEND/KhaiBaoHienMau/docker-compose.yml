@@ -20,3 +20,10 @@ services:
       context: .
       dockerfile: Services/System.api/Dockerfile
 
+
+  bloodbank.api:
+    image: ${DOCKER_REGISTRY-}bloodbankapi
+    build:
+      context: .
+      dockerfile: Services/BloodBank.api/Dockerfile
+

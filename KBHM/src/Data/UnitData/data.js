@@ -109,18 +109,18 @@ export const Question = [
         data: [{
             Key: "5.1",
             value: "Anh/Chị là đối tượng hưởng trợ cấp tàn tật hoặc trợ cấp tàn tật hoặc nạn nhân chất độc màu da cam?",
-            ShowText: true,
+            ShowText: false,
         }],
 
         warning: true,
     },
     {
         Key: 6,
-        value: "6. (câu hỏi dnahf cho nữ) Chị đang có thai hoặc nuôi con dưới 12 tháng tuổi?",
+        value: "6. (câu hỏi dành cho nữ) Chị đang có thai hoặc nuôi con dưới 12 tháng tuổi?",
         data: [{
             Key: "6.1",
-            value: "(câu hỏi dnahf cho nữ) Chị đang có thai hoặc nuôi con dưới 12 tháng tuổi?",
-            ShowText: true,
+            value: "(câu hỏi dành cho nữ) Chị đang có thai hoặc nuôi con dưới 12 tháng tuổi?",
+            ShowText: false,
         }],
 
         warning: true,

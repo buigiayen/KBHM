@@ -6,8 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     ports:
-      - "80"
-      - "443"
+      - "9874:80"
    
   kbhm.api:
     environment:
@@ -27,4 +26,12 @@ services:
     ports:
       - "80"
       - "443"
+
+
+  bloodbank.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "SQLCONNECTION=Server=192.168.61.196;Database=BloodBank_NhiTW;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True"
+    ports:
+      - "80"
 
