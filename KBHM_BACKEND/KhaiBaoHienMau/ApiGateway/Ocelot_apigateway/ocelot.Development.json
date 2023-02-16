@@ -28,22 +28,22 @@
       "UpstreamHttpMethod": [ "POST" ]
 
     },
-    ////KBHM.api
-    //{
-    //  "DownstreamPathTemplate": "/v1/Person/{everything}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "BloodBank.api",
-    //      "Port": "80"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/gw/Person/{everything}",
-    //  "UpstreamHttpMethod": [ "GET" ]
+    //KBHM.api
+    {
+      "DownstreamPathTemplate": "/v1/Authorization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Authorization",
+      "UpstreamHttpMethod": [ "GET" ]
 
-    //},
+    },
   
-    //System.api
+    // System.api
     {
       "DownstreamPathTemplate": "/v1/Region",
       "DownstreamScheme": "http",

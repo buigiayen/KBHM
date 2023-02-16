@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Services.lib.Sql.HttpObject;
 
 namespace Services.lib.Sql
 {
@@ -22,13 +23,19 @@ namespace Services.lib.Sql
                 WARN = 2,
             }
         }
-        public class APIresult
+        public class APIresult : API
         {
-            public Enums.Httpstatuscode_API code { get; set; } = Enums.Httpstatuscode_API.OK;
             public object Data { get; set; }
+        }
+        public class APIMapper<T> : API where T : class
+        {
+            public T Data { get; set; }
+        }
+        public class API : Enums
+        {
+            public Httpstatuscode_API code { get; set; } = Httpstatuscode_API.OK;
             public string Messenger { get; set; } = "Success!";
         }
-
 
 
     }
@@ -80,7 +87,15 @@ namespace Services.lib.Sql
                     return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
-          
+
+        }
+        public async Task<T> QueryMapper<T>() where T : class
+        {
+            T Tcontext = default(T);
+            Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
+            Tcontext = await _SqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
+            Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
+            return Tcontext;
         }
         public async Task<HttpObject.APIresult> SQLQueryAsync()
         {
@@ -112,6 +127,7 @@ namespace Services.lib.Sql
             }
             return aPIresultObjects;
         }
+
     }
 }
 

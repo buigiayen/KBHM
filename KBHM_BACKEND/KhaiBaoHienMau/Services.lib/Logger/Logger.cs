@@ -32,6 +32,7 @@ namespace Services.lib.Logger
         }
         public void build(_TypeFile _TypeFile)
         {
+            Console.WriteLine(_Messenge);
             StreamWriter sw = null;
             try
             {

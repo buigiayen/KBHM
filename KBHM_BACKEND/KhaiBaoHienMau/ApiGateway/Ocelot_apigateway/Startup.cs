@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Services.lib.authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,9 @@ namespace Ocelot_apigateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddOcelot();
             services.AddCors();
-
+            services.JWTServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

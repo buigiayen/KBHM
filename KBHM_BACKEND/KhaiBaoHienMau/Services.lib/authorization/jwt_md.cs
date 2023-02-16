@@ -11,7 +11,7 @@ namespace Services.lib.authorization
 {
     public static class jwt_md
     {
-        public static IServiceCollection JWTServices(this IServiceCollection servies, string certificate = "CresoftCompanySoftwarecertificate", string Issuer = "CresoftCompanySoftwareIssuer", string Audience = "CresoftCompanySoftwareAudience")
+        public static IServiceCollection JWTServices(this IServiceCollection servies, string certificate = "ViettinCompanySoftwarecertificate", string Issuer = "ViettinCompanySoftwareIssuer", string Audience = "ViettinCompanySoftwareAudience")
         {
             servies.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

@@ -4,10 +4,10 @@ namespace BloodBank.api.Model
 {
     public class Login
     {
-        [Required]
+        public string UserID { get; set; }
         public string UserName { get; set; }
-        [Required]
-        public string Password { get; set; }
-
+        public string UserQuickCode { get; set; }
+        public string PasswordWeb {  get;  set; }
+        public string Token { get; set; }
     }
 }

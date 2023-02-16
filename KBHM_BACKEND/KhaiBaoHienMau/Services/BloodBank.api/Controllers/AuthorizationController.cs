@@ -1,6 +1,8 @@
 ﻿using BloodBank.api.interfaces;
+using BloodBank.api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services.lib.authorization;
 using System;
 using System.Threading.Tasks;
 
@@ -15,11 +17,12 @@ namespace BloodBank.api.Controllers
         {
             _login = login;
         }
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        [HttpGet("Authorization")]
+        public async Task<IActionResult> Index([FromForm] Login login)
         {
-
-            return Ok();
+            
+            var data = await _login.AuthorizationAsync(login);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
     }
 }

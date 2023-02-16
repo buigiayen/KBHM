@@ -15,7 +15,7 @@ namespace Services.lib.authorization
         {
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[] { new Claim("ObjectValue", KeyValue) }),
+                Subject = new ClaimsIdentity(new Claim[] { new Claim("User", KeyValue) }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 Issuer = Issuer,
                 Audience = Audience,
