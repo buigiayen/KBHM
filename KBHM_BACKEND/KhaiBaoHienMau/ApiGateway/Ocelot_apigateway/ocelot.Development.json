@@ -42,7 +42,20 @@
       "UpstreamHttpMethod": [ "GET" ]
 
     },
-  
+    {
+      "DownstreamPathTemplate": "/v1/TokenVeryfy",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/TokenVeryfy",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+
     // System.api
     {
       "DownstreamPathTemplate": "/v1/Region",

@@ -10,7 +10,7 @@ const Connection = (URI, method = 'GET', body, params = null, Type = 'applicatio
             'Content-Type': Type,
             'Authorization': 'Bearer '
                 + localStorage.getItem("Token"),
-            'Accept': 'application/json'
+          
         },
         params: {
             ...params,
@@ -51,6 +51,7 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     }
     catch {
         ShowMessenger("error", 'server is not running!');
+     
     }
     return data;
 }
@@ -72,6 +73,7 @@ const ExposeData = (datas, ShowToast = true) => {
                 break;
             case 401:
                 ShowMessenger("error", 'Unauthorized!');
+               
                 break;
             case 405:
                 ShowMessenger("error", 'Method Not Allowed!');

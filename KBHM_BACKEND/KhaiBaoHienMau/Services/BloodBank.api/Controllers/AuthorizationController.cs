@@ -18,7 +18,7 @@ namespace BloodBank.api.Controllers
             _login = login;
         }
         [HttpGet("Authorization")]
-        public async Task<IActionResult> Index([FromForm] Login login)
+        public async Task<IActionResult> Index([FromHeader] Login login)
         {
             
             var data = await _login.AuthorizationAsync(login);

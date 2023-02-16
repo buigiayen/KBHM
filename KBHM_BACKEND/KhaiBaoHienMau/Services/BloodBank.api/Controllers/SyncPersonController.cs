@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace BloodBank.api.Controllers
 {
     [Authorize]
-    [Route("v1/[controller]")]
+    [Route("v1/")]
     [ApiController]
     public class SyncPersonController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> GetPt()
+        [HttpGet("TokenVeryfy")]
+        public async Task<IActionResult> CheckToken()
         {
-            return Ok("Haha");
+            return Ok("Hello");
         } 
     }
 }
