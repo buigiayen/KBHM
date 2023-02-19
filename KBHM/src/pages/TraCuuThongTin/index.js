@@ -50,7 +50,7 @@ const Index = () => {
 
             </Col>
             <Col xs={24} xl={8}>
-                <Qrcode value={`${ID}-${InformationPerson?.CCCD}`}></Qrcode>
+                <Qrcode value={`${ID}`}></Qrcode>
             </Col>
 
         </Row>

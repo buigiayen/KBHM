@@ -1,13 +1,14 @@
 
 export const Sex = [
     {
-        value: 1,
-        label: "Nam"
-    },
-    {
         value: 0,
         label: "Nữ"
     },
+    {
+        value: 1,
+        label: "Nam"
+    },
+   
 
 ]
 export const Question = [

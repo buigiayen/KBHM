@@ -5,16 +5,28 @@ import { Get_Token_Veryfy } from '../../Data/Api/Login'
 import { useNavigate } from "react-router-dom";
 import QuanLyThongTinLanHien from '../../Components/ComponentsGlobal/ThongTinLanHien/index'
 import TabThongtinKhaoSat from '../../Components/Tab.ThongTinKhaoSat'
+import { GET_Person } from '../../Data/Api/DangKyKham'
+import { useState } from "react";
 const { Search } = Input;
 const Index = () => {
     const Navigate = useNavigate();
+    const [DataPerson, SetDataPerson] = useState();
     useEffect(() => {
         if (localStorage.getItem('Token') === undefined || localStorage.getItem('Token') === null || localStorage.getItem('Token') === '') {
             Navigate('/login')
         } else {
             Get_Token_Veryfy().then().catch(() => { Navigate('/login') })
         }
+        
     }, [])
+
+    const GetQRCode = (pra) => {
+    
+        GET_Person(pra).then(rs => {
+            SetDataPerson(rs[0]);
+        })
+    }
+
     return (<>
         <Row>
             <Col sm={24}>
@@ -23,14 +35,14 @@ const Index = () => {
         </Row>
         <Row>
             <Col sm={12} xs={24}>
-                <Search placeholder="QR " />
+                <Search placeholder="QR " onSearch={GetQRCode} enterButton />
             </Col>
             <Col sm={12} xs={24}>
                 <Alert
                     banner
                     message={
                         <Marquee pauseOnHover gradient={false}>
-                           Người hiến có những triệu trứng sau cần chú ý
+                            Người hiến có những triệu trứng sau cần chú ý
                         </Marquee>
                     }
                 />
@@ -39,7 +51,7 @@ const Index = () => {
 
         <Row>
             <Col sm={24}>
-                <QuanLyThongTinLanHien></QuanLyThongTinLanHien>
+                <QuanLyThongTinLanHien dtPerson={DataPerson} NotreadOnly={false}></QuanLyThongTinLanHien>
             </Col>
         </Row>
         <Row>

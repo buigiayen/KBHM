@@ -28,33 +28,9 @@
       "UpstreamHttpMethod": [ "POST" ]
 
     },
-    {
-      "DownstreamPathTemplate": "/v1/Location",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "KBHM.api",
-          "Port": "80"
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Location",
-      "UpstreamHttpMethod": [ "Ml" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/Ml",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "KBHM.api",
-          "Port": "80"
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Ml",
-      "UpstreamHttpMethod": [ "GET" ]
-
-    },
-    //KBHM.api
+    
+   
+    //BloodBank.api
     {
       "DownstreamPathTemplate": "/v1/Authorization",
       "DownstreamScheme": "http",
@@ -78,6 +54,32 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/TokenVeryfy",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/Location",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Location",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/Ml",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Ml",
       "UpstreamHttpMethod": [ "GET" ]
 
     },

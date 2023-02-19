@@ -16,7 +16,7 @@ namespace KBHM.api.Model
         public string NoiCapCCCD { get; set; }
         public string DiaChiThuongTru_ChiTiet { get; set; }
         public string DiaChiThuongTru { get; set; }
-        public string DiaChiLienLac_ChiTiet { get; set; }
+        public string DiaChiThuongLienLac_ChiTiet { get; set; }
         public string DiaChiLienLac { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
         

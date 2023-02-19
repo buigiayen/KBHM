@@ -30,7 +30,7 @@ const Index = () => {
         </Row>
         <Row>
             <Col sm={24}>
-                <ThongTinLanHien dtPerson={(dtPerson => { DataPersons(dtPerson) })} />
+                <ThongTinLanHien ValuePerson={(ValuePerson => { DataPersons(ValuePerson) })} NotreadOnly />
             </Col>
         </Row>
         <Row>
