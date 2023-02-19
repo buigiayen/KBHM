@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static Services.lib.Sql.HttpObject;
 
@@ -62,6 +64,12 @@ namespace Services.lib.Sql
         public Dataprovider _ParamterSQL(object Pra)
         {
             _Pra = Pra;
+            string log = "Pra";
+            if (Pra != default)
+            {
+                log = JsonSerializer.Serialize(Pra);
+            }
+            Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
             return this;
         }
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()

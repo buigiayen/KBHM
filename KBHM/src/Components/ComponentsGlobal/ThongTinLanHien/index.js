@@ -2,11 +2,10 @@ import { Form, Input, Divider, DatePicker } from 'antd';
 import { Row, Col } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SexCombobox from '../Sex.Combobox'
 import RegionCombox from '../../Region.Combobox'
-import { GET_PersonInfo, GET_PropertiesPerson } from '../../../Data/Api/DangKyKham';
-import { FindkeyValueArray } from '../../../Data/UnitData/Convert.Properties'
+import { GET_PersonInfo } from '../../../Data/Api/DangKyKham';
 
 dayjs.extend(customParseFormat);
 const { Search } = Input;

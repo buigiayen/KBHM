@@ -38,6 +38,7 @@ namespace BloodBank.api
             services.JWTServices();
             services.AddControllers();
             services.AddSingleton<IConnection, DapperContext>();
+            services.AddScoped<ICategory, CategoryCommad>();
             services.AddControllers().AddFluentValidation(fv =>
             {
                 fv.RegisterValidatorsFromAssemblyContaining<LoginValidator>();

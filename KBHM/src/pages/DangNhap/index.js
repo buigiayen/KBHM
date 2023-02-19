@@ -10,12 +10,11 @@ const App = () => {
 
     var Navigate = useNavigate();
     const [Login, SetLogin] = useState({ userID: null, PasswordWeb: null });
-    const VeryfyLogin = () => {
-        Get_Token(Login).then(rs => {
-            console.log('Loi')
+    const VeryfyLogin = async () => {
+      await  Get_Token(Login).then(rs => {
             localStorage.setItem('Token', rs?.token ?? "");
             Navigate('/QuanLyThongTin')
-        }).catch(console.log('Loi'));
+        }).catch();
     }
 
 
@@ -32,10 +31,6 @@ const App = () => {
                 span: 16,
             }}
             style={{ maxWidth: 900, marginLeft: 10 }}
-
-
-
-
         >
             <Form.Item
                 label="Username"
@@ -68,7 +63,7 @@ const App = () => {
                     span: 16,
                 }}
             >
-                <Button type="primary" onClick={VeryfyLogin}>
+                <Button type="primary" onClick={() => {VeryfyLogin()}}>
                     Đăng nhập
                 </Button>
             </Form.Item>
