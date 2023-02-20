@@ -1,26 +1,25 @@
 import React from "react";
-import { Row, Col, Form, Input, Radio, Space, Button } from "antd";
-
+import { Row, Col, Form, Input, DatePicker, Button } from "antd";
+import Ml from '../../ml.combobox'
+import ElementCombobox from '../../Element.combobox'
 const Index = () => {
 
     return (
         <React.Fragment>
             <Form labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}>
+               >
                 <Row gutter={[12]}>
+                   
                     <Col md={12} xs={24}>
-                        <Form.Item label='Ngày hiến'><Input /></Form.Item>
-                    </Col>
-                    <Col md={12} xs={24}>
-                        <Form.Item label='Mã túi máu'><Input /></Form.Item>
+                        <Form.Item label='Mã túi máu'><Input readOnly /></Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[12]}>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Lượng hiến'><Input /></Form.Item>
+                        <Form.Item label='Lượng hiến'><Ml /></Form.Item>
                     </Col>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Hiến loại thành phần máu'><Input /></Form.Item>
+                        <Form.Item label='Hiến loại thành phần máu'><ElementCombobox /></Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[12]}>

@@ -3,13 +3,14 @@ import { useState } from 'react';
 import KhamLamSang from '../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index'
 import XNTruochien from '../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index'
 import Laymau from '../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index'
-const App = () => {
+import ThongTinKhaoSat from '../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index'
+const App = (prop) => {
   const [size, setSize] = useState('small');
   const Component = [
     {
       label: `TT Khảo sát`,
       key: 1,
-      children: <a>aaaaaa</a>,
+      children: <ThongTinKhaoSat ID={prop.ID}/>,
 
     },
     {

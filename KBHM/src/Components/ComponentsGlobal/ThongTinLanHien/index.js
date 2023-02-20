@@ -28,7 +28,6 @@ const Index = (props) => {
     });
 
     useEffect(() => {
-        console.log(props?.dtPerson)
         if (props?.dtPerson !== undefined) {
             SetDataPerson(props?.dtPerson);
         }

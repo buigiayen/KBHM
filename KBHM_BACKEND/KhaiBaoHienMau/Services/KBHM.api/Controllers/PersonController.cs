@@ -1,4 +1,5 @@
 ﻿using KBHM.api.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -34,6 +35,13 @@ namespace KBHM.api.Controllers
         public async Task<IActionResult> GetPropertiesPerson(Guid ID)
         {
             var data = await _Person.GetRowIDPropertiesPerson(new Person { RowID = ID });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+        [Authorize]
+        [HttpPut("Person")]
+        public async Task<IActionResult> PutPerson([FromBody] Person person)
+        {
+            var data = await _Person.PutPerson(person);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
     }

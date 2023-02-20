@@ -25,11 +25,11 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/Person",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
 
     },
-    
-   
+
+
     //BloodBank.api
     {
       "DownstreamPathTemplate": "/v1/Authorization",
@@ -80,6 +80,19 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/Ml",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/Element",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Element",
       "UpstreamHttpMethod": [ "GET" ]
 
     },

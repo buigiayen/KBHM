@@ -7,6 +7,8 @@ namespace BloodBank.api.interfaces
     {
         Task<HttpObject.API> GetLocation();
         Task<HttpObject.API> GetMlBoold();
+        Task<HttpObject.API> GetElementBoold();
+        
 
     }
 }

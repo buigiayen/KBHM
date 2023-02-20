@@ -28,5 +28,11 @@ namespace BloodBank.api.Controllers
             var data = await _Category.GetMlBoold();
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+        [HttpGet("Element")]
+        public async Task<IActionResult> GetElementBloodasync()
+        {
+            var data = await _Category.GetElementBoold();
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }

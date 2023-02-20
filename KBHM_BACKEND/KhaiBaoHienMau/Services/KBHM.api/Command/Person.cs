@@ -47,5 +47,14 @@ namespace KBHM.api.Command
             sql += "select @ROWIDs as Code ";
             return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
+
+        public async Task<HttpObject.APIresult> PutPerson(Model.Person person)
+        {
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
+             " UPDATE  [dbo].[Person] set [CanNang]=@CanNang,[ChieuCao]=@ChieuCao,[Mach]=@Mach,[HuyetAp]=@HuyetAp,[TinhTrangLamSang]=@TinhTrangLamSang,[ChoPhepHienMau]=@ChoPhepHienMau,[LuongMauLay]=@LuongMauLay   ,[TamHoan] = @TamHoan      ,[NgayHien] =@NgayHien     ,luongMauCoTheHien=@LuongMauCoTheHien," +
+             "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri where RowID = @ROWIDs";
+
+            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+        }
     }
 }

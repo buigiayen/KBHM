@@ -18,7 +18,8 @@ function App() {
         </Col>
 
       </Row>
-
+      <br/>
+      <br/>
     </div>
   );
 }
