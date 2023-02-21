@@ -11,6 +11,7 @@ import ThongTinTuaLaymau from '../../Components/ComponentsGlobal/ThongTinTuaLayM
 const { Search } = Input;
 const Index = () => {
     const Navigate = useNavigate();
+    const [HienThiThongTinTua, SetThongTinTua] = useState();
     const [DataPerson, SetDataPerson] = useState();
     useEffect(() => {
         if (localStorage.getItem('Token') === undefined || localStorage.getItem('Token') === null || localStorage.getItem('Token') === '') {
@@ -18,11 +19,11 @@ const Index = () => {
         } else {
             Get_Token_Veryfy().then().catch(() => { Navigate('/login') })
         }
-        
+
     }, [])
 
     const GetQRCode = (pra) => {
-    
+
         GET_Person(pra).then(rs => {
             SetDataPerson(rs[0]);
         })
@@ -57,12 +58,12 @@ const Index = () => {
         </Row>
         <Row>
             <Col sm={24}>
-                <TabThongtinKhaoSat ID={DataPerson?.RowID}></TabThongtinKhaoSat>
+                <TabThongtinKhaoSat ID={DataPerson?.RowID} SetChoPhepHienMau={(SetChoPhepHienMau) => { SetThongTinTua(SetChoPhepHienMau) }}></TabThongtinKhaoSat>
             </Col>
         </Row>
         <Row>
             <Col sm={24}>
-                <ThongTinTuaLaymau ID={DataPerson?.RowID}></ThongTinTuaLaymau>
+                {HienThiThongTinTua && <ThongTinTuaLaymau ID={DataPerson?.RowID}></ThongTinTuaLaymau>}
             </Col>
         </Row>
     </>)

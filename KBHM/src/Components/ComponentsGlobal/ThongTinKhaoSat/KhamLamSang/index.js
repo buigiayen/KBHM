@@ -4,9 +4,14 @@ import IconCombine from "../../../Icon";
 import '../../index.css'
 import { PUT_PersonInfo } from "../../../../Data/Api/DangKyKham";
 const Index = (props) => {
+  const SetStateChoPhepHienMau = (value) => {
+    if(props.ChoPhepHienMau !== undefined){
+        props.ChoPhepHienMau(value);
+    }
+  }
     const [PersonUpdate, SetPersonUpdate] = useState({
 
-        "rowID": props.ID,
+        "rowID": null,
         "canNang": null,
         "chieuCao": null,
         "mach": null,
@@ -23,7 +28,9 @@ const Index = (props) => {
     const [IsLoadding, SetIsloading] = useState(false);
     const PutPerson = async () => {
         SetIsloading(true);
-        await PUT_PersonInfo(PersonUpdate).then(SetIsloading(false))
+        const ClonePersonUpdate = PersonUpdate;
+        ClonePersonUpdate.rowID =  props.ID;
+        await PUT_PersonInfo(PersonUpdate).then(() => SetIsloading(false))
     }
     return (
         <React.Fragment>
@@ -53,7 +60,12 @@ const Index = (props) => {
                 <Row>
                     <Col md={12} xs={24}>
                         <Radio.Group>
-                            <Space direction="vertical" onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, choPhepHienMau: e.target.value === "1" ? true : false }) }}>
+                            <Space
+                                direction="vertical"
+                                onChange={(e) => {
+                                    SetPersonUpdate({ ...PersonUpdate, choPhepHienMau: e.target.value === "1" ? true : false });
+                                    SetStateChoPhepHienMau(e.target.value === "1" ? true : false);
+                                }}>
                                 <Radio value={1}>Cho phép hiến máu</Radio>
                                 <Radio value={2}>Không cho phép hiến máu</Radio>
                             </Space>

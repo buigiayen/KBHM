@@ -18,6 +18,6 @@ export const GET_PersonInfo = async (prop) => {
 }
 //Person/:ID/Find/:Row -- Tìm thông tin person số lượng dòng
 export const PUT_PersonInfo = async (prop) => {
-    return await HttpRequest( 'PUT',`/Person`,prop);
+    return await HttpRequest( 'PUT',`/Person`,prop, true);
 }
 

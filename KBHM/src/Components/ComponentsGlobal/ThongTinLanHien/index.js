@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import SexCombobox from '../Sex.Combobox'
 import RegionCombox from '../../Region.Combobox'
 import { GET_PersonInfo } from '../../../Data/Api/DangKyKham';
-
+import DateTime from '../DateTime'
 dayjs.extend(customParseFormat);
 const { Search } = Input;
 const Index = (props) => {
@@ -88,7 +88,7 @@ const Index = (props) => {
                             <Col span={12}>
                                 <Form.Item label={<b>Ngày sinh</b>} required>
                                     {
-                                        props.NotreadOnly ? <DatePicker allowClear={false} value={DataPerson?.BirthDay ? dayjs(DataPerson?.BirthDay) : dayjs()} defaultValue={dayjs()} format={'DD/MM/YYYY'} onChange={(date) => { console.log(date.$d); SetDataPerson({ ...DataPerson, BirthDay: date.$d }) }} /> :
+                                        props.NotreadOnly ? <DateTime Value={DataPerson.BirthDay} onChange={(onChange) => { SetDataPerson({ ...DataPerson, BirthDay: onChange }) }} /> :
                                             <>{DataPerson?.BirthDay ? dayjs(DataPerson?.BirthDay).format('DD/MM/YYYY') : dayjs().date}</>
                                     }
                                 </Form.Item>
@@ -96,7 +96,7 @@ const Index = (props) => {
                             <Col span={12}>
                                 <Form.Item label={<b>Giới tính</b>} required>
                                     {
-                                        props.NotreadOnly ? <SexCombobox defaultValue={DataPerson?.Sex} Value={(Value) => { console.log(Value); SetDataPerson({ ...DataPerson, Sex: Value }) }} ></SexCombobox> :
+                                        props.NotreadOnly ? <SexCombobox defaultValue={DataPerson?.Sex} Value={(Value) => { SetDataPerson({ ...DataPerson, Sex: Value }) }} ></SexCombobox> :
                                             <>{DataPerson?.Sex == 1 ? "Nam" : "Nữ"}</>
                                     }
 
@@ -109,11 +109,12 @@ const Index = (props) => {
                             <Col span={12}>
                                 <Form.Item label={<b>Số CCCD</b>} required>
                                     {
-                                        props.NotreadOnly ? <Input
+                                        props.NotreadOnly ? <Search
                                             placeholder="Số căn cước"
                                             value={DataPerson?.CCCD}
                                             onChange={(e) => { SetDataPerson({ ...DataPerson, CCCD: e.target.value }) }}
-                                        /> :
+                                            onSearch={FetchPeron} enterButton/>
+                                            :
                                             <>{DataPerson?.CCCD}</>
                                     }
                                 </Form.Item>
@@ -136,7 +137,7 @@ const Index = (props) => {
                             <Col span={12}>
                                 <Form.Item label={<b>Số điện thoại</b>} required>
                                     {
-                                        props.NotreadOnly ? <Search placeholder="0123456789" value={DataPerson?.Phone} onSearch={FetchPeron} onChange={(e) => { SetDataPerson({ ...DataPerson, Phone: e.target.value }) }} enterButton /> :
+                                        props.NotreadOnly ? <Input placeholder="0123456789" value={DataPerson?.Phone}  onChange={(e) => { SetDataPerson({ ...DataPerson, Phone: e.target.value }) }}  /> :
                                             <>{DataPerson?.Phone}</>
                                     }
 

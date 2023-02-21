@@ -5,6 +5,7 @@ import LocationCombobox from '../Location.combobox'
 import ElementCombobox from "../Element.combobox";
 import { Config } from "../../../Data/Config/config.system";
 import IconCombine from "../../Icon";
+import DateTime from '../../ComponentsGlobal/DateTime'
 import './index.css'
 const Index = () => {
 
@@ -14,7 +15,7 @@ const Index = () => {
             <Form labelCol={8}>
                 <Row gutter={[12]}>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Ngày hiến'><DatePicker allowClear={false} defaultValue={dayjs()} format={'DD/MM/YYYY'}/></Form.Item>
+                        <Form.Item label='Ngày hiến'><DateTime /></Form.Item>
                     </Col>
                     <Col md={12} xs={24}>
                         <Form.Item label='Hiến loại thành phần'><ElementCombobox /></Form.Item>
@@ -41,13 +42,13 @@ const Index = () => {
                         <Button className="btnFull" icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>In phiếu ĐKHM</Button>
                     </Col>
                     <Col md={6} xs={24}>
-                       
+
                     </Col>
                     <Col md={6} xs={24}>
                         <Button className="btnFull" type='dashed' danger icon={<IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>}>Hủy lấy máu</Button>
                     </Col>
                     <Col md={6} xs={24}>
-                        <Button  className="btnFull" type='primary' icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}>Cấp mã túi máu</Button>
+                        <Button className="btnFull" type='primary' icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}>Cấp mã túi máu</Button>
                     </Col>
                 </Row>
             </Form>

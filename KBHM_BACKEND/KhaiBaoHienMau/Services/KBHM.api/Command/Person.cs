@@ -37,7 +37,6 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PostPerson(Model.Person person)
         {
             Guid RowsID = Guid.NewGuid();
-            person.BirthDay = person.BirthDay.AddDays(1);
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{RowsID}';" +
               " INSERT INTO [dbo].[Person] ([RowID] ,[Name] ,[BirthDay] ,[Sex] ,[CCCD] ,[Phone] ,[Email], [DiaChiThuongTru],[DiaChiThuongTru_ChiTiet] , [DiaChiLienLac] , [DiaChiThuongLienLac_ChiTiet] , [NoiCapCCCD]) VALUES (@ROWIDs ,@Name ,@BirthDay ,@Sex ,@CCCD ,@Phone ,@Email, @DiaChiThuongTru, @DiaChiThuongTru_ChiTiet  , @DiaChiLienLac ,@DiaChiThuongLienLac_ChiTiet,@NoiCapCCCD); ";
             foreach (var item in person.PersonProperties)
