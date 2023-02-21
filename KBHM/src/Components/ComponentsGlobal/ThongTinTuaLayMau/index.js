@@ -6,9 +6,12 @@ import ElementCombobox from "../Element.combobox";
 import { Config } from "../../../Data/Config/config.system";
 import IconCombine from "../../Icon";
 import DateTime from '../../ComponentsGlobal/DateTime'
+import { PUT_PersonTrip } from "../../../Data/Api/DangKyKham";
 import './index.css'
 const Index = () => {
-
+const Putperson = () => {
+    PUT_PersonTrip
+}
     return (
         <>
             <Divider orientation="left"><span style={{ color: 'blue', fontStyle: 'italic' }}>Thông tin tua lấy máu</span></Divider>
@@ -18,7 +21,7 @@ const Index = () => {
                         <Form.Item label='Ngày hiến'><DateTime /></Form.Item>
                     </Col>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Hiến loại thành phần'><ElementCombobox /></Form.Item>
+                        <Form.Item label='Hiến loại thành phần'><ElementCombobox defaultValue={Config.LoaiThanhPhan} /></Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[12]}>

@@ -3,81 +3,86 @@ import { Row, Col, Form, Input, Radio, Space, Button } from "antd";
 import IconCombine from "../../../Icon";
 import '../../index.css'
 import { PUT_PersonInfo } from "../../../../Data/Api/DangKyKham";
+import { useEffect } from "react";
+import { useMemo } from "react";
 const Index = (props) => {
-  const SetStateChoPhepHienMau = (value) => {
-    if(props.ChoPhepHienMau !== undefined){
-        props.ChoPhepHienMau(value);
-    }
-  }
-    const [PersonUpdate, SetPersonUpdate] = useState({
 
-        "rowID": null,
-        "canNang": null,
-        "chieuCao": null,
-        "mach": null,
-        "huyetAp": null,
-        "tinhTrangLamSang": null,
-        "choPhepHienMau": null,
-        "luongMauLay": null,
-        "luongMauCoTheHien": null,
-        "tamHoan": null,
-        "luongHien": null,
-        "phanUng": null,
-        "xuTri": null
+    const [isdisabled, SetIsdisabled] = useState(true);
+    const [PersonUpdate, SetPersonUpdate] = useState({
+        "RowID": null,
+        "CanNang": null,
+        "ChieuCao": null,
+        "Mach": null,
+        "HuyetAp": null,
+        "TinhTrangLamSang": null,
+        "ChoPhepHienMau": null,
+        "LuongMauLay": null,
+        "LuongMauCoTheHien": null,
+        "TamHoan": null,
+        "LuongHien": null,
+        "PhanUng": null,
+        "XuTri": null,
+
     })
     const [IsLoadding, SetIsloading] = useState(false);
+    useEffect(() => {
+        SetPersonUpdate(props.dataPerson);
+        props.ChoPhepHienMau(PersonUpdate?.ChoPhepHienMau ?? false);
+    }, [props])
     const PutPerson = async () => {
         SetIsloading(true);
         const ClonePersonUpdate = PersonUpdate;
-        ClonePersonUpdate.rowID =  props.ID;
-        await PUT_PersonInfo(PersonUpdate).then(() => SetIsloading(false))
+        ClonePersonUpdate.rowID = props.ID;
+        await PUT_PersonInfo(PersonUpdate).then(() => {SetIsloading(false); SetIsdisabled(true)})
     }
+
     return (
         <React.Fragment>
             <Form labelCol={8}>
                 <Row gutter={[12]}>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Cân nặng(KG)'><Input onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, canNang: e.target.value }) }} /></Form.Item>
+                        <Form.Item label='Cân nặng(KG)'><Input value={PersonUpdate?.CanNang} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, CanNang: e.target.value }); SetIsdisabled(false) }} /></Form.Item>
                     </Col>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Chiều cao (Cm)'><Input onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, chieuCao: e.target.value }) }} /></Form.Item>
+                        <Form.Item label='Chiều cao (Cm)'><Input value={PersonUpdate?.ChieuCao} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, ChieuCao: e.target.value }); SetIsdisabled(false) }} /></Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[12]}>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Mạch (Lần/Phút)'><Input onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, mach: e.target.value }) }} /></Form.Item>
+                        <Form.Item label='Mạch (Lần/Phút)'><Input value={PersonUpdate?.Mach} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, Mach: e.target.value }); SetIsdisabled(false) }} /></Form.Item>
                     </Col>
                     <Col md={12} xs={24}>
-                        <Form.Item label='Huyết áp(mmHg)'><Input onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, huyetAp: e.target.value }) }} /></Form.Item>
+                        <Form.Item label='Huyết áp(mmHg)'><Input value={PersonUpdate?.HuyetAp} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, HuyetAp: e.target.value }); SetIsdisabled(false) }} /></Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[12]}>
                     <Col md={24} xs={24}>
-                        <Form.Item label='Tình trạng lâm sàng'><Input onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, tinhTrangLamSang: e.target.value }) }} /></Form.Item>
+                        <Form.Item label='Tình trạng lâm sàng'><Input value={PersonUpdate?.TinhTrangLamSang} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, TinhTrangLamSang: e.target.value }); SetIsdisabled(false) }} /></Form.Item>
                     </Col>
                 </Row>
                 <h2>KẾT LUẬN:</h2>
                 <Row>
                     <Col md={12} xs={24}>
-                        <Radio.Group>
-                            <Space
-                                direction="vertical"
-                                onChange={(e) => {
-                                    SetPersonUpdate({ ...PersonUpdate, choPhepHienMau: e.target.value === "1" ? true : false });
-                                    SetStateChoPhepHienMau(e.target.value === "1" ? true : false);
-                                }}>
-                                <Radio value={1}>Cho phép hiến máu</Radio>
-                                <Radio value={2}>Không cho phép hiến máu</Radio>
+                        <Radio.Group
+                            value={PersonUpdate?.ChoPhepHienMau}
+                            onChange={(e) => {
+                                SetPersonUpdate({ ...PersonUpdate, ChoPhepHienMau: e.target.value });
+                                props.ChoPhepHienMau(e.target.value);
+                                SetIsdisabled(false)
+                            }}>
+                            <Space direction="vertical">
+                                <Radio value={true}>Cho phép hiến máu</Radio>
+                                <Radio value={false}>Không cho phép hiến máu</Radio>
                             </Space>
                         </Radio.Group>
                     </Col>
                     <Col md={12} xs={24}>
                         <Space direction="vertical">
                             <Form.Item label='Lượng máu có thể hiến '>
-                                <Input placeholder="(ml)" onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, luongMauCoTheHien: e.target.value }) }}></Input>
+                                <Input placeholder="(ml)" value={PersonUpdate?.LuongMauCoTheHien} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, LuongMauCoTheHien: e.target.value }); SetIsdisabled(false) }}></Input>
                             </Form.Item>
                             <Form.Item label='Tạm hoãn '>
-                                <Input placeholder="(Tuần)" onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, tamHoan: e.target.value }) }}></Input>
+                                <Input placeholder="(Tuần)" value={PersonUpdate?.TamHoan} onChange={(e) => { SetPersonUpdate({ ...PersonUpdate, TamHoan: e.target.value }); SetIsdisabled(false) }}></Input>
                             </Form.Item>
 
                         </Space>
@@ -89,7 +94,7 @@ const Index = (props) => {
                     <Col md={5} xs={24}>
                     </Col>
                     <Col md={5} xs={24}>
-                        <Button type="primary" loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button>
+                        <Button type="primary" disabled={isdisabled} loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button>
                     </Col>
                 </Row>
             </Form>

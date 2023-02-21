@@ -23,10 +23,12 @@ const Index = () => {
     }, [])
 
     const GetQRCode = (pra) => {
+        if (pra !== undefined && pra !== "") {
+            GET_Person(pra).then(rs => {
+                SetDataPerson(rs[0]);
+            })
+        }
 
-        GET_Person(pra).then(rs => {
-            SetDataPerson(rs[0]);
-        })
     }
 
     return (<>
@@ -58,7 +60,12 @@ const Index = () => {
         </Row>
         <Row>
             <Col sm={24}>
-                <TabThongtinKhaoSat ID={DataPerson?.RowID} SetChoPhepHienMau={(SetChoPhepHienMau) => { SetThongTinTua(SetChoPhepHienMau) }}></TabThongtinKhaoSat>
+                <TabThongtinKhaoSat
+                    ID={DataPerson?.RowID}
+                    SetChoPhepHienMau={(SetChoPhepHienMau) => { SetThongTinTua(SetChoPhepHienMau) }}
+                    dataPerson={DataPerson}
+                >
+                </TabThongtinKhaoSat>
             </Col>
         </Row>
         <Row>

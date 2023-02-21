@@ -4,7 +4,7 @@ import KhamLamSang from '../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamS
 import XNTruochien from '../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index'
 import Laymau from '../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index'
 import ThongTinKhaoSat from '../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index'
-import { useEffect } from 'react';
+
 const App = (prop) => {
   const [ChoPhepHienMau, SetChoPhepHienMau] = useState();
   const returnChoPhepHienMau = (ChoPhepHienMau) => {
@@ -24,7 +24,7 @@ const App = (prop) => {
     {
       label: `Khám LS`,
       key: 2,
-      children: <KhamLamSang ID={prop.ID} ChoPhepHienMau={returnChoPhepHienMau} />,
+      children: <KhamLamSang {...prop} ID={prop.ID} ChoPhepHienMau={returnChoPhepHienMau} />,
     },
     {
       label: `XN trước hiến`,
