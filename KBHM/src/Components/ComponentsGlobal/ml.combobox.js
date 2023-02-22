@@ -8,10 +8,14 @@ export default function MlCombobox(props) {
         }
     }
     const [Data, setData] =useState([]);
-    useMemo(async() => {
-       await GET_Ml().then(rs =>{setData(rs)})
+    useEffect(() => {
+        async function get() {
+            await GET_Ml().then(rs =>{setData(rs)})
+        }
+        get();
+      
      }, []);
     return (
-        <Combobox data={Data} valueDefault={props?.defaultValue} Value={ReturnValue} ></Combobox>
+        <Combobox  data={Data} valueDefault={props?.defaultValue} Value={ReturnValue} ></Combobox>
     )
 }

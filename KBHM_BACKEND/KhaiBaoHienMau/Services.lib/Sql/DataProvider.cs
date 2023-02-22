@@ -44,14 +44,15 @@ namespace Services.lib.Sql
     public class Dataprovider
     {
         public static readonly Dataprovider db = new Dataprovider();
-        private IDbConnection _SqlConnection = new SqlConnection();
+        private SqlConnection _SqlConnection = new SqlConnection();
         private string _SQL;
 
         private DynamicParameters _dynamicParameters => new();
 
-        public Dataprovider _Connection(IDbConnection sqlConnection)
+        public Dataprovider _Connection(SqlConnection sqlConnection)
         {
             _SqlConnection = sqlConnection;
+            sqlConnection.Open();
             return this;
         }
         public Dataprovider _Query(string sql)
@@ -83,7 +84,6 @@ namespace Services.lib.Sql
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                     valueTransaction = await _SqlConnection.ExecuteAsync(_SQL, _Pra ?? null, sqlTransaction);
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    sqlTransaction.Commit();
                     return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
@@ -91,10 +91,10 @@ namespace Services.lib.Sql
                     Logger.Logger.Instance.Messenger("stop :" + ex.Message).build(Logger.Logger._TypeFile.Error);
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
-                    _SqlConnection.Close();
                     return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
+         
 
         }
         public async Task<T> QueryMapper<T>() where T : class
@@ -110,18 +110,19 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIresult();
             try
             {
+            
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 var data = await _SqlConnection.QueryAsync(_SQL, _Pra ?? null);
                 httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                 return httpObject;
-
             }
             catch (Exception ex)
             {
                 Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
                 httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
+         
             return httpObject;
         }
         private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)

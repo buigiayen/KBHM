@@ -10,6 +10,7 @@ const App = (props) => {
         }
     }
     return (<Select
+        className={`${Math.random()}`}
         value={Value ?? props.valueDefault}
         defaultValue={props.valueDefault ?? ""}
         onChange={handleChange}

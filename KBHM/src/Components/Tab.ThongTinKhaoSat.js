@@ -1,20 +1,19 @@
-import { Radio, Tabs } from 'antd';
-import { useState } from 'react';
-import KhamLamSang from '../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index'
-import XNTruochien from '../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index'
-import Laymau from '../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index'
-import ThongTinKhaoSat from '../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index'
+import { Radio, Tabs } from "antd";
+import { useState } from "react";
+import KhamLamSang from "../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index";
+import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index";
+import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
+import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
 const App = (prop) => {
   const [ChoPhepHienMau, SetChoPhepHienMau] = useState();
   const returnChoPhepHienMau = (ChoPhepHienMau) => {
     if (prop?.SetChoPhepHienMau !== undefined) {
-      prop?.SetChoPhepHienMau(ChoPhepHienMau)
-
+      prop?.SetChoPhepHienMau(ChoPhepHienMau);
     }
-    SetChoPhepHienMau(ChoPhepHienMau)
-  }
-  const [size, setSize] = useState('small');
+    SetChoPhepHienMau(ChoPhepHienMau);
+  };
+  const [size, setSize] = useState("small");
   const Component = [
     {
       label: `TT Khảo sát`,
@@ -24,7 +23,13 @@ const App = (prop) => {
     {
       label: `Khám LS`,
       key: 2,
-      children: <KhamLamSang {...prop} ID={prop.ID} ChoPhepHienMau={returnChoPhepHienMau} />,
+      children: (
+        <KhamLamSang
+          {...prop}
+          ID={prop.ID}
+          ChoPhepHienMau={returnChoPhepHienMau}
+        />
+      ),
     },
     {
       label: `XN trước hiến`,
@@ -36,14 +41,13 @@ const App = (prop) => {
       key: 4,
       children: <Laymau></Laymau>,
       disabled: !ChoPhepHienMau,
-    }
-  ]
+    },
+  ];
 
   return (
     <div>
-
       <Tabs
-        defaultActiveKey="2"
+
         type="card"
         size={size}
         items={Component}

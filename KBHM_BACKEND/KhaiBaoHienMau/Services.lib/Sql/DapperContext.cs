@@ -11,7 +11,7 @@ namespace Services.lib.Sql
 {
     public interface IConnection
     {
-        IDbConnection CreateConnection();
+        SqlConnection CreateConnection();
     }
     public class DapperContext : IConnection
     {
@@ -22,7 +22,7 @@ namespace Services.lib.Sql
             _configuration = configuration;
             _connectionString = Environment.GetEnvironmentVariable("SQLCONNECTION");
         }
-        public IDbConnection CreateConnection()
+        public SqlConnection CreateConnection()
             => new SqlConnection(_connectionString);
     }
 }

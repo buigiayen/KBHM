@@ -12,7 +12,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=192.168.61.101,1434;Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True"
+      - "SQLCONNECTION=Server=192.168.61.101,1434;Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
       - "443"
@@ -22,7 +22,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=103.157.218.56;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True"
+      - "SQLCONNECTION=Server=103.157.218.56;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
       - "443"
@@ -32,7 +32,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=host.docker.internal;Database=BloodBank_NhiTW;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True"
+      - "SQLCONNECTION=Server=host.docker.internal;Database=BloodBank_NhiTW;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
 

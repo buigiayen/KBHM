@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  app:
+    image: kbhm/reactjs:v1
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./KBHM:/app/src
+    ports:
+      - "443:8080"
+    restart: unless-stopped

@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { message } from 'antd';
 import { Config } from './config.system';
-const Connection = (URI, method = 'GET', body, params = null, Type = 'application/json') => {
+const Connection = async (URI, method = 'GET', body, params = null, Type = 'application/json') => {
 
     const UrlBase = URI;
-    return axios(Config.URL_BACKEND + UrlBase, {
+    return await axios(Config.URL_BACKEND + UrlBase, {
         method: method,
         headers: {
             'Content-Type': Type,

@@ -70,7 +70,7 @@ const Index = () => {
         </Row>
         <Row>
             <Col sm={24}>
-                {HienThiThongTinTua && <ThongTinTuaLaymau ID={DataPerson?.RowID}></ThongTinTuaLaymau>}
+                {HienThiThongTinTua && <ThongTinTuaLaymau ID={DataPerson?.RowID}  dataPerson={DataPerson}></ThongTinTuaLaymau>}
             </Col>
         </Row>
     </>)

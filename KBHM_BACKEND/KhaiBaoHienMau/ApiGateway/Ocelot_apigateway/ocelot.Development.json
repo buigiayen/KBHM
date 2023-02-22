@@ -12,7 +12,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/Person/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "PUT" ]
 
     },
     {
@@ -58,7 +58,7 @@
 
     },
     {
-      "DownstreamPathTemplate": "/v1/Location",
+      "DownstreamPathTemplate": "/v1/category/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -66,36 +66,15 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/gw/Location",
-      "UpstreamHttpMethod": [ "GET" ]
-
+      "UpstreamPathTemplate": "/gw/category/{everything}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "Category"
+      }
     },
-    {
-      "DownstreamPathTemplate": "/v1/Ml",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": "80"
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Ml",
-      "UpstreamHttpMethod": [ "GET" ]
 
-    },
-    {
-      "DownstreamPathTemplate": "/v1/Element",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": "80"
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Element",
-      "UpstreamHttpMethod": [ "GET" ]
 
-    },
 
     // System.api
     {

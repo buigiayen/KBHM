@@ -9,14 +9,17 @@ import { GET_PropertiesPerson } from "../../../../Data/Api/DangKyKham";
 const Index = (prop) => {
     const [PropertiesPerson, SetPropertiesPerson] = useState();
     useEffect(() => {
-        GET_PropertiesPerson(prop.ID).then(
-            rs => {
-                const data = rs.map(r => {
-                    return ({ label: r.Label, value: r.value == "true" ? true : false })
-                })
-                SetPropertiesPerson(data)
-            }
-        );
+        if(prop.ID !== undefined){
+            GET_PropertiesPerson(prop.ID).then(
+                rs => {
+                    const data = rs.map(r => {
+                        return ({ label: r.Label, value: r.value == "true" ? true : false })
+                    })
+                    SetPropertiesPerson(data)
+                }
+            );
+        }
+     
     }, [prop])
 
     const columns = [
