@@ -1,4 +1,4 @@
-import { Form, Input, Divider, DatePicker, Button } from "antd";
+import { Form, Input, Divider, DatePicker, Button, Checkbox } from "antd";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
 
@@ -227,8 +227,13 @@ const Index = (props) => {
                   )}
                 </Form.Item>
               </Col>
+
             </Row>
           </Form.Item>
+
+
+
+
           <Form.Item>
             <Row gutter={[16, 8]}>
               <Col span={24}>
@@ -250,9 +255,10 @@ const Index = (props) => {
               </Col>
             </Row>
           </Form.Item>
+
           <Form.Item>
             <Row gutter={[16, 8]}>
-              <Col span={24}>
+              <Col span={18}>
                 <Form.Item label={<b>Địa chỉ liên lạc</b>} required>
                   {readOnly ? (
                     <Input
@@ -269,7 +275,28 @@ const Index = (props) => {
                   )}
                 </Form.Item>
               </Col>
+              <Col span={6} >
+                <Form.Item
+                  label={<b>Như địa chỉ thường trú </b>}
+                >
+                  {readOnly ? (
+                    <Checkbox
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          SetDataPerson({
+                            ...DataPerson,
+                            DiaChiLienLac: DataPerson.DiaChiThuongTru,
+                            DiaChiThuongLienLac_ChiTiet: DataPerson.DiaChiThuongTru_ChiTiet,
+                          })
+                        }
+
+                      }}
+                    />
+                  ) : <></>}
+                </Form.Item>
+              </Col>
             </Row>
+
           </Form.Item>
           <Form.Item>
             <Row gutter={[16, 8]}>
