@@ -1,45 +1,65 @@
+import { Input, Row, Col, Button } from "antd";
 import React from "react";
-import {Table} from 'antd'
+import { useState } from "react";
+import { labo } from "../../../../Data/UnitData/data";
+import List from "../../../List";
+import IconCombine from "../../../Icon";
 const XnTruocHien = () => {
-    const dataSource = [
-        {
-            key: '1',
-            CSXN: 'Huyết sắc tố',
-            KQ: 32,
-            NV: '10 Downing Street',
-        },
-        {
-            key: '2',
-            CSXN: 'John',
-            KQ: 42,
-            NV: '10 Downing Street',
-        },
-    ];
-    const columns = [
-        {
-            title: 'Chỉ số xét nghiệm',
-            dataIndex: 'CSXN',
-            key: 'name',
-            width : 120,
-            filterSearch: true
-        },
-        {
-            title: 'Kết quả',
-            dataIndex: 'KQ',
-            key: 'age',  
-            width : 120
-        },
-        {
-            title: 'Người valid',
-            dataIndex: 'NV',
-            key: 'address',
-            width : 120
-        },
-    ];
-    return (
-        <>
-            <Table dataSource={dataSource} columns={columns} />
-        </>
-    )
-}
+  const [stateXNTruocHien, SetStateXNTruocHien] = useState(...labo);
+  const PushState = (value) => {
+    console.log(value);
+  };
+  const columns = [
+    {
+      title: "Chỉ số xét nghiệm",
+      dataIndex: "Name",
+      key: "name",
+      width: 120,
+      filterSearch: true,
+    },
+    {
+      title: "Kết quả",
+      dataIndex: "Result",
+      key: "age",
+      width: 120,
+      render: (_, value) => {
+        return (
+          <Input
+            onChange={(e) => {
+              {
+                console.log(value);
+                SetStateXNTruocHien({
+                  ...stateXNTruocHien,
+                  Result: e.target.value,
+                });
+              }
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: "Người valid",
+      dataIndex: "UserValid",
+      key: "address",
+      width: 120,
+      render: (_, value) => {
+        return (
+          <Button
+            icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
+            onClick={() => PushState(value)}
+          >
+            Valid
+          </Button>
+        );
+      },
+    },
+  ];
+  return (
+    <>
+      <List data={labo} columns={columns} />
+      <br></br>
+    </>
+  );
+};
 export default XnTruocHien;

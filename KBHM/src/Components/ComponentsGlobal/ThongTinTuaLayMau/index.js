@@ -24,12 +24,11 @@ const Index = (props) => {
   const [PersonUpdate, SetPersonUpdate] = useState({
     RowID: null,
     NgayHien: dayjs().$d,
-    LoaiHienThanhPhan: Config?.LoaiThanhPhan?.value,
+    LoaiHienThanhPhan: null,
     DiemLayMau: null,
     MaTuiMau: null,
   });
   useEffect(() => {
-    console.log(props.dataPerson)
     if (props.dataPerson !== undefined) {
       SetPersonUpdate(props.dataPerson);
     }
@@ -57,7 +56,7 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Ngày hiến">
               <DateTime
-                Value={PersonUpdate?.NgayHien}
+                Value={PersonUpdate?.NgayHien ?? dayjs()}
                 onChange={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, NgayHien: e });
                 }}
@@ -67,12 +66,8 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Hiến loại thành phần">
               <ElementCombobox
-                defaultValue={
-                  PersonUpdate?.LoaiHienThanhPhan
-                    ? PersonUpdate?.LoaiHienThanhPhan
-                    : Config.LoaiThanhPhan
-                }
-                Value={(e) => {
+                value={PersonUpdate?.LoaiHienThanhPhan}
+                onChangeValue={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, LoaiHienThanhPhan: e });
                 }}
               />
@@ -83,8 +78,8 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Điểm lấy máu">
               <LocationCombobox
-                defaultValue={PersonUpdate?.DiemLayMau}
-                Value={(e) => {
+                value={PersonUpdate?.DiemLayMau}
+                onChangeValue={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, DiemLayMau: e });
                 }}
               />

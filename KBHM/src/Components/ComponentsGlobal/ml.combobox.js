@@ -7,15 +7,19 @@ export default function MlCombobox(props) {
             props.Value(Value);
         }
     }
+    const [isLoading,SetisLoading] = useState();
     const [Data, setData] =useState([]);
     useEffect(() => {
+        SetisLoading(true);
         async function get() {
             await GET_Ml().then(rs =>{setData(rs)})
         }
-        get();
-      
+        setTimeout(() => {
+            get();
+            SetisLoading(false)
+        }, 5000);
      }, []);
     return (
-        <Combobox  data={Data} valueDefault={props?.defaultValue} Value={ReturnValue} ></Combobox>
+        <Combobox  data={Data} valueDefault={props?.defaultValue} Value={ReturnValue} loading={isLoading} ></Combobox>
     )
 }

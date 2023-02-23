@@ -20,9 +20,9 @@ namespace KBHM.api.Controllers
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("Person", data) : BadRequest(data);
         }
         [HttpGet("Person/{ID}")]
-        public async Task<IActionResult> GetPerson(Guid ID)
+        public async Task<IActionResult> GetPerson(string ID)
         {
-            var data = await _Person.GetRowIDPerson(new Person { RowID = ID });
+            var data = await _Person.GetRowIDPerson(new Person { RowID = new Guid(ID) });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
         [HttpGet("Person/{Text}/Find/{ROW}")]
@@ -50,6 +50,14 @@ namespace KBHM.api.Controllers
         public async Task<IActionResult> PutPersonTrip([FromBody] Person person)
         {
             var data = await _Person.PutPersonTip(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+
+        [Authorize]
+        [HttpPut("Person/Done")]
+        public async Task<IActionResult> PutPersonDone([FromBody] Person person)
+        {
+            var data = await _Person.PutPersonDone(person);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
 
         }

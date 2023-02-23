@@ -3,49 +3,140 @@ import { Row, Col, Form, Input, DatePicker, Button } from "antd";
 import Ml from "../../ml.combobox";
 import ElementCombobox from "../../Element.combobox";
 import "../../index.css";
-const Index = () => {
+import { PUT_PersonDone } from "../../../../Data/Api/DangKyKham";
+import { useState } from "react";
+import IconCombine from "../../../Icon";
+import { useEffect } from "react";
+const Index = (props) => {
+  const [PropertiesButton, SetPropertiesButton] = useState({
+    Name: "Kết thúc lấy máu -> Đồng bộ!",
+    type: "primary",
+    icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
+    disabled: false,
+    danger: false,
+  });
+  const [PersonUpdate, SetPersonUpdate] = useState({
+    RowID: props.ID,
+    PhanUng: props?.dataPerson?.PhanUng,
+    XuTri: props?.dataPerson?.XuTri,
+    LuongHien: props?.dataPerson?.LuongHien,
+    MaTuiMau: props?.dataPerson?.MaTuiMau,
+    LoaiHienThanhPhan: props?.dataPerson?.LoaiHienThanhPhan,
+    Sync: props?.dataPerson?.Sync,
+  });
+  useEffect(() => {
+    TitleButton();
+  }, []);
+  const TitleButton = () => {
+    switch (props?.dataPerson?.Sync) {
+      case "1":
+        SetPropertiesButton({
+          ...PropertiesButton,
+          Name: "Hàng đợi đồng bộ -> Đợi duyệt",
+          icon: <IconCombine.ClockCircleOutlined />,
+          disabled: true,
+          type: "dashed",
+          danger: false,
+        });
+        break;
+      case "2":
+        SetPropertiesButton({
+          ...PropertiesButton,
+          Name: "Thông tin đợi duyệt",
+          icon: <IconCombine.ClockCircleOutlined />,
+          disabled: true,
+          type: "dashed",
+          danger: false,
+        });
+        break;
+      case "3":
+        SetPropertiesButton({
+          ...PropertiesButton,
+          Name: "Lỗi đồng bộ xin kiểm tra thông tin. ",
+          icon: <IconCombine.CloseCircleOutlined />,
+          disabled: false,
+          type: "dashed",
+          danger: true,
+        });
+        break;
+      case "4":
+        SetPropertiesButton({
+          ...PropertiesButton,
+          Name: "Đã đồng bộ",
+          icon: <IconCombine.CheckCircleTwoTone />,
+          disabled: true,
+          type: "primary",
+          danger: false,
+        });
+        break;
+      default:
+        break;
+    }
+  };
+  const PushState = () => {
+    const ClonePeronUpdate = PersonUpdate;
+    ClonePeronUpdate.SyncData = 1;
+    PUT_PersonDone(ClonePeronUpdate).then();
+  };
   return (
     <React.Fragment>
       <Form labelCol={{ span: 8 }}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item label="Mã túi máu">
-              <Input readOnly />
+              <Input readOnly value={PersonUpdate?.MaTuiMau} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item label="Lượng hiến">
-              <Ml />
+              <Ml
+                defaultValue={PersonUpdate?.LuongHien}
+                Value={(e) => {
+                  SetPersonUpdate({ ...PersonUpdate, LuongHien: e });
+                }}
+              />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Hiến loại thành phần máu">
-              <ElementCombobox />
+              <ElementCombobox defaultValue={PersonUpdate?.LoaiHienThanhPhan} />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item label="Phản ứng">
-              <Input />
+              <Input
+                value={PersonUpdate.PhanUng}
+                onChange={(e) => {
+                  SetPersonUpdate({ ...PersonUpdate, PhanUng: e.target.value });
+                }}
+              />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Xử trí">
-              <Input />
+              <Input
+                value={PersonUpdate.XuTri}
+                onChange={(e) => {
+                  SetPersonUpdate({ ...PersonUpdate, XuTri: e.target.value });
+                }}
+              />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={[12]}>
-          <Col md={4} xs={24}>  
-          </Col>
-          <Col md={4} xs={24}>  
-          </Col>
+          <Col md={4} xs={24}></Col>
+          <Col md={4} xs={24}></Col>
           <Col md={6} xs={24}>
-            <Button type="primary" className="btnFull">
-              Kết thúc lấy máu
+            <Button
+              {...PropertiesButton}
+              className="btnFull"
+              onClick={PushState}
+            >
+              {PropertiesButton.Name}
             </Button>
           </Col>
         </Row>

@@ -18,20 +18,19 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> GetFindPerson(Model.Person person)
         {
             string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE    Phone=@TEXT or CCCD=@TEXT order by DateRegister desc;";
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
 
         public async Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person)
         {
-
-            string sql = $"SELECT        TOP (200) * FROM            Person WHERE        (RowID = @RowID);";
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            string sql = $"GetPeronInfo  @ID = @RowID";
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
 
         public async Task<HttpObject.APIresult> GetRowIDPropertiesPerson(Model.Person person)
         {
             string sql = $"SELECT        TOP (200) * FROM            PersonProperties WHERE        (ID = @RowID);";
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
 
         public async Task<HttpObject.APIresult> PostPerson(Model.Person person)
@@ -44,7 +43,7 @@ namespace KBHM.api.Command
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";
             }
             sql += "select @ROWIDs as Code ";
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
 
         public async Task<HttpObject.APIresult> PutPerson(Model.Person person)
@@ -53,7 +52,7 @@ namespace KBHM.api.Command
              " UPDATE  [dbo].[Person] set [CanNang]=@CanNang,[ChieuCao]=@ChieuCao,[Mach]=@Mach,[HuyetAp]=@HuyetAp,[TinhTrangLamSang]=@TinhTrangLamSang,[ChoPhepHienMau]=@ChoPhepHienMau,[LuongMauLay]=@LuongMauLay   ,[TamHoan] = @TamHoan      ,[NgayHien] =@NgayHien     ,luongMauCoTheHien=@LuongMauCoTheHien," +
              "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri where RowID = @ROWIDs";
 
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
         }
 
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
@@ -61,7 +60,15 @@ namespace KBHM.api.Command
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
          " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien where RowID = @ROWIDs";
 
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
+
+        }
+        public async Task<HttpObject.APIresult> PutPersonDone(Model.Person person)
+        {
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
+         " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien ,MaTuiMau=@MaTuiMau, LoaiHienThanhPhan=@LoaiHienThanhPhan, PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData where RowID = @ROWIDs";
+
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 
         }
     }

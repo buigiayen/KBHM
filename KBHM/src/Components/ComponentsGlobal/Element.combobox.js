@@ -1,26 +1,46 @@
 import { useEffect, useMemo, useState } from "react";
 import { GET_Element } from "../../Data/Api/Category";
-import Combobox from "../Combobox";
-export default function ElementCombobox(props) {
-  const ReturnValue = (Value) => {
-    if (props.Value !== undefined) {
-      props.Value(Value);
-    }
-  };
+import { Select } from "antd";
+
+const ElementCombobox = (props) => {
+  const [isLoading, SetisLoading] = useState();
+  const [ChosseData , SetChooseData] = useState();
   const [Data, setData] = useState([]);
   useEffect(() => {
+    SetisLoading(true);
     async function get() {
       await GET_Element().then((rs) => {
         setData(rs);
       });
     }
-    get();
+    setTimeout(() => {
+      get();
+      SetisLoading(false);
+  }, 4000);
+  
   }, []);
+
+  const ReturnValue = (value) => {
+    console.log(value);
+    if (props.onChangeValue !== undefined) {
+      props.onChangeValue(value);
+      SetChooseData(value);
+    }
+
+  };
+
   return (
-    <Combobox
-      data={Data}
-      valueDefault={props?.defaultValue}
-      Value={ReturnValue}
-    ></Combobox>
+    <Select
+      className={`${Math.random()}`}
+      value= {props?.valueDefault ?? ChosseData}
+      onChange={ReturnValue}
+      style={{ width: 100 + "%" }}
+      {...props}
+      loading={isLoading}
+      options={Data ?? []}
+      
+    />
   );
 }
+export default ElementCombobox;
+

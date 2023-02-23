@@ -1,4 +1,4 @@
-import { Form, Input, Divider, DatePicker } from "antd";
+import { Form, Input, Divider, DatePicker, Button } from "antd";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
 
@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import SexCombobox from "../Sex.Combobox";
 import RegionCombox from "../../Region.Combobox";
 import { GET_PersonInfo } from "../../../Data/Api/DangKyKham";
+import "../index.css";
 import DateTime from "../DateTime";
 dayjs.extend(customParseFormat);
 const { Search } = Input;
+
 const Index = (props) => {
+  const [readOnly, SetReadOnly] = useState(props?.NotreadOnly);
+  const [VisiblePutState, SetVisiblePutState] = useState(false);
   const [DataPerson, SetDataPerson] = useState({
     Name: null,
     BirthDay: dayjs(),
@@ -71,7 +75,7 @@ const Index = (props) => {
             <Row gutter={[16, 8]}>
               <Col span={24}>
                 <Form.Item label={<b>Họ và tên</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       placeholder="NGUYEN VAN A"
                       value={DataPerson?.Name}
@@ -91,9 +95,9 @@ const Index = (props) => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item label={<b>Ngày sinh</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <DateTime
-                      Value={DataPerson.BirthDay}
+                      Value={DataPerson?.BirthDay}
                       onChange={(onChange) => {
                         SetDataPerson({ ...DataPerson, BirthDay: onChange });
                       }}
@@ -109,7 +113,7 @@ const Index = (props) => {
               </Col>
               <Col span={12}>
                 <Form.Item label={<b>Giới tính</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <SexCombobox
                       defaultValue={DataPerson?.Sex}
                       Value={(Value) => {
@@ -127,7 +131,7 @@ const Index = (props) => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item label={<b>Số CCCD</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Search
                       placeholder="Số căn cước"
                       value={DataPerson?.CCCD}
@@ -144,7 +148,7 @@ const Index = (props) => {
               </Col>
               <Col span={12}>
                 <Form.Item label={<b>Nơi cấp</b>}>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       placeholder="Địa chỉ cấp"
                       value={DataPerson?.NoiCapCCCD}
@@ -167,7 +171,7 @@ const Index = (props) => {
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item label={<b>Số điện thoại</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       placeholder="0123456789"
                       value={DataPerson?.Phone}
@@ -182,7 +186,7 @@ const Index = (props) => {
               </Col>
               <Col span={12}>
                 <Form.Item label={<b>Email</b>}>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       type="email"
                       value={DataPerson?.Email}
@@ -206,7 +210,7 @@ const Index = (props) => {
                   label={<b>Địa chỉ thường trú (ghi trên CCCD)</b>}
                   required
                 >
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       placeholder="Số nhà A"
                       value={DataPerson?.DiaChiThuongTru}
@@ -228,7 +232,7 @@ const Index = (props) => {
             <Row gutter={[16, 8]}>
               <Col span={24}>
                 <Form.Item label={<b>Xã/Phường/Huyện/Tỉnh</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <RegionCombox
                       Region={DataPerson?.DiaChiThuongTru_ChiTiet}
                       valueChange={(valueChange) => {
@@ -249,7 +253,7 @@ const Index = (props) => {
             <Row gutter={[16, 8]}>
               <Col span={24}>
                 <Form.Item label={<b>Địa chỉ liên lạc</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <Input
                       value={DataPerson?.DiaChiLienLac}
                       onChange={(e) => {
@@ -270,7 +274,7 @@ const Index = (props) => {
             <Row gutter={[16, 8]}>
               <Col span={24}>
                 <Form.Item label={<b>Xã/Phường/Huyện/Tỉnh</b>} required>
-                  {props.NotreadOnly ? (
+                  {readOnly ? (
                     <RegionCombox
                       Region={DataPerson?.DiaChiThuongLienLac_ChiTiet}
                       valueChange={(valueChange) => {
@@ -284,6 +288,32 @@ const Index = (props) => {
                     <>{DataPerson?.DiaChiThuongLienLac_ChiTiet}</>
                   )}
                 </Form.Item>
+              </Col>
+            </Row>
+          </Form.Item>
+
+          <Form.Item>
+            <Row gutter={[16, 8]}>
+              <Col span={24}>
+                {readOnly ? null : (
+                  <Button
+                    className="btnFull"
+                    onClick={() => {
+                      SetReadOnly(!readOnly);
+                      SetVisiblePutState(!VisiblePutState);
+                    }}
+                  >
+                    Sửa thông tin
+                  </Button>
+                )}
+                {VisiblePutState ? (
+                  <Button
+                    className="btnFull"
+                    onClick={() => {SetReadOnly(!readOnly) ;SetVisiblePutState(!VisiblePutState);}}
+                  >
+                    Xác nhận thông tin
+                  </Button>
+                ) : null}
               </Col>
             </Row>
           </Form.Item>

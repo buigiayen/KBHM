@@ -15,7 +15,7 @@ namespace System.api.Command
         {
             string sql = "SP_REGION_VN @STATUS = @status ,@TEXT =@TEXT";
         
-            return await Dataprovider.db._Connection(_context.CreateConnection())._Query(sql)._ParamterSQL(new
+            return await Dataprovider.db._Query(sql)._ParamterSQL(new
             {
                 STATUS = Status,
                 TEXT = regionId

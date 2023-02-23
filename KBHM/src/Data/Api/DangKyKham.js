@@ -25,3 +25,7 @@ export const PUT_PersonTrip = async (prop) => {
     return await HttpRequest( 'PUT',`/Person/Trip`,prop, true);
 }
 
+export const PUT_PersonDone = async (prop) => {
+    return await HttpRequest( 'PUT',`/Person/Done`,prop, true);
+}
+

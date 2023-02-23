@@ -11,6 +11,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> GetRowIDPropertiesPerson(Model.Person person);
         Task<HttpObject.APIresult> PutPerson(Model.Person person);
         Task<HttpObject.APIresult> PutPersonTip(Model.Person person);
+        Task<HttpObject.APIresult> PutPersonDone(Model.Person person);
 
     }
 }

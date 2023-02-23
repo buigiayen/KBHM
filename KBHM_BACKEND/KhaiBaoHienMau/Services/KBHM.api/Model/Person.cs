@@ -1,8 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 
 namespace KBHM.api.Model
 {
+    public enum Sync
+    {
+        None,
+        Sync,
+        Check,
+        Error,
+        Done,
+    }
     public class Person : Filter
     {
       
@@ -27,13 +37,16 @@ namespace KBHM.api.Model
         public double? LuongMauLay { get; set; }
         public int? TamHoan { get; set; }
         public DateTime? NgayHien { get; set; }
-        public double? LuongHien { get; set; }
+        public string? LuongHien { get; set; }
         public string PhanUng { get; set; }
         public string XuTri { get; set; }
         public int? LuongMauCoTheHien { get; set; }
         public string MaTuiMau { get; set; }
         public string DiemLayMau { get; set; }
         public string LoaiHienThanhPhan { get; set; }
+        public Sync? SyncData { get; set; }
+
+        public int? warning { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
         
     }

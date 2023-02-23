@@ -8,7 +8,7 @@ const App = (prop) => {
       SetIsLoading(false);
     }, 3000);
    
-  }, [prop]);
+  }, [prop.data]);
   return (
     <Table
       columns={prop?.columns}

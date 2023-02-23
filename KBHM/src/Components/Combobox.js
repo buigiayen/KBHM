@@ -18,6 +18,7 @@ const App = (props) => {
         options={
             props.data ?? []
         }
+        {...props}
     />)
 }
 export default App;

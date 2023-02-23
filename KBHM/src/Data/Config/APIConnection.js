@@ -2,7 +2,6 @@ import axios from 'axios'
 import { message } from 'antd';
 import { Config } from './config.system';
 const Connection = async (URI, method = 'GET', body, params = null, Type = 'application/json') => {
-
     const UrlBase = URI;
     return await axios(Config.URL_BACKEND + UrlBase, {
         method: method,
