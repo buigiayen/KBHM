@@ -27,6 +27,7 @@ const Index = (props) => {
     LoaiHienThanhPhan: null,
     DiemLayMau: null,
     MaTuiMau: null,
+    Sync: null
   });
   useEffect(() => {
     if (props.dataPerson !== undefined) {
@@ -120,30 +121,34 @@ const Index = (props) => {
             </Button>
           </Col>
           <Col md={6} xs={24}></Col>
-          <Col md={6} xs={24}>
-            <Button
-              className="btnFull"
-              type="dashed"
-              danger
-              icon={
-                <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
-              }
-            >
-              Hủy lấy máu
-            </Button>
-          </Col>
-          <Col md={6} xs={24}>
-            <Button
-              className="btnFull"
-              type="primary"
-              icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
-              onClick={Putperson}
-              loading={Isload}
-              disabled={IsDisable}
-            >
-              Cấp mã túi máu
-            </Button>
-          </Col>
+          {
+            PersonUpdate?.Sync === null && <>
+              <Col md={6} xs={24}>
+                <Button
+                  className="btnFull"
+                  type="dashed"
+                  danger
+                  icon={
+                    <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
+                  }
+                >
+                  Hủy lấy máu
+                </Button>
+              </Col>
+              <Col md={6} xs={24}>
+                <Button
+                  className="btnFull"
+                  type="primary"
+                  icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
+                  onClick={Putperson}
+                  loading={Isload}
+                  disabled={IsDisable}
+                >
+                  Cấp mã túi máu
+                </Button>
+              </Col></>
+          }
+
         </Row>
       </Form>
     </>

@@ -9,6 +9,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person);
         Task<HttpObject.APIresult> GetFindPerson(Model.Person person);
         Task<HttpObject.APIresult> GetRowIDPropertiesPerson(Model.Person person);
+        Task<HttpObject.APIresult> PutPersonHealthy(Model.Person person);
         Task<HttpObject.APIresult> PutPerson(Model.Person person);
         Task<HttpObject.APIresult> PutPersonTip(Model.Person person);
         Task<HttpObject.APIresult> PutPersonDone(Model.Person person);

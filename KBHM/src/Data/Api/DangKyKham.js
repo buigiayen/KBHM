@@ -20,6 +20,9 @@ export const GET_PersonInfo = async (prop) => {
 export const PUT_PersonInfo = async (prop) => {
     return await HttpRequest( 'PUT',`/Person`,prop, true);
 }
+export const PUT_PersonInfo_healthy = async (prop) => {
+    return await HttpRequest( 'PUT',`/Person/healthy`,prop, true);
+}
 
 export const PUT_PersonTrip = async (prop) => {
     return await HttpRequest( 'PUT',`/Person/Trip`,prop, true);

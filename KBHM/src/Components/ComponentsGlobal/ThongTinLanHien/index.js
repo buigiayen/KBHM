@@ -6,7 +6,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useEffect, useState } from "react";
 import SexCombobox from "../Sex.Combobox";
 import RegionCombox from "../../Region.Combobox";
-import { GET_PersonInfo } from "../../../Data/Api/DangKyKham";
+import { GET_PersonInfo, PUT_PersonInfo } from "../../../Data/Api/DangKyKham";
 import "../index.css";
 import DateTime from "../DateTime";
 dayjs.extend(customParseFormat);
@@ -28,6 +28,7 @@ const Index = (props) => {
     DiaChiThuongTru: null,
     DiaChiLienLac: null,
     DiaChiThuongLienLac_ChiTiet: null,
+    Sync: null
   });
 
   useEffect(() => {
@@ -291,32 +292,39 @@ const Index = (props) => {
               </Col>
             </Row>
           </Form.Item>
+          {
+            DataPerson?.Sync === null && <Form.Item>
+              <Row gutter={[16, 8]}>
+                <Col span={24}>
+                  {readOnly ? null : (
+                    <Button
+                      className="btnFull"
+                      onClick={() => {
+                        SetReadOnly(!readOnly);
+                        SetVisiblePutState(!VisiblePutState);
+                      }}
+                    >
+                      Sửa thông tin
+                    </Button>
+                  )}
+                  {VisiblePutState ? (
+                    <Button
+                      className="btnFull"
+                      onClick={() => {
+                        SetReadOnly(!readOnly);
+                        SetVisiblePutState(!VisiblePutState);
+                        PUT_PersonInfo(DataPerson);
+                      }}
+                    >
+                      Xác nhận thông tin
+                    </Button>
+                  ) : null}
+                </Col>
+              </Row>
+            </Form.Item>
+          }
 
-          <Form.Item>
-            <Row gutter={[16, 8]}>
-              <Col span={24}>
-                {readOnly ? null : (
-                  <Button
-                    className="btnFull"
-                    onClick={() => {
-                      SetReadOnly(!readOnly);
-                      SetVisiblePutState(!VisiblePutState);
-                    }}
-                  >
-                    Sửa thông tin
-                  </Button>
-                )}
-                {VisiblePutState ? (
-                  <Button
-                    className="btnFull"
-                    onClick={() => {SetReadOnly(!readOnly) ;SetVisiblePutState(!VisiblePutState);}}
-                  >
-                    Xác nhận thông tin
-                  </Button>
-                ) : null}
-              </Col>
-            </Row>
-          </Form.Item>
+
         </Form>
       </>
     </>

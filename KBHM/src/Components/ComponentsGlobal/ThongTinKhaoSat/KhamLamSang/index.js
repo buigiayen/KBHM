@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Input, Radio, Space, Button } from "antd";
 import IconCombine from "../../../Icon";
 import '../../index.css'
-import { PUT_PersonInfo } from "../../../../Data/Api/DangKyKham";
+import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 import { useEffect } from "react";
 import { useMemo } from "react";
 const Index = (props) => {
@@ -33,7 +33,7 @@ const Index = (props) => {
         SetIsloading(true);
         const ClonePersonUpdate = PersonUpdate;
         ClonePersonUpdate.rowID = props.ID;
-        await PUT_PersonInfo(PersonUpdate).then(() => {SetIsloading(false); SetIsdisabled(true)})
+        await PUT_PersonInfo_healthy(PersonUpdate).then(() => {SetIsloading(false); SetIsdisabled(true)})
     }
 
     return (

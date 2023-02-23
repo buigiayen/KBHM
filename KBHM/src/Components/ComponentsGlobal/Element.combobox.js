@@ -16,7 +16,7 @@ const ElementCombobox = (props) => {
     setTimeout(() => {
       get();
       SetisLoading(false);
-  }, 4000);
+  }, 3000);
   
   }, []);
 
@@ -32,13 +32,12 @@ const ElementCombobox = (props) => {
   return (
     <Select
       className={`${Math.random()}`}
-      value= {props?.valueDefault ?? ChosseData}
       onChange={ReturnValue}
       style={{ width: 100 + "%" }}
-      {...props}
+    
       loading={isLoading}
       options={Data ?? []}
-      
+      {...props}
     />
   );
 }

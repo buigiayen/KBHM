@@ -19,6 +19,12 @@ namespace KBHM.api.Controllers
             var data = await _Person.PostPerson(person);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("Person", data) : BadRequest(data);
         }
+        [HttpPut("Person")]
+        public async Task<IActionResult> PutPerson([FromBody] Person person)
+        {
+            var data = await _Person.PutPerson(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
         [HttpGet("Person/{ID}")]
         public async Task<IActionResult> GetPerson(string ID)
         {
@@ -38,10 +44,10 @@ namespace KBHM.api.Controllers
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
         [Authorize]
-        [HttpPut("Person")]
-        public async Task<IActionResult> PutPerson([FromBody] Person person)
+        [HttpPut("Person/healthy")]
+        public async Task<IActionResult> PutPersonHealthy([FromBody] Person person)
         {
-            var data = await _Person.PutPerson(person);
+            var data = await _Person.PutPersonHealthy(person);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
 
         }

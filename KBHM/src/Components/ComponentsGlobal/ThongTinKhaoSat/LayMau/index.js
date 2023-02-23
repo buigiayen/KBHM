@@ -17,17 +17,21 @@ const Index = (props) => {
   });
   const [PersonUpdate, SetPersonUpdate] = useState({
     RowID: props.ID,
-    PhanUng: props?.dataPerson?.PhanUng,
-    XuTri: props?.dataPerson?.XuTri,
-    LuongHien: props?.dataPerson?.LuongHien,
-    MaTuiMau: props?.dataPerson?.MaTuiMau,
-    LoaiHienThanhPhan: props?.dataPerson?.LoaiHienThanhPhan,
-    Sync: props?.dataPerson?.Sync,
+    PhanUng: null,
+    XuTri: null,
+    LuongHien: null,
+    MaTuiMau: null,
+    LoaiHienThanhPhan: null,
+    Sync: null,
   });
+
   useEffect(() => {
+    SetPersonUpdate(props?.dataPerson)
     TitleButton();
-  }, []);
+  }, [props]);
+
   const TitleButton = () => {
+    console.log(props?.dataPerson?.Sync);
     switch (props?.dataPerson?.Sync) {
       case "1":
         SetPropertiesButton({
@@ -70,6 +74,14 @@ const Index = (props) => {
         });
         break;
       default:
+        SetPropertiesButton({
+          ...PropertiesButton,
+          Name: "Kết thúc lấy máu -> Đồng bộ!",
+          type: "primary",
+          icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
+          disabled: false,
+          danger: false,
+        });
         break;
     }
   };
@@ -92,8 +104,8 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Lượng hiến">
               <Ml
-                defaultValue={PersonUpdate?.LuongHien}
-                Value={(e) => {
+                value={PersonUpdate?.LuongHien ?? ""}
+                onChangeValue={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, LuongHien: e });
                 }}
               />
@@ -101,7 +113,7 @@ const Index = (props) => {
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Hiến loại thành phần máu">
-              <ElementCombobox defaultValue={PersonUpdate?.LoaiHienThanhPhan} />
+              <ElementCombobox value={PersonUpdate?.LoaiHienThanhPhan} />
             </Form.Item>
           </Col>
         </Row>
@@ -109,7 +121,7 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Phản ứng">
               <Input
-                value={PersonUpdate.PhanUng}
+                value={PersonUpdate?.PhanUng}
                 onChange={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, PhanUng: e.target.value });
                 }}
@@ -119,7 +131,7 @@ const Index = (props) => {
           <Col md={12} xs={24}>
             <Form.Item label="Xử trí">
               <Input
-                value={PersonUpdate.XuTri}
+                value={PersonUpdate?.XuTri}
                 onChange={(e) => {
                   SetPersonUpdate({ ...PersonUpdate, XuTri: e.target.value });
                 }}

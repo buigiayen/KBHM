@@ -46,7 +46,7 @@ namespace KBHM.api.Command
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
 
-        public async Task<HttpObject.APIresult> PutPerson(Model.Person person)
+        public async Task<HttpObject.APIresult> PutPersonHealthy(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
              " UPDATE  [dbo].[Person] set [CanNang]=@CanNang,[ChieuCao]=@ChieuCao,[Mach]=@Mach,[HuyetAp]=@HuyetAp,[TinhTrangLamSang]=@TinhTrangLamSang,[ChoPhepHienMau]=@ChoPhepHienMau,[LuongMauLay]=@LuongMauLay   ,[TamHoan] = @TamHoan      ,[NgayHien] =@NgayHien     ,luongMauCoTheHien=@LuongMauCoTheHien," +
@@ -70,6 +70,25 @@ namespace KBHM.api.Command
 
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 
+        }
+
+        public async Task<HttpObject.APIresult> PutPerson(Model.Person person)
+        {
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
+              " UPDATE  [dbo].[Person] set " +
+              " [Name] = @Name," +
+              " [BirthDay] = @BirthDay ," +
+              " [Sex] = @Sex ," +
+              " [CCCD]=@CCCD ," +
+              " [Phone]=@Phone ," +
+              " [Email]=@Email, " +
+              " [DiaChiThuongTru]=@DiaChiThuongTru," +
+              " [DiaChiThuongTru_ChiTiet]=@DiaChiThuongTru_ChiTiet ," +
+              " [DiaChiLienLac]=@DiaChiLienLac ," +
+              " [DiaChiThuongLienLac_ChiTiet]=@DiaChiThuongLienLac_ChiTiet ," +
+              " [NoiCapCCCD]=@NoiCapCCCD" +
+              " where RowID = @ROWIDs";
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
         }
     }
 }

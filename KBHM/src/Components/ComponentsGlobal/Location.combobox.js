@@ -17,7 +17,7 @@ const LocationCombobox = (props) => {
     setTimeout(() => {
       get();
       SetisLoading(false);
-    }, 3000);
+    }, 5000);
   }, []);
 
   const ReturnValue = (value) => {
