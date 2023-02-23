@@ -1,10 +1,10 @@
 # KBHM
 
-theme [Antd](https://ant.design/) 🪲
+ [Theme](https://ant.design/) 🪲
 
 overview
 ------------------------------------------------
-Component [Antd](https://ant.design/components) 
+ [Component](https://ant.design/components/overview/)
 
 😒 -- 
 
