@@ -4,7 +4,6 @@ import IconCombine from "../../../Icon";
 import '../../index.css'
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 import { useEffect } from "react";
-import { useMemo } from "react";
 const Index = (props) => {
 
     const [isdisabled, SetIsdisabled] = useState(true);
@@ -27,7 +26,6 @@ const Index = (props) => {
     const [IsLoadding, SetIsloading] = useState(false);
     useEffect(() => {
         SetPersonUpdate(props.dataPerson);
-        props.ChoPhepHienMau(PersonUpdate?.ChoPhepHienMau ?? false);
     }, [props])
     const PutPerson = async () => {
         SetIsloading(true);
@@ -67,7 +65,7 @@ const Index = (props) => {
                             value={PersonUpdate?.ChoPhepHienMau}
                             onChange={(e) => {
                                 SetPersonUpdate({ ...PersonUpdate, ChoPhepHienMau: e.target.value });
-                                props.ChoPhepHienMau(e.target.value);
+                                props?.SetChoPhepHienMau(e.target.value)
                                 SetIsdisabled(false)
                             }}>
                             <Space direction="vertical">
@@ -94,7 +92,7 @@ const Index = (props) => {
                     <Col md={5} xs={24}>
                     </Col>
                     <Col md={5} xs={24}>
-                        <Button type="primary" disabled={isdisabled} loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button>
+                     {  PersonUpdate?.Sync  === null ?<Button type="primary" disabled={isdisabled} loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button> : <> </> }   
                     </Col>
                 </Row>
             </Form>

@@ -21,7 +21,8 @@ import {
     UserOutlined,
     CloseCircleOutlined ,
     CheckOutlined,
-      FileOutlined
+      FileOutlined,
+      CameraOutlined 
    
 } from '@ant-design/icons';
 
@@ -49,7 +50,8 @@ const IconCombine = {
     UserOutlined,
     CloseCircleOutlined,
     CheckOutlined ,
-    FileOutlined
+    FileOutlined,
+    CameraOutlined
    
 }
 export default IconCombine;

@@ -1,5 +1,5 @@
 import { Radio, Tabs } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import KhamLamSang from "../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index";
 import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index";
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
@@ -7,13 +7,8 @@ import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/Thon
 
 const App = (prop) => {
   const [ChoPhepHienMau, SetChoPhepHienMau] = useState();
-  const returnChoPhepHienMau = (ChoPhepHienMau) => {
-    if (prop?.SetChoPhepHienMau !== undefined) {
-      prop?.SetChoPhepHienMau(ChoPhepHienMau);
-    }
-    SetChoPhepHienMau(ChoPhepHienMau);
-  };
   const [size, setSize] = useState("small");
+ 
   const Component = [
     {
       label: `TT Khảo sát`,
@@ -27,7 +22,6 @@ const App = (prop) => {
         <KhamLamSang
           {...prop}
           ID={prop.ID}
-          ChoPhepHienMau={returnChoPhepHienMau}
         />
       ),
     },
@@ -39,15 +33,14 @@ const App = (prop) => {
     {
       label: `Lấy máu`,
       key: 4,
-      children: <Laymau   {...prop} ID={prop.ID}></Laymau>,
-      disabled: !ChoPhepHienMau,
+      children: <Laymau {...prop} ID={prop.ID}></Laymau>,
+      
     },
   ];
 
   return (
     <div>
       <Tabs
-
         type="card"
         size={size}
         items={Component}

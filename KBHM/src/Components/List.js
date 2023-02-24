@@ -6,7 +6,7 @@ const App = (prop) => {
     SetIsLoading(true);
     setTimeout(() => {
       SetIsLoading(false);
-    }, 3000);
+    }, 1000);
    
   }, [prop.data]);
   return (

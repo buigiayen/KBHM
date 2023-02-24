@@ -26,13 +26,12 @@ const Index = (props) => {
   });
 
   useEffect(() => {
-    SetPersonUpdate(props?.dataPerson)
-    TitleButton();
+    SetPersonUpdate(props?.dataPerson);
+    TitleButton(props?.dataPerson?.Sync);
   }, [props]);
 
-  const TitleButton = () => {
-    console.log(props?.dataPerson?.Sync);
-    switch (props?.dataPerson?.Sync) {
+  const TitleButton = (value) => {
+    switch (value) {
       case "1":
         SetPropertiesButton({
           ...PropertiesButton,
@@ -88,7 +87,11 @@ const Index = (props) => {
   const PushState = () => {
     const ClonePeronUpdate = PersonUpdate;
     ClonePeronUpdate.SyncData = 1;
-    PUT_PersonDone(ClonePeronUpdate).then();
+    PUT_PersonDone(ClonePeronUpdate)
+      .then(() => {
+        TitleButton("1");
+      })
+      .catch(() => TitleButton("3"));
   };
   return (
     <React.Fragment>

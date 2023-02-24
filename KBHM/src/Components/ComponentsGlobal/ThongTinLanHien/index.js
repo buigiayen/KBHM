@@ -28,7 +28,7 @@ const Index = (props) => {
     DiaChiThuongTru: null,
     DiaChiLienLac: null,
     DiaChiThuongLienLac_ChiTiet: null,
-    Sync: null
+    Sync: null,
   });
 
   useEffect(() => {
@@ -227,12 +227,8 @@ const Index = (props) => {
                   )}
                 </Form.Item>
               </Col>
-
             </Row>
           </Form.Item>
-
-
-
 
           <Form.Item>
             <Row gutter={[16, 8]}>
@@ -275,28 +271,27 @@ const Index = (props) => {
                   )}
                 </Form.Item>
               </Col>
-              <Col span={6} >
-                <Form.Item
-                  label={<b>Như địa chỉ thường trú </b>}
-                >
-                  {readOnly ? (
+              <Col span={6}>
+                {readOnly ? (
+                  <Form.Item label={<b>Như địa chỉ thường trú </b>}>
                     <Checkbox
                       onChange={(e) => {
                         if (e.target.checked) {
                           SetDataPerson({
                             ...DataPerson,
                             DiaChiLienLac: DataPerson.DiaChiThuongTru,
-                            DiaChiThuongLienLac_ChiTiet: DataPerson.DiaChiThuongTru_ChiTiet,
-                          })
+                            DiaChiThuongLienLac_ChiTiet:
+                              DataPerson.DiaChiThuongTru_ChiTiet,
+                          });
                         }
-
                       }}
                     />
-                  ) : <></>}
-                </Form.Item>
+                  </Form.Item>
+                ) : (
+                  <></>
+                )}
               </Col>
             </Row>
-
           </Form.Item>
           <Form.Item>
             <Row gutter={[16, 8]}>
@@ -319,8 +314,8 @@ const Index = (props) => {
               </Col>
             </Row>
           </Form.Item>
-          {
-            DataPerson?.Sync === null && <Form.Item>
+          {DataPerson?.Sync === null && (
+            <Form.Item>
               <Row gutter={[16, 8]}>
                 <Col span={24}>
                   {readOnly ? null : (
@@ -349,9 +344,7 @@ const Index = (props) => {
                 </Col>
               </Row>
             </Form.Item>
-          }
-
-
+          )}
         </Form>
       </>
     </>

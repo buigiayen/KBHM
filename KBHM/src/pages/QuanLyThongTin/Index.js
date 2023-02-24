@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Row, Col, Input, Alert } from "antd";
+import { useEffect, useState } from "react";
+
+import { Row, Col, Input, Alert, Button, Modal, QRCode } from "antd";
 import Marquee from "react-fast-marquee";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,12 @@ import { GET_Person } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
+import IconCombine from "../../Components/Icon";
+import QRCam from "../../Components/QR.Camera";
 const { Search } = Input;
 const Index = () => {
   const Navigate = useNavigate();
+  const [OpenModal, SetOpenModal] = useState(false);
   const [HienThiThongTinTua, SetThongTinTua] = useState();
   const [DataPerson, SetDataPerson] = useState();
   useEffect(() => {
@@ -33,10 +36,21 @@ const Index = () => {
     if (pra !== undefined && pra !== "") {
       GET_Person(pra).then((rs) => {
         SetDataPerson(rs[0]);
+        SetThongTinTua(rs[0]?.ChoPhepHienMau);
       });
     }
   };
 
+  const hideModal = () => {
+    SetOpenModal(false);
+  };
+  const suffix = (
+    <IconCombine.CameraOutlined
+      onClick={() => {
+        SetOpenModal(true);
+      }}
+    />
+  );
   return (
     <>
       <Row>
@@ -48,10 +62,17 @@ const Index = () => {
       </Row>
       <Row>
         <Col sm={12} xs={24}>
-          <Search placeholder="QR " onSearch={GetQRCode} enterButton />
+          <Search
+            placeholder="QR "
+            onSearch={GetQRCode}
+            suffix={suffix}
+            enterButton
+          />
         </Col>
         <Col sm={12} xs={24}>
-          {(DataPerson?.warning !== 0 && DataPerson?.warning !== null && DataPerson?.warning !== undefined)?  (
+          {DataPerson?.warning !== 0 &&
+          DataPerson?.warning !== null &&
+          DataPerson?.warning !== undefined ? (
             <Alert
               banner
               message={
@@ -60,7 +81,9 @@ const Index = () => {
                 </Marquee>
               }
             />
-          ) : ""}
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
 
@@ -76,8 +99,8 @@ const Index = () => {
         <Col sm={24}>
           <TabThongtinKhaoSat
             ID={DataPerson?.RowID}
-            SetChoPhepHienMau={(SetChoPhepHienMau) => {
-              SetThongTinTua(SetChoPhepHienMau);
+            SetChoPhepHienMau={(e) => {
+              SetThongTinTua(e);
             }}
             dataPerson={DataPerson}
           ></TabThongtinKhaoSat>
@@ -93,6 +116,25 @@ const Index = () => {
           )}
         </Col>
       </Row>
+
+      <Modal
+        open={OpenModal}
+        onOk={hideModal}
+        onCancel={hideModal}
+        okText="Lấy"
+        cancelText="Tắt"
+      >
+        {OpenModal && (
+          <QRCam
+            Value={(e) => {
+              if (e != null && e != undefined) {
+                GetQRCode(e);
+                SetOpenModal(false);
+              }
+            }}
+          />
+        )}
+      </Modal>
     </>
   );
 };
