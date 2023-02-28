@@ -22,7 +22,8 @@ class IndexQR extends Component {
   }
   render(){
     const previewStyle = {
-      height: 240,
+      height: 260,
+      
         
     }
 

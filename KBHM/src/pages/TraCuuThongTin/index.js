@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Divider, Row, Col, Card } from 'antd'
@@ -30,12 +31,17 @@ const Index = () => {
                     <span className="label">Số CCCD:</span> {InformationPerson?.CCCD}
                 </p>
                 <p>
+                    <span className="label">Mã bảo mật:</span> {ID}
+                </p>
+                <p>
                     <span className="label">Số điện thoại:</span> {InformationPerson?.Phone}
                 </p>
                 <p>
                 <span className="label">Địa chỉ thường trú (ghi trên CCCD):</span> {InformationPerson?.DiaChiThuongTru} -  {InformationPerson?.DiaChiThuongTru_ChiTiet}
                 </p>
-              
+                <p>
+                    <span className="label">Link tra cứu: <a>{ID}</a></span> 
+                </p>
                 <p>
                     <h4 style={{ color: 'red' }}>Lưu ý:</h4>
                     <p className="Waring-blue">Để tránh lộ thông tin cá nhân và kết quả xét nghiệm sàng lọc túi máu Người hiến có trách nhiệm bảo mật thông tin hiện trên màn hình này!</p>

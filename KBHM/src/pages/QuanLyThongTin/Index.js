@@ -121,8 +121,11 @@ const Index = () => {
         open={OpenModal}
         onOk={hideModal}
         onCancel={hideModal}
+        title={"Quét QR"}
         okText="Lấy"
         cancelText="Tắt"
+        cancelButtonProps={{style: {display:"none"}}}
+        okButtonProps={{style: {display:"none"}}}
       >
         {OpenModal && (
           <QRCam

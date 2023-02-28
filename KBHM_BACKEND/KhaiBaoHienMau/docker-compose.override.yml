@@ -22,7 +22,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=103.157.218.56;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "SQL_CONNECTION=Server=103.157.218.56;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "MINIO_CONNECTION=192.168.4.99;9000;bzwYcYZXDKZwhZwj;CUi68DpJnob3kZXGydSeOkI965MIrPk0;False"
     ports:
       - "80"
       - "443"

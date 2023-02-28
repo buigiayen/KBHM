@@ -1,9 +1,10 @@
+import React from "react";
 import DangKyKhaiBao from "../pages/DangKyKhaiBao/index";
 import Login from "../pages/DangNhap/index";
 import TraCuuThongTin from "../pages/TraCuuThongTin/index";
 import QuanLyThongTin from "../pages/QuanLyThongTin/Index";
 import Error_404 from "../pages/Error/Error_404";
-
+import PageMinio from '../pages/Test/Page.Minio'
 const RoutesPage = [
   {
     path: "/",
@@ -26,7 +27,7 @@ const RoutesPage = [
     path: "/QuanLyThongTin",
     element: <QuanLyThongTin />,
   },
-  
+ 
   {
     path: "*",
     element: <Error_404 />,

@@ -39,8 +39,6 @@ namespace Services.lib.Sql
             public Httpstatuscode_API code { get; set; } = Httpstatuscode_API.OK;
             public string Messenger { get; set; } = "Success!";
         }
-
-
     }
     public class Dataprovider
     {
@@ -100,11 +98,11 @@ namespace Services.lib.Sql
             T Tcontext = default(T);
             using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNECTION")))
             {
-                await _SqlConnection.OpenAsync();
+              
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await _SqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                await _SqlConnection.CloseAsync();
+              
             }
 
             return Tcontext;
@@ -116,12 +114,12 @@ namespace Services.lib.Sql
             {
                 using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNECTION")))
                 {
-                    await _SqlConnection.OpenAsync();
+                     _SqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                     var data = await _SqlConnection.QueryAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    await _SqlConnection.CloseAsync();
+                    _SqlConnection.Close();
                 }
 
                 return httpObject;

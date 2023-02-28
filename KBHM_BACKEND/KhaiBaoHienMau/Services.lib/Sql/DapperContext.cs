@@ -20,7 +20,7 @@ namespace Services.lib.Sql
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = Environment.GetEnvironmentVariable("SQLCONNECTION");
+            _connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION");
         }
         public SqlConnection CreateConnection()
             => new SqlConnection(_connectionString);

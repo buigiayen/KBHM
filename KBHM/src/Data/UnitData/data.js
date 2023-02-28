@@ -28,7 +28,7 @@ export const Sex = [
         {
           Key: "2.1",
           value:
-            "Thấp khớp, chảy máu tiêu hóa, viêm gan/vàng da, bệnh tim , huyết áp thấp/cao, bệnh thận, ho hen, kéo dài, bệnh máu, lao, ung htuw ... và các bệnh khác? ",
+            "Thấp khớp, chảy máu tiêu hóa, viêm gan/vàng da, bệnh tim , huyết áp thấp/cao, bệnh thận, ho hen, kéo dài, bệnh máu, lao, ung thư ... và các bệnh khác? ",
           ShowText: true,
         },
       ],

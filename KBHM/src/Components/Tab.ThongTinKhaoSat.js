@@ -6,9 +6,7 @@ import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index"
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
 const App = (prop) => {
-  const [ChoPhepHienMau, SetChoPhepHienMau] = useState();
-  const [size, setSize] = useState("small");
- 
+  useEffect(() => {console.log(prop)}, [prop])
   const Component = [
     {
       label: `TT Khảo sát`,
@@ -18,12 +16,7 @@ const App = (prop) => {
     {
       label: `Khám LS`,
       key: 2,
-      children: (
-        <KhamLamSang
-          {...prop}
-          ID={prop.ID}
-        />
-      ),
+      children: <KhamLamSang {...prop} ID={prop.ID} />,
     },
     {
       label: `XN trước hiến`,
@@ -33,18 +26,14 @@ const App = (prop) => {
     {
       label: `Lấy máu`,
       key: 4,
-      children: <Laymau {...prop} ID={prop.ID}></Laymau>,
-      
+      children: <Laymau {...prop} ID={prop.ID} />,
+     
     },
   ];
 
   return (
     <div>
-      <Tabs
-        type="card"
-        size={size}
-        items={Component}
-      />
+      <Tabs type="card" size={"small"} items={Component} />
     </div>
   );
 };

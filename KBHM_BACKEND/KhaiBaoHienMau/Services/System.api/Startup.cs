@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Services.lib.Sql;
 using System;
+using System.api.infrastructure;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,8 +31,10 @@ namespace System.api
         {
 
             services.AddControllers();
-            services.AddSingleton<IConnection, DapperContext>();
+            services.AddSingleton<IConnection, Services.lib.Sql.DapperContext>();
+            services.AddSingleton<MinioContext>();
             services.AddScoped<Interfaces.IRegion, Command.Region>();
+            services.AddScoped<Interfaces.IMinio, Command.MinioCommand>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "System.api", Version = "v1" });
