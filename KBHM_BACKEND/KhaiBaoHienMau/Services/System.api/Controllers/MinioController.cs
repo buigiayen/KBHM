@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace System.api.Controllers
 {
-    public class MinioController : Controller
+    [Route("v1/")]
+    [ApiController]
+    public class MinioController : ControllerBase
     {
         public readonly IMinio _minio;
         public MinioController(IMinio minio)
@@ -20,6 +22,7 @@ namespace System.api.Controllers
             return Ok(data);
 
         }
+        
         [HttpPost("File")]
         public async Task<IActionResult> PostFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios,[FromQuery] string Bucket)
         {

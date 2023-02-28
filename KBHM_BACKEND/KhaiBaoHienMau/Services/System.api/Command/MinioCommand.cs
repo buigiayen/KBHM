@@ -96,9 +96,10 @@ namespace System.api.Command
                 if (!found)
                 {
                     await _Minioct.CreateConnection().MakeBucketAsync(bucketName);
+
                 }
-                string Dir = AppDomain.CurrentDomain + "/Upload";
-                string FilePath = AppDomain.CurrentDomain + "/Upload" + uploadMinios.FileName;
+                string Dir = AppDomain.CurrentDomain.BaseDirectory + "/Upload";
+                string FilePath = Path.Combine(Dir, objectName);
                 Directory.CreateDirectory(Dir);
                 using (var FileCreate = File.Create(FilePath))
                 {

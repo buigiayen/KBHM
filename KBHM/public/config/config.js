@@ -8,11 +8,5 @@ window.publicConfig = {
     value: "B827DD29-3604-EA11-80F2-40A8F0332DFF",
     label: "Máu toàn phần",
   },
-  ConfigMinio: {
-    endPoint: "192.168.4.99",
-    port: 9000,
-    useSSL: false,
-    accessKey: "zmyZV55CbKr5Qzar",
-    secretKey: "vb8MUYWbZUiWCWuHUBqrbIpUGtI88F08",
-  },
+  
 };

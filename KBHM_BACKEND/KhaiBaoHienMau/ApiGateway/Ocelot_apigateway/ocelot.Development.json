@@ -89,6 +89,19 @@
       "UpstreamPathTemplate": "/gw/Region",
       "UpstreamHttpMethod": [ "GET" ]
 
+    },
+    {
+      "DownstreamPathTemplate": "/v1/File",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "System.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/File",
+      "UpstreamHttpMethod": [ "GET","POST" ]
+
     }
   ],
 
