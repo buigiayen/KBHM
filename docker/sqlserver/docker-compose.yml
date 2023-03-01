@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: sqlserver
+    restart: always
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    ports:
+      - 1433:1433
+    volumes:
+      - ./bak:/var/backups
+volumes:
+  bak:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./bak

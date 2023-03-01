@@ -12,7 +12,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=192.168.61.101,1434;Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "SQL_CONNECTION=Server=27.71.27.86;Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
       - "443"
@@ -22,8 +22,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=Server=103.157.218.56;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
-      - "MINIO_CONNECTION=192.168.4.99;9000;bzwYcYZXDKZwhZwj;CUi68DpJnob3kZXGydSeOkI965MIrPk0;False"
+      - "SQL_CONNECTION=Server=27.71.27.86;Database=ServicesBase;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "MINIO_CONNECTION=27.71.27.86;9000;v4vReRf12uqrhlue;3rBBzoyBzseOQhCQzHxy0bcefx5Q8Bv4;False"
     ports:
       - "80"
       - "443"
@@ -33,7 +33,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQLCONNECTION=Server=host.docker.internal;Database=BloodBank_NhiTW;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "SQL_CONNECTION=Server=27.71.27.86;Database=BloodBank_NhiTW;User Id=sa;Password=Buiyen123>;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
 

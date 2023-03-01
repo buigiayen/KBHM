@@ -66,7 +66,7 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()
         {
             int valueTransaction = 0;
-            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNECTION")))
+            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
             {
                 _SqlConnection.Open();
                 using (var sqlTransaction = _SqlConnection.BeginTransaction())
@@ -96,7 +96,7 @@ namespace Services.lib.Sql
         public async Task<T> QueryMapper<T>() where T : class
         {
             T Tcontext = default(T);
-            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNECTION")))
+            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
             {
               
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
@@ -112,7 +112,7 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIresult();
             try
             {
-                using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNECTION")))
+                using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
                 {
                      _SqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);

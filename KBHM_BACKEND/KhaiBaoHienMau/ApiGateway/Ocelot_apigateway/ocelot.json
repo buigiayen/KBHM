@@ -1,3 +1,111 @@
 {
+  "Routes": [
+    //KBHM.api
 
+    {
+      "DownstreamPathTemplate": "/v1/Person/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "KBHM.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Person/{everything}",
+      "UpstreamHttpMethod": [ "GET", "PUT" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/Person",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "KBHM.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Person",
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
+
+    },
+
+
+    //BloodBank.api
+    {
+      "DownstreamPathTemplate": "/v1/Authorization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Authorization",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/TokenVeryfy",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/TokenVeryfy",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/category/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/category/{everything}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "Category"
+      }
+    },
+
+
+
+    // System.api
+    {
+      "DownstreamPathTemplate": "/v1/Region",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "System.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Region",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/v1/File",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "System.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/File",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
+
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "BaseUrl": "host.docker.internal:7001"
+  }
 }
