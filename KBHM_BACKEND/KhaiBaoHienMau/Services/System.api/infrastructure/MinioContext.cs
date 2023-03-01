@@ -12,7 +12,7 @@ namespace System.api.infrastructure
         public int PORT;
         private string ACCESSKEY;
         private string SecretKey;
-        private bool HTTPS = false;
+        public bool HTTPS = false;
 
         public MinioContext(IConfiguration configuration)
         {

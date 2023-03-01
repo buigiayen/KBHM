@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, message } from 'antd';
 import { useState } from 'react';
-import {Post_Minio} from '../Data/Api/Minio'
+import { Post_Minio } from '../Data/Api/Minio'
 
 
 const App = () => {
@@ -24,16 +24,22 @@ const App = () => {
 
     ]);
     const handleCancel = () => setPreviewOpen(false);
-    
+
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
-    const handleOK = async (info) =>{
-        var body = { formFile: info.file, size: 1021 ,bucket :'avatar'}
-       await Post_Minio(body).then(
-            (rs) =>{
-                setFileList(info);
-                console.log(rs[0].filePath)
-
+    const handleOK = async (info) => {
+        var body = { formFile: info.file, size: 1021, bucket: 'avatar' }
+        await Post_Minio(body).then(
+            (rs) => {
+                console.log(rs);
+                const picture = {
+                    uid: '1',
+                    name: 'image.png',
+                    status: 'done',
+                    url: rs.filePath,
+                }
+                fileList.push(picture)
+                setFileList(fileList);
             }
         );
     }
@@ -56,7 +62,7 @@ const App = () => {
 
                 listType="picture-card"
                 fileList={fileList}
-             
+
                 onChange={handleChange}
                 beforeUpload={beforeUpload}
                 customRequest={handleOK}

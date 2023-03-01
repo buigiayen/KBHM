@@ -2,7 +2,6 @@
 FROM node:16.16.0 as build-stage
 WORKDIR /app
 COPY . .
-RUN npm i @ant-design/pro-cli -g
 RUN yarn install
 RUN yarn run build
 

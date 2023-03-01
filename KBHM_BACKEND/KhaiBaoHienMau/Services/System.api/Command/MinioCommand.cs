@@ -17,6 +17,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
 using System.Net.WebSockets;
+using Services.lib.Sql;
+using static Domain.MinIOservices;
 
 namespace System.api.Command
 {
@@ -27,7 +29,7 @@ namespace System.api.Command
         {
             _Minioct = Minioct;
         }
-        public async Task<List<MinIOservices.MinIOModel>> GetAllBucket()
+        public async Task<HttpObject.APIresult> GetAllBucket()
         {
             try
             {
@@ -40,18 +42,18 @@ namespace System.api.Command
                         bucket = bucket.Name,
                     });
                 }
-                return minIOModels;
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = minIOModels, Messenger = "Succes" };
 
             }
             catch (MinioException ex)
             {
                 Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
-                throw;
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
 
         }
-        public async Task<List<MinIOservices.MinIOModel>> GetFileBucketasync(MinIOservices.MinIOModel uploadMinios)
+        public async Task<HttpObject.APIresult> GetFileBucketasync(MinIOservices.MinIOModel uploadMinios)
         {
             List<MinIOservices.MinIOModel> MinioBucket = new List<MinIOservices.MinIOModel>();
             List<MinIOservices.FileBucketMinio> fileBuckets = new List<MinIOservices.FileBucketMinio>();
@@ -67,7 +69,7 @@ namespace System.api.Command
                            {
                                FileName = xx.Key,
                                Size = xx.Size,
-                               FilePath = string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, uploadMinios.bucket, xx.Key),
+                               FilePath = _Minioct.HTTPS ? "https://" : "http://" + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, uploadMinios.bucket, xx.Key),
                            });
                        }
                    },
@@ -75,19 +77,20 @@ namespace System.api.Command
                    () => Console.WriteLine("OnComplete: {0}"));
                 Thread.Sleep(5000);
                 MinioBucket.Add(new MinIOservices.MinIOModel { bucket = uploadMinios.bucket, fileBucketMinios = fileBuckets });
-                return MinioBucket;
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = MinioBucket, Messenger = "Succes" }; ;
             }
             catch (MinioException ex)
             {
                 Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
-                throw;
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
 
         }
-        public async Task<List<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket)
+        public async Task<HttpObject.APIMapper<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket)
         {
-            List<MinIOservices.FileBucketMinio> fileBucketMinios = new List<MinIOservices.FileBucketMinio>();
+
+
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
             try
@@ -104,6 +107,7 @@ namespace System.api.Command
                 using (var FileCreate = File.Create(FilePath))
                 {
                     await uploadMinios?.formFile.CopyToAsync(FileCreate);
+                    FileCreate.Dispose();
                 }
 
                 // Upload a file to bucket.
@@ -116,25 +120,26 @@ namespace System.api.Command
                         .WithFileName(FilePath)
                         .WithContentType("application/octet-stream");
                     await _Minioct.CreateConnection().PutObjectAsync(data);
+                    fileStream.Dispose();
                 }
 
 
 
-                fileBucketMinios.Add(new MinIOservices.FileBucketMinio
+                MinIOservices.FileBucketMinio fileBucketMinios = new MinIOservices.FileBucketMinio
                 {
                     FileName = uploadMinios.FileName,
-                    FilePath = string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, bucket, objectName),
+                    FilePath = _Minioct.HTTPS ? "https://" : "http://" + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, bucket, objectName),
                     Size = uploadMinios.Size,
+                };
+                File.Delete(FilePath);
 
-                });
 
-
-                return fileBucketMinios;
+                return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = fileBucketMinios, Messenger = "Succes" });
             }
             catch (MinioException ex)
             {
                 Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
-                throw;
+                return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }
     }
