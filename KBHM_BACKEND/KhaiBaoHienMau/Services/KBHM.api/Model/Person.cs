@@ -45,7 +45,7 @@ namespace KBHM.api.Model
         public string DiemLayMau { get; set; }
         public string LoaiHienThanhPhan { get; set; }
         public Sync? SyncData { get; set; }
-
+        public string UrlImage { get; set; }
         public int? warning { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
         

@@ -4,8 +4,11 @@ import { useState } from 'react';
 import { Post_Minio } from '../Data/Api/Minio'
 
 
-const App = () => {
-
+const App = ({UrlImage}) => {
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+    const [fileList, setFileList] = useState([]);
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
@@ -17,12 +20,7 @@ const App = () => {
         }
         return isJpgOrPng && isLt10M;
     };
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
-    const [fileList, setFileList] = useState([
 
-    ]);
     const handleCancel = () => setPreviewOpen(false);
 
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
@@ -31,7 +29,8 @@ const App = () => {
         var body = { formFile: info.file, size: 1021, bucket: 'avatar' }
         await Post_Minio(body).then(
             (rs) => {
-                console.log(rs);
+                setPreviewImage( rs.filePath);
+                setPreviewImage( "image.png");
                 const picture = {
                     uid: '1',
                     name: 'image.png',
@@ -40,6 +39,9 @@ const App = () => {
                 }
                 fileList.push(picture)
                 setFileList(fileList);
+                if(UrlImage !== undefined){
+                    UrlImage(rs.filePath)
+                }
             }
         );
     }
@@ -69,7 +71,7 @@ const App = () => {
             >
                 {fileList.length >= 1 ? null : uploadButton}
             </Upload>
-            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+            <Modal open={previewOpen} title={previewTitle} onCancel={handleCancel}>
                 <img
                     alt="example"
                     style={{

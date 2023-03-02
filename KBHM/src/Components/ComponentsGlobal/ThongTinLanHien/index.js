@@ -31,6 +31,7 @@ const Index = (props) => {
     DiaChiLienLac: null,
     DiaChiThuongLienLac_ChiTiet: null,
     Sync: null,
+    UrlImage:null
   });
 
   useEffect(() => {
@@ -82,7 +83,7 @@ const Index = (props) => {
               <Row gutter={[16, 8]}>
                 <Col span={24}>
                   <Form.Item style={{ float: 'right' }} label={<b>Ảnh chân dung</b>}>
-                    <UploadMinio />
+                    <UploadMinio UrlImage={(e) => {console.log(e)} }/>
                   </Form.Item>
 
                 </Col>

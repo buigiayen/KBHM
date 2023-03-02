@@ -37,7 +37,33 @@ namespace KBHM.api.Command
         {
             Guid RowsID = Guid.NewGuid();
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{RowsID}';" +
-              " INSERT INTO [dbo].[Person] ([RowID] ,[Name] ,[BirthDay] ,[Sex] ,[CCCD] ,[Phone] ,[Email], [DiaChiThuongTru],[DiaChiThuongTru_ChiTiet] , [DiaChiLienLac] , [DiaChiThuongLienLac_ChiTiet] , [NoiCapCCCD]) VALUES (@ROWIDs ,@Name ,@BirthDay ,@Sex ,@CCCD ,@Phone ,@Email, @DiaChiThuongTru, @DiaChiThuongTru_ChiTiet  , @DiaChiLienLac ,@DiaChiThuongLienLac_ChiTiet,@NoiCapCCCD); ";
+              " INSERT INTO [dbo].[Person] ([RowID]" +
+              ",[Name] " +
+              ",[BirthDay] " +
+              ",[Sex]" +
+              ",[CCCD]" +
+              ",[Phone]" +
+              ",[Email]" +
+              ",[DiaChiThuongTru]" +
+              ",[DiaChiThuongTru_ChiTiet]" +
+              ",[DiaChiLienLac] " +
+              ",[DiaChiThuongLienLac_ChiTiet] " +
+              ",[NoiCapCCCD]" +
+              ",[UrlImage]) " +
+              " VALUES " +
+              "(@ROWIDs " +
+              ",@Name " +
+              ",@BirthDay " +
+              ",@Sex " +
+              ",@CCCD " +
+              ",@Phone " +
+              ",@Email" +
+              ",@DiaChiThuongTru" +
+              ",@DiaChiThuongTru_ChiTiet" +
+              ",@DiaChiLienLac" +
+              ",@DiaChiThuongLienLac_ChiTiet" +
+              ",@NoiCapCCCD," +
+              ",@UrlImage); ";
             foreach (var item in person.PersonProperties)
             {
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";
@@ -86,7 +112,8 @@ namespace KBHM.api.Command
               " [DiaChiThuongTru_ChiTiet]=@DiaChiThuongTru_ChiTiet ," +
               " [DiaChiLienLac]=@DiaChiLienLac ," +
               " [DiaChiThuongLienLac_ChiTiet]=@DiaChiThuongLienLac_ChiTiet ," +
-              " [NoiCapCCCD]=@NoiCapCCCD" +
+              " [NoiCapCCCD]=@NoiCapCCCD ," +
+              " [UrlImage]=@UrlImage" +
               " where RowID = @ROWIDs";
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
         }
