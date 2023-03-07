@@ -83,7 +83,7 @@ const Index = (props) => {
               <Row gutter={[16, 8]}>
                 <Col span={24}>
                   <Form.Item style={{ float: 'right' }} label={<b>Ảnh chân dung</b>}>
-                    <UploadMinio UrlImage={(e) => {console.log(e)} }/>
+                    <UploadMinio value={DataPerson.UrlImage} UrlImage={(e) => {SetDataPerson({...DataPerson, UrlImage:e})} }/>
                   </Form.Item>
 
                 </Col>

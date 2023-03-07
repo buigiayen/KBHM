@@ -1,10 +1,10 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Post_Minio } from '../Data/Api/Minio'
 
 
-const App = ({UrlImage}) => {
+const App = ({ UrlImage, value }) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
@@ -20,7 +20,17 @@ const App = ({UrlImage}) => {
         }
         return isJpgOrPng && isLt10M;
     };
+    useMemo(() => {
 
+        const picture = {
+            uid: '1',
+            name: 'image.png',
+            status: 'done',
+            url: value ?? "",
+        }
+        fileList.push(picture)
+        setFileList(fileList);
+    }, [value])
     const handleCancel = () => setPreviewOpen(false);
 
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
@@ -29,8 +39,8 @@ const App = ({UrlImage}) => {
         var body = { formFile: info.file, size: 1021, bucket: 'avatar' }
         await Post_Minio(body).then(
             (rs) => {
-                setPreviewImage( rs.filePath);
-                setPreviewImage( "image.png");
+                setPreviewImage(rs.filePath);
+                setPreviewImage("image.png");
                 const picture = {
                     uid: '1',
                     name: 'image.png',
@@ -39,7 +49,7 @@ const App = ({UrlImage}) => {
                 }
                 fileList.push(picture)
                 setFileList(fileList);
-                if(UrlImage !== undefined){
+                if (UrlImage !== undefined) {
                     UrlImage(rs.filePath)
                 }
             }
