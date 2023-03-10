@@ -62,7 +62,7 @@ namespace KBHM.api.Command
               ",@DiaChiThuongTru_ChiTiet" +
               ",@DiaChiLienLac" +
               ",@DiaChiThuongLienLac_ChiTiet" +
-              ",@NoiCapCCCD," +
+              ",@NoiCapCCCD" +
               ",@UrlImage); ";
             foreach (var item in person.PersonProperties)
             {
