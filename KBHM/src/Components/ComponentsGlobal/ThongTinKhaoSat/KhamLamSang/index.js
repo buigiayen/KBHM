@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Input, Radio, Space, Button } from "antd";
 import IconCombine from "../../../Icon";
 import '../../index.css'
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
-import { useEffect } from "react";
-const Index = (props) => {
 
+const Index = (props, {  ID }) => {
     const [isdisabled, SetIsdisabled] = useState(true);
     const [PersonUpdate, SetPersonUpdate] = useState({
         "RowID": null,
@@ -25,16 +24,17 @@ const Index = (props) => {
     })
     const [IsLoadding, SetIsloading] = useState(false);
     useEffect(() => {
-        SetPersonUpdate(props.dataPerson);
-    }, [props])
+        SetPersonUpdate(props?.dataPerson);
+    }, [props?.dataPerson])
     const PutPerson = async () => {
         SetIsloading(true);
         const ClonePersonUpdate = PersonUpdate;
-        ClonePersonUpdate.rowID = props.ID;
-        await PUT_PersonInfo_healthy(PersonUpdate).then(() => {SetIsloading(false); SetIsdisabled(true)})
+        ClonePersonUpdate.rowID = ID;
+        await PUT_PersonInfo_healthy(PersonUpdate).then(() => { SetIsloading(false); SetIsdisabled(true) })
     }
 
     return (
+
         <React.Fragment>
             <Form labelCol={8}>
                 <Row gutter={[12]}>
@@ -66,6 +66,7 @@ const Index = (props) => {
                             onChange={(e) => {
                                 SetPersonUpdate({ ...PersonUpdate, ChoPhepHienMau: e.target.value });
                                 props?.SetChoPhepHienMau(e.target.value)
+                                props?.HienMau(e.target.value)
                                 SetIsdisabled(false)
                             }}>
                             <Space direction="vertical">
@@ -92,7 +93,7 @@ const Index = (props) => {
                     <Col md={5} xs={24}>
                     </Col>
                     <Col md={5} xs={24}>
-                     {  PersonUpdate?.Sync  === null ?<Button type="primary" disabled={isdisabled} loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button> : <> </> }   
+                        {PersonUpdate?.Sync === null ? <Button type="primary" disabled={isdisabled} loading={IsLoadding} onClick={PutPerson} className="btnFull" icon={<IconCombine.CheckOutlined />} >Xác nhận thông tin</Button> : <> </>}
                     </Col>
                 </Row>
             </Form>

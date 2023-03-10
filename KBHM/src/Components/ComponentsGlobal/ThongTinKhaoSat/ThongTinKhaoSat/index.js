@@ -6,11 +6,12 @@ import { GET_PropertiesPerson } from "../../../../Data/Api/DangKyKham";
 
 
 
-const Index = (prop) => {
+const Index = ({ID}) => {
+    console.log(ID);
     const [PropertiesPerson, SetPropertiesPerson] = useState();
     useEffect(() => {
-        if(prop.ID !== undefined){
-            GET_PropertiesPerson(prop.ID).then(
+        if(ID !== undefined){
+            GET_PropertiesPerson(ID).then(
                 rs => {
                     const data = rs.map(r => {
                         return ({ label: r.Label, value: r.value == "true" ? true : false })
@@ -20,7 +21,7 @@ const Index = (prop) => {
             );
         }
      
-    }, [prop])
+    }, [ID])
 
     const columns = [
         {

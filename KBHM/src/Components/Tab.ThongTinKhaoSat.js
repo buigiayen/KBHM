@@ -1,22 +1,22 @@
-import { Radio, Tabs } from "antd";
-import { useEffect, useState } from "react";
+import { Tabs } from "antd";
+import { useState } from "react";
 import KhamLamSang from "../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index";
 import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index";
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
 const App = (prop) => {
-  useEffect(() => {console.log(prop)}, [prop])
+  const [disableLayMau, SetDisabledLayMau] = useState(false);
   const Component = [
     {
       label: `TT Khảo sát`,
       key: 1,
-      children: <ThongTinKhaoSat ID={prop.ID} />,
+      children: <ThongTinKhaoSat ID={prop?.ID} />,
     },
     {
       label: `Khám LS`,
       key: 2,
-      children: <KhamLamSang {...prop} ID={prop.ID} />,
+      children: <KhamLamSang {...prop} ID={prop?.ID} HienMau={e => SetDisabledLayMau(e)} />,
     },
     {
       label: `XN trước hiến`,
@@ -26,8 +26,8 @@ const App = (prop) => {
     {
       label: `Lấy máu`,
       key: 4,
-      children: <Laymau {...prop} ID={prop.ID} />,
-     
+      children: <Laymau {...prop}  ID={prop?.ID} />,
+      disabled: !disableLayMau
     },
   ];
 

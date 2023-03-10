@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Divider, DatePicker, Button, Checkbox, Space } from "antd";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
 
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { useEffect, useState } from "react";
 import SexCombobox from "../Sex.Combobox";
 import RegionCombox from "../../Region.Combobox";
 import { GET_PersonInfo, PUT_PersonInfo } from "../../../Data/Api/DangKyKham";
@@ -31,7 +30,7 @@ const Index = (props) => {
     DiaChiLienLac: null,
     DiaChiThuongLienLac_ChiTiet: null,
     Sync: null,
-    UrlImage:null
+    UrlImage: null
   });
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const Index = (props) => {
               <Row gutter={[16, 8]}>
                 <Col span={24}>
                   <Form.Item style={{ float: 'right' }} label={<b>Ảnh chân dung</b>}>
-                    <UploadMinio value={DataPerson.UrlImage} UrlImage={(e) => {SetDataPerson({...DataPerson, UrlImage:e})} }/>
+                    <UploadMinio value={DataPerson?.UrlImage} UrlImage={(e) => { SetDataPerson({ ...DataPerson, UrlImage: e }) }} />
                   </Form.Item>
 
                 </Col>
@@ -138,7 +137,7 @@ const Index = (props) => {
                             Value={(Value) => {
                               SetDataPerson({ ...DataPerson, Sex: Value });
                             }}
-                           
+
                           ></SexCombobox>
                         ) : (
                           <>{DataPerson?.Sex == 1 ? "Nam" : "Nữ"}</>
@@ -346,6 +345,7 @@ const Index = (props) => {
           <Form.Item>
             <Row gutter={[16, 8]}>
               <Col span={24}>
+
                 {readOnly ? null : (
                   <Button
                     className="btnFull"
@@ -369,6 +369,8 @@ const Index = (props) => {
                     Xác nhận thông tin
                   </Button>
                 ) : null}
+
+
               </Col>
             </Row>
           </Form.Item>

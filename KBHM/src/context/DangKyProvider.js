@@ -1,16 +1,17 @@
 
 import { createContext, useState } from "react";
-
-
 const DangKyContext = createContext({});
-
-const DangKyProvider = ({ element }) => {
-    const [PersonData, SetPersonData] = useState();
-    const onhandlePersonData = ({ PersonData }) => {
-        SetPersonData(PersonData);
+function DangKyProvider({ element }) {
+    const [ChoPhepHienMau, SetChoPhepHienMau] = useState({});
+ 
+    const ValueData = {
+        ChoPhepHienMau,
+      
     }
-    <DangKyContext.Provider value={PersonData}>
-        {element}
-    </DangKyContext.Provider>
+    return (
+        <DangKyContext.Provider value={ValueData} >
+            {element}
+        </DangKyContext.Provider >
+    )
 }
 export { DangKyContext, DangKyProvider }

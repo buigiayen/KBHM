@@ -34,6 +34,9 @@ const Index = () => {
                     <span className="label">Mã bảo mật:</span> {ID}
                 </p>
                 <p>
+                    <span className="label">Email:</span> {InformationPerson?.Email}
+                </p>
+                <p>
                     <span className="label">Số điện thoại:</span> {InformationPerson?.Phone}
                 </p>
                 <p>

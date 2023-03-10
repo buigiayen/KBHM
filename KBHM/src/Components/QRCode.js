@@ -5,7 +5,7 @@ const downloadQRCode = () => {
   if (canvas) {
     const url = canvas.toDataURL();
     const a = document.createElement('a');
-    a.download = 'QRCode.png';
+    a.download = 'QRCode.jpg';
     a.href = url;
     document.body.appendChild(a);
     a.click();
