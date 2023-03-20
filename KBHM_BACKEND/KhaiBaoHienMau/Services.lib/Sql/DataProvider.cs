@@ -45,6 +45,16 @@ namespace Services.lib.Sql
         public static readonly Dataprovider db = new Dataprovider();
         private SqlConnection _SqlConnection = null;
         private string _SQL;
+        private string DBConnection = Environment.GetEnvironmentVariable("SQL_CONNECTION");
+        public Dataprovider _Querys(params string[] query)
+        {
+            foreach (var item in query)
+            {
+                _SQL += item;
+            }
+            Logger.Logger.Instance.Messenger(_SQL).build(Logger.Logger._TypeFile.Debug);
+            return this;
+        }
         public Dataprovider _Query(string sql)
         {
             _SQL = sql;
@@ -66,7 +76,7 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()
         {
             int valueTransaction = 0;
-            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
+            using (_SqlConnection = new SqlConnection(DBConnection))
             {
                 _SqlConnection.Open();
                 using (var sqlTransaction = _SqlConnection.BeginTransaction())
@@ -96,13 +106,13 @@ namespace Services.lib.Sql
         public async Task<T> QueryMapper<T>() where T : class
         {
             T Tcontext = default(T);
-            using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
+            using (_SqlConnection = new SqlConnection(DBConnection))
             {
-              
+
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await _SqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-              
+
             }
 
             return Tcontext;
@@ -112,9 +122,9 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIresult();
             try
             {
-                using (_SqlConnection = new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")))
+                using (_SqlConnection = new SqlConnection(DBConnection))
                 {
-                     _SqlConnection.Open();
+                    _SqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                     var data = await _SqlConnection.QueryAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
@@ -128,6 +138,32 @@ namespace Services.lib.Sql
             {
                 Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
                 httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
+            }
+
+            return httpObject;
+        }
+        public async Task<HttpObject.APIMapper<dynamic>> SingleOrDefaultAsync()
+        {
+
+            var httpObject = new HttpObject.APIMapper<object>();
+            try
+            {
+                using (_SqlConnection = new SqlConnection(DBConnection))
+                {
+                    _SqlConnection.Open();
+                    Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
+                    var data = await _SqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
+                    httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
+                    Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
+                    _SqlConnection.Close();
+                }
+
+                return httpObject;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
+                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
             return httpObject;

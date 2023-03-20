@@ -39,6 +39,7 @@ namespace BloodBank.api
             services.AddControllers();
             services.AddSingleton<IConnection, DapperContext>();
             services.AddScoped<ICategory, CategoryCommad>();
+            services.AddScoped<ISyncDonnor, SyncPatient>();
             services.AddControllers().AddFluentValidation(fv =>
             {
                 fv.RegisterValidatorsFromAssemblyContaining<LoginValidator>();

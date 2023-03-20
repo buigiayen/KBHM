@@ -75,7 +75,7 @@ const Index = (props) => {
       default:
         SetPropertiesButton({
           ...PropertiesButton,
-          Name: "Kết thúc lấy máu -> Đồng bộ!",
+          Name: "Kết thúc lấy máu",
           type: "primary",
           icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
           disabled: false,
@@ -87,11 +87,9 @@ const Index = (props) => {
   const PushState = () => {
     const ClonePeronUpdate = PersonUpdate;
     ClonePeronUpdate.SyncData = 1;
-    PUT_PersonDone(ClonePeronUpdate)
-      .then(() => {
-        TitleButton("1");
-      })
-      .catch(() => TitleButton("3"));
+    PUT_PersonDone(ClonePeronUpdate).then(() => {TitleButton("1");}).catch(() => TitleButton("3"));
+    
+
   };
   return (
     <React.Fragment>

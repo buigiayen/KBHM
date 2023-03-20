@@ -37,13 +37,13 @@ namespace KBHM.api.Model
         public double? LuongMauLay { get; set; }
         public int? TamHoan { get; set; }
         public DateTime? NgayHien { get; set; }
-        public string? LuongHien { get; set; }
+        public int? LuongHien { get; set; }
         public string PhanUng { get; set; }
         public string XuTri { get; set; }
         public int? LuongMauCoTheHien { get; set; }
         public string MaTuiMau { get; set; }
         public string DiemLayMau { get; set; }
-        public string LoaiHienThanhPhan { get; set; }
+        public int? LoaiHienThanhPhan { get; set; }
         public Sync? SyncData { get; set; }
         public string UrlImage { get; set; }
         public int? warning { get; set; }

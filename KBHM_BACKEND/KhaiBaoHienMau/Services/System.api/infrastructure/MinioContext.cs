@@ -7,16 +7,14 @@ namespace System.api.infrastructure
 {
     public class MinioContext
     {
-        private readonly IConfiguration _configuration;
         public string Endpoin;
         public int PORT;
         private string ACCESSKEY;
         private string SecretKey;
         public bool HTTPS = false;
 
-        public MinioContext(IConfiguration configuration)
+        public MinioContext()
         {
-            _configuration = configuration;
             string config = Environment.GetEnvironmentVariable("MINIO_CONNECTION");
             try
             {

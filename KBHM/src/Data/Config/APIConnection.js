@@ -15,7 +15,7 @@ const Connection = async (URI, method = 'GET', body, params = null, Type = 'appl
             ...params,
         },
         data: body,
-    }).catch();
+    });
 }
 
 

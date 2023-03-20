@@ -9,5 +9,5 @@ services:
     volumes:
       - ./KBHM:/app/src
     ports:
-      - "443:443"
+      - "80:80"
     restart: unless-stopped

@@ -17,6 +17,15 @@ namespace BloodBank.api.Controllers
         {
             _login = login;
         }
+
+        /// <summary>
+        /// Đăng nhập
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        [ProducesErrorResponseType(typeof(Services.lib.Sql.HttpObject.API))]
+        [ProducesResponseType(typeof(Services.lib.Sql.HttpObject.API), 200)]
+        [ProducesDefaultResponseType(typeof(Services.lib.Sql.HttpObject.API))]
         [HttpGet("Authorization")]
         public async Task<IActionResult> Index([FromHeader] Login login)
         {

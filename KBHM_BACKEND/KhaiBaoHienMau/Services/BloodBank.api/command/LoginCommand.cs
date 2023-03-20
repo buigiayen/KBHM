@@ -34,8 +34,7 @@ namespace BloodBank.api.command
             {
                 aPIMapper.code = HttpObject.Enums.Httpstatuscode_API.WARN;
                 aPIMapper.Data = null;
-                aPIMapper.Messenger = "WARNNING Please check Log!";
-
+                aPIMapper.Messenger = "Login: Username and pass is not valid!";
             }
 
             return aPIMapper;
