@@ -31,6 +31,6 @@ docker compose up -d
  Deploy -> Open SSH:
 -------------------------------------------
 
-[![Server Build & Push](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml/badge.svg)](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml)
+[![Server Build & Push Backend](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml)
  
  deployPRO.sh
