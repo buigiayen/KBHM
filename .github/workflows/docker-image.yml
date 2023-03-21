@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  build_and_push:
+  build_and_push_backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
