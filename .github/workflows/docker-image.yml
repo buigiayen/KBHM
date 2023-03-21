@@ -13,12 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        -name: Login to Docker Hub
-        -uses: docker/login-action@v2
-           with:
+        -
+          name: Login to Docker Hub
+          uses: docker/login-action@v2
+          with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: cd KBHM_BACKEND/KhaiBaoHienMau/;
-                docker-compose -f docker-compose.yml build;
-           docker-compose -f docker-compose.yml push;
+            password: ${{ secrets.DOCKERHUB_TOKEN }}\
+
+        -
+           run: cd KBHM_BACKEND/KhaiBaoHienMau/;
+                    docker-compose -f docker-compose.yml build;
+                    docker-compose -f docker-compose.yml push;
       
