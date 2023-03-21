@@ -7,7 +7,6 @@ import { GET_PropertiesPerson } from "../../../../Data/Api/DangKyKham";
 
 
 const Index = ({ID}) => {
-    console.log(ID);
     const [PropertiesPerson, SetPropertiesPerson] = useState();
     useEffect(() => {
         if(ID !== undefined){

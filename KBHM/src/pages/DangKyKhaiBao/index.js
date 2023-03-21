@@ -1,9 +1,9 @@
-import  { useState } from "react";
+import { useState } from "react";
 import ThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import KhaoSatThongTinSucKhoe from "../../Components/ComponentsGlobal/KhaoSatThongTinSK/index";
 import { Config } from "../../Data/Config/config.system";
 import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
-import { Row, Col, Button, Space } from "antd";
+import { Row, Col, Button, Space, Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Warning } from "../../Components/notification";
 const Index = () => {
@@ -32,6 +32,7 @@ const Index = () => {
       Phone,
       DiaChiThuongLienLac_ChiTiet,
       DiaChiThuongTru_ChiTiet,
+      personProperties
     } = PersonClone;
 
     const messengers = [
@@ -43,15 +44,20 @@ const Index = () => {
       { Value: DiaChiThuongLienLac_ChiTiet, messenger: "Địa chỉ liên lạc" },
       { Value: DiaChiThuongTru_ChiTiet, messenger: "Địa chỉ thường trú" },
     ];
-    const mess = "Trường thông tin :";
-    console.log(messengers);
+
+    const mess = "Thông tin :";
+    const RulerProperties = personProperties ?? [];
     const ruler = messengers
       .filter((p) => p.Value === null || p.Value === '')
       .map(({ messenger }) => {
         return messenger;
       });
 
-    if (ruler.length  > 0) {
+    if (RulerProperties.length < 16 || RulerProperties === undefined) {
+      Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
+      flag = false;
+    }
+    if (ruler.length > 0 && flag === true) {
       Warning({ message: `${mess} ${ruler.join(", ")} Chưa hợp lệ` });
       flag = false;
     }
@@ -68,21 +74,28 @@ const Index = () => {
       </Row>
       <Row>
         <Col sm={24}>
-          <ThongTinLanHien
-            ValuePerson={(ValuePerson) => {
-              DataPersons(ValuePerson);
-            }}
-            NotreadOnly
-          />
+          <Card>
+            <ThongTinLanHien
+              ValuePerson={(ValuePerson) => {
+                DataPersons(ValuePerson);
+              }}
+              NotreadOnly
+            />
+          </Card>
+
         </Col>
       </Row>
+      <br/>
       <Row>
         <Col sm={24}>
-          <KhaoSatThongTinSucKhoe
-            Value={(Value) => {
-              DataProperties(Value);
-            }}
-          />
+          <Card>
+            <KhaoSatThongTinSucKhoe
+              Value={(Value) => {
+                DataProperties(Value);
+              }}
+            />
+          </Card>
+
         </Col>
       </Row>
       <Row>
@@ -104,7 +117,7 @@ const Index = () => {
         </Col>
       </Row>
       <Row>
-        <Col sm={18} />
+        <Col sm={10} />
         <Col sm={6}>
           <Space direction="vertical">
             {/* <small style={{ fontSize: 12, fontWeight: 'bold',textAlign:'center', fontStyle: 'italic' }}>Ngày {new Date().getDay()}/{new Date().getMonth()}/{new Date().getFullYear()}</small>

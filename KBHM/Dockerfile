@@ -2,8 +2,9 @@
 FROM node:16.16.0 as build-stage
 WORKDIR /app
 COPY . .
-RUN yarn install
-RUN yarn run build
+RUN npm install -g npm@9.6.2
+RUN npm install --legacy-peer-deps
+RUN npm run build
 
 # production stage
 FROM nginx:1.17-alpine as production-stage

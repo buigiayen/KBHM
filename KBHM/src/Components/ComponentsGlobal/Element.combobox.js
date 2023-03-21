@@ -21,7 +21,6 @@ const ElementCombobox = (props) => {
   }, []);
 
   const ReturnValue = (value) => {
-    console.log(value);
     if (props.onChangeValue !== undefined) {
       props.onChangeValue(value);
       SetChooseData(value);

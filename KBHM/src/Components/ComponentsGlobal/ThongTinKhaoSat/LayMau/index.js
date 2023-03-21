@@ -3,10 +3,12 @@ import { Row, Col, Form, Input, DatePicker, Button } from "antd";
 import Ml from "../../ml.combobox";
 import ElementCombobox from "../../Element.combobox";
 import "../../index.css";
-import { PUT_PersonDone } from "../../../../Data/Api/DangKyKham";
+import { PUT_PersonDone, POST_SyncDonor } from "../../../../Data/Api/DangKyKham";
 import { useState } from "react";
 import IconCombine from "../../../Icon";
+import  { Error, Info } from "../../../../Components/notification";
 import { useEffect } from "react";
+import { warning } from "@remix-run/router";
 const Index = (props) => {
   const [PropertiesButton, SetPropertiesButton] = useState({
     Name: "Kết thúc lấy máu -> Đồng bộ!",
@@ -87,9 +89,9 @@ const Index = (props) => {
   const PushState = () => {
     const ClonePeronUpdate = PersonUpdate;
     ClonePeronUpdate.SyncData = 1;
-    PUT_PersonDone(ClonePeronUpdate).then(() => {TitleButton("1");}).catch(() => TitleButton("3"));
-    
-
+ 
+    PUT_PersonDone(ClonePeronUpdate).then(() => { TitleButton("1"); }).catch(() => TitleButton("3"))
+    POST_SyncDonor(PersonUpdate.RowID).then((rs) => {Info({message:'Hoàn thành trạng thái đồng bộ!'})}).catch(rs => {warning({message:'Có lỗi xảy ra'})})
   };
   return (
     <React.Fragment>
