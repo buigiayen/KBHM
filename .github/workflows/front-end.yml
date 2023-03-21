@@ -1,5 +1,4 @@
-name: Server Build & Push
-
+name: Front-end
 on:
   push:
     branches: [main]
