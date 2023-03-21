@@ -7,23 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
+
   build:
-    name: Push Docker image to multiple registries
+
     runs-on: ubuntu-latest
-    steps:   
-      - uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: buiyenit 
-          password: dckr_pat_gR1780vRiyoV3vnjUTZB7Jk4MaE
 
-      - name: Build and push Docker images
-      - uses: isbang/compose-action@v1.4.1
-        with: 
-          compose-file: "./KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml"
-
-
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+         - docker login --username "buiyenit" -p "dckr_pat_ep_8tWXO20Kuj3wIpVQkluM3TbA"
+         - cd KBHM_BACKEND/KhaiBaoHienMau/
+         - docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+         - docker-compose -f docker-compose.yml -f docker-compose.override.yml build
          
           
       
