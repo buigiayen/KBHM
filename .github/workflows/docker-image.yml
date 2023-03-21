@@ -22,7 +22,6 @@ jobs:
       - name: Login container
         uses: docker/login-action@v2
         with:
-           registry: buiyenit.io3
            username: "buiyenit"
            password: "dckr_pat_ep_8tWXO20Kuj3wIpVQkluM3TbA"
         
