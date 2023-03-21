@@ -7,7 +7,6 @@ import IconCombine from "../../../Icon";
 const XnTruocHien = () => {
   const [stateXNTruocHien, SetStateXNTruocHien] = useState(...labo);
   const PushState = (value) => {
-    console.log(value);
   };
   const columns = [
     {
@@ -27,7 +26,7 @@ const XnTruocHien = () => {
           <Input
             onChange={(e) => {
               {
-                console.log(value);
+
                 SetStateXNTruocHien({
                   ...stateXNTruocHien,
                   Result: e.target.value,

@@ -101,7 +101,6 @@ const Index = (props) => {
               <Input
                 value={PersonUpdate?.MaTuiMau}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   SetPersonUpdate({
                     ...PersonUpdate,
                     MaTuiMau: e.target.value,

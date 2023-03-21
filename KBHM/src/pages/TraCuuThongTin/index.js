@@ -13,7 +13,7 @@ const Index = () => {
     useMemo(async () => {
         await GET_Person(ID).then(rs => { SetInfomationPerson(rs[0]) })
     }, [])
-    return (<>
+    return (<Card>
 
         <Divider orientation="left" orientationMargin="0">
             <span style={{ color: 'blue', fontStyle: 'italic' }}>Tóm tắt thông tin người đăng ký hiến máu</span>
@@ -63,7 +63,7 @@ const Index = () => {
             </Col>
 
         </Row>
-    </>)
+    </Card>)
 
 }
 

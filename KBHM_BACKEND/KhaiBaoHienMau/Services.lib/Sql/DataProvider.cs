@@ -40,19 +40,23 @@ namespace Services.lib.Sql
             public string Messenger { get; set; } = "Success!";
         }
     }
-    public class Dataprovider
+    public class Dataprovider : IDisposable
     {
         public static readonly Dataprovider db = new Dataprovider();
         private SqlConnection _SqlConnection = null;
+      
         private string _SQL;
         private string DBConnection = Environment.GetEnvironmentVariable("SQL_CONNECTION");
+
         public Dataprovider _Querys(params string[] query)
         {
+            
             foreach (var item in query)
             {
-                _SQL += item;
+                _SQL += item + "\r\n";
+                Logger.Logger.Instance.Messenger(item).build(Logger.Logger._TypeFile.Debug);
             }
-            Logger.Logger.Instance.Messenger(_SQL).build(Logger.Logger._TypeFile.Debug);
+           
             return this;
         }
         public Dataprovider _Query(string sql)
@@ -88,6 +92,7 @@ namespace Services.lib.Sql
                         Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                         sqlTransaction.Commit();
                         _SqlConnection.Close();
+                        Dispose();
                         return ReturnStatusObjectSql(valueTransaction);
                     }
                     catch (Exception ex)
@@ -96,11 +101,12 @@ namespace Services.lib.Sql
                         sqlTransaction.Rollback();
                         valueTransaction = -2;
                         _SqlConnection.Close();
+                        Dispose();
                         return ReturnStatusObjectSql(valueTransaction, ex);
                     }
                 }
             }
-
+          
 
         }
         public async Task<T> QueryMapper<T>() where T : class
@@ -114,7 +120,7 @@ namespace Services.lib.Sql
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
 
             }
-
+            Dispose();
             return Tcontext;
         }
         public async Task<HttpObject.APIresult> SQLQueryAsync()
@@ -139,7 +145,7 @@ namespace Services.lib.Sql
                 Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
                 httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-
+            Dispose();
             return httpObject;
         }
         public async Task<HttpObject.APIMapper<dynamic>> SingleOrDefaultAsync()
@@ -165,7 +171,7 @@ namespace Services.lib.Sql
                 Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
                 httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-
+            Dispose();
             return httpObject;
         }
         private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
@@ -180,6 +186,10 @@ namespace Services.lib.Sql
             return aPIresultObjects;
         }
 
+        public void Dispose()
+        {
+            _SQL = string.Empty;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Row, Col, Input, Alert, Modal } from "antd";
+import { Row, Col, Input, Alert, Modal, Card } from "antd";
 
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +61,7 @@ const Index = () => {
           </h2>
         </Col>
       </Row>
+
       <Row>
         <Col sm={12} xs={24}>
           <Search
@@ -87,36 +88,46 @@ const Index = () => {
           )}
         </Col>
       </Row>
-
-      <Row>
-        <Col sm={24}>
-          <QuanLyThongTinLanHien
-            dtPerson={DataPerson}
-            NotreadOnly={false}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={24}>
-          <TabThongtinKhaoSat
-            ID={DataPerson?.RowID}
-            SetChoPhepHienMau={(e) => {
-              SetThongTinTua(e);
-            }}
-            dataPerson={DataPerson}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={24}>
-          {HienThiThongTinTua && (
-            <ThongTinTuaLaymau
+      <Card>
+        <Row>
+          <Col sm={24}>
+            <QuanLyThongTinLanHien
+              dtPerson={DataPerson}
+              NotreadOnly={false}
+            />
+          </Col>
+        </Row>
+      </Card>
+        <br></br>
+      <Card>
+        <Row>
+          <Col sm={24}>
+            <TabThongtinKhaoSat
               ID={DataPerson?.RowID}
+              SetChoPhepHienMau={(e) => {
+                SetThongTinTua(e);
+              }}
               dataPerson={DataPerson}
-            ></ThongTinTuaLaymau>
-          )}
-        </Col>
-      </Row>
+            />
+          </Col>
+        </Row>
+      </Card>
+    
+      <Card>
+        <Row>
+          <Col sm={24}>
+            {HienThiThongTinTua && (
+              <ThongTinTuaLaymau
+                ID={DataPerson?.RowID}
+                dataPerson={DataPerson}
+              ></ThongTinTuaLaymau>
+            )}
+          </Col>
+        </Row>
+      </Card>
+
+
+
 
       <Modal
         open={OpenModal}

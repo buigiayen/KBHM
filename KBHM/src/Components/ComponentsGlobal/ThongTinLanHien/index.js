@@ -10,7 +10,10 @@ import { GET_PersonInfo, PUT_PersonInfo } from "../../../Data/Api/DangKyKham";
 import "../index.css";
 import UploadMinio from '../../upload.minio'
 import DateTime from "../DateTime";
+
 dayjs.extend(customParseFormat);
+
+
 const { Search } = Input;
 
 const Index = (props) => {
@@ -52,7 +55,9 @@ const Index = (props) => {
     };
 
     await GET_PersonInfo(pra).then((rs) => {
-      SetDataPerson(rs[0]);
+      if (rs !== undefined && rs.length > 0) {
+        SetDataPerson(rs[0]);
+      }
       return rs[0];
     });
   };

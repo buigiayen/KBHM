@@ -37,7 +37,7 @@ namespace KBHM.api.Model
         public double? LuongMauLay { get; set; }
         public int? TamHoan { get; set; }
         public DateTime? NgayHien { get; set; }
-        public int? LuongHien { get; set; }
+        public double? LuongHien { get; set; }
         public string PhanUng { get; set; }
         public string XuTri { get; set; }
         public int? LuongMauCoTheHien { get; set; }

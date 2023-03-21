@@ -1,34 +1,75 @@
 import { HttpRequest } from "../Config/APIConnection";
 
 export const POST_DangKyHienMau = async (prop) => {
-    return await HttpRequest( 'POST',"/Person", prop, true);
+    return await HttpRequest('POST', "/Person", prop, true);
 }
 
 //Person/:ID/Properties  -- lấy thông tin thuộc tính 
 export const GET_PropertiesPerson = async (prop) => {
-    return await HttpRequest( 'GET',`/Person/${prop}/Properties`);
+    return await HttpRequest('GET', `/Person/${prop}/Properties`);
 }
 //Person/:ID -- Lấy thông tin person
 export const GET_Person = async (prop) => {
-    return await HttpRequest( 'GET',`/Person/${prop}`);
+    return await HttpRequest('GET', `/Person/${prop}`);
 }
 //Person/:ID/Find/:Row -- Tìm thông tin person số lượng dòng
 export const GET_PersonInfo = async (prop) => {
-    return await HttpRequest( 'GET',`/Person/${prop.text}/Find/${prop.row}`);
+    return await HttpRequest('GET', `/Person/${prop.text}/Find/${prop.row}`);
 }
 
 export const PUT_PersonInfo = async (prop) => {
-    return await HttpRequest( 'PUT',`/Person`,prop, true);
+    return await HttpRequest('PUT', `/Person`, prop, true);
 }
 export const PUT_PersonInfo_healthy = async (prop) => {
-    return await HttpRequest( 'PUT',`/Person/healthy`,prop, true);
+    return await HttpRequest('PUT', `/Person/healthy`, prop, true);
 }
 
 export const PUT_PersonTrip = async (prop) => {
-    return await HttpRequest( 'PUT',`/Person/Trip`,prop, true);
+    return await HttpRequest('PUT', `/Person/Trip`, prop, true);
 }
 
 export const PUT_PersonDone = async (prop) => {
-    return await HttpRequest( 'PUT',`/Person/Done`,prop, true);
+    return await HttpRequest('PUT', `/Person/Done`, prop, true);
+}
+
+
+export const POST_SyncDonor = async (ID) => {
+    let DataPerson = {};
+    await GET_Person(ID).then(rs => DataPerson = rs);
+    if (DataPerson !== undefined) {
+        const { RowID, Name, BirthDay, Sex, CCCD, Phone, Email, DateRegister,
+            DiaChiLienLac, DiaChiThuongTru_ChiTiet, MaTuiMau, DiemLayMau,
+            LuongMauCoTheHien, LoaiHienThanhPhan, HuyetAp, TinhTrangLamSang, Mach, ChieuCao
+        } = DataPerson[0]
+        const DataSync = {
+            DateIn: DateRegister,
+            DonorCode: RowID,
+            DonorName: Name,
+            DonorNameUnsign: Name,
+            Sex: Sex.toString(),
+            Age: null,
+            Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
+            Phone: Phone,
+            BirthDay: BirthDay,
+            DonorExCode: MaTuiMau,
+            BloodSourceLocationId: DiemLayMau,
+            BloodVolume: LuongMauCoTheHien.toString(),
+            ElementID: LoaiHienThanhPhan.toString(),
+            BLOODPRESSURE: HuyetAp.toString(),
+            HGB: '1',
+            PULSE: Mach.toString(),
+            STATUS: TinhTrangLamSang,
+            WEIGH: ChieuCao.toString(),
+        }
+        
+         return await HttpRequest('POST', `/SyncDonnor`,DataSync);
+    }
+    else {
+        return [];
+    }
+
+
+
+
 }
 
