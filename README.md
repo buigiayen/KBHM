@@ -31,6 +31,6 @@ docker compose up -d
  Deploy -> Open SSH:
 -------------------------------------------
 
- deployUAT.sh
+[![Server Build & Push](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml/badge.svg)](https://github.com/buigiayen/KBHM/actions/workflows/docker-image.yml)
  
  deployPRO.sh
