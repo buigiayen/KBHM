@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  build_and_push:
+  build_front_end:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
