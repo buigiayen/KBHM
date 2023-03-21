@@ -16,7 +16,7 @@ jobs:
       - name: Build image
         run: | 
          cd KBHM/
-          docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+          docker-compose -f docker-compose.yml  build
            
           
       - name: Login container
@@ -29,4 +29,4 @@ jobs:
       - name: Push image to docker hub
         run: |
           cd KBHM/
-          docker-compose -f docker-compose.yml -f docker-compose.override.yml push
+          docker-compose -f docker-compose.yml  push
