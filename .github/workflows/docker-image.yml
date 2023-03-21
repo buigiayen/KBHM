@@ -19,7 +19,9 @@ jobs:
           password: dckr_pat_gR1780vRiyoV3vnjUTZB7Jk4MaE
 
       - name: Build and push Docker images
-        run: cd KBHM_BACKEND/KhaiBaoHienMau/;
+        run: curl -SL https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+            chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+            cd KBHM_BACKEND/KhaiBaoHienMau/;
             docker-compose -f docker-compose.yml -f docker-compose.override.yml build
             docker-compose -f docker-compose.yml -f docker-compose.override.yml push
  
