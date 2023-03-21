@@ -15,4 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: ls -a
+      run: cd KBHM_BACKEND;
+           docker-compose -f docker-compose.yml build;
+           docker-compose -f docker-compose.yml push;
+      
