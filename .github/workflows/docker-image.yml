@@ -26,7 +26,7 @@ jobs:
            password: "dckr_pat_ep_8tWXO20Kuj3wIpVQkluM3TbA"
         
         
-      - name: Push image to DO Container Registry
+      - name: Push image to docker hub
         run: |
           cd KBHM_BACKEND/KhaiBaoHienMau/
           docker-compose -f docker-compose.yml -f docker-compose.override.yml push
