@@ -8,6 +8,8 @@ RUN npm run build
 
 # production stage
 FROM nginx:1.17-alpine as production-stage
+COPY ./Cert/certificate.crt /etc/ssl/certificate.crt
+COPY ./Cert/private.key /etc/ssl/private.key;
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/build /usr/share/nginx/html
 EXPOSE 443
