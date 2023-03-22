@@ -10,4 +10,5 @@ services:
       - ./KBHM:/app/src
     ports:
       - "80:80"
+      - "443:443"
     restart: unless-stopped
