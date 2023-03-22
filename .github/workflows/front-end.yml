@@ -1,12 +1,11 @@
-name: Backend
-
+name: Front-end
 on:
   push:
     branches: [main]
 
 
 jobs:
-  build_and_push_backend:
+  build_front_end:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -15,8 +14,8 @@ jobs:
           
       - name: Build image
         run: | 
-         cd KBHM_BACKEND/KhaiBaoHienMau/
-          docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+         cd KBHM/
+          docker-compose -f docker-compose.yml  build
            
           
       - name: Login container
@@ -28,7 +27,5 @@ jobs:
         
       - name: Push image to docker hub
         run: |
-          cd KBHM_BACKEND/KhaiBaoHienMau/
-          docker-compose -f docker-compose.yml -f docker-compose.override.yml push
-        
-    
+          cd KBHM/
+          docker-compose -f docker-compose.yml  push
