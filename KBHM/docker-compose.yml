@@ -6,8 +6,6 @@ services:
     build: 
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - ./KBHM:/app/src
     ports:
       - "80:80"
       - "443:443"

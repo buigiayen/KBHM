@@ -61,6 +61,8 @@ export const POST_SyncDonor = async (ID) => {
             STATUS: TinhTrangLamSang,
             WEIGH: ChieuCao.toString(),
         }
+
+        console.log(DataSync)
         
          return await HttpRequest('POST', `/SyncDonnor`,DataSync);
     }

@@ -108,6 +108,7 @@ const Index = () => {
                 SetThongTinTua(e);
               }}
               dataPerson={DataPerson}
+              HienThiThongTinTua={HienThiThongTinTua}
             />
           </Col>
         </Row>

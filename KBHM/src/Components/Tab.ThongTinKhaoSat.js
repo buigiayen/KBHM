@@ -26,8 +26,8 @@ const App = (prop) => {
     {
       label: `Lấy máu`,
       key: 4,
-      children: <Laymau {...prop}  ID={prop?.ID} />,
-      disabled: !disableLayMau
+      children: <Laymau {...prop} ID={prop?.ID} />,
+      disabled: !prop.HienThiThongTinTua
     },
   ];
 
