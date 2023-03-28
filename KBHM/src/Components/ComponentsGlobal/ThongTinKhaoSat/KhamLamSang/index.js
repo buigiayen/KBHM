@@ -29,6 +29,10 @@ const Index = (props, {  ID }) => {
     const PutPerson = async () => {
         SetIsloading(true);
         const ClonePersonUpdate = PersonUpdate;
+        props.SetDataPerson({
+            ...props.dataPerson,
+            ...PersonUpdate
+          })
         ClonePersonUpdate.rowID = ID;
         await PUT_PersonInfo_healthy(PersonUpdate).then(() => { SetIsloading(false); SetIsdisabled(true) })
     }

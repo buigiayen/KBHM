@@ -17,6 +17,7 @@ const Index = () => {
   const [OpenModal, SetOpenModal] = useState(false);
   const [HienThiThongTinTua, SetThongTinTua] = useState();
   const [DataPerson, SetDataPerson] = useState();
+  const [isGetBlood, setIsGetBlood] = useState(false);
   useEffect(() => {
     if (
       localStorage.getItem("Token") === undefined ||
@@ -73,8 +74,8 @@ const Index = () => {
         </Col>
         <Col sm={12} xs={24}>
           {DataPerson?.warning !== 0 &&
-            DataPerson?.warning !== null &&
-            DataPerson?.warning !== undefined ? (
+          DataPerson?.warning !== null &&
+          DataPerson?.warning !== undefined ? (
             <Alert
               banner
               message={
@@ -91,14 +92,11 @@ const Index = () => {
       <Card>
         <Row>
           <Col sm={24}>
-            <QuanLyThongTinLanHien
-              dtPerson={DataPerson}
-              NotreadOnly={false}
-            />
+            <QuanLyThongTinLanHien dtPerson={DataPerson} NotreadOnly={false} />
           </Col>
         </Row>
       </Card>
-        <br></br>
+      <br></br>
       <Card>
         <Row>
           <Col sm={24}>
@@ -109,11 +107,12 @@ const Index = () => {
               }}
               dataPerson={DataPerson}
               HienThiThongTinTua={HienThiThongTinTua}
+              SetDataPerson={SetDataPerson}
             />
           </Col>
         </Row>
       </Card>
-    
+
       <Card>
         <Row>
           <Col sm={24}>
@@ -121,14 +120,12 @@ const Index = () => {
               <ThongTinTuaLaymau
                 ID={DataPerson?.RowID}
                 dataPerson={DataPerson}
+                SetDataPerson={SetDataPerson}
               ></ThongTinTuaLaymau>
             )}
           </Col>
         </Row>
       </Card>
-
-
-
 
       <Modal
         open={OpenModal}

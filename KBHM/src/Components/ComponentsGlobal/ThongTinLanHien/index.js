@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Divider, DatePicker, Button, Checkbox, Space } from "antd";
+import {
+  Form,
+  Input,
+  Divider,
+  DatePicker,
+  Button,
+  Checkbox,
+  Space,
+} from "antd";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
 
@@ -8,11 +16,10 @@ import SexCombobox from "../Sex.Combobox";
 import RegionCombox from "../../Region.Combobox";
 import { GET_PersonInfo, PUT_PersonInfo } from "../../../Data/Api/DangKyKham";
 import "../index.css";
-import UploadMinio from '../../upload.minio'
+import UploadMinio from "../../upload.minio";
 import DateTime from "../DateTime";
 
 dayjs.extend(customParseFormat);
-
 
 const { Search } = Input;
 
@@ -33,7 +40,7 @@ const Index = (props) => {
     DiaChiLienLac: null,
     DiaChiThuongLienLac_ChiTiet: null,
     Sync: null,
-    UrlImage: null
+    UrlImage: null,
   });
 
   useEffect(() => {
@@ -69,7 +76,6 @@ const Index = (props) => {
         </span>
       </Divider>
 
-
       <Form
         name="complex-form"
         labelCol={{
@@ -79,22 +85,26 @@ const Index = (props) => {
           maxWidth: 7000,
         }}
       >
-
         <Row gutter={[16, 8]}>
-
           <Col span={6}>
             <Form.Item>
               <Row gutter={[16, 8]}>
                 <Col span={24}>
-                  <Form.Item style={{ float: 'right' }} label={<b>Ảnh chân dung</b>}>
-                    <UploadMinio value={DataPerson?.UrlImage} UrlImage={(e) => { SetDataPerson({ ...DataPerson, UrlImage: e }) }} />
+                  <Form.Item
+                    style={{ float: "right" }}
+                    label={<b>Ảnh chân dung</b>}
+                  >
+                    <UploadMinio
+                      value={DataPerson?.UrlImage}
+                      UrlImage={(e) => {
+                        SetDataPerson({ ...DataPerson, UrlImage: e });
+                      }}
+                    />
                   </Form.Item>
-
                 </Col>
               </Row>
             </Form.Item>
           </Col>
-
 
           <Col span={16}>
             <Form.Item>
@@ -106,7 +116,10 @@ const Index = (props) => {
                         placeholder="NGUYEN VAN A"
                         value={DataPerson?.Name}
                         onChange={(e) => {
-                          SetDataPerson({ ...DataPerson, Name: e.target.value });
+                          SetDataPerson({
+                            ...DataPerson,
+                            Name: e.target.value,
+                          });
                         }}
                       />
                     ) : (
@@ -116,15 +129,20 @@ const Index = (props) => {
                 </Col>
                 <Col span={24}>
                   <Row>
-                    <Space direction='horizontal '>
+                    <Space direction="horizontal ">
                       <Form.Item label={<b>Ngày sinh</b>} required>
                         {readOnly ? (
                           <DateTime
                             Value={DataPerson?.BirthDay}
                             onChange={(onChange) => {
-                              SetDataPerson({ ...DataPerson, BirthDay: onChange });
+                              console.log(onChange);
+                              SetDataPerson({
+                                ...DataPerson,
+                                BirthDay: onChange,
+                              });
                             }}
-                            style={{ width: 100 + '%' }}
+                            views={["year", "month", "day"]}
+                            style={{ width: 100 + "%" }}
                           />
                         ) : (
                           <>
@@ -142,20 +160,14 @@ const Index = (props) => {
                             Value={(Value) => {
                               SetDataPerson({ ...DataPerson, Sex: Value });
                             }}
-
                           ></SexCombobox>
                         ) : (
                           <>{DataPerson?.Sex == 1 ? "Nam" : "Nữ"}</>
                         )}
                       </Form.Item>
-
                     </Space>
-
-
-
                   </Row>
                 </Col>
-
               </Row>
             </Form.Item>
           </Col>
@@ -350,7 +362,6 @@ const Index = (props) => {
           <Form.Item>
             <Row gutter={[16, 8]}>
               <Col span={24}>
-
                 {readOnly ? null : (
                   <Button
                     className="btnFull"
@@ -374,14 +385,11 @@ const Index = (props) => {
                     Xác nhận thông tin
                   </Button>
                 ) : null}
-
-
               </Col>
             </Row>
           </Form.Item>
         )}
       </Form>
-
     </>
   );
 };

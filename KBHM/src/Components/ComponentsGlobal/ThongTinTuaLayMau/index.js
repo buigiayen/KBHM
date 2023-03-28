@@ -27,7 +27,7 @@ const Index = (props) => {
     LoaiHienThanhPhan: null,
     DiemLayMau: null,
     MaTuiMau: null,
-    Sync: null
+    Sync: null,
   });
   useEffect(() => {
     if (props.dataPerson !== undefined) {
@@ -38,10 +38,15 @@ const Index = (props) => {
     SeIsDisable(true);
     const ClonePersonUpdate = PersonUpdate;
     ClonePersonUpdate.RowID = props.ID;
+    
     PUT_PersonTrip(PersonUpdate)
       .then(() => {
         SetIsLoad(false);
         SeIsDisable(false);
+        props.SetDataPerson({
+          ...props.dataPerson,
+          ...PersonUpdate
+        })
       })
       .catch(SetIsLoad(false));
   };
@@ -120,8 +125,8 @@ const Index = (props) => {
             </Button>
           </Col>
           <Col md={6} xs={24}></Col>
-          {
-            PersonUpdate?.Sync === null && <>
+          {PersonUpdate?.Sync === null && (
+            <>
               <Col md={6} xs={24}>
                 <Button
                   className="btnFull"
@@ -143,11 +148,11 @@ const Index = (props) => {
                   loading={Isload}
                   disabled={IsDisable}
                 >
-                  Cấp mã túi máu
+                  máu
                 </Button>
-              </Col></>
-          }
-
+              </Col>
+            </>
+          )}
         </Row>
       </Form>
     </>
