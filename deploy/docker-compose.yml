@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  ocelot_apigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+
+  kbhm.api:
+    image: ${DOCKER_REGISTRY-}kbhmapi
+
+  system.api:
+    image: ${DOCKER_REGISTRY-}systemapi
+
+  bloodbank.api:
+    image: ${DOCKER_REGISTRY-}bloodbankapi
+  
+  react.kbhm:
+    image :  ${DOCKER_REGISTRY-}reactjs:v1
+    ports:
+      - "80:80"
+      - "443:443"
+
+
+
