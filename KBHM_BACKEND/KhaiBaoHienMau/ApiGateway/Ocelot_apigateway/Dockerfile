@@ -7,6 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
+COPY ["ApiGateway/Ocelot_apigateway/hienmau.bvdktinhthanhhoa.com.vn.pfx", "ApiGateway/Ocelot_apigateway/"]
 COPY ["ApiGateway/Ocelot_apigateway/Ocelot_apigateway.csproj", "ApiGateway/Ocelot_apigateway/"]
 COPY ["Services.lib/Services.lib.csproj", "Services.lib/"]
 RUN dotnet restore "ApiGateway/Ocelot_apigateway/Ocelot_apigateway.csproj"
