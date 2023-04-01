@@ -10,6 +10,7 @@ services:
     ports:
       - "80"
       - "9874:443"
+
    
   kbhm.api:
     environment:
