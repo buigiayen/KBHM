@@ -14,6 +14,7 @@ COPY . .
 WORKDIR "/src/ApiGateway/Ocelot_apigateway"
 RUN dotnet build "Ocelot_apigateway.csproj" -c Release -o /app/build
 
+
 FROM build AS publish
 RUN dotnet publish "Ocelot_apigateway.csproj" -c Release -o /app/publish
 
