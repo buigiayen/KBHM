@@ -104,7 +104,7 @@
 
     },
     {
-      "DownstreamPathTemplate": "/v1/File",
+      "DownstreamPathTemplate": "/v1/Files/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -112,7 +112,7 @@
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/gw/File",
+      "UpstreamPathTemplate": "/gw/File/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
 
     }

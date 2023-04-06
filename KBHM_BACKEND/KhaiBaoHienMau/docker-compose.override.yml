@@ -4,14 +4,15 @@ services:
   ocelot_apigateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80;https://+:443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.com.vn.pfx
-    ports:
-      - "80"
-      - "9874:443"
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/certificate.crt.pfx
     volumes:
-      - /app/https:/https:ro
+      - ~/.aspnet/https:/https
+    ports:
+      - "9874:80"
+      - "986:443"
+
 
    
   kbhm.api:
