@@ -7,7 +7,7 @@ const App = () => {
         <Carousel autoplay>
             <div>
                 <Image
-                    src={'http://hienmau.bvdktinhthanhhoa.com.vn:9000/banner/Fresh idea.png'}
+                    src={'https://hienmau.bvdktinhthanhhoa.com.vn:9874/gw/File/StreamFile/banner/banner.png'}
                     preview={false}
                     alt="1887-768" />
             </div>
