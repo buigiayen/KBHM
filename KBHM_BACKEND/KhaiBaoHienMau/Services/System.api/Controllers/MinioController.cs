@@ -26,7 +26,7 @@ namespace System.api.Controllers
 
         }
         [HttpGet("StreamFile")]
-        public async Task<IActionResult> GetStreamFileasync(string Url)
+        public async Task<IActionResult> GetStreamFileasync(string Url, string ContentType = "application/jpge")
         {
             try
             {
@@ -36,7 +36,7 @@ namespace System.api.Controllers
                 _dic.Add("contentType", "application/octet-stream");
                 request.AddHeaders(_dic);
                 var response = await client.DownloadStreamAsync(request);
-                return new FileStreamResult(response, "image/jpeg");
+                return new FileStreamResult(response, ContentType);
             }
             catch (Exception ex)
             {
