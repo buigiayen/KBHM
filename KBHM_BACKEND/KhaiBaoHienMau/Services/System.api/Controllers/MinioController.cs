@@ -26,7 +26,7 @@ namespace System.api.Controllers
 
         }
         [HttpGet("StreamFile")]
-        public async Task<IActionResult> GetStreamFileasync(string Url, string ContentType = "application/jpge")
+        public async Task<IActionResult> GetStreamFileasync(string Url, string ContentType = "image/jpeg")
         {
             try
             {
