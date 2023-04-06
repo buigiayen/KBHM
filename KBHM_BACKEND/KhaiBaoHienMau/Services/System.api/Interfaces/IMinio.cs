@@ -10,6 +10,7 @@ namespace System.api.Interfaces
         Task<HttpObject.APIresult> GetAllBucket();
         Task<HttpObject.APIMapper<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket);
         Task<HttpObject.APIresult> GetFileBucketasync(MinIOservices.MinIOModel uploadMinios);
-       
+        Task<HttpObject.APIresult> DownFileasync(MinIOservices.MinIOModel uploadMinios);
+
     }
 }
