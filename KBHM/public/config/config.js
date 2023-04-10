@@ -2,7 +2,7 @@ window.publicConfig = {
   Name: "Bệnh viện đa khoa tỉnh Thanh Hóa",
   Region: "Phường Hải Thượng, Thành phố Thanh Hóa, Tỉnh Thanh hóa",
   Logo: "",
-  URL_BACKEND: "https://hienmau.bvdktinhthanhhoa.com.vn:9874/gw",
+  URL_BACKEND: "https://localhost:986/gw",
   Timeout: 4000,
   LoaiThanhPhan: {
     value: "B827DD29-3604-EA11-80F2-40A8F0332DFF",

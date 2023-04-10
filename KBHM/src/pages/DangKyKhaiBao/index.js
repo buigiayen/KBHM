@@ -6,12 +6,19 @@ import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
 import { Row, Col, Button, Space, Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Warning } from "../../Components/notification";
+import dayjs from "dayjs";
 const Index = () => {
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
   const [Properties, DataProperties] = useState();
   const [IsLoadding, SetLoading] = useState(false);
+
+  const CheckAge =(dateofbirth, AgeMin) => {
+    return (dayjs().$y - dayjs(dateofbirth).$y > AgeMin)
+  }
+  
   const Confirm = () => {
+    
     const PersonClone = Persons;
     PersonClone.personProperties = Properties;
     if (CheckCondition(PersonClone)) {
@@ -23,7 +30,7 @@ const Index = () => {
     }
   };
   const CheckCondition = (PersonClone) => {
-    const flag = true;
+    let flag = true;
     const {
       Name,
       BirthDay,
@@ -45,6 +52,7 @@ const Index = () => {
       { Value: DiaChiThuongTru_ChiTiet, messenger: "Địa chỉ thường trú" },
     ];
 
+  
     const mess = "Thông tin :";
     const RulerProperties = personProperties ?? [];
     const ruler = messengers
@@ -59,6 +67,10 @@ const Index = () => {
     }
     if (ruler.length > 0 && flag === true) {
       Warning({ message: `${mess} ${ruler.join(", ")} Chưa hợp lệ` });
+      flag = false;
+    }
+    if(CheckAge(dayjs(BirthDay), 18) === false){
+      Warning({ message: 'Bạn chưa đủ 18 tuổi để hiến máu!' });
       flag = false;
     }
     return flag;
@@ -88,13 +100,13 @@ const Index = () => {
       <br/>
       <Row>
         <Col sm={24}>
-          <Card>
+        
             <KhaoSatThongTinSucKhoe
               Value={(Value) => {
                 DataProperties(Value);
               }}
             />
-          </Card>
+       
 
         </Col>
       </Row>

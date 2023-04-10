@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 const formatNumber = (value) => new Intl.NumberFormat().format(value);
 const NumericInput = (props) => {
-    console.log(props)
     const { value, onChange } = props;
     const handleChange = (e) => {
         const { value: inputValue } = e.target;

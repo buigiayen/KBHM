@@ -43,7 +43,7 @@ export const POST_SyncDonor = async (ID) => {
         } = DataPerson[0]
         const DataSync = {
             DateIn: DateRegister,
-            DonorCode: RowID,
+            DonorCode: CCCD,
             DonorName: Name,
             DonorNameUnsign: Name,
             Sex: Sex.toString(),
@@ -61,9 +61,6 @@ export const POST_SyncDonor = async (ID) => {
             STATUS: TinhTrangLamSang,
             WEIGH: ChieuCao.toString(),
         }
-
-        console.log(DataSync)
-        
          return await HttpRequest('POST', `/SyncDonnor`,DataSync);
     }
     else {

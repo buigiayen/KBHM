@@ -42,8 +42,8 @@ namespace System.api.Command
                 Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
                 return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-          
-      
+
+
         }
 
         public async Task<HttpObject.APIresult> GetAllBucket()
@@ -145,7 +145,7 @@ namespace System.api.Command
                 MinIOservices.FileBucketMinio fileBucketMinios = new MinIOservices.FileBucketMinio
                 {
                     FileName = uploadMinios.FileName,
-                    FilePath = _Minioct.HTTPS ? "https://" : "http://" + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, bucket, objectName),
+                    FilePath = (_Minioct.HTTPS ? "https://" : "http://") + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, bucket, objectName),
                     Size = uploadMinios.Size,
                 };
                 File.Delete(FilePath);

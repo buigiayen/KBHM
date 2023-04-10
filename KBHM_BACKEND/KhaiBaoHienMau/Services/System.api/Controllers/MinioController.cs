@@ -64,7 +64,7 @@ namespace System.api.Controllers
         [HttpPost("File")]
         public async Task<IActionResult> PostFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios, [FromQuery] string Bucket)
         {
-            var data = await _minio.PostFileasync(uploadMinios, Bucket);
+            var data = await _minio.PostFileasync(uploadMinios, Bucket);        
             return Ok(data);
         }
 

@@ -135,7 +135,6 @@ const Index = (props) => {
                           <DateTime
                             Value={DataPerson?.BirthDay}
                             onChange={(onChange) => {
-                              console.log(onChange);
                               SetDataPerson({
                                 ...DataPerson,
                                 BirthDay: onChange,

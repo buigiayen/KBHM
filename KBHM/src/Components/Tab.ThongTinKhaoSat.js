@@ -7,7 +7,6 @@ import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/Thon
 
 const App = (prop) => {
   const [disableLayMau, SetDisabledLayMau] = useState(false);
-  console.log(prop)
   const Component = [
     {
       label: `TT Khảo sát`,
