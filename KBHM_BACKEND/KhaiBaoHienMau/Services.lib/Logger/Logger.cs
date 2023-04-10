@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Services.lib.Logger
@@ -28,6 +29,22 @@ namespace Services.lib.Logger
         public Logger Messenger(string exception)
         {
             _Messenge = DateTime.Now + "  ----------  " + exception;
+            return this;
+        }
+        public Logger MesserngerClass(object exs)
+        {
+            try
+            {
+                if (exs != default)
+                {
+                    _Messenge = JsonSerializer.Serialize(exs);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _Messenge = "1001: "+ ex.Message;
+            }
             return this;
         }
         public void build(_TypeFile _TypeFile)

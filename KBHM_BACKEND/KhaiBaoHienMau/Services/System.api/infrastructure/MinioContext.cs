@@ -32,7 +32,7 @@ namespace System.api.infrastructure
             }
         }
         public MinioClient CreateConnection()
-            => new MinioClient().WithEndpoint(Endpoin, PORT).WithCredentials(ACCESSKEY, SecretKey).WithSSL(true).Build();
+            => new MinioClient().WithEndpoint(Endpoin, PORT).WithCredentials(ACCESSKEY, SecretKey).WithSSL(HTTPS).Build();
 
     }
 

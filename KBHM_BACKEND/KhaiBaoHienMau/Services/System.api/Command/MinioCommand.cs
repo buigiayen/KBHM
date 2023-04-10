@@ -109,7 +109,7 @@ namespace System.api.Command
         public async Task<HttpObject.APIMapper<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket)
         {
 
-            var Minioconection = _Minioct.CreateConnection().WithSSL().Build() ;
+            var Minioconection = _Minioct.CreateConnection().WithSSL().Build();
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
             try
@@ -157,7 +157,7 @@ namespace System.api.Command
             }
             catch (MinioException ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                Logger.Instance.MesserngerClass(ex).build(Logger._TypeFile.Error);
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }
