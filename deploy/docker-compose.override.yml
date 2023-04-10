@@ -27,7 +27,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=192.168.13.81;Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
-      - "MINIO_CONNECTION=host.docker.internal;9000;v4vReRf12uqrhlue;3rBBzoyBzseOQhCQzHxy0bcefx5Q8Bv4;False"
+      - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True"
     ports:
       - "80"
       - "443"
