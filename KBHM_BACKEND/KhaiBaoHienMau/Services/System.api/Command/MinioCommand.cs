@@ -80,13 +80,15 @@ namespace System.api.Command
                 minioFilebucket.Subscribe(
                    item =>
                    {
+                       Console.WriteLine(item.Count);
                        foreach (var xx in item)
                        {
+                           Console.WriteLine(xx.Key);
                            fileBuckets.Add(new MinIOservices.FileBucketMinio
                            {
                                FileName = xx.Key,
                                Size = xx.Size,
-                               FilePath = _Minioct.HTTPS ? "https://" : "http://" + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, uploadMinios.bucket, xx.Key),
+                               FilePath = (_Minioct.HTTPS ? "https://" : "http://") + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, uploadMinios.bucket, xx.Key),
                            });
                        }
                    },
