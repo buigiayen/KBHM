@@ -110,6 +110,7 @@ namespace System.api.Command
         {
 
             var Minioconection = _Minioct.CreateConnection().WithSSL().Build();
+            Logger.Instance.Messenger($"EndPoin: {_Minioct.Endpoin} , Port : {_Minioct.PORT} "  ).build(Logger._TypeFile.Debug);
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
             try
