@@ -16,6 +16,7 @@ namespace System.api.infrastructure
         public MinioContext()
         {
             string config = Environment.GetEnvironmentVariable("MINIO_CONNECTION");
+            Console.WriteLine(config);
             try
             {
                 string[] splitConfig = config.Split(';');
@@ -31,7 +32,7 @@ namespace System.api.infrastructure
             }
         }
         public MinioClient CreateConnection()
-            => new MinioClient().WithEndpoint(Endpoin, PORT).WithCredentials(ACCESSKEY, SecretKey).WithSSL().Build();
+            => new MinioClient().WithEndpoint(Endpoin, PORT).WithCredentials(ACCESSKEY, SecretKey).WithSSL(true).Build();
 
     }
 
