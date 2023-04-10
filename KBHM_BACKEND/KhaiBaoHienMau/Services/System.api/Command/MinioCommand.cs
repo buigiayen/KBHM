@@ -109,15 +109,16 @@ namespace System.api.Command
         public async Task<HttpObject.APIMapper<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket)
         {
 
-
+            var Minioconection = _Minioct.CreateConnection();
+            Console.WriteLine(Minioconection.);
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
             try
             {
-                bool found = await _Minioct.CreateConnection().BucketExistsAsync(bucketName);
+                bool found = await Minioconection.BucketExistsAsync(bucketName);
                 if (!found)
                 {
-                    await _Minioct.CreateConnection().MakeBucketAsync(bucketName);
+                    await Minioconection.MakeBucketAsync(bucketName);
 
                 }
                 string Dir = AppDomain.CurrentDomain.BaseDirectory + "/Upload";

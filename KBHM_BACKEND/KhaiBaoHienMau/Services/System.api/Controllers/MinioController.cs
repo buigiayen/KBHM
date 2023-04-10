@@ -26,41 +26,7 @@ namespace System.api.Controllers
             return Ok(data);
 
         }
-        [HttpGet("StreamFile/{Bucket}/{FileName}")]
-        public async Task<IActionResult> GetStreamFileasync(string Bucket, string FileName, string ContentType = "image/jpge")
-        {
-            List<MinIOservices.FileBucketMinio> fileBucketMinio = new List<MinIOservices.FileBucketMinio>();
-            fileBucketMinio.Add(new MinIOservices.FileBucketMinio { FileName = FileName, FilePath = AppDomain.CurrentDomain.BaseDirectory + $"/{FileName}" });
-            try
-            {
-                var data = await _minio.DownFileasync(new MinIOservices.MinIOModel
-                {
-                    bucket = Bucket,
-                    fileBucketMinios = fileBucketMinio,
-                });
-                if (data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK)
-                {
-                    IFileProvider provider = new PhysicalFileProvider(AppDomain.CurrentDomain.BaseDirectory);
-                    IFileInfo fileInfo = provider.GetFileInfo(FileName);
-                    var readStream = fileInfo.CreateReadStream();
-                    return new FileStreamResult(readStream, ContentType);
-                }
-                else
-                {
-                    return BadRequest(data);
-                }
-                        
-               
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex);
-            }
-
-
-
-        }
+        
         [HttpPost("File")]
         public async Task<IActionResult> PostFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios, [FromQuery] string Bucket)
         {

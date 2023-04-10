@@ -109,7 +109,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "System.api",
-          "Port": "80"
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/gw/File/{everything}",
