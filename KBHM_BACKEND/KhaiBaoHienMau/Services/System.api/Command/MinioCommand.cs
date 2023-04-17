@@ -159,7 +159,7 @@ namespace System.api.Command
             }
             catch (MinioException ex)
             {
-                Logger.Instance.Messenger(ex.InnerException.Message).build(Logger._TypeFile.Error);
+                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }
