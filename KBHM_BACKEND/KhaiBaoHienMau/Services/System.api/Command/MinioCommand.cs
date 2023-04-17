@@ -109,7 +109,7 @@ namespace System.api.Command
         public async Task<HttpObject.APIMapper<MinIOservices.FileBucketMinio>> PostFileasync(MinIOservices.FileBucketMinio uploadMinios, string bucket)
         {
 
-            var Minioconection = _Minioct.CreateConnection().WithSSL().Build();
+            var Minioconection = _Minioct.CreateConnection();
             Logger.Instance.Messenger($"EndPoin: {_Minioct.Endpoin} , Port : {_Minioct.PORT} "  ).build(Logger._TypeFile.Debug);
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
