@@ -10,22 +10,22 @@ const App = (prop) => {
   const Component = [
     {
       label: `TT Khảo sát`,
-      key: 1,
+      key: "1",
       children: <ThongTinKhaoSat ID={prop?.ID} />,
     },
     {
       label: `Khám LS`,
-      key: 2,
+      key: "2",
       children: <KhamLamSang {...prop} ID={prop?.ID} HienMau={e => SetDisabledLayMau(e)} />,
     },
     {
       label: `XN trước hiến`,
-      key: 3,
+      key: "3",
       children: <XNTruochien></XNTruochien>,
     },
     {
       label: `Lấy máu`,
-      key: 4,
+      key: "4",
       children: <Laymau {...prop} ID={prop?.ID}/>,
       disabled: !prop.HienThiThongTinTua
     },
@@ -33,7 +33,7 @@ const App = (prop) => {
 
   return (
     <div>
-      <Tabs type="card" size={"small"} items={Component} />
+      <Tabs type="card" size={"small"} items={Component} tabIndex={2} defaultActiveKey="2" />
     </div>
   );
 };

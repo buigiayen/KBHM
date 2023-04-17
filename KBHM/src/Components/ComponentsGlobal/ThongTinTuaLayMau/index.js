@@ -148,7 +148,7 @@ const Index = (props) => {
                   loading={Isload}
                   disabled={IsDisable}
                 >
-                  máu
+                  Lấy máu
                 </Button>
               </Col>
             </>

@@ -9,7 +9,7 @@ const LocationCombobox = (props) => {
   useEffect(() => {
     SetisLoading(true);
     function get() {
-     
+
       GET_Location().then((rs) => {
         setData(rs);
       });
@@ -28,6 +28,11 @@ const LocationCombobox = (props) => {
   };
   return (
     <Select
+      showSearch
+      filterOption={(input, option) => (option?.label ?? '').includes(input)}
+      filterSort={(optionA, optionB) =>
+        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+      }
       className={`${Math.random()}`}
       onChange={ReturnValue}
       style={{ width: 100 + "%" }}
