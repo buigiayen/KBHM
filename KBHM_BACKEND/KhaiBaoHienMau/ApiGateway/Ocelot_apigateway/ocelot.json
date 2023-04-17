@@ -105,11 +105,11 @@
     },
     {
       "DownstreamPathTemplate": "/v1/Files/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "System.api",
-          "Port": "80"
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/gw/File/{everything}",

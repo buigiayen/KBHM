@@ -28,9 +28,13 @@ services:
   system.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_URLS=http://+:80;https://+:443
       - "SQL_CONNECTION=Server=192.168.61.101,1434;Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
       - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True"
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/certificate.crt.pfx
+    volumes:
+      - ~/.aspnet/https:/https
     ports:
       - "80"
       - "443"
