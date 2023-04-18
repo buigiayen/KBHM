@@ -44,19 +44,19 @@ namespace Services.lib.Sql
     {
         public static readonly Dataprovider db = new Dataprovider();
         private SqlConnection _SqlConnection = null;
-      
+
         private string _SQL;
         private string DBConnection = Environment.GetEnvironmentVariable("SQL_CONNECTION");
 
         public Dataprovider _Querys(params string[] query)
         {
-            
+
             foreach (var item in query)
             {
                 _SQL += item + "\r\n";
                 Logger.Logger.Instance.Messenger(item).build(Logger.Logger._TypeFile.Debug);
             }
-           
+
             return this;
         }
         public Dataprovider _Query(string sql)
@@ -92,7 +92,8 @@ namespace Services.lib.Sql
                         Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                         sqlTransaction.Commit();
                         _SqlConnection.Close();
-                        Dispose();
+                        sqlTransaction.Dispose();
+                        _SqlConnection.Dispose();
                         return ReturnStatusObjectSql(valueTransaction);
                     }
                     catch (Exception ex)
@@ -101,12 +102,13 @@ namespace Services.lib.Sql
                         sqlTransaction.Rollback();
                         valueTransaction = -2;
                         _SqlConnection.Close();
-                        Dispose();
+                        sqlTransaction.Dispose();
+                        _SqlConnection.Dispose();
                         return ReturnStatusObjectSql(valueTransaction, ex);
                     }
                 }
             }
-          
+
 
         }
         public async Task<T> QueryMapper<T>() where T : class
@@ -136,6 +138,7 @@ namespace Services.lib.Sql
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                     _SqlConnection.Close();
+                    _SqlConnection.Dispose();
                 }
 
                 return httpObject;
@@ -162,6 +165,7 @@ namespace Services.lib.Sql
                     httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                     _SqlConnection.Close();
+                    _SqlConnection.Dispose();
                 }
 
                 return httpObject;
