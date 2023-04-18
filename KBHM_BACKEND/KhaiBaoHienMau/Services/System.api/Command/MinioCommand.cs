@@ -45,7 +45,6 @@ namespace System.api.Command
 
 
         }
-
         public async Task<HttpObject.APIresult> GetAllBucket()
         {
             try
@@ -163,5 +162,7 @@ namespace System.api.Command
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }
+   
+    
     }
 }

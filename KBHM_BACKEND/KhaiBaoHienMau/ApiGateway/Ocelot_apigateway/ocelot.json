@@ -115,6 +115,20 @@
       "UpstreamPathTemplate": "/gw/File/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
 
+    },
+
+    //// Minio s3
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.18.8",
+          "Port": 9003
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/File/{everything}",
+      "UpstreamHttpMethod": [ "GET"]
     }
   ],
 

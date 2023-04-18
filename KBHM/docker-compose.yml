@@ -6,8 +6,6 @@ services:
     build: 
       context: .
       dockerfile: ./Dockerfile
-    environment:
-      - REACT_APP_PUBLIC=https://host.docker.internal
     ports:
       - "80:80"
       - "443:443"
