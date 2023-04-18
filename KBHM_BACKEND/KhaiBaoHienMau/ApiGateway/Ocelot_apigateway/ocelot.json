@@ -8,7 +8,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "KBHM.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/Person/{everything}",
@@ -21,7 +21,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "KBHM.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/Person",
@@ -37,7 +37,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "BloodBank.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/Authorization",
@@ -50,7 +50,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "BloodBank.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/TokenVeryfy",
@@ -63,7 +63,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "BloodBank.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/SyncDonnor",
@@ -76,7 +76,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "BloodBank.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/category/{everything}",
@@ -96,7 +96,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "System.api",
-          "Port": "80"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/Region",
@@ -105,11 +105,11 @@
     },
     {
       "DownstreamPathTemplate": "/v1/Files/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "System.api",
-          "Port": "443"
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gw/File/{everything}",

@@ -13,12 +13,12 @@ const Index = () => {
   const [Properties, DataProperties] = useState();
   const [IsLoadding, SetLoading] = useState(false);
 
-  const CheckAge =(dateofbirth, AgeMin) => {
+  const CheckAge = (dateofbirth, AgeMin) => {
     return (dayjs().$y - dayjs(dateofbirth).$y > AgeMin)
   }
-  
+
   const Confirm = () => {
-    
+
     const PersonClone = Persons;
     PersonClone.personProperties = Properties;
     if (CheckCondition(PersonClone)) {
@@ -52,7 +52,7 @@ const Index = () => {
       { Value: DiaChiThuongTru_ChiTiet, messenger: "Địa chỉ thường trú" },
     ];
 
-  
+
     const mess = "Thông tin :";
     const RulerProperties = personProperties ?? [];
     const ruler = messengers
@@ -60,6 +60,7 @@ const Index = () => {
       .map(({ messenger }) => {
         return messenger;
       });
+
 
     if (RulerProperties.length < 16 || RulerProperties === undefined) {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
@@ -69,7 +70,11 @@ const Index = () => {
       Warning({ message: `${mess} ${ruler.join(", ")} Chưa hợp lệ` });
       flag = false;
     }
-    if(CheckAge(dayjs(BirthDay), 18) === false){
+    if (CCCD.length <= 9 && CCCD.length >= 12) {
+      Warning({ message: `Căn cược công dân không hợp lệ.` });
+      flag = false;
+    }
+    if (CheckAge(dayjs(BirthDay), 18) === false) {
       Warning({ message: 'Bạn chưa đủ 18 tuổi để hiến máu!' });
       flag = false;
     }
@@ -97,16 +102,16 @@ const Index = () => {
 
         </Col>
       </Row>
-      <br/>
+      <br />
       <Row>
         <Col sm={24}>
-        
-            <KhaoSatThongTinSucKhoe
-              Value={(Value) => {
-                DataProperties(Value);
-              }}
-            />
-       
+
+          <KhaoSatThongTinSucKhoe
+            Value={(Value) => {
+              DataProperties(Value);
+            }}
+          />
+
 
         </Col>
       </Row>
