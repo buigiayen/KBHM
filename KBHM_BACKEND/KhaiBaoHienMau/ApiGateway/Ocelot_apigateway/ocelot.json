@@ -127,7 +127,7 @@
           "Port": 9000
         }
       ],
-      "UpstreamPathTemplate": "/gw/File/{everything}",
+      "UpstreamPathTemplate": "/gw/s3/{everything}",
       "UpstreamHttpMethod": [ "GET"]
     }
   ],
