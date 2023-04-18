@@ -117,7 +117,7 @@
 
     },
 
-    //// Minio s3
+    //// Application Domain
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
@@ -128,7 +128,19 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/s3/{everything}",
-      "UpstreamHttpMethod": [ "GET"]
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.18.8",
+          "Port": 9003
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/s3/Minio/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
 
