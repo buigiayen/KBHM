@@ -5,11 +5,13 @@ import { Post_Minio } from '../Data/Api/Minio'
 
 
 const App = ({ UrlImage, value }) => {
-    console.log(value);
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-    const [imageUrl, setimageUrl] = useState(value);
+    const [imageUrl, setimageUrl] = useState();
+    useEffect(() => {
+        setimageUrl(UrlImage)
+    },[UrlImage])
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {

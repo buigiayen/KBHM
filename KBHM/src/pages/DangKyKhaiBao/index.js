@@ -68,10 +68,10 @@ const Index = () => {
     }
     if (ruler.length > 0 && flag === true) {
       Warning({ message: `${mess} ${ruler.join(", ")} Chưa hợp lệ` });
-      flag = false;
+      flag = false; 
     }
-    if (CCCD.length <= 9 && CCCD.length >= 12) {
-      Warning({ message: `Căn cược công dân không hợp lệ.` });
+    if (CCCD.length < 9 || CCCD.length > 12) {
+      Warning({ message: `Căn cước công dân không hợp lệ.` });
       flag = false;
     }
     if (CheckAge(dayjs(BirthDay), 18) === false) {
