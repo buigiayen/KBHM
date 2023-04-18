@@ -136,7 +136,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "192.168.18.8",
-          "Port": 9003
+          "Port": 9002
         }
       ],
       "UpstreamPathTemplate": "/gw/s3/Minio/{everything}",
