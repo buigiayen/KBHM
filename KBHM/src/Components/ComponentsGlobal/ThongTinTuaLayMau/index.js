@@ -38,7 +38,7 @@ const Index = (props) => {
     SeIsDisable(true);
     const ClonePersonUpdate = PersonUpdate;
     ClonePersonUpdate.RowID = props.ID;
-    
+
     PUT_PersonTrip(PersonUpdate)
       .then(() => {
         SetIsLoad(false);

@@ -5,6 +5,7 @@ const Connection = async (URI, method = 'GET', body, params = null, Type = 'appl
     if (process.env.NODE_ENV === "development") { UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI };
     if (process.env.NODE_ENV === 'production') { UrlBase = process.env.REACT_APP_PUBLIC_URL_PRODUCT + URI };
     if (process.env.NODE_ENV === 'test') { UrlBase = process.env.REACT_APP_PUBLIC_URL_TEST + URI };
+    console.log(UrlBase)
     return await axios(UrlBase, {
         method: method,
         headers: {
@@ -40,7 +41,6 @@ const ShowMessenger = (typeMessenger, Title) => {
 }
 
 export const HttpRequest = async (method = 'GET', URI, body, messageShow = false, params, Type) => {
-
     var data = [];
     if (messageShow) {
         const hide = message.loading('Loading data ...', 0);
@@ -50,7 +50,8 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
         data = await Connection(URI, method, body, params, Type);
         return ExposeData(data, messageShow);
     }
-    catch {
+    catch  {
+
         ShowMessenger("error", 'server is not running!');
 
     }

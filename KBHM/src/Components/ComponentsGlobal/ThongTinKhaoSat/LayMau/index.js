@@ -6,9 +6,10 @@ import "../../index.css";
 import { PUT_PersonDone, POST_SyncDonor } from "../../../../Data/Api/DangKyKham";
 import { useState } from "react";
 import IconCombine from "../../../Icon";
-import  { Error, Info } from "../../../../Components/notification";
+import { Error, Info } from "../../../../Components/notification";
 import { useEffect } from "react";
 import { warning } from "@remix-run/router";
+import { Await } from "react-router-dom";
 const Index = (props) => {
   const [PropertiesButton, SetPropertiesButton] = useState({
     Name: "Kết thúc lấy máu -> Đồng bộ!",
@@ -86,12 +87,12 @@ const Index = (props) => {
         break;
     }
   };
-  const PushState = () => {
+  const PushState = async () => {
     const ClonePeronUpdate = PersonUpdate;
     ClonePeronUpdate.SyncData = 1;
- 
-    PUT_PersonDone(ClonePeronUpdate).then(() => { TitleButton("1"); }).catch(() => TitleButton("3"))
-    POST_SyncDonor(PersonUpdate.RowID).then((rs) => {Info({message:'Hoàn thành trạng thái đồng bộ!'})}).catch(rs => {warning({message:'Có lỗi xảy ra'})})
+
+    await PUT_PersonDone(ClonePeronUpdate).then(() => { TitleButton("1"); }).catch(() => TitleButton("3"))
+    await POST_SyncDonor(PersonUpdate.RowID).then((rs) => { Info({ message: 'Hoàn thành trạng thái đồng bộ!' }) }).catch(rs => { warning({ message: 'Có lỗi xảy ra' }) })
   };
   return (
     <React.Fragment>
@@ -116,7 +117,7 @@ const Index = (props) => {
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Hiến loại thành phần máu">
-              <ElementCombobox value={PersonUpdate?.LoaiHienThanhPhan} />
+              <ElementCombobox  value={PersonUpdate?.LoaiHienThanhPhan + ""}/>
             </Form.Item>
           </Col>
         </Row>

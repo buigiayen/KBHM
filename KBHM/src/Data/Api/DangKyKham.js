@@ -34,38 +34,46 @@ export const PUT_PersonDone = async (prop) => {
 
 
 export const POST_SyncDonor = async (ID) => {
-    let DataPerson = {};
-    await GET_Person(ID).then(rs => DataPerson = rs);
-    if (DataPerson !== undefined) {
-        const { RowID, Name, BirthDay, Sex, CCCD, Phone, Email, DateRegister,
-            DiaChiLienLac, DiaChiThuongTru_ChiTiet, MaTuiMau, DiemLayMau,
-            LuongMauCoTheHien, LoaiHienThanhPhan, HuyetAp, TinhTrangLamSang, Mach, ChieuCao
-        } = DataPerson[0]
-        const DataSync = {
-            DateIn: DateRegister,
-            DonorCode: CCCD,
-            DonorName: Name,
-            DonorNameUnsign: Name,
-            Sex: Sex.toString(),
-            Age: null,
-            Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
-            Phone: Phone,
-            BirthDay: BirthDay,
-            DonorExCode: MaTuiMau,
-            BloodSourceLocationId: DiemLayMau,
-            BloodVolume: LuongMauCoTheHien.toString(),
-            ElementID: LoaiHienThanhPhan.toString(),
-            BLOODPRESSURE: HuyetAp.toString(),
-            HGB: '1',
-            PULSE: Mach.toString(),
-            STATUS: TinhTrangLamSang,
-            WEIGH: ChieuCao.toString(),
+    try {
+        let DataPerson = {};
+        await GET_Person(ID).then(rs => DataPerson = rs);
+    
+        if (DataPerson !== undefined) {
+            const { RowID, Name, BirthDay, Sex, CCCD, Phone, Email, DateRegister,
+                DiaChiLienLac, DiaChiThuongTru_ChiTiet, MaTuiMau, DiemLayMau,
+                LuongMauCoTheHien, LuongHien,LoaiHienThanhPhan, HuyetAp, TinhTrangLamSang, Mach, ChieuCao
+            } = DataPerson[0]
+    
+            const DataSync = {
+                DateIn: DateRegister,
+                DonorCode: CCCD,
+                DonorName: Name,
+                DonorNameUnsign: Name,
+                Sex: Sex?.toString(),
+                Age: null,
+                Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
+                Phone: Phone,
+                BirthDay: BirthDay,
+                DonorExCode: MaTuiMau,
+                BloodSourceLocationId: DiemLayMau,
+                BloodVolume: LuongHien?.toString(),
+                ElementID: LoaiHienThanhPhan?.toString(),
+                BLOODPRESSURE: HuyetAp?.toString(),
+                HGB: '1',
+                PULSE: Mach?.toString(),
+                STATUS: TinhTrangLamSang,
+                WEIGH: ChieuCao?.toString(),
+            }
+            console.log(DataSync)
+            return await HttpRequest('POST', `/SyncDonnor`, DataSync);
         }
-         return await HttpRequest('POST', `/SyncDonnor`,DataSync);
-    }
-    else {
-        return [];
-    }
+        else {
+            return [];
+        }
+    } catch (error) {
+        console.log(error);
+    } 
+   
 
 
 
