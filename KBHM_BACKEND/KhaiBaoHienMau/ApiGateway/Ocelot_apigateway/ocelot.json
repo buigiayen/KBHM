@@ -123,7 +123,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "hienmau.bvdktinhthanhhoa.com.vn",
+          "Host": "192.168.18.8",
           "Port": 9000
         }
       ],
