@@ -10,8 +10,8 @@ const App = ({ UrlImage, value }) => {
     const [previewTitle, setPreviewTitle] = useState('');
     const [imageUrl, setimageUrl] = useState();
     useEffect(() => {
-        setimageUrl(UrlImage)
-    },[UrlImage])
+        setimageUrl(value)
+    },[value])
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
@@ -29,7 +29,6 @@ const App = ({ UrlImage, value }) => {
         var body = { formFile: info.file, size: 1021, bucket: 'avatar' }
         await Post_Minio(body).then(
             (rs) => {
-
                 setPreviewImage("image.png");
                 setimageUrl(rs.filePath);
 
