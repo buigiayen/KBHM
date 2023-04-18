@@ -1,15 +1,18 @@
 import axios from 'axios'
 import { message } from 'antd';
-import { Config } from './config.system';
 const Connection = async (URI, method = 'GET', body, params = null, Type = 'application/json') => {
-    const UrlBase = URI;
-    return await axios(Config.URL_BACKEND + UrlBase, {
+    var UrlBase;
+    console.log(process.env);
+    if (process.env.NODE_ENV === "development") { UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI };
+    if (process.env.NODE_ENV === 'production') { UrlBase = process.env.REACT_APP_PUBLIC_URL_PRODUCT + URI };
+    if (process.env.NODE_ENV === 'test') { UrlBase = process.env.REACT_APP_PUBLIC_URL_TEST + URI };
+    return await axios(UrlBase, {
         method: method,
         headers: {
             'Content-Type': Type,
             'Authorization': 'Bearer '
                 + localStorage.getItem("Token"),
-          
+
         },
         params: {
             ...params,
@@ -50,7 +53,7 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     }
     catch {
         ShowMessenger("error", 'server is not running!');
-     
+
     }
     return data;
 }
@@ -72,7 +75,7 @@ const ExposeData = (datas, ShowToast = true) => {
                 break;
             case 401:
                 ShowMessenger("error", 'Unauthorized!');
-               
+
                 break;
             case 405:
                 ShowMessenger("error", 'Method Not Allowed!');
