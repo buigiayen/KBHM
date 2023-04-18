@@ -95,7 +95,7 @@ const Index = (props) => {
                     label={<b>Ảnh chân dung</b>}
                   >
                     <UploadMinio
-                      value={DataPerson?.UrlImage}
+                      value={DataPerson.UrlImage}
                       UrlImage={(e) => {
                         SetDataPerson({ ...DataPerson, UrlImage: e });
                       }}
