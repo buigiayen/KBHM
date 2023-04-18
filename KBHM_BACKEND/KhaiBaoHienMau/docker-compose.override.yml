@@ -19,7 +19,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=Server=192.168.61.101,1434;Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
       - "443"
@@ -29,10 +29,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=Server=192.168.61.101,1434;Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
-      - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True"
-    volumes:
-      - ./picture:/app:rw
+      - "SQL_CONNECTION=Server=${MMSQL};Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True;9874"
+      - DOMAIN=${DOMAIN}
     ports:
       - "80"
 
@@ -41,7 +40,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=Server=192.168.61.101,1434;Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
       - "443"

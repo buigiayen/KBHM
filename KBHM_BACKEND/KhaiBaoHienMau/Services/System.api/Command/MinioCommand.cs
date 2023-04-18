@@ -148,7 +148,7 @@ namespace System.api.Command
                 MinIOservices.FileBucketMinio fileBucketMinios = new MinIOservices.FileBucketMinio
                 {
                     FileName = uploadMinios.FileName,
-                    FilePath = (_Minioct.HTTPS ? "https://" : "http://") + string.Format("{0}:{1}/{2}/{3}", _Minioct.Endpoin, _Minioct.PORT, bucket, objectName),
+                    FilePath = string.Format("{0}:{1}/gw/s3/{2}/{3}", Environment.GetEnvironmentVariable("DOMAIN"), _Minioct.PORT_GW, bucket, objectName),
                     Size = uploadMinios.Size,
                 };
                 File.Delete(FilePath);

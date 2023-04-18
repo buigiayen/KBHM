@@ -9,6 +9,7 @@ namespace System.api.infrastructure
     {
         public string Endpoin;
         public int PORT;
+        public string PORT_GW;
         private string ACCESSKEY;
         private string SecretKey;
         public bool HTTPS = false;
@@ -25,6 +26,7 @@ namespace System.api.infrastructure
                 ACCESSKEY = splitConfig[2];
                 SecretKey = splitConfig[3];
                 HTTPS = Convert.ToBoolean(splitConfig[4]);
+                PORT_GW =splitConfig[5];
             }
             catch (Exception ex)
             {
