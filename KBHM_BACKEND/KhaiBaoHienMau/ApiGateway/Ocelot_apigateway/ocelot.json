@@ -71,7 +71,7 @@
 
     },
     {
-      "DownstreamPathTemplate": "/v1/category/{everything}",
+      "DownstreamPathTemplate": "/v1/category/Category",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -79,12 +79,8 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/category/{everything}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 30,
-        "Region": "Category"
-      }
+      "UpstreamPathTemplate": "/gw/category",
+      "UpstreamHttpMethod": [ "GET" ]
     },
 
 
@@ -123,7 +119,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "hienmau.bvdktinhthanhhoa.com.vn",
+          "Host": "192.168.18.8",
           "Port": 9000
         }
       ],

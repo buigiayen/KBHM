@@ -1,34 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { GET_Element } from "../../Data/Api/Category";
+import { Get_Category } from "../../Data/Api/Category";
 import { Select } from "antd";
 
 const ElementCombobox = (props) => {
-  const [isLoading, SetisLoading] = useState();
   const [ChosseData, SetChooseData] = useState();
   const [Data, setData] = useState([]);
   useEffect(() => {
-    SetisLoading(true);
     async function get() {
-      await GET_Element().then((rs) => {
-        let data = [];
-        if(rs !== undefined){
-          rs.forEach(element => {
-            const Result = {
-              value : element.value + "",
-              label: element.label + "",
-            }
-            data.push(Result);
-          });
-        }
-        console.log(data)
-        setData(data);
-      });
+     const {element} =  await Get_Category();
+        setData(element);
     }
-    setTimeout(() => {
-      get();
-      SetisLoading(false);
-    }, 3000);
-
+    get();
   }, []);
 
   const ReturnValue = (value) => {
@@ -50,9 +32,8 @@ const ElementCombobox = (props) => {
       onChange={ReturnValue}
       style={{ width: 100 + "%" }}
       {...props}
-      loading={isLoading}
       options={Data ?? []}
-    
+
     />
   );
 }

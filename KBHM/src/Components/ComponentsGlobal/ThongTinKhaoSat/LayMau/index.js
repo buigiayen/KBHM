@@ -1,18 +1,15 @@
 import React from "react";
-import { Row, Col, Form, Input, DatePicker, Button } from "antd";
+import { Row, Col, Form, Input } from "antd";
 import Ml from "../../ml.combobox";
 import ElementCombobox from "../../Element.combobox";
 import "../../index.css";
-import { PUT_PersonDone, POST_SyncDonor } from "../../../../Data/Api/DangKyKham";
 import { useState } from "react";
 import IconCombine from "../../../Icon";
-import { Error, Info } from "../../../../Components/notification";
 import { useEffect } from "react";
-import { warning } from "@remix-run/router";
-import { Await } from "react-router-dom";
+import ButtonIndex from "./Component/ButtonSyncDonnor";
 const Index = (props) => {
   const [PropertiesButton, SetPropertiesButton] = useState({
-    Name: "Kết thúc lấy máu -> Đồng bộ!",
+    Name: "Kết thúc lấy máu -> !",
     type: "primary",
     icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
     disabled: false,
@@ -38,7 +35,7 @@ const Index = (props) => {
       case "1":
         SetPropertiesButton({
           ...PropertiesButton,
-          Name: "Hàng đợi đồng bộ -> Đợi duyệt",
+          Name: "Hàng đợi  -> Đợi duyệt",
           icon: <IconCombine.ClockCircleOutlined />,
           disabled: true,
           type: "dashed",
@@ -58,7 +55,7 @@ const Index = (props) => {
       case "3":
         SetPropertiesButton({
           ...PropertiesButton,
-          Name: "Lỗi đồng bộ xin kiểm tra thông tin. ",
+          Name: "Lỗi  xin kiểm tra thông tin. ",
           icon: <IconCombine.CloseCircleOutlined />,
           disabled: false,
           type: "dashed",
@@ -68,7 +65,7 @@ const Index = (props) => {
       case "4":
         SetPropertiesButton({
           ...PropertiesButton,
-          Name: "Đã đồng bộ",
+          Name: "Đã ",
           icon: <IconCombine.CheckCircleTwoTone />,
           disabled: true,
           type: "primary",
@@ -87,20 +84,14 @@ const Index = (props) => {
         break;
     }
   };
-  const PushState = async () => {
-    const ClonePeronUpdate = PersonUpdate;
-    ClonePeronUpdate.SyncData = 1;
 
-    await PUT_PersonDone(ClonePeronUpdate).then(() => { TitleButton("1"); }).catch(() => TitleButton("3"))
-    await POST_SyncDonor(PersonUpdate.RowID).then((rs) => { Info({ message: 'Hoàn thành trạng thái đồng bộ!' }) }).catch(rs => { warning({ message: 'Có lỗi xảy ra' }) })
-  };
   return (
     <React.Fragment>
       <Form labelCol={{ span: 8 }}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item label="Mã túi máu">
-              <Input readOnly value={PersonUpdate?.MaTuiMau} />
+              <Input readOnly disabled value={PersonUpdate?.MaTuiMau} />
             </Form.Item>
           </Col>
         </Row>
@@ -117,7 +108,7 @@ const Index = (props) => {
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Hiến loại thành phần máu">
-              <ElementCombobox  value={PersonUpdate?.LoaiHienThanhPhan + ""}/>
+              <ElementCombobox disabled={true} value={PersonUpdate?.LoaiHienThanhPhan + ""} />
             </Form.Item>
           </Col>
         </Row>
@@ -147,13 +138,16 @@ const Index = (props) => {
           <Col md={4} xs={24}></Col>
           <Col md={4} xs={24}></Col>
           <Col md={6} xs={24}>
-            <Button
-              {...PropertiesButton}
-              className="btnFull"
-              onClick={PushState}
+            <ButtonIndex
+              Icon={PropertiesButton.icon}
+              Name={PropertiesButton.Name}
+              Type={PropertiesButton.type}
+              disabled={PropertiesButton.disabled}
+              PersonInfo={PersonUpdate}
+             Reload={()=>{TitleButton(1)}}
             >
-              {PropertiesButton.Name}
-            </Button>
+                
+            </ButtonIndex>
           </Col>
         </Row>
       </Form>

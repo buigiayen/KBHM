@@ -2,6 +2,8 @@
 using BloodBank.api.Model;
 using Services.lib.Sql;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BloodBank.api.command
 {
@@ -12,23 +14,25 @@ namespace BloodBank.api.command
         {
             _context = context;
         }
-        public async Task<HttpObject.API> GetLocation()
+        public async Task<List<CategoryData>> GetLocation()
         {
-            string sql = "select BloodSourceLocationId as value , BloodSourceLocationName as label  from tbl_Config_BloodSourceLocation";
-            return await Dataprovider.db._Query(sql).SQLQueryAsync();
+            string sql = "select BloodSourceLocationId as value , LOWER(BloodSourceLocationName) as label from tbl_Config_BloodSourceLocation";
+           var data = await Dataprovider.db._Query(sql).QueryMapperAsync<CategoryData>();
+            return data.ToList();
         }
 
-        public async Task<HttpObject.API> GetMlBoold()
+        public async Task<List<CategoryData>> GetMlBoold()
         {
-            string sql = "select Volume as value ,Volume as label from tbl_BloodVolume";
-            return await Dataprovider.db._Query(sql).SQLQueryAsync();
-
-
+            string sql = "select Volume as value ,LOWER(Volume)  as label from tbl_BloodVolume";
+            var data = await Dataprovider.db._Query(sql).QueryMapperAsync<CategoryData>();
+            return data.ToList();
         }
-        public async Task<HttpObject.API> GetElementBoold()
+        public async Task<List<CategoryData>> GetElementBoold()
         {
-            string sql = "select ElementID as value, ElementName as label from tbl_Element";
-            return await Dataprovider.db._Query(sql).SQLQueryAsync();
+            string sql = "select ElementID as value, LOWER(ElementName)  as label from tbl_Element";
+            var data = await Dataprovider.db._Query(sql).QueryMapperAsync<CategoryData>();
+            return data.ToList();
         }
+
     }
 }

@@ -111,34 +111,47 @@ namespace Services.lib.Sql
 
 
         }
-        public async Task<T> QueryMapper<T>() where T : class
+        public async Task<T> QueryMapperSingleOrDefaultAsync<T>() where T : class
         {
             T Tcontext = default(T);
             using (_SqlConnection = new SqlConnection(DBConnection))
             {
-
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await _SqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-
+            }
+            Dispose();
+            return Tcontext;
+        }
+        public async Task<IEnumerable<T>> QueryMapperAsync<T>() where T : class
+        {
+            IEnumerable<T> Tcontext = default(IEnumerable<T>);
+            using (_SqlConnection = new SqlConnection(DBConnection))
+            {
+                Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
+                Tcontext = await _SqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
+                Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
             }
             Dispose();
             return Tcontext;
         }
         public async Task<HttpObject.APIresult> SQLQueryAsync()
         {
+
             var httpObject = new HttpObject.APIresult();
             try
-            {
+            { 
                 using (_SqlConnection = new SqlConnection(DBConnection))
                 {
+                   
                     _SqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = await _SqlConnection.QueryAsync(_SQL, _Pra ?? null);
+                    var data = _SqlConnection.Query(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                     _SqlConnection.Close();
                     _SqlConnection.Dispose();
+                    await Task.CompletedTask;
                 }
 
                 return httpObject;

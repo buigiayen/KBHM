@@ -102,7 +102,14 @@ const Index = (props) => {
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Mã túi máu">
+            <Form.Item label="Mã túi máu"
+              required
+              rules={[
+                {
+                  required: true,
+                  message: 'Xin hãy nhập mã túi máu!',
+                },
+              ]}>
               <Input
                 value={PersonUpdate?.MaTuiMau}
                 onChange={(e) => {

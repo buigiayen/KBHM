@@ -1,23 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { GET_Location } from "../../Data/Api/Category";
+import { Get_Category } from "../../Data/Api/Category";
 import { Select } from "antd";
 
 const LocationCombobox = (props) => {
-  const [isLoading, SetisLoading] = useState();
   const [ChosseData, SetChooseData] = useState();
   const [Data, setData] = useState([]);
   useEffect(() => {
-    SetisLoading(true);
-    function get() {
-
-      GET_Location().then((rs) => {
-        setData(rs);
-      });
+    async function get() {
+     const {location} =  await Get_Category();
+        setData(location);
     }
-    setTimeout(() => {
-      get();
-      SetisLoading(false);
-    }, 5000);
+    get();
   }, []);
 
   const ReturnValue = (value) => {
@@ -37,7 +30,6 @@ const LocationCombobox = (props) => {
       onChange={ReturnValue}
       style={{ width: 100 + "%" }}
       {...props}
-      loading={isLoading}
       options={Data ?? []}
     />
   );

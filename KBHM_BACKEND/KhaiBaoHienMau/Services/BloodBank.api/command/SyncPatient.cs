@@ -16,7 +16,7 @@ namespace BloodBank.api.command
 
             string sql = "Select SequenceId, StartNum, EndNum, CurrentVal, Mode, UpdateTime, getdate() as ServerTime " +
                 "from dbo.SequenceConfig  where SequenceId=@SequenceId ";
-            var sequenceNum = await Services.lib.Sql.Dataprovider.db._Query(sql)._ParamterSQL(new { SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapper<SequenceNumInfo>();
+            var sequenceNum = await Services.lib.Sql.Dataprovider.db._Query(sql)._ParamterSQL(new { SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapperSingleOrDefaultAsync<SequenceNumInfo>();
             if (sequenceNum != null)
             {
                 long nextVal = sequenceNum.CurrentVal + 1;
@@ -56,7 +56,7 @@ namespace BloodBank.api.command
                     }
                 }
                 string SQL = "update dbo.SequenceConfig  set CurrentVal = @CurrentVal, UpdateTime = getdate()  where SequenceId=@SequenceId";
-                await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { CurrentVal = nextVal, SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapper<SequenceNumInfo>();
+                await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { CurrentVal = nextVal, SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapperSingleOrDefaultAsync<SequenceNumInfo>();
 
             }
             var data = new HttpObject.APIMapper<SequenceNumInfo>();

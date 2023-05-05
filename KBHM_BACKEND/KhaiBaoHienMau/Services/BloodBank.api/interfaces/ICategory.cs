@@ -1,14 +1,13 @@
 ﻿using Services.lib.Sql;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BloodBank.api.interfaces
 {
     public interface ICategory
     {
-        Task<HttpObject.API> GetLocation();
-        Task<HttpObject.API> GetMlBoold();
-        Task<HttpObject.API> GetElementBoold();
-        
-
+        Task<List<Model.CategoryData>> GetLocation();
+        Task<List<Model.CategoryData>> GetMlBoold();
+        Task<List<Model.CategoryData>> GetElementBoold();
     }
 }

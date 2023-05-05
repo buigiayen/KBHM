@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services.lib.Sql;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BloodBank.api.Controllers
@@ -17,24 +19,34 @@ namespace BloodBank.api.Controllers
         {
             _Category = Category;
         }
-        [HttpGet("Location")]
-        public async Task<IActionResult> GetLocationasync()
+
+        [HttpGet("Category")]
+        public async Task<IActionResult> GetCateGoryasync()
         {
-            var data = await _Category.GetLocation();
-            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
-        }
-        
-        [HttpGet("Ml")]
-        public async Task<IActionResult> GetmlBloodasync()
-        {
-            var data = await _Category.GetMlBoold();
-            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
-        }
-        [HttpGet("Element")]
-        public async Task<IActionResult> GetElementBloodasync()
-        {
-            var data = await _Category.GetElementBoold();
-            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+            HttpObject.APIresult aPI = new HttpObject.APIresult();
+            Model.Category Category = new Model.Category();
+            try
+            {
+
+                Category.Location = await _Category.GetLocation();
+                Category.ML = await _Category.GetMlBoold();
+                Category.Element = await _Category.GetElementBoold();
+
+
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
+                aPI.Data = Category;
+                aPI.Messenger = "Success";
+                return Ok(aPI);
+            }
+            catch (Exception ex)
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.ERROR;
+                aPI.Messenger = ex.Message;
+                aPI.Data = null;
+                return BadRequest(aPI);
+            }
+
+
         }
     }
 }

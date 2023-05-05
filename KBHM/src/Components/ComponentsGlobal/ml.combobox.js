@@ -1,23 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { GET_Ml } from "../../Data/Api/Category";
+import { Get_Category } from "../../Data/Api/Category";
 import { Select } from "antd";
 
 const MLCombobox = (props) => {
-  const [isLoading, SetisLoading] = useState();
   const [ChosseData, SetChooseData] = useState();
   const [Data, setData] = useState([]);
   useEffect(() => {
-    SetisLoading(true);
-    function get() {
-     
-        GET_Ml().then((rs) => {
-        setData(rs);
-      });
+    async function get() {
+     const {ml} =  await Get_Category();
+        setData(ml);
     }
-    setTimeout(() => {
-      get();
-      SetisLoading(false);
-    }, 4000);
+    get();
   }, []);
 
   const ReturnValue = (value) => {
@@ -32,7 +25,6 @@ const MLCombobox = (props) => {
       onChange={ReturnValue}
       style={{ width: 100 + "%" }}
       {...props}
-      loading={isLoading}
       options={Data ?? []}
     />
   );

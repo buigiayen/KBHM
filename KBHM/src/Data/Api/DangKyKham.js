@@ -37,32 +37,32 @@ export const POST_SyncDonor = async (ID) => {
     try {
         let DataPerson = {};
         await GET_Person(ID).then(rs => DataPerson = rs);
-    
+
         if (DataPerson !== undefined) {
             const { RowID, Name, BirthDay, Sex, CCCD, Phone, Email, DateRegister,
                 DiaChiLienLac, DiaChiThuongTru_ChiTiet, MaTuiMau, DiemLayMau,
-                LuongMauCoTheHien, LuongHien,LoaiHienThanhPhan, HuyetAp, TinhTrangLamSang, Mach, ChieuCao
+                LuongMauCoTheHien, LuongHien, LoaiHienThanhPhan, HuyetAp, TinhTrangLamSang, Mach, ChieuCao
             } = DataPerson[0]
-    
+
             const DataSync = {
                 DateIn: DateRegister,
                 DonorCode: CCCD,
                 DonorName: Name,
                 DonorNameUnsign: Name,
-                Sex: Sex?.toString(),
+                Sex: `${Sex}`,
                 Age: null,
                 Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
                 Phone: Phone,
                 BirthDay: BirthDay,
                 DonorExCode: MaTuiMau,
                 BloodSourceLocationId: DiemLayMau,
-                BloodVolume: LuongHien?.toString(),
-                ElementID: LoaiHienThanhPhan?.toString(),
-                BLOODPRESSURE: HuyetAp?.toString(),
+                BloodVolume: `${LuongHien}`,
+                ElementID: `${LoaiHienThanhPhan}`,
+                BLOODPRESSURE: `${HuyetAp}`,
                 HGB: '1',
-                PULSE: Mach?.toString(),
+                PULSE: `${Mach}`,
                 STATUS: TinhTrangLamSang,
-                WEIGH: ChieuCao?.toString(),
+                WEIGH: `${ChieuCao}`,
             }
             console.log(DataSync)
             return await HttpRequest('POST', `/SyncDonnor`, DataSync);
@@ -72,11 +72,6 @@ export const POST_SyncDonor = async (ID) => {
         }
     } catch (error) {
         console.log(error);
-    } 
-   
-
-
-
-
+    }
 }
 
