@@ -1,6 +1,6 @@
 import { DatePicker, Input } from "antd";
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
+
 //1999-11-20T17:00:00.000Z
 
 const App = (props) => {
@@ -20,7 +20,7 @@ const App = (props) => {
       onChange={onChange}
       format="DD/MM/YYYY"
       value={dayjs(props?.Value)}
-      defaultValue={dayjs()}
+  
     />
   );
 };

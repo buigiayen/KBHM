@@ -129,7 +129,6 @@ namespace System.api.Command
                     await uploadMinios?.formFile.CopyToAsync(FileCreate);
                     FileCreate.Dispose();
                 }
-
                 // Upload a file to bucket.
                 using (var fileStream = new MemoryStream())
                 {
@@ -142,9 +141,6 @@ namespace System.api.Command
                     await _Minioct.CreateConnection().PutObjectAsync(data);
                     fileStream.Dispose();
                 }
-
-
-
                 MinIOservices.FileBucketMinio fileBucketMinios = new MinIOservices.FileBucketMinio
                 {
                     FileName = uploadMinios.FileName,
@@ -152,8 +148,6 @@ namespace System.api.Command
                     Size = uploadMinios.Size,
                 };
                 File.Delete(FilePath);
-
-
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = fileBucketMinios, Messenger = "Succes" });
             }
             catch (MinioException ex)

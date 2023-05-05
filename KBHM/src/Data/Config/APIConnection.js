@@ -5,7 +5,6 @@ const Connection = async (URI, method = 'GET', body, params = null, Type = 'appl
     if (process.env.NODE_ENV === "development") { UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI };
     if (process.env.NODE_ENV === 'production') { UrlBase = process.env.REACT_APP_PUBLIC_URL_PRODUCT + URI };
     if (process.env.NODE_ENV === 'test') { UrlBase = process.env.REACT_APP_PUBLIC_URL_TEST + URI };
-    console.log(UrlBase)
     return await axios(UrlBase, {
         method: method,
         headers: {
@@ -50,10 +49,9 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
         data = await Connection(URI, method, body, params, Type);
         return ExposeData(data, messageShow);
     }
-    catch  {
-
-        ShowMessenger("error", 'server is not running!');
-
+    catch (e) {
+        const data = { status: e.response.status, data: null };
+        MessErr(data)
     }
     return data;
 }
@@ -70,25 +68,6 @@ const ExposeData = (datas, ShowToast = true) => {
             case 204:
                 console.log('No content')
                 break;
-            case 400:
-                ShowMessenger("error", 'Bad request!');
-                break;
-            case 401:
-                ShowMessenger("error", 'Unauthorized!');
-
-                break;
-            case 405:
-                ShowMessenger("error", 'Method Not Allowed!');
-                break;
-            case 408:
-                ShowMessenger("error", 'Request Timeout!');
-                break;
-            case 409:
-                ShowMessenger("error", 'Conflict!');
-                break;
-            case 500:
-                ShowMessenger("error", 'Internal Server Error!');
-                break;
             default:
                 ShowMessenger("error", 'Error backend!');
                 break;
@@ -97,4 +76,32 @@ const ExposeData = (datas, ShowToast = true) => {
 
     return datas.data.data ?? [];
 }
+const MessErr = (datas) => {
 
+    switch (datas.status) {
+        case 400:
+            ShowMessenger("error", 'Bad request!');
+            break;
+        case 401:
+            ShowMessenger("error", 'Unauthorized!');
+            break;
+        case 405:
+            ShowMessenger("error", 'Method Not Allowed!');
+            break;
+        case 408:
+            ShowMessenger("error", 'Request Timeout!');
+            break;
+        case 409:
+            ShowMessenger("error", 'Conflict!');
+            break;
+        case 500:
+            ShowMessenger("error", 'Internal Server Error!');
+            break;
+        default:
+            ShowMessenger("error", 'Error backend!');
+            break;
+    }
+
+
+    return [];
+}

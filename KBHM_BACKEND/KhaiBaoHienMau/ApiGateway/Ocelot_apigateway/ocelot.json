@@ -123,25 +123,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.18.8",
+          "Host": "hienmau.bvdktinhthanhhoa.com.vn",
           "Port": 9000
         }
       ],
       "UpstreamPathTemplate": "/gw/s3/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "192.168.18.8",
-          "Port": 9002
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/s3/Minio/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
     }
+   
   ],
 
   "GlobalConfiguration": {

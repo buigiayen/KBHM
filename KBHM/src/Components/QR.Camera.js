@@ -34,7 +34,9 @@ class IndexQR extends Component {
           style={previewStyle}
           onError={this.handleError}
           onScan={this.handleScan}
-          
+          facingMode={'user'}
+          showViewFinder={true}
+          chosenCamera={''}
           />
         <p>Kết quả QR:{this.state.result}</p>
       </div>
