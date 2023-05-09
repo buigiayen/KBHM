@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import QrReader from 'react-qr-reader'
 
 class IndexQR extends Component {
@@ -26,7 +26,6 @@ class IndexQR extends Component {
       
         
     }
-
     return(
       <div>
         <QrReader
