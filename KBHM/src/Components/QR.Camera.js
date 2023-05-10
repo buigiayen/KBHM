@@ -40,6 +40,8 @@ const QRCaM = ({
       style={previewStyle}
       onError={handleError}
       onScan={handleScan}
+      facingMode={'environment'}
+     
       constraints={{
         facingMode: 'user',
         deviceId: chooseDriver
