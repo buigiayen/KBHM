@@ -1,7 +1,8 @@
 import React, { Component, useEffect, useState } from 'react'
-import { Select } from 'antd';
+import { Select, Space } from 'antd';
 import QrReader from 'react-qr-reader'
 import PropTypes from 'prop-types';
+import { Form } from 'antd';
 const QRCaM = ({
   Value,
 
@@ -10,11 +11,11 @@ const QRCaM = ({
   const [Drivers] = useState([
     {
       label: "Cam sau",
-      value : "environment"
+      value: "user"
     },
     {
       label: "Cam trước",
-      value : "user"
+      value: "environment"
     }
   ])
   const [chooseDriver, SetChooseDriver] = useState("environment")
@@ -27,22 +28,24 @@ const QRCaM = ({
   const handleError = (err) => {
     console.error(err)
   }
-  const previewStyle = {
-    height: 260,
-  }
+
   return <div>
-    <QrReader
-      delay={100}
-      style={previewStyle}
-      onError={handleError}
-      onScan={handleScan}
-      facingMode={chooseDriver} 
-      constraints={{
-        facingMode: 'user',
-        deviceId: chooseDriver
-      }}
-    />
+    <Form>
+      <Form.Item>
+        <QrReader
+          delay={100}
+          style={{height:246 +'px'}}
+          onError={handleError}
+          onScan={handleScan}
+          facingMode={chooseDriver}
+        />
+      </Form.Item>
+
+    </Form>
+
     <><Select
+      style={{ width: 256 }}
+      defaultValue={chooseDriver}
       onChange={value => { SetChooseDriver(value) }}
       options={Drivers}
     /></>
