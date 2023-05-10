@@ -18,7 +18,6 @@ const Index = () => {
   const [HienThiThongTinTua, SetThongTinTua] = useState();
   const [DataPerson, SetDataPerson] = useState();
   const [isGetBlood, setIsGetBlood] = useState(false);
-  const [Driver, SetDriver] = useState([])
   useEffect(() => {
     if (
       localStorage.getItem("Token") === undefined ||
@@ -33,7 +32,7 @@ const Index = () => {
           Navigate("/login");
         });
     }
-     navigator.mediaDevices.enumerateDevices().then(rs => { console.log(rs); SetDriver(rs)})
+   
   }, []);
 
   const GetQRCode = (pra) => {
@@ -64,7 +63,7 @@ const Index = () => {
           </h2>
         </Col>
       </Row>
-      {Driver && Driver.map(rs => {return <>{rs.deviceId}</> })}
+
       <Row>
         <Col sm={12} xs={24}>
           <Search
@@ -141,6 +140,7 @@ const Index = () => {
       >
         {OpenModal && (
           <QRCam
+            
             Value={(e) => {
               if (e != null && e != undefined) {
                 GetQRCode(e);

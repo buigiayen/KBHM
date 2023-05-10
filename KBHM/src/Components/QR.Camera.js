@@ -1,45 +1,61 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
+import { Select } from 'antd';
 import QrReader from 'react-qr-reader'
+import PropTypes from 'prop-types';
+const QRCaM = ({
+  Value,
 
-class IndexQR extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      delay: 100,
-      result: 'No result',
-    }
+}) => {
+  const [Result, SetResult] = useState()
+  const [Drivers, SetDrivers] = useState([])
+  const [chooseDriver, SetChooseDriver] = useState()
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(rs => {
+      console.log(rs)
+      let Drivers = [];
+      rs.map(rs => {
+        if (rs.deviceId) {
+          Drivers.push({ label: rs.label, value: rs.deviceId })
+        }
 
-    this.handleScan = this.handleScan.bind(this)
-  }
-  handleScan(data){
-    this.setState({
-      result: data,
+      })
+      SetDrivers(Drivers)
     })
-    this.props?.Value(data);
+  }, [])
+
+
+  const handleScan = (data) => {
+    SetResult(data);
+    Value(data);
   }
-  handleError(err){
+  const handleError = (err) => {
     console.error(err)
   }
-  render(){
-    const previewStyle = {
-      height: 260,
-      
-        
-    }
-    return(
-      <div>
-        <QrReader
-          delay={this.state.delay}
-          style={previewStyle}
-          onError={this.handleError}
-          onScan={this.handleScan}
-          facingMode={'user'}
-          showViewFinder={true}
-          chosenCamera={''}
-          />
-        <p>Kết quả QR:{this.state.result}</p>
-      </div>
-    )
+  const previewStyle = {
+    height: 260,
   }
+  return <div>
+    <QrReader
+      delay={100}
+      style={previewStyle}
+      onError={handleError}
+      onScan={handleScan}
+      constraints={{
+        facingMode: 'user',
+        deviceId: chooseDriver
+      }}
+    />
+    <><Select
+      onChange={value => { SetChooseDriver(value) }}
+      options={Drivers}
+    /></>
+    <p>Kết quả QR:{Result}</p>
+  </div>
 }
-export default IndexQR;
+
+QRCaM.prototype = {
+  Value: PropTypes.func,
+  ListDrive: PropTypes.array
+}
+
+export default QRCaM;
