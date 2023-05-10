@@ -7,21 +7,17 @@ const QRCaM = ({
 
 }) => {
   const [Result, SetResult] = useState()
-  const [Drivers, SetDrivers] = useState([])
-  const [chooseDriver, SetChooseDriver] = useState()
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(rs => {
-      console.log(rs)
-      let Drivers = [];
-      rs.map(rs => {
-        if (rs.deviceId) {
-          Drivers.push({ label: rs.label, value: rs.deviceId })
-        }
-
-      })
-      SetDrivers(Drivers)
-    })
-  }, [])
+  const [Drivers] = useState([
+    {
+      label: "Cam sau",
+      value : "environment"
+    },
+    {
+      label: "Cam trước",
+      value : "user"
+    }
+  ])
+  const [chooseDriver, SetChooseDriver] = useState("environment")
 
 
   const handleScan = (data) => {
@@ -40,8 +36,7 @@ const QRCaM = ({
       style={previewStyle}
       onError={handleError}
       onScan={handleScan}
-      facingMode={'environment'}
-     
+      facingMode={chooseDriver} 
       constraints={{
         facingMode: 'user',
         deviceId: chooseDriver
