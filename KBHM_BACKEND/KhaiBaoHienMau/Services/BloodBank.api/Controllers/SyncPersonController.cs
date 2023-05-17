@@ -16,11 +16,7 @@ namespace BloodBank.api.Controllers
         {
             _ISyncDonnor = ISyncDonnor;
         }
-        /// <summary>
-        /// Kiểm tra token
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
+
         [ProducesErrorResponseType(typeof(Services.lib.Sql.HttpObject.API))]
         [ProducesResponseType(typeof(Services.lib.Sql.HttpObject.API), 200)]
         [ProducesDefaultResponseType(typeof(Services.lib.Sql.HttpObject.API))]
@@ -29,14 +25,7 @@ namespace BloodBank.api.Controllers
         {
             return Ok("Hello");
         }
-        /// <summary>
-        /// Đồng bộ ngân hàng máu
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
-        [ProducesErrorResponseType(typeof(Services.lib.Sql.HttpObject.API))]
-        [ProducesResponseType(typeof(Services.lib.Sql.HttpObject.API), 200)]
-        [ProducesDefaultResponseType(typeof(Services.lib.Sql.HttpObject.API))]
+
         [HttpPost("SyncDonnor")]
         public async Task<IActionResult> SyncDonnorAsync([FromBody] Model.Donnor.tbl_Donor donnor)
         {
@@ -44,6 +33,13 @@ namespace BloodBank.api.Controllers
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("SyncDonnor", data) : BadRequest(data);
         }
 
+
+        [HttpGet("SyncDonnor/CheckDonnorExCode")]
+        public async Task<IActionResult> CheckDonnorEx([FromQuery] string DonorExCode)
+        {
+            var data = await _ISyncDonnor.CheckDonnorEx(DonorExCode);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
 
     }
 }

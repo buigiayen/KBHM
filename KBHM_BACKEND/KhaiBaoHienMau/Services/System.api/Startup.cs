@@ -31,10 +31,10 @@ namespace System.api
         {
 
             services.AddControllers();
-            services.AddSingleton<IConnection, Services.lib.Sql.DapperContext>();
             services.AddSingleton<MinioContext>();
-            services.AddScoped<Interfaces.IRegion, Command.Region>();
+            services.AddSingleton<Interfaces.IRegion, Command.Region>();
             services.AddScoped<Interfaces.IMinio, Command.MinioCommand>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "System.api", Version = "v1" });

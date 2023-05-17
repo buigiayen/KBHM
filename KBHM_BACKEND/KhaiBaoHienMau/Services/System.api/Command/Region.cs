@@ -6,10 +6,9 @@ namespace System.api.Command
 {
     public class Region : Interfaces.IRegion
     {
-        private readonly IConnection _context;
-        public Region(IConnection context)
+
+        public Region()
         {
-            _context = context;
         }
         public async Task<Services.lib.Sql.HttpObject.APIresult> GetRegion(int Status, string regionId)
         {

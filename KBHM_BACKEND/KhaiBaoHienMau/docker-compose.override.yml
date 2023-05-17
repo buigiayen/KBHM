@@ -22,7 +22,6 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
-      - "443"
 
 
   system.api:
@@ -43,5 +42,4 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
-      - "443"
 

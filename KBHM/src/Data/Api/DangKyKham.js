@@ -32,7 +32,9 @@ export const PUT_PersonDone = async (prop) => {
     return await HttpRequest('PUT', `/Person/Done`, prop, true);
 }
 
-
+export const GET_DonorExCheck = async ({DonorExCode}) => {
+    return await HttpRequest('GET', `/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`);
+}
 export const POST_SyncDonor = async (ID) => {
     try {
         let DataPerson = {};

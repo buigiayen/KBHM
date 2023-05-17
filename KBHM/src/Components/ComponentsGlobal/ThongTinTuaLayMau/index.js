@@ -8,14 +8,14 @@ import {
   Col,
   Checkbox,
   Button,
-  DatePicker,
 } from "antd";
 import LocationCombobox from "../Location.combobox";
 import ElementCombobox from "../Element.combobox";
 import { Config } from "../../../Data/Config/config.system";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
-import { PUT_PersonTrip } from "../../../Data/Api/DangKyKham";
+import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
+import { Warning } from "../../notification";
 import "./index.css";
 const Index = (props) => {
   const [Isload, SetIsLoad] = useState(false);
@@ -34,21 +34,34 @@ const Index = (props) => {
       SetPersonUpdate(props.dataPerson);
     }
   }, [props]);
-  const Putperson = () => {
-    SeIsDisable(true);
-    const ClonePersonUpdate = PersonUpdate;
-    ClonePersonUpdate.RowID = props.ID;
-
-    PUT_PersonTrip(PersonUpdate)
-      .then(() => {
-        SetIsLoad(false);
+  const Putperson = async () => {
+    if (PersonUpdate?.MaTuiMau) {
+      SeIsDisable(true);
+      const ClonePersonUpdate = PersonUpdate;
+      ClonePersonUpdate.RowID = props.ID;
+      const DonorExCheck = await GET_DonorExCheck({ DonorExCode: PersonUpdate?.MaTuiMau });
+      const { CheckDonnor } = DonorExCheck;
+      if (CheckDonnor) {
+        PUT_PersonTrip(PersonUpdate)
+          .then(() => {
+            SetIsLoad(false);
+            SeIsDisable(false);
+            props.SetDataPerson({
+              ...props.dataPerson,
+              ...PersonUpdate
+            })
+          })
+          .catch(SetIsLoad(false));
+      } else {
+        Warning({ description: 'Đã tồn tại túi máu trong hê thống ngân hàng máu. Xin sử dụng túi khác', message: 'Cảnh báo' })
         SeIsDisable(false);
-        props.SetDataPerson({
-          ...props.dataPerson,
-          ...PersonUpdate
-        })
-      })
-      .catch(SetIsLoad(false));
+      }
+
+    } else {
+      Warning({ description: 'Yêu cầu cần có mã túi máu', message: 'Cảnh báo' })
+      SeIsDisable(false);
+    }
+
   };
   return (
     <>
@@ -154,6 +167,7 @@ const Index = (props) => {
                   onClick={Putperson}
                   loading={Isload}
                   disabled={IsDisable}
+                  htmlType="submit"
                 >
                   Lấy máu
                 </Button>

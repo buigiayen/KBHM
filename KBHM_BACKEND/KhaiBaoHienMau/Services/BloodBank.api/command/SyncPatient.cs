@@ -98,8 +98,6 @@ namespace BloodBank.api.command
 
             return identityID;
         }
-
-
         public async Task<Services.lib.Sql.HttpObject.APIresult> SyncDonnorEx(Donnor.tbl_Donor donnor)
         {
             donnor.Sex = Common.ConvertSex(donnor.Sex);
@@ -136,6 +134,12 @@ namespace BloodBank.api.command
                 Insert_tbl_Donor_Examine_Attribute
                 )
                 ._ParamterSQL(donnor).ExcuteQueryAsync();
+        }
+
+        public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string DonorExCode)
+        {
+            string SQL = "SELECT cast((case when   count(DonorExCode)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  tbl_Donor_Examine  WHERE (DonorExCode = @DonorExCode)";
+            return await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { DonorExCode = DonorExCode }).SingleOrDefaultAsync();
         }
     }
 }

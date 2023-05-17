@@ -9,10 +9,9 @@ namespace BloodBank.api.command
 {
     public class CategoryCommad : ICategory
     {
-        private readonly IConnection _context;
-        public CategoryCommad(IConnection context)
+        public CategoryCommad()
         {
-            _context = context;
+          
         }
         public async Task<List<CategoryData>> GetLocation()
         {

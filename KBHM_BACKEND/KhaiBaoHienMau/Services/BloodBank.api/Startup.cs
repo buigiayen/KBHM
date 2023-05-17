@@ -37,7 +37,6 @@ namespace BloodBank.api
         {
             services.JWTServices();
             services.AddControllers();
-            services.AddSingleton<IConnection, DapperContext>();
             services.AddScoped<ICategory, CategoryCommad>();
             services.AddScoped<ISyncDonnor, SyncPatient>();
             services.AddControllers().AddFluentValidation(fv =>
@@ -62,6 +61,7 @@ namespace BloodBank.api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BloodBank.api", Version = "v1" });
+               
             });
         }
 

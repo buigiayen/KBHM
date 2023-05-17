@@ -1,5 +1,6 @@
 import { notification } from "antd";
-import { useEffect } from "react";
+
+
 
 export const Success = (config) => {
     notification.success(config)
@@ -14,3 +15,5 @@ export const Warning = (config) => {
 export const Info = (config) => {
     notification.info(config)
 }
+
+

@@ -9,12 +9,6 @@ namespace KBHM.api.Command
 {
     public class Person : Interfaces.Person
     {
-        private readonly IConnection _context;
-        public Person(IConnection context)
-        {
-            _context = context;
-        }
-
         public async Task<HttpObject.APIresult> GetFindPerson(Model.Person person)
         {
             string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE    Phone=@TEXT or CCCD=@TEXT order by DateRegister desc;";

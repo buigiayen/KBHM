@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Channels;
 using System.Threading.Tasks;
-using static Services.lib.Sql.HttpObject;
+using System.Data.SqlClient;
 
 namespace Services.lib.Sql
 {
@@ -43,8 +38,6 @@ namespace Services.lib.Sql
     public class Dataprovider : IDisposable
     {
         public static readonly Dataprovider db = new Dataprovider();
-        private SqlConnection _SqlConnection = null;
-
         private string _SQL;
         private string DBConnection = Environment.GetEnvironmentVariable("SQL_CONNECTION");
 
@@ -80,20 +73,21 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()
         {
             int valueTransaction = 0;
-            using (_SqlConnection = new SqlConnection(DBConnection))
+            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
             {
-                _SqlConnection.Open();
-                using (var sqlTransaction = _SqlConnection.BeginTransaction())
+                if (sqlConnection.State == ConnectionState.Closed)
+                {
+                    sqlConnection.Open();
+                }
+
+                using (var sqlTransaction = sqlConnection.BeginTransaction())
                 {
                     try
                     {
                         Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                        valueTransaction = await _SqlConnection.ExecuteAsync(_SQL, _Pra ?? null, sqlTransaction);
+                        valueTransaction = await sqlConnection.ExecuteAsync(_SQL, _Pra ?? null, sqlTransaction);
                         Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
                         sqlTransaction.Commit();
-                        _SqlConnection.Close();
-                        sqlTransaction.Dispose();
-                        _SqlConnection.Dispose();
                         return ReturnStatusObjectSql(valueTransaction);
                     }
                     catch (Exception ex)
@@ -101,9 +95,6 @@ namespace Services.lib.Sql
                         Logger.Logger.Instance.Messenger("stop :" + ex.Message).build(Logger.Logger._TypeFile.Error);
                         sqlTransaction.Rollback();
                         valueTransaction = -2;
-                        _SqlConnection.Close();
-                        sqlTransaction.Dispose();
-                        _SqlConnection.Dispose();
                         return ReturnStatusObjectSql(valueTransaction, ex);
                     }
                 }
@@ -114,10 +105,14 @@ namespace Services.lib.Sql
         public async Task<T> QueryMapperSingleOrDefaultAsync<T>() where T : class
         {
             T Tcontext = default(T);
-            using (_SqlConnection = new SqlConnection(DBConnection))
+            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
             {
+                if (sqlConnection.State == ConnectionState.Closed)
+                {
+                    sqlConnection.Open();
+                }
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                Tcontext = await _SqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
+                Tcontext = await sqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
             }
             Dispose();
@@ -126,10 +121,15 @@ namespace Services.lib.Sql
         public async Task<IEnumerable<T>> QueryMapperAsync<T>() where T : class
         {
             IEnumerable<T> Tcontext = default(IEnumerable<T>);
-            using (_SqlConnection = new SqlConnection(DBConnection))
+            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
             {
+
+                if (sqlConnection.State == ConnectionState.Closed)
+                {
+                    sqlConnection.Open();
+                }
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                Tcontext = await _SqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
+                Tcontext = await sqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
             }
             Dispose();
@@ -140,18 +140,20 @@ namespace Services.lib.Sql
 
             var httpObject = new HttpObject.APIresult();
             try
-            { 
-                using (_SqlConnection = new SqlConnection(DBConnection))
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
                 {
-                   
-                    _SqlConnection.Open();
+                    if (sqlConnection.State == ConnectionState.Closed)
+                    {
+                        sqlConnection.Open();
+                    }
+                    sqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = _SqlConnection.Query(_SQL, _Pra ?? null);
+                    var data = await sqlConnection.QueryAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    _SqlConnection.Close();
-                    _SqlConnection.Dispose();
-                    await Task.CompletedTask;
+                    sqlConnection.Close();
+                    sqlConnection.Dispose();
                 }
 
                 return httpObject;
@@ -170,15 +172,19 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIMapper<object>();
             try
             {
-                using (_SqlConnection = new SqlConnection(DBConnection))
+                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
                 {
-                    _SqlConnection.Open();
+
+                    if (sqlConnection.State == ConnectionState.Closed)
+                    {
+                        sqlConnection.Open();
+                    }
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = await _SqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
+                    var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                     Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    _SqlConnection.Close();
-                    _SqlConnection.Dispose();
+                    sqlConnection.Close();
+                    sqlConnection.Dispose();
                 }
 
                 return httpObject;

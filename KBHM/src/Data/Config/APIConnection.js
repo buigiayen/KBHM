@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { message } from 'antd';
+import { message, notification } from 'antd';
+import { Warning , Error } from '../../Components/notification'
 const Connection = async (URI, method = 'GET', body, params = null, Type = 'application/json') => {
     var UrlBase;
     if (process.env.NODE_ENV === "development") { UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI };
@@ -40,25 +41,26 @@ const ShowMessenger = (typeMessenger, Title) => {
 }
 
 export const HttpRequest = async (method = 'GET', URI, body, messageShow = false, params, Type) => {
-    var data = [];
+    let data = [];
     if (messageShow) {
         const hide = message.loading('Loading data ...', 0);
         setTimeout(hide, 3000);
     };
     try {
         data = await Connection(URI, method, body, params, Type);
-        return ExposeData(data, messageShow);
+        console.log(data)
+        return ExposeData({ ObjectData: data, ShowToast: messageShow });
     }
     catch (e) {
-        const data = { status: e.response.status, data: null };
-        MessErr(data)
+        MessengerError({ ObjectTrycatch: e })
     }
     return data;
 }
 
-const ExposeData = (datas, ShowToast = true) => {
+const ExposeData = ({ ObjectData, ShowToast }) => {
+    const {status, data } = ObjectData;
     if (ShowToast) {
-        switch (datas.status) {
+        switch (status) {
             case 200:
                 ShowMessenger("Info", 'Success!');
                 break;
@@ -74,34 +76,17 @@ const ExposeData = (datas, ShowToast = true) => {
         }
     }
 
-    return datas.data.data ?? [];
+    return data.data ?? [];
 }
-const MessErr = (datas) => {
+const MessengerError = ({ ObjectTrycatch }) => {
 
-    switch (datas.status) {
-        case 400:
-            ShowMessenger("error", 'Bad request!');
-            break;
-        case 401:
-            ShowMessenger("error", 'Unauthorized!');
-            break;
-        case 405:
-            ShowMessenger("error", 'Method Not Allowed!');
-            break;
-        case 408:
-            ShowMessenger("error", 'Request Timeout!');
-            break;
-        case 409:
-            ShowMessenger("error", 'Conflict!');
-            break;
-        case 500:
-            ShowMessenger("error", 'Internal Server Error!');
-            break;
-        default:
-            ShowMessenger("error", 'Error backend!');
-            break;
+    const { code, message } = ObjectTrycatch;
+    if (code === "ERR_BAD_REQUEST") {
+        const { response: { data: messenger } } = ObjectTrycatch
+        Warning({ description: messenger.messenger, message: "Thông báo" })
     }
-
-
+    if (code === "ERR_NETWORK") { 
+        Error({ description: message, message: "Thông báo" })
+    }
     return [];
 }

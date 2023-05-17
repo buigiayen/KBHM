@@ -11,10 +11,9 @@ namespace BloodBank.api.command
 {
     public class LoginCommand : ILogin
     {
-        private readonly IConnection _context;
-        public LoginCommand(IConnection context)
+
+        public LoginCommand()
         {
-            _context = context;
         }
         public async Task<HttpObject.APIMapper<Login>> AuthorizationAsync(Login login)
         {

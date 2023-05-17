@@ -71,6 +71,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/v1/SyncDonnor/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "BloodBank.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/SyncDonnor/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/v1/category/Category",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -126,7 +139,7 @@
       "UpstreamPathTemplate": "/gw/s3/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     }
-   
+
   ],
 
   "GlobalConfiguration": {

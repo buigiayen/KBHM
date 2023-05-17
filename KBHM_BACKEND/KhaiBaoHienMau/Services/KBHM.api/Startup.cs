@@ -31,7 +31,6 @@ namespace KBHM.api
         {
           
             services.AddControllers();
-            services.AddSingleton<IConnection, DapperContext>();
             services.AddScoped<Interfaces.Person, Command.Person>();
             services.JWTServices();
             services.AddSwaggerGen(c =>

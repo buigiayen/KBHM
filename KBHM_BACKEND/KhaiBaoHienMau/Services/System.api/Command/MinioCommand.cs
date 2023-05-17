@@ -79,7 +79,6 @@ namespace System.api.Command
                 minioFilebucket.Subscribe(
                    item =>
                    {
-                       Console.WriteLine(item.Count);
                        foreach (var xx in item)
                        {
                            Console.WriteLine(xx.Key);
