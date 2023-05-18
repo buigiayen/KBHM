@@ -107,10 +107,6 @@ namespace Services.lib.Sql
             T Tcontext = default(T);
             using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
             {
-                if (sqlConnection.State == ConnectionState.Closed)
-                {
-                    sqlConnection.Open();
-                }
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await sqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
@@ -122,12 +118,7 @@ namespace Services.lib.Sql
         {
             IEnumerable<T> Tcontext = default(IEnumerable<T>);
             using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-            {
-
-                if (sqlConnection.State == ConnectionState.Closed)
-                {
-                    sqlConnection.Open();
-                }
+            {            
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await sqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
@@ -143,11 +134,6 @@ namespace Services.lib.Sql
             {
                 using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
                 {
-                    if (sqlConnection.State == ConnectionState.Closed)
-                    {
-                        sqlConnection.Open();
-                    }
-                    sqlConnection.Open();
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                     var data = await sqlConnection.QueryAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
@@ -174,11 +160,6 @@ namespace Services.lib.Sql
             {
                 using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
                 {
-
-                    if (sqlConnection.State == ConnectionState.Closed)
-                    {
-                        sqlConnection.Open();
-                    }
                     Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                     var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
                     httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
