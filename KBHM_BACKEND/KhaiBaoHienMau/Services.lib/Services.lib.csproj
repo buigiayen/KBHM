@@ -11,7 +11,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.26.1" />
 		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
 
