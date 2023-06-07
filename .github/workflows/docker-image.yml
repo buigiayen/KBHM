@@ -34,7 +34,7 @@ jobs:
             proxy_port: ${{ secrets.PORT }}
             username: ${{ secrets.SSH_DEPLOY_USER }}
             password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-            source: "KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml,KBHM_BACKEND/KhaiBaoHienMau/docker-compose.override.yml,KBHM_BACKEND/KhaiBaoHienMau/.env"
+            source: "KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml,KBHM_BACKEND/KhaiBaoHienMau/docker-compose.override.yml"
             target: "app"
             script: docker-compose up -d
   

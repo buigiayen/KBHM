@@ -1,10 +1,12 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using RestSharp;
 using System.api.Interfaces;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
@@ -26,18 +28,22 @@ namespace System.api.Controllers
             return Ok(data);
 
         }
-        
+
         [HttpPost("File")]
         public async Task<IActionResult> PostFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios, [FromQuery] string Bucket)
         {
-            var data = await _minio.PostFileasync(uploadMinios, Bucket);        
+            var data = await _minio.PostFileasync(uploadMinios, Bucket);
             return Ok(data);
         }
-        [HttpPost("File/Minio")]
-        public async Task<IActionResult> PostDownLoadFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios)
+        [HttpGet("{bucket}/{filename}")]
+        public async Task<IActionResult> PostDownLoadFileasync(string bucket, string filename)
         {
-            // var data = await _minio.DownLoadFileBucketAsync(uploadMinios);
-             return Ok("null");
+            WebClient webClient = new WebClient();
+            string Domain = string.Format("https://{0}:9000/{1}/{2}", Environment.GetEnvironmentVariable("DOMAIN"), bucket, filename);
+            string FileTemp = Path.GetTempPath() + filename;
+            webClient.DownloadFile(Domain, FileTemp);
+
+            return  PhysicalFile(FileTemp, "image/jpeg");
         }
     }
 }

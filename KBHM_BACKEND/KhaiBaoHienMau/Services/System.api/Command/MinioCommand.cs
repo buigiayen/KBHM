@@ -135,7 +135,6 @@ namespace System.api.Command
                 if (!found)
                 {
                     await Minioconection.MakeBucketAsync(bucketName);
-
                 }
                 string Dir = AppDomain.CurrentDomain.BaseDirectory + "/Upload";
                 string FilePath = Path.Combine(Dir, objectName);

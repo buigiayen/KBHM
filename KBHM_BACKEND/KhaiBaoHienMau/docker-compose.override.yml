@@ -10,8 +10,7 @@ services:
     volumes:
       - ${HOME}/Cert:/https
     ports:
-      - "9874:80"
-      - "986:443"
+      - "9874:443"
 
 
    
@@ -29,8 +28,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=${MMSQL};Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
-      - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True;9874"
+      - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;False;9874"
       - DOMAIN=${DOMAIN}
+      - IP=${IP}
     ports:
       - "80"
 
