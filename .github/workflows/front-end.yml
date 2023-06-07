@@ -15,6 +15,12 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build image
+        run: | 
+            cd KBHM
+            docker-compose build
+            docker-compose push
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
@@ -24,7 +30,7 @@ jobs:
           proxy_port: ${{ secrets.PORT }}
           username: ${{ secrets.SSH_DEPLOY_USER }}
           password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-          source: "KBHM/KBHM/docker-compose.yml,KBHM/KBHM/docker-compose.override.yml,KBHM/KBHM/.env"
+          source: "KBHM/docker-compose.yml,KBHM/docker-compose.override.yml,KBHM/.env"
           target: "app"
           script: docker-compose up -d
 
@@ -37,7 +43,7 @@ jobs:
           username: ${{ secrets.SSH_DEPLOY_USER }}
           password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
           script: |
-            cd app/KBHM/KBHM
+            cd app/KBHM
             sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
             docker-compose down
             docker-compose pull
