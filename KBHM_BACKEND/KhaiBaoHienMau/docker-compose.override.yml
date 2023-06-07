@@ -6,9 +6,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;https://+:443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.com.vn.pfx
     volumes:
-      - ~/.aspnet/https:/https
+      - ${HOME}/Cert:/https
     ports:
       - "9874:80"
       - "986:443"

@@ -25,5 +25,31 @@ jobs:
           docker-compose -f docker-compose.yml -f docker-compose.override.yml build
           docker-compose -f docker-compose.yml -f docker-compose.override.yml push
 
-        
+      
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
+        with:
+            host: ${{ secrets.SSH_DEPLOY_IP }}
+            port: ${{ secrets.PORT }}
+            proxy_port: ${{ secrets.PORT }}
+            username: ${{ secrets.SSH_DEPLOY_USER }}
+            password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+            source: "KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml,KBHM_BACKEND/KhaiBaoHienMau/docker-compose.override.yml,KBHM_BACKEND/KhaiBaoHienMau/.env"
+            target: "app"
+            script: docker-compose up -d
+  
+      - name: Connection SSH - build server docker compose
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+            host: ${{ secrets.SSH_DEPLOY_IP }}
+            port: ${{ secrets.PORT }}
+            proxy_port: ${{ secrets.PORT }}
+            username: ${{ secrets.SSH_DEPLOY_USER }}
+            password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+            script: |
+              cd app/KBHM_BACKEND/KhaiBaoHienMau
+              sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
+              docker-compose down
+              docker-compose pull
+              docker-compose up -d --build 
     
