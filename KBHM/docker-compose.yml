@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   app:
-    image: ${{DOCKER_REG}}/fekbhm:v1
+    image: ${DOCKER_REGISTRY}/fekbhm:v1
     build: 
       context: .
       dockerfile: ./Dockerfile
