@@ -18,7 +18,7 @@ const QRCaM = ({
       value: "environment"
     }
   ])
-  const [chooseDriver, SetChooseDriver] = useState("environment")
+  const [chooseDriver, SetChooseDriver] = useState("user")
 
 
   const handleScan = (data) => {

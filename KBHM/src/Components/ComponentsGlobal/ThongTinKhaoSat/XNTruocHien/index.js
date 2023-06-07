@@ -56,7 +56,7 @@ const XnTruocHien = () => {
   ];
   return (
     <>
-      <List data={labo} columns={columns} />
+      <List  data={labo} columns={columns} />
       <br></br>
     </>
   );

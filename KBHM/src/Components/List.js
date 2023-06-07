@@ -1,6 +1,6 @@
 import { Table } from "antd";
 import { useEffect,useState } from "react";
-const App = (prop) => {
+const App = ({data,columns, footer }) => {
   const [Isloading, SetIsLoading] = useState(false);
   useEffect(() => {
     SetIsLoading(true);
@@ -8,12 +8,12 @@ const App = (prop) => {
       SetIsLoading(false);
     }, 1000);
    
-  }, [prop.data]);
+  }, [data]);
   return (
     <Table
-      columns={prop?.columns}
-      dataSource={prop.data}
-      footer={prop.footer}
+      columns={columns}
+      dataSource={data}
+      footer={footer}
       loading={Isloading}
       pagination={false}
     ></Table>

@@ -6,11 +6,11 @@ const text = `
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
 `;
-const App = (props) => (
-  <Space direction={props.direction}>
-    <Collapse collapsible={props.collapsible}>
-      <Panel header={props.header}>
-        {props.Component ?? []}
+const App = ({ direction, collapsible, header, Component }) => (
+  <Space direction={direction}>
+    <Collapse collapsible={collapsible}>
+      <Panel header={header}>
+        {Component ?? []}
       </Panel>
     </Collapse>
   </Space>
