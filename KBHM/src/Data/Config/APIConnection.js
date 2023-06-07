@@ -18,7 +18,7 @@ const Connection = async (URI, method = 'GET', body, params = null, Type = 'appl
             ...params,
         },
         data: body,
-    });
+    }).catch(rs => {MessengerError({ObjectTrycatch: rs})});
 }
 
 
@@ -44,7 +44,7 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     let data = [];
     if (messageShow) {
         const hide = message.loading('Loading data ...', 0);
-        setTimeout(hide, 3000);
+        setTimeout(hide, process.env.REACT_APP_TIMEOUT);
     };
     try {
         data = await Connection(URI, method, body, params, Type);
@@ -79,7 +79,7 @@ const ExposeData = ({ ObjectData, ShowToast }) => {
     return data.data ?? [];
 }
 const MessengerError = ({ ObjectTrycatch }) => {
-
+    console.log(ObjectTrycatch)
     const { code, message } = ObjectTrycatch;
     if (code === "ERR_BAD_REQUEST") {
         const { response: { data: messenger } } = ObjectTrycatch
@@ -88,5 +88,9 @@ const MessengerError = ({ ObjectTrycatch }) => {
     if (code === "ERR_NETWORK") { 
         Error({ description: message, message: "Thông báo" })
     }
+    if (code === "ERR_BAD_RESPONSE") { 
+        Error({ description: message, message: "Thông báo" })
+    }
+    ShowMessenger("error", 'Error backend!');
     return [];
 }

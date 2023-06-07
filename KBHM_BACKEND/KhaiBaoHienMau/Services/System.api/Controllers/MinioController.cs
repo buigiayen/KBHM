@@ -33,6 +33,11 @@ namespace System.api.Controllers
             var data = await _minio.PostFileasync(uploadMinios, Bucket);        
             return Ok(data);
         }
-
+        [HttpPost("File/Minio")]
+        public async Task<IActionResult> PostDownLoadFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios)
+        {
+            // var data = await _minio.DownLoadFileBucketAsync(uploadMinios);
+             return Ok("null");
+        }
     }
 }

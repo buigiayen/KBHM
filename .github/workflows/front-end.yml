@@ -3,29 +3,42 @@ on:
   push:
     branches: [main]
 
-
 jobs:
   build_front_end:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v2
-               
-          
-      - name: Build image
-        run: | 
-         cd KBHM/
-          docker-compose -f docker-compose.yml  build
-           
-          
-      - name: Login container
+
+      - name: Login container docker
         uses: docker/login-action@v2
         with:
-           username: "buiyenit"
-           password: "dckr_pat_ep_8tWXO20Kuj3wIpVQkluM3TbA"
-        
-        
-      - name: Push image to docker hub
-        run: |
-          cd KBHM/
-          docker-compose -f docker-compose.yml  push
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_DEPLOY_IP }}
+          port: ${{ secrets.PORT }}
+          proxy_port: ${{ secrets.PORT }}
+          username: ${{ secrets.SSH_DEPLOY_USER }}
+          password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+          source: "KBHM/KBHM/docker-compose.yml,KBHM/KBHM/docker-compose.override.yml,KBHM/KBHM/.env"
+          target: "app"
+          script: docker-compose up -d
+
+      - name: Connection SSH - build server docker compose
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_DEPLOY_IP }}
+          port: ${{ secrets.PORT }}
+          proxy_port: ${{ secrets.PORT }}
+          username: ${{ secrets.SSH_DEPLOY_USER }}
+          password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+          script: |
+            cd app/KBHM/KBHM
+            sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d --build

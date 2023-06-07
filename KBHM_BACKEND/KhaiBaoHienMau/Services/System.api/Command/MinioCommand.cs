@@ -45,6 +45,23 @@ namespace System.api.Command
 
 
         }
+
+        public async Task<HttpObject.APIresult> DownLoadFileBucketAsync(MinIOModel uploadMinios)
+        {
+
+            try
+            {
+                await _Minioct.CreateConnection().GetObjectAsync(uploadMinios.bucket, uploadMinios.fileBucketMinios?.FirstOrDefault().FileName, uploadMinios.fileBucketMinios?.FirstOrDefault().FilePath);
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = uploadMinios.fileBucketMinios?.FirstOrDefault().FilePath, Messenger = null };
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
+            }
+
+        }
+
         public async Task<HttpObject.APIresult> GetAllBucket()
         {
             try

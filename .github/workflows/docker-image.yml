@@ -12,23 +12,18 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
                
-          
+      - name: Login container docker
+        uses: docker/login-action@v2
+        with:
+           username: ${{ secrets.DOCKER_USER }}
+           password: ${{ secrets.DOCKER_PASSWORD }}
+
+             
       - name: Build image
         run: | 
          cd KBHM_BACKEND/KhaiBaoHienMau/
           docker-compose -f docker-compose.yml -f docker-compose.override.yml build
-           
-          
-      - name: Login container
-        uses: docker/login-action@v2
-        with:
-           username: "buiyenit"
-           password: "dckr_pat_ep_8tWXO20Kuj3wIpVQkluM3TbA"
-        
-        
-      - name: Push image to docker hub
-        run: |
-          cd KBHM_BACKEND/KhaiBaoHienMau/
           docker-compose -f docker-compose.yml -f docker-compose.override.yml push
+
         
     

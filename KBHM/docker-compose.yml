@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   app:
-    image: buiyenit/reactjs:v1
+    image: ${{DOCKER_REG}}/fekbhm:v1
     build: 
       context: .
       dockerfile: ./Dockerfile
