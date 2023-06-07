@@ -4,7 +4,7 @@ import IconCombine from "../../../Icon";
 import '../../index.css'
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 
-const Index = (props, {  ID }) => {
+const Index = ({ ID, dataPerson, SetDataPerson, SetChoPhepHienMau, HienMau }) => {
     const [isdisabled, SetIsdisabled] = useState(true);
     const [PersonUpdate, SetPersonUpdate] = useState({
         "RowID": null,
@@ -24,15 +24,15 @@ const Index = (props, {  ID }) => {
     })
     const [IsLoadding, SetIsloading] = useState(false);
     useEffect(() => {
-        SetPersonUpdate(props?.dataPerson);
-    }, [props?.dataPerson])
+        SetPersonUpdate(dataPerson);
+    }, [dataPerson])
     const PutPerson = async () => {
         SetIsloading(true);
         const ClonePersonUpdate = PersonUpdate;
-        props.SetDataPerson({
-            ...props.dataPerson,
+        SetDataPerson({
+            ...dataPerson,
             ...PersonUpdate
-          })
+        })
         ClonePersonUpdate.rowID = ID;
         await PUT_PersonInfo_healthy(PersonUpdate).then(() => { SetIsloading(false); SetIsdisabled(true) })
     }
@@ -69,8 +69,8 @@ const Index = (props, {  ID }) => {
                             value={PersonUpdate?.ChoPhepHienMau}
                             onChange={(e) => {
                                 SetPersonUpdate({ ...PersonUpdate, ChoPhepHienMau: e.target.value });
-                                props?.SetChoPhepHienMau(e.target.value)
-                                props?.HienMau(e.target.value)
+                                SetChoPhepHienMau(e.target.value)
+                                HienMau(e.target.value)
                                 SetIsdisabled(false)
                             }}>
                             <Space direction="vertical">
