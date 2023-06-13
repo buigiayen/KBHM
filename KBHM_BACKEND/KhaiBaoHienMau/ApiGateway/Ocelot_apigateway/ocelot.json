@@ -137,7 +137,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/s3/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     }
 
   ],

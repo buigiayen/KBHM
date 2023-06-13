@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using RestSharp;
@@ -26,7 +27,6 @@ namespace System.api.Controllers
         {
             var data = await _minio.GetFileBucketasync(uploadMinios);
             return Ok(data);
-
         }
 
         [HttpPost("File")]
@@ -40,9 +40,9 @@ namespace System.api.Controllers
         {
             WebClient webClient = new WebClient();
             string Domain = string.Format("https://{0}:9000/{1}/{2}", Environment.GetEnvironmentVariable("DOMAIN"), bucket, filename);
+            Console.WriteLine(Domain);
             string FileTemp = Path.GetTempPath() + filename;
             webClient.DownloadFile(Domain, FileTemp);
-
             return  PhysicalFile(FileTemp, "image/jpeg");
         }
     }
