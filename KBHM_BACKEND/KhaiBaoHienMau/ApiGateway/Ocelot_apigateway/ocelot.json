@@ -124,22 +124,7 @@
       "UpstreamPathTemplate": "/gw/File/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
 
-    },
-
-    //// Application Domain
-    {
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "192.168.18.8",
-          "Port": 9000
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/s3/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
     }
-
   ],
 
   "GlobalConfiguration": {

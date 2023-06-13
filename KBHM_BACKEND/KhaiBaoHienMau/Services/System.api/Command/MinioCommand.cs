@@ -125,7 +125,6 @@ namespace System.api.Command
         {
 
             var Minioconection = _Minioct.CreateConnection();
-            Logger.Instance.Messenger($"EndPoin: {_Minioct.Endpoin} , Port : {_Minioct.PORT} "  ).build(Logger._TypeFile.Debug);
             var bucketName = bucket?.ToLower() ?? "newfolder";
             var objectName = uploadMinios.formFile.FileName;
             try
@@ -159,7 +158,7 @@ namespace System.api.Command
                 MinIOservices.FileBucketMinio fileBucketMinios = new MinIOservices.FileBucketMinio
                 {
                     FileName = uploadMinios.FileName,
-                    FilePath = string.Format("{0}:{1}/gw/s3/{2}/{3}", Environment.GetEnvironmentVariable("DOMAIN"), _Minioct.PORT_GW, bucket, objectName),
+                    FilePath = string.Format("{0}:{1}/gw/File/{2}/{3}", Environment.GetEnvironmentVariable("DOMAIN"), _Minioct.PORT_GW, bucket, objectName),
                     Size = uploadMinios.Size,
                 };
                 File.Delete(FilePath);
