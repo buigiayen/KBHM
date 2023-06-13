@@ -39,13 +39,21 @@ namespace System.api.Controllers
         [HttpGet("{bucket}/{filename}")]
         public async Task<IActionResult> PostDownLoadFileasync(string bucket, string filename)
         {
-            WebClient webClient = new WebClient();
-            string Domain = string.Format("{0}:9000/{1}/{2}", "192.168.18.8", bucket, filename);
-            Console.WriteLine(Domain);
-            string FileTemp = Path.Combine(AppContext.BaseDirectory, filename);
-            Console.WriteLine(FileTemp);
-            webClient.DownloadFile(Domain, FileTemp);
-            return PhysicalFile(FileTemp, "image/jpeg");
+            try
+            {
+                WebClient webClient = new WebClient();
+                string Domain = string.Format("{0}:9000/{1}/{2}", "https://192.168.18.8", bucket, filename);
+                Console.WriteLine(Domain);
+                var ByteDownload = webClient.DownloadData(Domain);
+                Stream stream = new MemoryStream(ByteDownload);
+                return new FileStreamResult(stream, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+         
+         
         }
     }
 }
