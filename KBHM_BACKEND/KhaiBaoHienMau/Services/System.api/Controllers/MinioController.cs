@@ -42,6 +42,7 @@ namespace System.api.Controllers
             string Domain = string.Format("{0}:9000/{1}/{2}", "192.168.18.8", bucket, filename);
             Console.WriteLine(Domain);
             string FileTemp = Path.GetTempPath() + filename;
+            Console.WriteLine(FileTemp);
             webClient.DownloadFile(Domain, FileTemp);
             return  PhysicalFile(FileTemp, "image/jpeg");
         }
