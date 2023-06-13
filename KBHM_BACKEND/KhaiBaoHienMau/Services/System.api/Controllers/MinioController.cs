@@ -39,7 +39,7 @@ namespace System.api.Controllers
         public async Task<IActionResult> PostDownLoadFileasync(string bucket, string filename)
         {
             WebClient webClient = new WebClient();
-            string Domain = string.Format("{0}:9000/{1}/{2}", Environment.GetEnvironmentVariable("DOMAIN"), bucket, filename);
+            string Domain = string.Format("{0}:9000/{1}/{2}", "192.168.18.8", bucket, filename);
             Console.WriteLine(Domain);
             string FileTemp = Path.GetTempPath() + filename;
             webClient.DownloadFile(Domain, FileTemp);
