@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace System.api.Controllers
 {
@@ -41,10 +42,10 @@ namespace System.api.Controllers
             WebClient webClient = new WebClient();
             string Domain = string.Format("{0}:9000/{1}/{2}", "192.168.18.8", bucket, filename);
             Console.WriteLine(Domain);
-            string FileTemp = Path.GetTempPath() + filename;
+            string FileTemp = Path.Combine(AppContext.BaseDirectory, filename);
             Console.WriteLine(FileTemp);
             webClient.DownloadFile(Domain, FileTemp);
-            return  PhysicalFile(FileTemp, "image/jpeg");
+            return PhysicalFile(FileTemp, "image/jpeg");
         }
     }
 }
