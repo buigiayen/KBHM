@@ -1,12 +1,16 @@
 import { Sex } from "../../Data/UnitData/data";
 import Combobox from '../Combobox'
-export default function SexCombobox(props) {
-    const ReturnValue = (Value) =>{
-        if(props.Value !==undefined){
-            props.Value(Value);
-        }
-    }
+
+export default function SexCombobox({ onChange, Name, initialValue, PropsFormItem }) {
     return (
-        <Combobox data={Sex} valueDefault={props?.defaultValue} Value={ReturnValue} ></Combobox>
+        <Combobox
+            PropsFormItem={PropsFormItem}
+            onChange={onChange}
+            data={Sex}
+            initialValue={initialValue}
+            Name={Name}
+        >
+        </Combobox>
+
     )
 }

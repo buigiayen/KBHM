@@ -1,12 +1,13 @@
-import { DatePicker, Input } from "antd";
+import { DatePicker, Form } from "antd";
 import dayjs from "dayjs";
+
 
 //1999-11-20T17:00:00.000Z
 
-const App = (props) => {
-  const onChange = (date, dateString) => {
-    if (props?.onChange !== undefined) {
-      props?.onChange(ConvertDate(dateString));
+const App = ({ onChange, value, Name, PropsFormItem }) => {
+  const onChangeDatetime = (date, dateString) => {
+    if (onChange !== undefined) {
+      onChange(ConvertDate(dateString));
     }
   };
   const ConvertDate = (dateString) => {
@@ -15,13 +16,17 @@ const App = (props) => {
     return Fomart;
   };
   return (
-    <DatePicker
-      allowClear={false}
-      onChange={onChange}
-      format="DD/MM/YYYY"
-      value={dayjs(props?.Value)}
-  
-    />
+    <Form.Item name={Name} {...PropsFormItem} >
+      <DatePicker
+        allowClear={false}
+        onChange={onChangeDatetime}
+        defaultValue={dayjs()}
+        format="DD/MM/YYYY"
+        style={{ width: 100 + '%' }}
+        views={["year", "month", "day"]}
+      />
+    </Form.Item>
+
   );
 };
 export default App;

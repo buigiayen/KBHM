@@ -1,41 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import { Get_Category } from "../../Data/Api/Category";
-import { Select } from "antd";
+import { Select, Form } from "antd";
 
-const ElementCombobox = (props) => {
-  const [ChosseData, SetChooseData] = useState();
-  const [Data, setData] = useState([]);
-  useEffect(() => {
-    async function get() {
-     const {element} =  await Get_Category();
-        setData(element);
-    }
-    get();
-  }, []);
-
-  const ReturnValue = (value) => {
-    if (props.onChangeValue !== undefined) {
-      props.onChangeValue(value);
-      SetChooseData(value);
-    }
-
-  };
-
+const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler }) => {
+  console.log(dataSource);
   return (
-    <Select
-      showSearch
-      filterOption={(input, option) => (option?.label ?? '').includes(input)}
-      filterSort={(optionA, optionB) =>
-        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-      }
-      className={`${Math.random()}`}
-      onChange={ReturnValue}
-      style={{ width: 100 + "%" }}
-      {...props}
-      options={Data ?? []}
-
-    />
+    <Form.Item label={Label} name={Name} rules={ruler}>
+      <Select
+        showSearch
+        filterOption={(input, option) => (option?.label ?? "").includes(input)}
+        filterSort={(optionA, optionB) =>
+          (optionA?.label ?? "")
+            .toLowerCase()
+            .localeCompare((optionB?.label ?? "").toLowerCase())
+        }
+        className={`${Math.random()}`}
+        onChange={onChange}
+        style={{ width: 100 + "%" }}
+        options={dataSource ?? []}
+      />
+    </Form.Item>
   );
-}
-export default ElementCombobox;
-
+};
+export default ComboboxIndex;

@@ -1,22 +1,35 @@
 import { Tabs } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import KhamLamSang from "../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamSang/index";
 import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index";
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
-const App = (prop) => {
-  const [disableLayMau, SetDisabledLayMau] = useState(false);
+const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement }) => {
+  const [disableTabLayMau, SetDisabledLayMau] = useState();
+  useEffect(() => {
+    SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
+  }, [DataPerson?.ChoPhepHienMau]);
+  const SetdisableTabLayMau = (value) => {
+    SetDisabledLayMau(value);
+    IsBloodDonation(value);
+  };
   const Component = [
     {
       label: `TT Khảo sát`,
       key: "1",
-      children: <ThongTinKhaoSat ID={prop?.ID} />,
+      children: <ThongTinKhaoSat ID={IDPerson} />,
     },
     {
       label: `Khám LS`,
       key: "2",
-      children: <KhamLamSang {...prop} ID={prop?.ID} HienMau={e => SetDisabledLayMau(e)} />,
+      children: (
+        <KhamLamSang
+          ID={IDPerson}
+          HienMau={SetdisableTabLayMau}
+          dataPerson={DataPerson}
+        />
+      ),
     },
     {
       label: `XN trước hiến`,
@@ -26,14 +39,20 @@ const App = (prop) => {
     {
       label: `Lấy máu`,
       key: "4",
-      children: <Laymau {...prop} ID={prop?.ID}/>,
-      disabled: !prop.HienThiThongTinTua
+      children: <Laymau ID={IDPerson} dataPerson={DataPerson} dataSourceElement={DataElement}/>,
+      disabled: !disableTabLayMau,
     },
   ];
 
   return (
     <div>
-      <Tabs type="card" size={"small"} items={Component} tabIndex={2} defaultActiveKey="2" />
+      <Tabs
+        type="card"
+        size={"small"}
+        items={Component}
+        tabIndex={2}
+        defaultActiveKey="2"
+      />
     </div>
   );
 };

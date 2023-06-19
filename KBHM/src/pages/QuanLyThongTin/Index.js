@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Row, Col, Input, Alert, Modal, Card } from "antd";
-
+import { Row, Col, Input, Alert, Modal, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate } from "react-router-dom";
-import { GET_Person } from "../../Data/Api/DangKyKham";
+import { GET_Person, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
 import IconCombine from "../../Components/Icon";
 import QRCam from "../../Components/QR.Camera";
+import dayjs from "dayjs";
 
 const { Search } = Input;
 const Index = () => {
+  const [from] = Form.useForm();
   const Navigate = useNavigate();
+  const [IDPerson, SetIDPerson] = useState();
   const [OpenModal, SetOpenModal] = useState(false);
   const [HienThiThongTinTua, SetThongTinTua] = useState();
   const [DataPerson, SetDataPerson] = useState();
-  const [isGetBlood, setIsGetBlood] = useState(false);
   useEffect(() => {
     if (
       localStorage.getItem("Token") === undefined ||
@@ -32,7 +33,6 @@ const Index = () => {
           Navigate("/login");
         });
     }
-   
   }, []);
 
   const GetQRCode = (pra) => {
@@ -40,10 +40,19 @@ const Index = () => {
       GET_Person(pra).then((rs) => {
         SetDataPerson(rs[0]);
         SetThongTinTua(rs[0]?.ChoPhepHienMau);
+        const PersonInfo = rs[0];
+        PersonInfo["BirthDay"] = dayjs(PersonInfo["BirthDay"]);
+        from?.setFieldsValue(PersonInfo);
+        SetIDPerson(pra);
       });
     }
   };
-
+  const EditPersonInfo = async () => {
+    from.validateFields().then((rs) => {
+      rs = { ...rs, RowID: IDPerson };
+      PUT_PersonInfo(rs);
+    });
+  };
   const hideModal = () => {
     SetOpenModal(false);
   };
@@ -65,35 +74,50 @@ const Index = () => {
       </Row>
 
       <Row>
-        <Col sm={12} xs={24}>
-          <Search
-            placeholder="QR "
-            onSearch={GetQRCode}
-            suffix={suffix}
-            enterButton
+        <Search
+          placeholder="QR "
+          onSearch={GetQRCode}
+          suffix={suffix}
+          enterButton
+        />
+
+        {DataPerson?.warning !== 0 &&
+        DataPerson?.warning !== null &&
+        DataPerson?.warning !== undefined ? (
+          <Alert
+            style={{ width: 100 + "%" }}
+            banner
+            message={
+              <Marquee pauseOnHover gradient={false}>
+                Người hiến có những triệu trứng sau cần chú ý
+              </Marquee>
+            }
           />
-        </Col>
-        <Col sm={12} xs={24}>
-          {DataPerson?.warning !== 0 &&
-            DataPerson?.warning !== null &&
-            DataPerson?.warning !== undefined ? (
-            <Alert
-              banner
-              message={
-                <Marquee pauseOnHover gradient={false}>
-                  Người hiến có những triệu trứng sau cần chú ý
-                </Marquee>
-              }
-            />
-          ) : (
-            ""
-          )}
-        </Col>
+        ) : (
+          ""
+        )}
       </Row>
       <Card>
         <Row>
           <Col sm={24}>
-            <QuanLyThongTinLanHien dtPerson={DataPerson} NotreadOnly={false} />
+            <Form form={from} layout="vertical">
+              <QuanLyThongTinLanHien
+                form={from}
+                dtPerson={DataPerson}
+                NotreadOnly={false}
+              />
+              <Form.Item>
+                <Button
+                  type="primary"
+                  style={{ width: 100 + "%" }}
+                  onClick={EditPersonInfo}
+                  icon={
+                    <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
+                  }>
+                  Xác nhận thông tin
+                </Button>
+              </Form.Item>
+            </Form>
           </Col>
         </Row>
       </Card>
@@ -102,13 +126,9 @@ const Index = () => {
         <Row>
           <Col sm={24}>
             <TabThongtinKhaoSat
-              ID={DataPerson?.RowID}
-              SetChoPhepHienMau={(e) => {
-                SetThongTinTua(e);
-              }}
-              dataPerson={DataPerson}
-              HienThiThongTinTua={HienThiThongTinTua}
-              SetDataPerson={SetDataPerson}
+              IDPerson={IDPerson}
+              IsBloodDonation={SetThongTinTua}
+              DataPerson={DataPerson}
             />
           </Col>
         </Row>
@@ -118,11 +138,7 @@ const Index = () => {
         <Row>
           <Col sm={24}>
             {HienThiThongTinTua && (
-              <ThongTinTuaLaymau
-                ID={DataPerson?.RowID}
-                dataPerson={DataPerson}
-                SetDataPerson={SetDataPerson}
-              ></ThongTinTuaLaymau>
+              <ThongTinTuaLaymau ID={IDPerson} dataPerson={DataPerson} />
             )}
           </Col>
         </Row>
@@ -136,11 +152,9 @@ const Index = () => {
         okText="Lấy"
         cancelText="Tắt"
         cancelButtonProps={{ style: { display: "none" } }}
-        okButtonProps={{ style: { display: "none" } }}
-      >
+        okButtonProps={{ style: { display: "none" } }}>
         {OpenModal && (
           <QRCam
-            
             Value={(e) => {
               if (e != null && e != undefined) {
                 GetQRCode(e);

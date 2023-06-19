@@ -3,11 +3,14 @@ import ThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/i
 import KhaoSatThongTinSucKhoe from "../../Components/ComponentsGlobal/KhaoSatThongTinSK/index";
 import { Config } from "../../Data/Config/config.system";
 import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
-import { Row, Col, Button, Space, Card } from "antd";
+import { Button, Space, Card, Form } from "antd";
+import { Row, Col } from 'reactstrap'
 import { useNavigate } from "react-router-dom";
 import { Warning } from "../../Components/notification";
+import { GET_PersonInfo } from "../../Data/Api/DangKyKham";
 import dayjs from "dayjs";
 const Index = () => {
+  const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
   const [Properties, DataProperties] = useState();
@@ -16,65 +19,46 @@ const Index = () => {
   const CheckAge = (dateofbirth, AgeMin) => {
     return (dayjs().$y - dayjs(dateofbirth).$y > AgeMin)
   }
+  const FetchPeron = async (value) => {
+    const pra = {
+      text: value,
+      row: 1,
+    };
+    await GET_PersonInfo(pra).then((rs) => {
+      if (rs !== undefined && rs.length > 0) {
+        rs[0].BirthDay = dayjs(rs[0].BirthDay);
+        form?.setFieldsValue(rs[0])
+        DataPersons(rs[0])
 
+      }
+    });
+  };
   const Confirm = () => {
+    if (CheckCondition()) {
 
-    const PersonClone = Persons;
-    PersonClone.personProperties = Properties;
-    if (CheckCondition(PersonClone)) {
-      SetLoading(true);
-      POST_DangKyHienMau(PersonClone).then((rs) => {
-        SetLoading(false);
-        Navigate("TraCuuThongTin/" + rs[0].Code);
-      });
+      form
+        .validateFields()
+        .then(RS => {
+          const peronClone = {
+            ...RS,
+            PersonProperties: Properties
+          }
+          console.log(peronClone)
+          POST_DangKyHienMau(peronClone).then(rs => { Navigate("TraCuuThongTin/" + rs[0].Code) })
+
+        })
+        .catch((info) => {
+          Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
+        });
     }
   };
-  const CheckCondition = (PersonClone) => {
+  const CheckCondition = () => {
     let flag = true;
-    const {
-      Name,
-      BirthDay,
-      Sex,
-      CCCD,
-      Phone,
-      DiaChiThuongLienLac_ChiTiet,
-      DiaChiThuongTru_ChiTiet,
-      personProperties
-    } = PersonClone;
-
-    const messengers = [
-      { Value: Name, messenger: "Họ và tên" },
-      { Value: BirthDay, messenger: "Ngày sinh" },
-      { Value: Sex, messenger: "Giới tính" },
-      { Value: CCCD, messenger: "Căn cước công dân" },
-      { Value: Phone, messenger: "Số điện thoại" },
-      { Value: DiaChiThuongLienLac_ChiTiet, messenger: "Địa chỉ liên lạc" },
-      { Value: DiaChiThuongTru_ChiTiet, messenger: "Địa chỉ thường trú" },
-    ];
-
-
-    const mess = "Thông tin :";
-    const RulerProperties = personProperties ?? [];
-    const ruler = messengers
-      .filter((p) => p.Value === null || p.Value === '')
-      .map(({ messenger }) => {
-        return messenger;
-      });
-
-
-    if (RulerProperties.length < 16 || RulerProperties === undefined) {
+    if (Properties.length < 16 || Properties === undefined) {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
       flag = false;
     }
-    if (ruler.length > 0 && flag === true) {
-      Warning({ message: `${mess} ${ruler.join(", ")} Chưa hợp lệ` });
-      flag = false; 
-    }
-    if (CCCD.length < 9 || CCCD.length > 12) {
-      Warning({ message: `Căn cước công dân không hợp lệ.` });
-      flag = false;
-    }
-    if (CheckAge(dayjs(BirthDay), 18) === false) {
+    if (CheckAge(dayjs(form.getFieldValue('BirthDay')), 18) === false) {
       Warning({ message: 'Bạn chưa đủ 18 tuổi để hiến máu!' });
       flag = false;
     }
@@ -83,21 +67,33 @@ const Index = () => {
   return (
     <>
       <Row>
-        <Col sm={24}>
-          <h2 style={{ textAlign: "center", color: "red" }}>
+        <Col xl={24}>
+          <h3 style={{ textAlign: "center", color: "red" }}>
             PHIẾU ĐĂNG KÝ HIẾN MÁU TÌNH NGUYỆN
-          </h2>
+          </h3>
         </Col>
       </Row>
       <Row>
-        <Col sm={24}>
+        <Col sm={12} lg={12} md={12}  >
           <Card>
-            <ThongTinLanHien
-              ValuePerson={(ValuePerson) => {
-                DataPersons(ValuePerson);
-              }}
-              NotreadOnly
-            />
+            <Form
+              form={form}
+              layout='vertical'
+            >
+              <ThongTinLanHien
+                from={form}
+                props={{
+                  NotreadOnly: true,
+                }}
+                ValuePerson={(ValuePerson) => {
+                  DataPersons(ValuePerson);
+                }}
+                NotreadOnly
+                FetchPerson={FetchPeron}
+                ImagePicture={Persons?.UrlImage}
+              />
+            </Form>
+
           </Card>
 
         </Col>
@@ -105,14 +101,9 @@ const Index = () => {
       <br />
       <Row>
         <Col sm={24}>
-
           <KhaoSatThongTinSucKhoe
-            Value={(Value) => {
-              DataProperties(Value);
-            }}
+            Value={DataProperties}
           />
-
-
         </Col>
       </Row>
       <Row>
@@ -134,16 +125,20 @@ const Index = () => {
         </Col>
       </Row>
       <Row>
-        <Col sm={10} />
-        <Col sm={6}>
-          <Space direction="vertical">
-            {/* <small style={{ fontSize: 12, fontWeight: 'bold',textAlign:'center', fontStyle: 'italic' }}>Ngày {new Date().getDay()}/{new Date().getMonth()}/{new Date().getFullYear()}</small>
-                            <small>Người hiến máu xác nhận</small> */}
-            <Button type="primary" onClick={Confirm} loading={IsLoadding}>
-              Xác nhận thông tin
-            </Button>
-          </Space>
+        <Col lg={4}>
         </Col>
+        <Col lg={4} xs={12} sm={12}>
+          <Button
+            type="primary"
+            onClick={Confirm}
+            loading={IsLoadding}
+            style={{ width: 100 + '%' }}
+          >
+            Xác nhận thông tin
+          </Button>
+        </Col>
+
+
       </Row>
     </>
   );

@@ -37,6 +37,7 @@ export const GET_DonorExCheck = async ({DonorExCode}) => {
 }
 export const POST_SyncDonor = async (ID) => {
     try {
+        console.log(ID)
         let DataPerson = {};
         await GET_Person(ID).then(rs => DataPerson = rs);
 

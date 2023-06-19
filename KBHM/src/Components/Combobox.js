@@ -1,14 +1,17 @@
-import { Select } from 'antd';
+import { Select ,Form } from 'antd';
 
-const App = ({ onChange, valueDefault, data, props }) => {
-    return (<Select
-        defaultValue={valueDefault}
-        onChange={onChange}
-        style={{ width: 100 + '%' }}
-        options={
-            data ?? []
-        }
-        {...props}
-    />)
+const App = ({ onChange, data, props , Name ,initialValue ,  PropsFormItem}) => {
+    return (
+        <Form.Item name={Name} initialValue={initialValue} {...PropsFormItem}>
+            <Select
+                onChange={onChange}
+                style={{ width: 100 + '%' }}
+                options={
+                    data ?? []
+                }
+                {...props}
+            />
+        </Form.Item>
+    )
 }
 export default App;

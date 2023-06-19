@@ -4,14 +4,10 @@ import { Image } from 'antd'
 
 const App = () => {
     return (
-        <Carousel autoplay>
-            <div>
-                <Image
-                    src={'https://hienmau.bvdktinhthanhhoa.com.vn:9874/gw/File/banner/banner.png'}
-                    preview={false}
-                    alt="1887-768" />
-            </div>
-        </Carousel>
+        <Image
+            src={'https://hienmau.bvdktinhthanhhoa.com.vn:9874/gw/File/banner/banner.png'}
+            preview={false}
+            alt="1887-768" />
     );
 };
 export default App;

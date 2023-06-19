@@ -4,14 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Post_Minio } from '../Data/Api/Minio'
 
 
-const App = ({ UrlImage, value }) => {
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
-    const [imageUrl, setimageUrl] = useState();
-    useEffect(() => {
-        setimageUrl(value)
-    },[value])
+const App = ({ onChange, Value }) => {
+    const [imageUrl, setimageUrl] = useState(Value);
     const beforeUpload = (file) => {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJpgOrPng) {
@@ -23,17 +17,13 @@ const App = ({ UrlImage, value }) => {
         }
         return isJpgOrPng && isLt10M;
     };
-
-    const handleCancel = () => setPreviewOpen(false);
     const handleOK = async (info) => {
         var body = { formFile: info.file, size: 1021, bucket: 'avatar' }
         await Post_Minio(body).then(
             (rs) => {
-                setPreviewImage("image.png");
-                setimageUrl(rs.filePath);
-
-                if (UrlImage !== undefined) {
-                    UrlImage(rs.filePath)
+                if (onChange !== undefined) {
+                    onChange(rs.filePath)
+                    setimageUrl(rs.filePath)
                 }
             }
         );
@@ -71,15 +61,6 @@ const App = ({ UrlImage, value }) => {
                     uploadButton
                 )}
             </Upload>
-            <Modal open={previewOpen} title={previewTitle} onCancel={handleCancel}>
-                <img
-                    alt="example"
-                    style={{
-                        width: '100%',
-                    }}
-                    src={previewImage}
-                />
-            </Modal>
         </>
     );
 };

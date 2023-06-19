@@ -3,11 +3,11 @@ import { Divider, Row, Col, Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import { Question } from '../../../Data/UnitData/data';
 
-const Index = (prop) => {
+const Index = ({ Value }) => {
     const [Properties, SetProperties] = useState({ data: [{ key: null, label: null, value: null }] });
-    
+
     const SetQuestion = (e, value) => {
-        const {data} = Properties;
+        const { data } = Properties;
         if (data.filter(p => p.key === value.Key).length === 0) {
             data.push({ key: value.Key, label: value.value, value: e.target.value === 1 ? "true" : "false" })
         } else {
@@ -17,12 +17,12 @@ const Index = (prop) => {
                 }
             })
         }
-        SetProperties({data});
+        SetProperties({ data });
     }
     useEffect(() => {
-        if (prop.Value !== undefined) {
-            const valueRef =Properties.data.filter(p=>p.key !== null);
-            prop.Value(valueRef);
+        if (Value !== undefined) {
+            const valueRef = Properties.data.filter(p => p.key !== null);
+            Value(valueRef); 
         }
     }, [Properties])
 

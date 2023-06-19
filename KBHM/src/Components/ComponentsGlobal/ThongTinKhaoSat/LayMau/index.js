@@ -1,13 +1,18 @@
 import React from "react";
-import { Row, Col, Form, Input } from "antd";
-import Ml from "../../ml.combobox";
+import { Row, Col, Form, Input, Button } from "antd";
 import ElementCombobox from "../../Element.combobox";
 import "../../index.css";
 import { useState } from "react";
 import IconCombine from "../../../Icon";
 import { useEffect } from "react";
-import ButtonIndex from "./Component/ButtonSyncDonnor";
-const Index = (props) => {
+import {
+  PUT_PersonDone,
+  POST_SyncDonor,
+} from "../../../../Data/Api/DangKyKham";
+import { Get_Category } from "../../../../Data/Api/Category";
+const Index = ({ ID, dataPerson }) => {
+  const [from] = Form.useForm();
+  const [Category, SetCategory] = useState([]);
   const [PropertiesButton, SetPropertiesButton] = useState({
     Name: "Kết thúc lấy máu -> !",
     type: "primary",
@@ -15,140 +20,62 @@ const Index = (props) => {
     disabled: false,
     danger: false,
   });
-  const [PersonUpdate, SetPersonUpdate] = useState({
-    RowID: props.ID,
-    PhanUng: null,
-    XuTri: null,
-    LuongHien: null,
-    MaTuiMau: null,
-    LoaiHienThanhPhan: null,
-    Sync: null,
-  });
-
   useEffect(() => {
-    SetPersonUpdate(props?.dataPerson);
-    TitleButton(props?.dataPerson?.Sync);
-  }, [props]);
-
-  const TitleButton = (value) => {
-    switch (value) {
-      case "1":
-        SetPropertiesButton({
-          ...PropertiesButton,
-          Name: "Hàng đợi  -> Đợi duyệt",
-          icon: <IconCombine.ClockCircleOutlined />,
-          disabled: true,
-          type: "dashed",
-          danger: false,
-        });
-        break;
-      case "2":
-        SetPropertiesButton({
-          ...PropertiesButton,
-          Name: "Thông tin đợi duyệt",
-          icon: <IconCombine.ClockCircleOutlined />,
-          disabled: true,
-          type: "dashed",
-          danger: false,
-        });
-        break;
-      case "3":
-        SetPropertiesButton({
-          ...PropertiesButton,
-          Name: "Lỗi  xin kiểm tra thông tin. ",
-          icon: <IconCombine.CloseCircleOutlined />,
-          disabled: false,
-          type: "dashed",
-          danger: true,
-        });
-        break;
-      case "4":
-        SetPropertiesButton({
-          ...PropertiesButton,
-          Name: "Đã ",
-          icon: <IconCombine.CheckCircleTwoTone />,
-          disabled: true,
-          type: "primary",
-          danger: false,
-        });
-        break;
-      default:
-        SetPropertiesButton({
-          ...PropertiesButton,
-          Name: "Kết thúc lấy máu",
-          type: "primary",
-          icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
-          disabled: false,
-          danger: false,
-        });
-        break;
-    }
+    from.setFieldsValue(dataPerson);
+  }, [dataPerson]);
+  useEffect(() => {
+    Ml();
+  }, []);
+  const Ml = async () => {
+    SetCategory(await Get_Category());
   };
-
+  const onSubmit = () => {
+    from.validateFields().then(async (rs) => {
+      rs = { ...rs, RowID: ID, SyncData: 1 };
+      const log = await PUT_PersonDone(rs);
+      console.log(log);
+      if (log === 1) {
+        await POST_SyncDonor(ID);
+      }
+    });
+  };
   return (
     <React.Fragment>
-      <Form labelCol={{ span: 8 }}>
+      <Form labelCol={{ span: 8 }} form={from}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label="Mã túi máu">
-              <Input readOnly disabled value={PersonUpdate?.MaTuiMau} />
-            </Form.Item>
+            <ElementCombobox
+              Name={"LuongHien"}
+              Label="Lượng hiến"
+              dataSource={Category.ml}
+              ruler={[
+                {
+                  required: true,
+                  message: "Yêu cầu",
+                },
+              ]}
+            />
           </Col>
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label="Lượng hiến">
-              <Ml
-                value={PersonUpdate?.LuongHien ?? ""}
-                onChangeValue={(e) => {
-                  SetPersonUpdate({ ...PersonUpdate, LuongHien: e });
-                }}
-              />
+            <Form.Item label="Phản ứng" name={"PhanUng"}>
+              <Input />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Hiến loại thành phần máu">
-              <ElementCombobox disabled={true} value={PersonUpdate?.LoaiHienThanhPhan + ""} />
+            <Form.Item label="Xử trí" name={"XuTri"}>
+              <Input />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={[12]}>
-          <Col md={12} xs={24}>
-            <Form.Item label="Phản ứng">
-              <Input
-                value={PersonUpdate?.PhanUng}
-                onChange={(e) => {
-                  SetPersonUpdate({ ...PersonUpdate, PhanUng: e.target.value });
-                }}
-              />
-            </Form.Item>
-          </Col>
-          <Col md={12} xs={24}>
-            <Form.Item label="Xử trí">
-              <Input
-                value={PersonUpdate?.XuTri}
-                onChange={(e) => {
-                  SetPersonUpdate({ ...PersonUpdate, XuTri: e.target.value });
-                }}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={[12]}>
-          <Col md={4} xs={24}></Col>
-          <Col md={4} xs={24}></Col>
-          <Col md={6} xs={24}>
-            <ButtonIndex
-              Icon={PropertiesButton.icon}
-              Name={PropertiesButton.Name}
-              Type={PropertiesButton.type}
-              disabled={PropertiesButton.disabled}
-              PersonInfo={PersonUpdate}
-             Reload={()=>{TitleButton(1)}}
-            >
-                
-            </ButtonIndex>
-          </Col>
+          <Button
+            style={{ width: 100 + "%" }}
+            type="primary"
+            onClick={onSubmit}>
+            Kết thúc lấy máu
+          </Button>
         </Row>
       </Form>
     </React.Fragment>
