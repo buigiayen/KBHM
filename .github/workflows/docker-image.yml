@@ -36,7 +36,6 @@ jobs:
             password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
             source: "KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml,KBHM_BACKEND/KhaiBaoHienMau/docker-compose.stagging.yml"
             target: "app"
-            script: docker-compose up -d
   
       - name: Connection SSH - build server docker compose
         uses: appleboy/ssh-action@v0.1.10
@@ -51,5 +50,5 @@ jobs:
               sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
               docker-compose down
               docker-compose pull
-              docker-compose -f docker-compose.yml -f docker-compose.stagging.yml up --build
+              docker-compose -f docker-compose.yml -f docker-compose.stagging.yml up -d --build
     
