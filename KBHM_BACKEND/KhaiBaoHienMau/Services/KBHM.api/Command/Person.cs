@@ -86,7 +86,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonDone(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien ,MaTuiMau=@MaTuiMau, LoaiHienThanhPhan=@LoaiHienThanhPhan, PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien , PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData where RowID = @ROWIDs";
 
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 
