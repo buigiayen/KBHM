@@ -20,7 +20,7 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     deploy:
         replicas: 4
-    restart: always
+
 
 
   system.api:
@@ -33,7 +33,6 @@ services:
       - IP=${IP}
     deploy:
         replicas: 4
-    restart: always
 
 
   bloodbank.api:
@@ -43,4 +42,3 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     deploy:
         replicas: 4
-    restart: always
