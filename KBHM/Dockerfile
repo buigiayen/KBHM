@@ -8,8 +8,10 @@ RUN npm run build
 
 # production stage
 FROM nginx:1.17-alpine as production-stage
-COPY ./Cert/certificate.crt /etc/ssl/certificate.crt
-COPY ./Cert/private.key /etc/ssl/private.key
+COPY ./Cert/vn/certificate.crt /etc/ssl/vn/certificate.crt
+COPY ./Cert/vn/private.key /etc/ssl/vn/private.key
+COPY ./Cert/com.vn/certificate.crt /etc/ssl/com/certificate.crt
+COPY ./Cert/com.vn/private.key /etc/ssl/com/private.key
 COPY .env .
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/build /usr/share/nginx/html
