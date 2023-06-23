@@ -3,7 +3,11 @@ import Marquee from "react-fast-marquee";
 import { Row, Col, Input, Alert, Modal, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate } from "react-router-dom";
-import { GET_Person, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
+import {
+  GET_Person,
+  PUT_PersonInfo,
+  GET_PersonInfo,
+} from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
@@ -34,7 +38,18 @@ const Index = () => {
         });
     }
   }, []);
-
+  const FetchPeron = async (value) => {
+    const pra = {
+      text: value,
+      row: 1,
+    };
+    await GET_PersonInfo(pra).then((rs) => {
+      if (rs !== undefined && rs.length > 0) {
+        rs[0].BirthDay = dayjs(rs[0].BirthDay);
+        from?.setFieldsValue(rs[0]);
+      }
+    });
+  };
   const GetQRCode = (pra) => {
     if (pra !== undefined && pra !== "") {
       GET_Person(pra).then((rs) => {
@@ -107,15 +122,17 @@ const Index = () => {
                 NotreadOnly={false}
               />
               <Form.Item>
-                <Button
-                  type="primary"
-                  style={{ width: 100 + "%" }}
-                  onClick={EditPersonInfo}
-                  icon={
-                    <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
-                  }>
-                  Xác nhận thông tin
-                </Button>
+                {DataPerson?.Sync !== "1"  && (
+                  <Button
+                    type="primary"
+                    style={{ width: 100 + "%" }}
+                    onClick={EditPersonInfo}
+                    icon={
+                      <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
+                    }>
+                    Xác nhận thông tin
+                  </Button>
+                )}
               </Form.Item>
             </Form>
           </Col>

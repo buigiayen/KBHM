@@ -39,7 +39,13 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement }) => {
     {
       label: `Lấy máu`,
       key: "4",
-      children: <Laymau ID={IDPerson} dataPerson={DataPerson} dataSourceElement={DataElement}/>,
+      children: (
+        <Laymau
+          ID={IDPerson}
+          dataPerson={DataPerson}
+          dataSourceElement={DataElement}
+        />
+      ),
       disabled: !disableTabLayMau,
     },
   ];

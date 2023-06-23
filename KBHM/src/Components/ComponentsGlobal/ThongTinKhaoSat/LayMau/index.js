@@ -69,14 +69,16 @@ const Index = ({ ID, dataPerson }) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={[12]}>
-          <Button
-            style={{ width: 100 + "%" }}
-            type="primary"
-            onClick={onSubmit}>
-            Kết thúc lấy máu
-          </Button>
-        </Row>
+        {dataPerson?.Sync !== '1' && (
+          <Row gutter={[12]}>
+            <Button
+              style={{ width: 100 + "%" }}
+              type="primary"
+              onClick={onSubmit}>
+              Kết thúc lấy máu
+            </Button>
+          </Row>
+        )}
       </Form>
     </React.Fragment>
   );

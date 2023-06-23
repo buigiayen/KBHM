@@ -27,7 +27,7 @@ const Index = ({ ID, dataPerson }) => {
       .validateFields()
       .then(async (rs) => {
         console.log(rs);
-        const {CheckDonnor} = await GET_DonorExCheck({
+        const { CheckDonnor } = await GET_DonorExCheck({
           DonorExCode: rs.MaTuiMau,
         });
         if (!CheckDonnor) {
@@ -37,15 +37,14 @@ const Index = ({ ID, dataPerson }) => {
             message: "Cảnh báo",
           });
         } else {
-          rs = {...rs, RowID : ID}
-          console.log(rs)
+          rs = { ...rs, RowID: ID };
+          console.log(rs);
           PUT_PersonTrip(rs);
         }
       })
       .catch((rs) => {
         console.log(rs);
       });
-    
   };
   return (
     <>
@@ -125,32 +124,33 @@ const Index = ({ ID, dataPerson }) => {
             </Button>
           </Col>
           <Col md={6} xs={24}></Col>
-
-          <>
-            <Col md={6} xs={24}>
-              <Button
-                className="btnFull"
-                type="dashed"
-                danger
-                icon={
-                  <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
-                }>
-                Hủy lấy máu
-              </Button>
-            </Col>
-            <Col md={6} xs={24}>
-              <Button
-                className="btnFull"
-                type="primary"
-                icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
-                onClick={Putperson}
-                loading={Isload}
-                disabled={IsDisable}
-                htmlType="submit">
-                Lấy máu
-              </Button>
-            </Col>
-          </>
+          {dataPerson?.Sync !== '1' && (
+            <>
+              <Col md={6} xs={24}>
+                <Button
+                  className="btnFull"
+                  type="dashed"
+                  danger
+                  icon={
+                    <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
+                  }>
+                  Hủy lấy máu
+                </Button>
+              </Col>
+              <Col md={6} xs={24}>
+                <Button
+                  className="btnFull"
+                  type="primary"
+                  icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
+                  onClick={Putperson}
+                  loading={Isload}
+                  disabled={IsDisable}
+                  htmlType="submit">
+                  Lấy máu
+                </Button>
+              </Col>
+            </>
+          )}
         </Row>
       </Form>
     </>

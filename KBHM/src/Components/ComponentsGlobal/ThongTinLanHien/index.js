@@ -15,8 +15,7 @@ dayjs.extend(customParseFormat);
 
 const { Search } = Input;
 
-const Index = ({ form, EditPerson, FetchPerson, ImagePicture }) => {
-  const [VisiblePutState, SetVisiblePutState] = useState(false);
+const Index = ({ form, FetchPerson, ImagePicture }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
   const Ruler = [
     {
@@ -71,7 +70,6 @@ const Index = ({ form, EditPerson, FetchPerson, ImagePicture }) => {
                       style: { fontWeight: "bold" },
                     }}
                     Name={"BirthDay"}
-                    onChange={(e) => form?.setFieldValue("BirthDay", e)}
                   />
                 </Col>
                 <Col lg={6}>
@@ -103,11 +101,15 @@ const Index = ({ form, EditPerson, FetchPerson, ImagePicture }) => {
                 message: "CCCD không hợp lệ",
               },
             ]}>
-            <Search
-              placeholder="Số căn cước"
-              onSearch={FetchPerson}
-              enterButton
-            />
+            {FetchPerson !== undefined ? (
+              <Search
+                placeholder="Số căn cước"
+                onSearch={FetchPerson}
+                enterButton
+              />
+            ) : (
+              <Input></Input>
+            )}
           </Form.Item>
         </Col>
 
@@ -221,30 +223,6 @@ const Index = ({ form, EditPerson, FetchPerson, ImagePicture }) => {
             label={"ĐỊA CHỈ LIÊN LẠC"}></RegionCombox>
         </Col>
       </Row>
-      {EditPerson === null && (
-        <Form.Item>
-          <Row gutter={[16, 8]}>
-            <Col span={24}>
-              <Button
-                className="btnFull"
-                onClick={() => {
-                  SetVisiblePutState(!VisiblePutState);
-                }}>
-                Sửa thông tin
-              </Button>
-              <Button
-                className="btnFull"
-                onClick={() => {
-                  form.validateFields().then((rs) => {
-                    console.log(rs);
-                  });
-                }}>
-                Xác nhận thông tin
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
-      )}
     </>
   );
 };

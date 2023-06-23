@@ -3,7 +3,6 @@ import { Get_Category } from "../../Data/Api/Category";
 import { Select, Form } from "antd";
 
 const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler }) => {
-  console.log(dataSource);
   return (
     <Form.Item label={Label} name={Name} rules={ruler}>
       <Select

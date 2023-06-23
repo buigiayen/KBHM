@@ -48,7 +48,6 @@ export const HttpRequest = async (method = 'GET', URI, body, messageShow = false
     };
     try {
         data = await Connection(URI, method, body, params, Type);
-        console.log(data)
         return ExposeData({ ObjectData: data, ShowToast: messageShow });
     }
     catch (e) {
