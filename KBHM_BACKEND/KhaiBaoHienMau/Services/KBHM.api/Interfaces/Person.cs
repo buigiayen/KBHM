@@ -13,6 +13,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> PutPerson(Model.Person person);
         Task<HttpObject.APIresult> PutPersonTip(Model.Person person);
         Task<HttpObject.APIresult> PutPersonDone(Model.Person person);
+        Task<HttpObject.APIresult> GetPerson(Model.Person person);
 
     }
 }

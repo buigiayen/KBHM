@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 
 namespace KBHM.api.Model
 {
@@ -6,6 +7,7 @@ namespace KBHM.api.Model
     {
         public string Text { get; set; }
         public int Row { get; set; }
-        
+        public DateTime FromDate { get; set; } = DateTime.Now.Date.AddDays(-1);
+        public DateTime ToDate { get; set; } = DateTime.Now.Date.AddDays(+1);
     }
 }

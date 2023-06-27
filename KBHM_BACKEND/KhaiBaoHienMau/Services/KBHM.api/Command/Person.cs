@@ -1,5 +1,6 @@
 ﻿
 using KBHM.api.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Writers;
 using Services.lib.Sql;
 using System;
@@ -14,7 +15,14 @@ namespace KBHM.api.Command
             string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE    Phone=@TEXT or CCCD=@TEXT order by DateRegister desc;";
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
         }
-
+        public async Task<HttpObject.APIresult> GetPerson(Model.Person person)
+        {
+            string sql = $" declare @Fdate date;  declare @TDate date; set @Fdate = @FromDate;  set @TDate = @ToDate;   " +
+                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync FROM  Person " +
+                $"WHERE    (DateRegister between @Fdate and @TDate) or (RowID=@RowID or Name=@Name) " +
+                $"order by DateRegister desc;";
+            return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
+        }
         public async Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person)
         {
             string sql = $"GetPeronInfo  @ID = @RowID";
@@ -78,7 +86,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData where RowID = @ROWIDs";
 
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 

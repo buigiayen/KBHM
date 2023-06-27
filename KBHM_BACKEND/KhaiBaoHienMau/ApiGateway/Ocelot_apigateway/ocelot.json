@@ -16,6 +16,19 @@
 
     },
     {
+      "DownstreamPathTemplate": "/v1/Person?{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "KBHM.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gw/Person?{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+
+    },
+    {
       "DownstreamPathTemplate": "/v1/Person",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -25,7 +38,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gw/Person",
-      "UpstreamHttpMethod": [ "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET"]
 
     },
 

@@ -9,9 +9,8 @@ namespace KBHM.api.Model
     {
         None,
         Sync,
-        Check,
-        Error,
-        Done,
+        GetBlood,
+        CancelBlood,
     }
     public class Person : Filter
     {
