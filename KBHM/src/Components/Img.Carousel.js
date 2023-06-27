@@ -5,7 +5,7 @@ import { Image } from 'antd'
 const App = () => {
     return (
         <Image
-            src={'https://hienmau.bvdktinhthanhhoa.com.vn:9874/gw/File/banner/banner.png'}
+            src={'https://hienmau.bvdktinhthanhhoa.com.vn:9874/sys/Files/banner/banner.png'}
             preview={false}
             alt="1887-768" />
     );
