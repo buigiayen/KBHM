@@ -10,16 +10,10 @@ import {
   POST_SyncDonor,
 } from "../../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../../Data/Api/Category";
-const Index = ({ ID, dataPerson }) => {
+const Index = ({ ID, dataPerson, FuncReload }) => {
   const [from] = Form.useForm();
   const [Category, SetCategory] = useState([]);
-  const [PropertiesButton, SetPropertiesButton] = useState({
-    Name: "Kết thúc lấy máu -> !",
-    type: "primary",
-    icon: <IconCombine.CheckOutlined></IconCombine.CheckOutlined>,
-    disabled: false,
-    danger: false,
-  });
+  
   useEffect(() => {
     from.setFieldsValue(dataPerson);
   }, [dataPerson]);
@@ -33,10 +27,10 @@ const Index = ({ ID, dataPerson }) => {
     from.validateFields().then(async (rs) => {
       rs = { ...rs, RowID: ID, SyncData: 1 };
       const log = await PUT_PersonDone(rs);
-      console.log(log);
       if (log === 1) {
         await POST_SyncDonor(ID);
       }
+      FuncReload();
     });
   };
   return (
@@ -69,7 +63,7 @@ const Index = ({ ID, dataPerson }) => {
             </Form.Item>
           </Col>
         </Row>
-        {dataPerson?.Sync !== '1' && (
+        {dataPerson?.Sync !== '1' && dataPerson?.Sync === '2' && (
           <Row gutter={[12]}>
             <Button
               style={{ width: 100 + "%" }}

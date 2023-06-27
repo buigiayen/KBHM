@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BloodBank.api.Controllers
 {
     [Authorize]
-    [Route("v1/category/")]
+    [Route("v1/")]
     [ApiController]
     public class CategoryController : ControllerBase
     {

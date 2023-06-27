@@ -11,6 +11,7 @@ namespace KBHM.api.Model
         Sync,
         GetBlood,
         CancelBlood,
+        SyncError
     }
     public class Person : Filter
     {

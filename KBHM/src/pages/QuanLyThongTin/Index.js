@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Row, Col, Input, Alert, Modal, Card, Form, Button } from "antd";
+import { Row, Col, Alert,  Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   GET_Person,
   PUT_PersonInfo,
-  GET_PersonInfo,
+
 } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
 import IconCombine from "../../Components/Icon";
-import QRCam from "../../Components/QR.Camera";
+
 import dayjs from "dayjs";
 
-const { Search } = Input;
+
 const Index = () => {
   const { ID } = useParams();
   const [from] = Form.useForm();
   const Navigate = useNavigate();
   const [IDPerson, SetIDPerson] = useState();
-  const [OpenModal, SetOpenModal] = useState(false);
+
   const [HienThiThongTinTua, SetThongTinTua] = useState();
   const [DataPerson, SetDataPerson] = useState();
   useEffect(() => {
@@ -38,23 +38,15 @@ const Index = () => {
           Navigate("/login");
         });
     }
+    FuncReload();
 
+  }, []);
+  const FuncReload = async () => {
     if (ID !== undefined) {
       GetQRCode(ID)
     }
-  }, []);
-  const FetchPeron = async (value) => {
-    const pra = {
-      text: value,
-      row: 1,
-    };
-    await GET_PersonInfo(pra).then((rs) => {
-      if (rs !== undefined && rs.length > 0) {
-        rs[0].BirthDay = dayjs(rs[0].BirthDay);
-        from?.setFieldsValue(rs[0]);
-      }
-    });
-  };
+  }
+
   const GetQRCode = (pra) => {
     if (pra !== undefined && pra !== "") {
       GET_Person(pra).then((rs) => {
@@ -73,16 +65,8 @@ const Index = () => {
       PUT_PersonInfo(rs);
     });
   };
-  const hideModal = () => {
-    SetOpenModal(false);
-  };
-  const suffix = (
-    <IconCombine.CameraOutlined
-      onClick={() => {
-        SetOpenModal(true);
-      }}
-    />
-  );
+
+
   return (
     <>
       <Row>
@@ -94,16 +78,14 @@ const Index = () => {
       </Row>
 
       <Row>
-        <Search
-          placeholder="QR "
-          onSearch={GetQRCode}
-          suffix={suffix}
-          enterButton
-        />
+        <Button type='link' style={{ width: 100 + '%' }} onClick={() => { Navigate('/DanhSachDangKyHienMau') }}>
+          Danh sách hiến máu
+        </Button>
+       
 
         {DataPerson?.warning !== 0 &&
-        DataPerson?.warning !== null &&
-        DataPerson?.warning !== undefined ? (
+          DataPerson?.warning !== null &&
+          DataPerson?.warning !== undefined ? (
           <Alert
             style={{ width: 100 + "%" }}
             banner
@@ -151,6 +133,7 @@ const Index = () => {
               IDPerson={IDPerson}
               IsBloodDonation={SetThongTinTua}
               DataPerson={DataPerson}
+              funcReload={FuncReload}
             />
           </Col>
         </Row>
@@ -160,32 +143,13 @@ const Index = () => {
         <Row>
           <Col sm={24}>
             {HienThiThongTinTua && (
-              <ThongTinTuaLaymau ID={IDPerson} dataPerson={DataPerson} />
+              <ThongTinTuaLaymau funcReload={FuncReload} ID={IDPerson} dataPerson={DataPerson} />
             )}
           </Col>
         </Row>
       </Card>
 
-      <Modal
-        open={OpenModal}
-        onOk={hideModal}
-        onCancel={hideModal}
-        title={"Quét QR"}
-        okText="Lấy"
-        cancelText="Tắt"
-        cancelButtonProps={{ style: { display: "none" } }}
-        okButtonProps={{ style: { display: "none" } }}>
-        {OpenModal && (
-          <QRCam
-            Value={(e) => {
-              if (e != null && e != undefined) {
-                GetQRCode(e);
-                SetOpenModal(false);
-              }
-            }}
-          />
-        )}
-      </Modal>
+    
     </>
   );
 };

@@ -1,44 +1,44 @@
 import { HttpRequest } from "../Config/APIConnection";
 
 export const POST_DangKyHienMau = async (prop) => {
-  return await HttpRequest("POST", "/Person", prop, true);
+  return await HttpRequest("POST", "/kbhm/Person", prop, true);
 };
 //Person/:ID/Properties  -- lấy thông tin thuộc tính
 export const GET_AllPerson = async (props) => {
-  return await HttpRequest("GET", `/Person`, null, true, props);
+  return await HttpRequest("GET", `/kbhm/Person`, null, true, props);
 };
 //Person/:ID/Properties  -- lấy thông tin thuộc tính
 export const GET_PropertiesPerson = async (prop) => {
-  return await HttpRequest("GET", `/Person/${prop}/Properties`);
+  return await HttpRequest("GET", `/kbhm/Person/${prop}/Properties`);
 };
 //Person/:ID -- Lấy thông tin person
 export const GET_Person = async (prop) => {
-  return await HttpRequest("GET", `/Person/${prop}`);
+  return await HttpRequest("GET", `/kbhm/Person/${prop}`);
 };
 //Person/:ID/Find/:Row -- Tìm thông tin person số lượng dòng
 export const GET_PersonInfo = async (prop) => {
-  return await HttpRequest("GET", `/Person/${prop.text}/Find/${prop.row}`);
+  return await HttpRequest("GET", `/kbhm/Person/${prop.text}/Find/${prop.row}`);
 };
 
 export const PUT_PersonInfo = async (prop) => {
-  return await HttpRequest("PUT", `/Person`, prop, true);
+  return await HttpRequest("PUT", `/kbhm/Person`, prop, true);
 };
 export const PUT_PersonInfo_healthy = async (prop) => {
-  return await HttpRequest("PUT", `/Person/healthy`, prop, true);
+  return await HttpRequest("PUT", `/kbhm/Person/healthy`, prop, true);
 };
 
 export const PUT_PersonTrip = async (prop) => {
-  return await HttpRequest("PUT", `/Person/Trip`, prop, true);
+  return await HttpRequest("PUT", `/kbhm/Person/Trip`, prop, true);
 };
 
 export const PUT_PersonDone = async (prop) => {
-  return await HttpRequest("PUT", `/Person/Done`, prop, true);
+  return await HttpRequest("PUT", `/kbhm/Person/Done`, prop, true);
 };
 
 export const GET_DonorExCheck = async ({ DonorExCode }) => {
   return await HttpRequest(
     "GET",
-    `/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`
+    `/bl/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`
   );
 };
 export const POST_SyncDonor = async (ID) => {
@@ -91,7 +91,7 @@ export const POST_SyncDonor = async (ID) => {
         WEIGH: `${ChieuCao}`,
       };
       console.log(DataSync);
-      return await HttpRequest("POST", `/SyncDonnor`, DataSync);
+      return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
       return [];
     }

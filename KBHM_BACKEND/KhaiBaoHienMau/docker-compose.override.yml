@@ -5,12 +5,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;https://+:443
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.com.vn.pfx
-    volumes:
-      - ${HOME}/Cert:/https
     ports:
       - "9874:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
 
    
@@ -21,6 +20,7 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     ports:
       - "80"
+
 
 
   system.api:

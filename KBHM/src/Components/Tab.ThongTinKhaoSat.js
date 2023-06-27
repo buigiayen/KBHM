@@ -5,7 +5,7 @@ import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocH
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
-const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement }) => {
+const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement , funcReload}) => {
   const [disableTabLayMau, SetDisabledLayMau] = useState();
   useEffect(() => {
     SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
@@ -28,6 +28,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement }) => {
           ID={IDPerson}
           HienMau={SetdisableTabLayMau}
           dataPerson={DataPerson}
+          funcReload={funcReload}
         />
       ),
     },
@@ -44,6 +45,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement }) => {
           ID={IDPerson}
           dataPerson={DataPerson}
           dataSourceElement={DataElement}
+          FuncReload={funcReload}
         />
       ),
       disabled: !disableTabLayMau,

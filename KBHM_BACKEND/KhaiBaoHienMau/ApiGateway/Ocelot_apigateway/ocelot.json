@@ -3,7 +3,7 @@
     //KBHM.api
 
     {
-      "DownstreamPathTemplate": "/v1/Person/{everything}",
+      "DownstreamPathTemplate": "/v1/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -11,41 +11,15 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/Person/{everything}",
-      "UpstreamHttpMethod": [ "GET", "PUT" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/Person?{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "KBHM.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Person?{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/Person",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "KBHM.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/Person",
-      "UpstreamHttpMethod": [ "GET"]
+      "UpstreamPathTemplate": "/kbhm/{url}",
+      "UpstreamHttpMethod": [ "GET", "PUT", "POST" ]
 
     },
 
 
     //BloodBank.api
     {
-      "DownstreamPathTemplate": "/v1/Authorization",
+      "DownstreamPathTemplate": "/v1/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -53,67 +27,13 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/Authorization",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/bl/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
 
     },
-    {
-      "DownstreamPathTemplate": "/v1/TokenVeryfy",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/TokenVeryfy",
-      "UpstreamHttpMethod": [ "GET" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/SyncDonnor",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/SyncDonnor",
-      "UpstreamHttpMethod": [ "POST" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/SyncDonnor/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/SyncDonnor/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/category/Category",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "BloodBank.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/category",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-
-
-
     // System.api
     {
-      "DownstreamPathTemplate": "/v1/Region",
+      "DownstreamPathTemplate": "/v1/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -121,20 +41,7 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/gw/Region",
-      "UpstreamHttpMethod": [ "GET" ]
-
-    },
-    {
-      "DownstreamPathTemplate": "/v1/Files/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "System.api",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/gw/File/{everything}",
+      "UpstreamPathTemplate": "/sys/{url}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
 
     }

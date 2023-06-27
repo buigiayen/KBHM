@@ -4,7 +4,7 @@ import IconCombine from "../../../Icon";
 import "../../index.css";
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 
-const Index = ({ ID, dataPerson, IsDone, HienMau }) => {
+const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue(dataPerson);
@@ -20,12 +20,13 @@ const Index = ({ ID, dataPerson, IsDone, HienMau }) => {
     SetIsloading(true);
     form
       .validateFields()
-      .then((rs) => {
+      .then(async (rs) => {
         rs = { ...rs, RowID: ID };
-        PUT_PersonInfo_healthy(rs);
+        await PUT_PersonInfo_healthy(rs);
         SetIsloading(false);
+        funcReload();
       })
-      .catch(SetIsloading(false));
+      .catch((rs) => SetIsloading(false));
   };
 
   return (
@@ -65,7 +66,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau }) => {
           <Col md={24} xs={24}>
             <Form.Item
               label="Tình trạng lâm sàng"
-              name={"TinhTranglamSang"}
+              name={"TinhTrangLamSang"}
               rules={Ruler}>
               <Input />
             </Form.Item>
@@ -82,7 +83,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau }) => {
                 }}>
                 <Space direction="vertical">
                   <Radio value={true}>Cho phép hiến máu</Radio>
-                  <Radio value={false}>Không cho phép hiến máu</Radio>
+                  {dataPerson?.Sync !== '1' && <Radio value={false}>Không cho phép hiến máu</Radio>}
                 </Space>
               </Radio.Group>
             </Form.Item>
@@ -100,7 +101,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau }) => {
           </Col>
         </Row>
 
-        {IsDone !== null && ID &&  dataPerson?.Sync !==  '1' ? (
+        {IsDone !== null && ID && dataPerson?.Sync !== '1' ? (
           <Button
             type="primary"
             style={{ width: 100 + "%" }}

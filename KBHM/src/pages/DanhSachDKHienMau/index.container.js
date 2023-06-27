@@ -1,16 +1,32 @@
 import { useEffect, useState } from "react";
-import { Button, Tag } from "antd";
+import { Button, Tag, Input, Modal } from "antd";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import Tables from "../../Components/Table.antd";
 import { GET_AllPerson } from "../../Data/Api/DangKyKham";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
+import IconCombine from "../../Components/Icon";
+import QRCam from "../../Components/QR.Camera";
+
+
+const { Search } = Input;
 const Index = () => {
   const navigator = useNavigate();
   const [ListPerson, SetListPerson] = useState([]);
+  const [OpenModal, SetOpenModal] = useState(false);
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
   };
+  const hideModal = () => {
+    SetOpenModal(false);
+  };
+  const suffix = (
+    <IconCombine.CameraOutlined
+      onClick={() => {
+        SetOpenModal(true);
+      }}
+    />
+  );
   useEffect(() => {
     const DateSearch = {
       FromDate: dayjs(),
@@ -33,7 +49,9 @@ const Index = () => {
   const ColumnPerson = [
     {
       title: "Mã hiến",
+      width: 300,
       dataIndex: "RowID",
+
       render: (_) => {
         return (
           <Button
@@ -50,11 +68,13 @@ const Index = () => {
     {
       title: "Tên người hiến",
       dataIndex: "Name",
+      width: 150,
       isFilter: true,
     },
     {
       title: "Ngày sinh",
       dataIndex: "BirthDay",
+      width: 120,
       render: (_) => {
         return dayjs(_).format("DD/MM/YYYY");
       },
@@ -62,6 +82,7 @@ const Index = () => {
     {
       title: "Ngày đăng ký",
       dataIndex: "DateRegister",
+      width: 120,
       render: (_) => {
         return dayjs(_).format("DD/MM/YYYY");
       },
@@ -69,6 +90,7 @@ const Index = () => {
     {
       title: "Giới tính",
       dataIndex: "Sex",
+      width: 85,
       render: (_) => {
         switch (_) {
           case 0:
@@ -83,10 +105,32 @@ const Index = () => {
     {
       title: "Điện thoại",
       dataIndex: "Phone",
+      width: 120,
+
+    },
+    {
+      title: "Cho phép hiến máu",
+      dataIndex: "ChoPhepHienMau",
+
+      width: 85,
+      fixed: 'right',
+      render: (_) => {
+        switch (_) {
+          case true:
+            return <Tag color="#108ee9">Cho phép</Tag>;
+          case false:
+            return <Tag color="#f50">Không cho phép</Tag>;
+
+          default:
+            return <Tag color="purple">Chưa thực hiện</Tag>;
+        }
+      }
     },
     {
       title: "Đồng bộ",
       dataIndex: "Sync",
+      fixed: 'right',
+      width: 85,
       sorter: (a, b) => a.Sync - b.Sync,
       render: (_) => {
         switch (_) {
@@ -105,21 +149,41 @@ const Index = () => {
   ];
   return (
     <>
+      <br></br>
+      <Search
+        placeholder="Tra cứu nhanh qua mã QR "
+        suffix={suffix}
+        onSearch={(e) => PushPage({ ID: e })}
+        enterButton
+      />
       <Tables
         dataSource={ListPerson}
         funcReload={FetchPerson}
         Columns={ColumnPerson}
         titleTable={"Danh sách người hiến"}
         Footer={`Số lượng hiến: ${ListPerson?.length ?? 0}`}
-        propsTable={[
-          {
-            scroll: {
-              y: 3000,
-              x: 5000,
-            },
-          },
-        ]}
+        propsTable={{ scroll: { x: 2000, y: 1500, size: 'small', scrollToFirstRowOnChange: true } }}
       />
+      <Modal
+        open={OpenModal}
+        onOk={hideModal}
+        onCancel={hideModal}
+        title={"Quét QR"}
+        okText="Lấy"
+        cancelText="Tắt"
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}>
+        {OpenModal && (
+          <QRCam
+            Value={(e) => {
+              if (e != null && e != undefined) {
+                PushPage({ ID: e });
+                SetOpenModal(false);
+              }
+            }}
+          />
+        )}
+      </Modal>
     </>
   );
 };

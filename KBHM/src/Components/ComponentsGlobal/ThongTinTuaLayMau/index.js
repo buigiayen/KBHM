@@ -11,7 +11,7 @@ import { Get_Category } from "../../../Data/Api/Category";
 import { Warning } from "../../notification";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-const Index = ({ ID, dataPerson }) => {
+const Index = ({ funcReload, ID, dataPerson }) => {
   const navigator = useNavigate();
   const [form] = Form.useForm();
   const [Isload, SetIsLoad] = useState(false);
@@ -39,10 +39,13 @@ const Index = ({ ID, dataPerson }) => {
           });
         } else {
           rs = { ...rs, RowID: ID, SyncData: Sync };
-          PUT_PersonTrip(rs);
-          if(Sync === 3){
+          await PUT_PersonTrip(rs);
+          if (Sync === 3) {
             navigator('/DanhSachDangKyHienMau')
+          } else {
+            funcReload();
           }
+
         }
       })
       .catch((rs) => {
@@ -120,14 +123,17 @@ const Index = ({ ID, dataPerson }) => {
         </Row>
         <Row gutter={[8]}>
           <Col md={6} xs={24}>
-            <Button
-              className="btnFull"
-              icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>
-              In phiếu ĐKHM
-            </Button>
+            {
+              dataPerson?.Sync === "1" && <Button
+                className="btnFull"
+                icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>
+                In phiếu ĐKHM
+              </Button>
+            }
+
           </Col>
           <Col md={6} xs={24}></Col>
-          {dataPerson?.Sync !== "1" && (
+          {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
             <>
               {dataPerson?.Sync !== "3" && (
                 <Col md={6} xs={24}>
@@ -145,19 +151,19 @@ const Index = ({ ID, dataPerson }) => {
               )}
               {dataPerson?.Sync !== "2" && (
                 <Col md={6} xs={24}>
-                   <Button
-                  className="btnFull"
-                  type="primary"
-                  icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
-                  onClick={() => Putperson({ Sync: 2 })}
-                  loading={Isload}
-                  disabled={IsDisable}
-                  htmlType="submit">
-                  Lấy máu
-                </Button>
+                  <Button
+                    className="btnFull"
+                    type="primary"
+                    icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
+                    onClick={() => Putperson({ Sync: 2 })}
+                    loading={Isload}
+                    disabled={IsDisable}
+                    htmlType="submit">
+                    Lấy máu
+                  </Button>
                 </Col>
               )}
-             
+
             </>
           )}
         </Row>

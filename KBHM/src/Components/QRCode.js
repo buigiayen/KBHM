@@ -21,8 +21,8 @@ const App = (prop) => (
         colorWhite:false
       }}
       size={340}
-      color='green'
-      errorLevel={'H'}
+      color='blue'
+     
     />
    
     <Button type="primary" onClick={downloadQRCode} size='large' style={{marginLeft:20, backgroundColor:'green'}}  icon={<IconCombine.DownloadOutlined></IconCombine.DownloadOutlined>}>
