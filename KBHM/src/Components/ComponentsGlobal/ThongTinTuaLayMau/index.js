@@ -9,8 +9,10 @@ import DateTime from "../../ComponentsGlobal/DateTime";
 import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../Data/Api/Category";
 import { Warning } from "../../notification";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 const Index = ({ ID, dataPerson }) => {
+  const navigator = useNavigate();
   const [form] = Form.useForm();
   const [Isload, SetIsLoad] = useState(false);
   const [IsDisable, SeIsDisable] = useState(false);
@@ -22,11 +24,10 @@ const Index = ({ ID, dataPerson }) => {
   const GetCategory = async () => {
     setCategory(await Get_Category());
   };
-  const Putperson = async () => {
+  const Putperson = async ({ Sync }) => {
     form
       .validateFields()
       .then(async (rs) => {
-        console.log(rs);
         const { CheckDonnor } = await GET_DonorExCheck({
           DonorExCode: rs.MaTuiMau,
         });
@@ -37,9 +38,11 @@ const Index = ({ ID, dataPerson }) => {
             message: "Cảnh báo",
           });
         } else {
-          rs = { ...rs, RowID: ID };
-          console.log(rs);
+          rs = { ...rs, RowID: ID, SyncData: Sync };
           PUT_PersonTrip(rs);
+          if(Sync === 3){
+            navigator('/DanhSachDangKyHienMau')
+          }
         }
       })
       .catch((rs) => {
@@ -124,31 +127,37 @@ const Index = ({ ID, dataPerson }) => {
             </Button>
           </Col>
           <Col md={6} xs={24}></Col>
-          {dataPerson?.Sync !== '1' && (
+          {dataPerson?.Sync !== "1" && (
             <>
-              <Col md={6} xs={24}>
-                <Button
-                  className="btnFull"
-                  type="dashed"
-                  danger
-                  icon={
-                    <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
-                  }>
-                  Hủy lấy máu
-                </Button>
-              </Col>
-              <Col md={6} xs={24}>
-                <Button
+              {dataPerson?.Sync !== "3" && (
+                <Col md={6} xs={24}>
+                  <Button
+                    className="btnFull"
+                    type="dashed"
+                    onClick={() => Putperson({ Sync: 3 })}
+                    danger
+                    icon={
+                      <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
+                    }>
+                    Hủy lấy máu
+                  </Button>
+                </Col>
+              )}
+              {dataPerson?.Sync !== "2" && (
+                <Col md={6} xs={24}>
+                   <Button
                   className="btnFull"
                   type="primary"
                   icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
-                  onClick={Putperson}
+                  onClick={() => Putperson({ Sync: 2 })}
                   loading={Isload}
                   disabled={IsDisable}
                   htmlType="submit">
                   Lấy máu
                 </Button>
-              </Col>
+                </Col>
+              )}
+             
             </>
           )}
         </Row>

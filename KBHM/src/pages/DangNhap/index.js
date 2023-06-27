@@ -14,7 +14,7 @@ const App = () => {
     const VeryfyLogin = async () => {
         await Get_Token(Login).then(rs => {
             localStorage.setItem('Token', rs?.token ?? "");
-            Navigate('/QuanLyThongTin')
+            Navigate('/DanhSachDangKyHienMau')
         }).catch();
     }
 

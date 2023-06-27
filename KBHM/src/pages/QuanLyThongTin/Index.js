@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { Row, Col, Input, Alert, Modal, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   GET_Person,
   PUT_PersonInfo,
@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 
 const { Search } = Input;
 const Index = () => {
+  const { ID } = useParams();
   const [from] = Form.useForm();
   const Navigate = useNavigate();
   const [IDPerson, SetIDPerson] = useState();
@@ -36,6 +37,10 @@ const Index = () => {
         .catch(() => {
           Navigate("/login");
         });
+    }
+
+    if (ID !== undefined) {
+      GetQRCode(ID)
     }
   }, []);
   const FetchPeron = async (value) => {
@@ -122,7 +127,7 @@ const Index = () => {
                 NotreadOnly={false}
               />
               <Form.Item>
-                {DataPerson?.Sync !== "1"  && (
+                {DataPerson?.Sync !== "1" && DataPerson && (
                   <Button
                     type="primary"
                     style={{ width: 100 + "%" }}
