@@ -17,7 +17,6 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
   ];
   const [IsLoadding, SetIsloading] = useState(false);
   const PutPerson = async () => {
-    SetIsloading(true);
     form
       .validateFields()
       .then(async (rs) => {
@@ -34,14 +33,14 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
       <Form labelCol={8} form={form} layout="vertical">
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label="Cân nặng(KG)" name={"CanNang"} rules={Ruler}>
+            <Form.Item label="Cân nặng(KG)" name={"CanNang"} >
               <InputNumber
                 placeholder="KG"
                 style={{ width: 100 + "%" }}></InputNumber>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Chiều cao (Cm)" name={"ChieuCao"} rules={Ruler}>
+            <Form.Item label="Chiều cao (Cm)" name={"ChieuCao"}>
               <InputNumber
                 placeholder="Cm"
                 style={{ width: 100 + "%" }}></InputNumber>
@@ -50,14 +49,14 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label="Mạch (Lần/Phút)" name={"Mach"} rules={Ruler}>
+            <Form.Item label="Mạch (Lần/Phút)" name={"Mach"} >
               <InputNumber
                 placeholder="Lần/1 Phút"
                 style={{ width: 100 + "%" }}></InputNumber>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label="Huyết áp(mmHg)" name={"HuyetAp"} rules={Ruler}>
+            <Form.Item label="Huyết áp(mmHg)" name={"HuyetAp"} >
               <Input />
             </Form.Item>
           </Col>
@@ -67,7 +66,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
             <Form.Item
               label="Tình trạng lâm sàng"
               name={"TinhTrangLamSang"}
-              rules={Ruler}>
+              >
               <Input />
             </Form.Item>
           </Col>
@@ -83,25 +82,31 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload }) => {
                 }}>
                 <Space direction="vertical">
                   <Radio value={true}>Cho phép hiến máu</Radio>
-                  {dataPerson?.Sync !== '1' && <Radio value={false}>Không cho phép hiến máu</Radio>}
+                  {dataPerson?.Sync !== "1" && (
+                    <Radio value={false}>Không cho phép hiến máu</Radio>
+                  )}
                 </Space>
               </Radio.Group>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item
-              rules={Ruler}
+           
               label="Lượng máu có thể hiến "
               name={"LuongMauCoTheHien"}>
               <InputNumber placeholder="(ml)" style={{ width: 100 + "%" }} />
             </Form.Item>
             <Form.Item label="Tạm hoãn " name={"TamHoan"}>
-              <InputNumber rules={Ruler} placeholder="Tuần" style={{ width: 100 + "%" }} />
+              <InputNumber
+                
+                placeholder="Tuần"
+                style={{ width: 100 + "%" }}
+              />
             </Form.Item>
           </Col>
         </Row>
 
-        {IsDone !== null && ID && dataPerson?.Sync !== '1' ? (
+        {IsDone !== null && ID && dataPerson?.Sync !== "1" ? (
           <Button
             type="primary"
             style={{ width: 100 + "%" }}

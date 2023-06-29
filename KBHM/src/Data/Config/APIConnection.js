@@ -100,7 +100,6 @@ const MessengerError = ({ ObjectTrycatch }) => {
     const {
       response: { data: messenger },
     } = ObjectTrycatch;
-    console.log(request.status);
     if (request.status === 401) {
       window.location.href = "/login";
     }

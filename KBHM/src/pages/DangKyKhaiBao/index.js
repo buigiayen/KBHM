@@ -37,11 +37,19 @@ const Index = () => {
       form
         .validateFields()
         .then((RS) => {
+          let personRs = RS;
+          if (RS?.CheckNhuDiaChiThuongTru) {
+            personRs =  {
+              ...RS,
+              DiaChiLienLac: RS.DiaChiThuongTru,
+              DiaChiThuongLienLac_ChiTiet: RS.DiaChiThuongTru_ChiTiet,
+            };    
+          }
           const peronClone = {
-            ...RS,
+            ...personRs,
             PersonProperties: Properties,
           };
-          console.log(peronClone);
+           
           POST_DangKyHienMau(peronClone).then((rs) => {
             Navigate("TraCuuThongTin/" + rs[0].Code);
           });

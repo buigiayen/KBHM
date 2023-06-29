@@ -13,7 +13,6 @@ const ButtonIndex = ({
 
 }) => {
     const PushState = async () => {
-        console.log(PersonInfo);
         const ClonePeronUpdate = PersonInfo;
         ClonePeronUpdate.SyncData = 1;
 

@@ -277,7 +277,6 @@ const Tables = ({
                   rs,
                 };
               }
-              console.log(Condition);
               FillterAble({ valueFind: Condition });
               setOpenModalFilter(false);
             })

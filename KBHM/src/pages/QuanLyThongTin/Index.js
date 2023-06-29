@@ -61,6 +61,7 @@ const Index = () => {
   };
   const EditPersonInfo = async () => {
     from.validateFields().then((rs) => {
+      console.log(rs)
       rs = { ...rs, RowID: IDPerson };
       PUT_PersonInfo(rs);
     });
@@ -105,8 +106,6 @@ const Index = () => {
             <Form form={from} layout="vertical">
               <QuanLyThongTinLanHien
                 form={from}
-                dtPerson={DataPerson}
-                NotreadOnly={false}
               />
               <Form.Item>
                 {DataPerson?.Sync !== "1" && DataPerson && (

@@ -15,8 +15,9 @@ dayjs.extend(customParseFormat);
 
 const { Search } = Input;
 
-const Index = ({ form, FetchPerson, ImagePicture }) => {
+const Index = ({ form, FetchPerson }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
+
   const Ruler = [
     {
       message: "Bắt buộc",
@@ -46,7 +47,10 @@ const Index = ({ form, FetchPerson, ImagePicture }) => {
               fontWeight: "bold",
             }}
             label={"ẢNH CHÂN DUNG"}>
-            <UploadMinio Value={ImagePicture} onChange={setImageForm} />
+            <UploadMinio
+              Value={form?.getFieldValue("UrlImage")}
+              onChange={setImageForm}
+            />
           </Form.Item>
         </Col>
 
@@ -189,24 +193,14 @@ const Index = ({ form, FetchPerson, ImagePicture }) => {
           </Form.Item>
         </Col>
         <Col span={6}>
-          <Form.Item label={" "} style={{ fontWeight: "bold" }}>
+          <Form.Item
+            label={" "}
+            name={"CheckNhuDiaChiThuongTru"}
+            valuePropName="checked"
+            style={{ fontWeight: "bold" }}>
             <Checkbox
               onChange={(e) => {
-                if (e.target.checked) {
-                  form?.setFieldValue(
-                    "DiaChiLienLac",
-                    form?.getFieldValue("DiaChiThuongTru")
-                  );
-                  form?.setFieldValue(
-                    "DiaChiThuongLienLac_ChiTiet",
-                    form?.getFieldValue("DiaChiThuongTru_ChiTiet")
-                  );
-                  setIsVisibleComponet(true);
-                } else {
-                  form?.setFieldValue("DiaChiLienLac", "");
-                  form?.setFieldValue("DiaChiThuongLienLac_ChiTiet", "");
-                  setIsVisibleComponet(false);
-                }
+                setIsVisibleComponet(e.target.checked);
               }}>
               NHƯ ĐỊA CHỈ THƯỜNG TRÚ
             </Checkbox>

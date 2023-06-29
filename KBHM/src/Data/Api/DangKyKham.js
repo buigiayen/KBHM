@@ -43,7 +43,6 @@ export const GET_DonorExCheck = async ({ DonorExCode }) => {
 };
 export const POST_SyncDonor = async (ID) => {
   try {
-    console.log(ID);
     let DataPerson = {};
     await GET_Person(ID).then((rs) => (DataPerson = rs));
 
@@ -90,7 +89,6 @@ export const POST_SyncDonor = async (ID) => {
         STATUS: TinhTrangLamSang,
         WEIGH: `${ChieuCao}`,
       };
-      console.log(DataSync);
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
       return [];
