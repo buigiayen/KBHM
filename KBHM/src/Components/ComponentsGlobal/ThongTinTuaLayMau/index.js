@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Divider, Form, Input, Row, Col, Checkbox, Button } from "antd";
-import LocationCombobox from "../Location.combobox";
+import { Warning } from "../../notification";
+import { Await, useNavigate } from "react-router-dom";
+import btoa from "btoa";
 import ElementCombobox from "../Element.combobox";
-import { Config } from "../../../Data/Config/config.system";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
-import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
+import PDfViewer from '../../Modal.pdf'
+import { Config } from "../../../Data/Config/config.system";
+import { PUT_PersonTrip, GET_DonorExCheck, GET_PropertiesPerson, GET_Person } from "../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../Data/Api/Category";
-import { Warning } from "../../notification";
-import { useNavigate } from "react-router-dom";
+import { Post_CreateReport } from "../../../Data/Api/Report";
+
 import "./index.css";
+
 const Index = ({ funcReload, ID, dataPerson }) => {
   const navigator = useNavigate();
   const [form] = Form.useForm();
   const [Isload, SetIsLoad] = useState(false);
   const [IsDisable, SeIsDisable] = useState(false);
   const [Category, setCategory] = useState([]);
+  const [DataPDf, SetDataPDF] = useState(null);
+  const [isShowPDFViewer, SetisShowPDFViewer] = useState(false)
   useEffect(() => {
     form.setFieldsValue(dataPerson);
     GetCategory();
@@ -52,6 +58,23 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         console.log(rs);
       });
   };
+
+  const ExportDocumentFile = async () => {
+    const PersonInfo = await GET_Person(ID);
+    const PersonProperties = await GET_PropertiesPerson(ID)
+    const resultProperties = PersonProperties.reduce((acc, rs) => {
+      acc[rs.Key] = rs.value;
+      return acc;
+    }, {});
+
+    const combinedObject = []
+    combinedObject.push({ ...PersonInfo[0], ...resultProperties });
+    let objJsonStr = JSON.stringify(combinedObject);
+
+    var data = await Post_CreateReport({ reportName: 'Rp_dkhienmau', dataReport: objJsonStr })
+    SetDataPDF(data.data)
+    SetisShowPDFViewer(true)
+  }
   return (
     <>
       <Divider orientation="left">
@@ -125,6 +148,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           <Col md={6} xs={24}>
             {
               dataPerson?.Sync === "1" && <Button
+                onClick={ExportDocumentFile}
                 className="btnFull"
                 icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>
                 In phiếu ĐKHM
@@ -168,6 +192,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           )}
         </Row>
       </Form>
+
+      <PDfViewer Open={isShowPDFViewer} onCancel={() => { SetisShowPDFViewer(false) }} DataPDF={DataPDf} />
     </>
   );
 };

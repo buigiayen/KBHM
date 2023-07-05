@@ -72,6 +72,26 @@ export const HttpRequest = async (
   }
   return data;
 };
+export const HttpRequestFile = async (
+  method = "GET",
+  URI,
+  body,
+  messageShow = false,
+  params,
+  Type
+) => {
+  let data = [];
+  if (messageShow) {
+    const hide = message.loading("Loading data ...", 0);
+    setTimeout(hide, process.env.REACT_APP_TIMEOUT);
+  }
+  try {
+    return await Connection(URI, method, body, params, Type);
+  } catch (e) {
+    MessengerError({ ObjectTrycatch: e });
+  }
+  return data;
+};
 
 
 const ExposeData = ({ ObjectData, ShowToast }) => {
