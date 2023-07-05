@@ -107,16 +107,14 @@ namespace BloodBank.api.command
                                                        WHERE IdentityID =@IdentityID ";
             string InsertDonor = "insert into tbl_Donor (DateIn,DonorCode, sex,  Age ,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid  ) values" +
                    "(Getdate(),@DonorCode,@Sex,@Age,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID );";
-            string UpdateDonor = "update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age ,Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay where IdentityID =@IdentityID";
+            string UpdateDonor = "update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age ,Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay where IdentityID=@IdentityID";
             string ActionDonnor = @$"BEGIN
                                        IF NOT EXISTS ({QueryCheckDonnor})
                                                        BEGIN
-                                                         {InsertDonor}
+                                        {InsertDonor}
                                                        END
                                        ELSE
-                                                        BEGIN
-                                                         {UpdateDonor}
-                                                       END
+                                        {UpdateDonor}        
                                     END";
             string SelectDonorEx = "declare @DonorID int; set @DonorID =  (select Top(1)  DonorID from tbl_Donor where rowguid = @ID);";
             string QueryDonorEx = "insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,BloodVolume,ElementID, DateIn) " +
