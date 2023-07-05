@@ -27,3 +27,12 @@ services:
       context: .
       dockerfile: Services/BloodBank.api/Dockerfile
 
+
+  serverside:
+    image: ${DOCKER_REGISTRY-}serverside
+    build:
+      context: .
+      dockerfile: Services/Report.api/Dockerfile
+    volumes:
+     - ./Report:/app/Reports
+

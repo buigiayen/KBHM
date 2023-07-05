@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "bloodbank.api": "StartDebugging",
+        "kbhm.api": "StartDebugging",
+        "ocelot_apigateway": "StartDebugging",
+        "serverside": "StartDebugging",
+        "system.api": "StartDebugging"
+      }
+    }
+  }
+}

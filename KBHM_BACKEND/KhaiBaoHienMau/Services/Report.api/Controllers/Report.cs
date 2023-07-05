@@ -40,8 +40,8 @@ namespace ServerSide.Controllers
         [HttpPost("ReportView")]
         public async Task<IActionResult> Index([FromBody] RequestReport requestReport)
         {
-            string base64Convert = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(requestReport.DataReport));
-            string Formater = @"{""" + requestReport.TableName + "\" : " + base64Convert + " }";
+           
+            string Formater = @"{""" + requestReport.TableName + "\" : " + requestReport.DataReport + " }";
             string PDFFilePath = Path.Combine(ReportDirectory, requestReport.ReportTilte + PDFExtension);
             string PathRepx = Path.Combine(ReportDirectory, requestReport.ReportName + FileExtension);
             XtraReport xtraReport = new XtraReport();
@@ -55,10 +55,9 @@ namespace ServerSide.Controllers
             xtraReport.DataSource = objectDataSource;
             xtraReport.CreateDocument();
             xtraReport.ExportToPdf(PDFFilePath);
-            IFileProvider provider = new PhysicalFileProvider(ReportDirectory);
-            IFileInfo fileInfo = provider.GetFileInfo(requestReport.ReportTilte + PDFExtension);
-            var readStream = fileInfo.CreateReadStream();
-            return File(readStream, "application/pdf");
+            Byte[] bytes = System.IO.File.ReadAllBytes(PDFFilePath);
+            string file = Convert.ToBase64String(bytes);
+            return Ok(file);
         }
 
         public DataTable JsonToDataTableNew(string json, string tableName)

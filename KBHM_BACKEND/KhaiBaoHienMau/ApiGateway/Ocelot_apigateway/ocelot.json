@@ -44,6 +44,20 @@
       "UpstreamPathTemplate": "/sys/{url}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
 
+    },
+    //Report server
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ServerSide",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/rp/{url}",
+      "UpstreamHttpMethod": [ "POST" ]
+
     }
   ],
 

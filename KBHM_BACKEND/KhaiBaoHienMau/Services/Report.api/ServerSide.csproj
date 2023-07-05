@@ -5,6 +5,7 @@
 		<UserSecretsId>111452f9-4fe6-4c4f-9bad-acef8dd43f7c</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 	<ItemGroup>
 		<EmbeddedResource Remove="Reports\ReportBlank.resx" />

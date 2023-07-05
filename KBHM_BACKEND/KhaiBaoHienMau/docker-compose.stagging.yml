@@ -42,3 +42,12 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
     deploy:
         replicas: 4
+
+  serverside:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+    deploy:
+        replicas: 2
+  
