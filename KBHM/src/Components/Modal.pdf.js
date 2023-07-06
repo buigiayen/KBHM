@@ -10,7 +10,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
-const PDfViewer = ({ DataPDF, Open, onCancel }) => {1
+const PDfViewer = ({ DataPDF, Open, onCancel }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const base64toBlob = () => {
     // Cut the prefix `data:application/pdf;base64` from the raw base 64
