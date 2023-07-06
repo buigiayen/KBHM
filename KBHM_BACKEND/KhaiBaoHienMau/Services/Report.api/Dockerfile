@@ -20,12 +20,13 @@ RUN sed -i'.bak' 's/$/ contrib/' /etc/apt/sources.list \
 EXPOSE 80
 EXPOSE 443
 
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Services/Report.api/ServerSide.csproj", "ServerSide/"]
-RUN dotnet restore "ServerSide/ServerSide.csproj"
+COPY ["Services/Report.api/ServerSide.csproj", "Services/Report.api/"]
+RUN dotnet restore "Services/Report.api/ServerSide.csproj"
 COPY . .
-WORKDIR "/src/ServerSide"
+WORKDIR "/src/Services/Report.api"
 RUN dotnet build "ServerSide.csproj" -c Release -o /app/build
 
 FROM build AS publish

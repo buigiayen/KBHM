@@ -29,10 +29,9 @@ services:
 
 
   serverside:
-    image: ${DOCKER_REGISTRY-}serverside
-    build:
-      context: .
-      dockerfile: Services/Report.api/Dockerfile
-    volumes:
-     - ./Report:/app/Reports
+    image: ${DOCKER_REGISTRY-}reportserver
+    ports:
+     - "80"
 
+
+   

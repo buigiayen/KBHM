@@ -43,11 +43,4 @@ services:
     deploy:
         replicas: 4
 
-  serverside:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
-    deploy:
-        replicas: 2
-  
+

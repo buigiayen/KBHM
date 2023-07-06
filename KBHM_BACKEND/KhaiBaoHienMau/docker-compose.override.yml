@@ -43,10 +43,4 @@ services:
     ports:
       - "80"
 
-
-  serverside:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
   
