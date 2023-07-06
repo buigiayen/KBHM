@@ -32,6 +32,8 @@ services:
     image: ${DOCKER_REGISTRY-}reportserver
     ports:
      - "80"
+    volumes:
+    - ./Reports:/app/Reports
 
 
    

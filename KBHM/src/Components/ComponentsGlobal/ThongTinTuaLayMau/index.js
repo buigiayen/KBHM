@@ -72,9 +72,30 @@ const Index = ({ funcReload, ID, dataPerson }) => {
     let objJsonStr = JSON.stringify(combinedObject);
 
     var data = await Post_CreateReport({ reportName: 'Rp_dkhienmau', dataReport: objJsonStr })
-    SetDataPDF(data.data)
+   
+    base64toBlob({DataPDF : data?.data});
     SetisShowPDFViewer(true)
   }
+
+  const base64toBlob = ({DataPDF}) => {
+    console.log(DataPDF);
+    if (DataPDF) {
+      const base64WithoutPrefix = DataPDF;
+      const bytes = atob(base64WithoutPrefix);
+      let length = bytes.length;
+      let out = new Uint8Array(length);
+
+      while (length--) {
+        out[length] = bytes.charCodeAt(length);
+      }
+
+      const blob = new Blob([out], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      SetDataPDF(url)
+    } else {
+      return "";
+    }
+  };
   return (
     <>
       <Divider orientation="left">
@@ -193,7 +214,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         </Row>
       </Form>
 
-      <PDfViewer Open={isShowPDFViewer} onCancel={() => { SetisShowPDFViewer(false) }} DataPDF={DataPDf} />
+      <PDfViewer Open={isShowPDFViewer} onCancel={() => { SetisShowPDFViewer(false) }} urlPDF={DataPDf} />
     </>
   );
 };
