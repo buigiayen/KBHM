@@ -22,7 +22,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["ServerSide/ServerSide.csproj", "ServerSide/"]
+COPY ["Services/Report.api/ServerSide.csproj", "ServerSide/"]
 RUN dotnet restore "ServerSide/ServerSide.csproj"
 COPY . .
 WORKDIR "/src/ServerSide"
