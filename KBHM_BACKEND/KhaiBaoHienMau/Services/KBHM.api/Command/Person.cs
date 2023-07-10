@@ -18,7 +18,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> GetPerson(Model.Person person)
         {
             string sql = $" declare @Fdate date;  declare @TDate date; set @Fdate = @FromDate;  set @TDate = @ToDate;   " +
-                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau FROM  Person " +
+                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage FROM  Person " +
                 $"WHERE    (DateRegister between @Fdate and @TDate) or (RowID=@RowID or Name=@Name) " +
                 $"order by DateRegister desc;";
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();

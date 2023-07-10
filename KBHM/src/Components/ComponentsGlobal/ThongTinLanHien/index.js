@@ -26,7 +26,7 @@ const Index = ({ form, FetchPerson }) => {
   ];
 
   const setImageForm = ({ value }) => {
-    form?.setFieldValue("UrlImage", value);
+    form?.setFieldValue(value);
   };
   return (
     <>

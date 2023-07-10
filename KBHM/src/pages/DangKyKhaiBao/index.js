@@ -38,18 +38,19 @@ const Index = () => {
         .validateFields()
         .then((RS) => {
           let personRs = RS;
+          console.log(RS);
           if (RS?.CheckNhuDiaChiThuongTru) {
-            personRs =  {
+            personRs = {
               ...RS,
               DiaChiLienLac: RS.DiaChiThuongTru,
               DiaChiThuongLienLac_ChiTiet: RS.DiaChiThuongTru_ChiTiet,
-            };    
+            };
           }
           const peronClone = {
             ...personRs,
             PersonProperties: Properties,
           };
-           
+          console.log(peronClone);
           POST_DangKyHienMau(peronClone).then((rs) => {
             Navigate("TraCuuThongTin/" + rs[0].Code);
           });

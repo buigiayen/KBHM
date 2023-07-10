@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
-import { Button, Tag, Input, Modal } from "antd";
+import { Tag, Input, Modal, Card, DatePicker, Button, Alert } from "antd";
 import dayjs from "dayjs";
+
 import { useNavigate } from "react-router-dom";
-import Tables from "../../Components/Table.antd";
 import { GET_AllPerson } from "../../Data/Api/DangKyKham";
 import IconCombine from "../../Components/Icon";
 import QRCam from "../../Components/QR.Camera";
-
+import CardListDonnor from "../../Components/ComponentsGlobal/Card.ListDonnor/index";
+import { Col, Row } from "reactstrap";
+import ViewerPDFDonnor from "../../Components/ComponentsGlobal/PreviewDonnor/PDF.Viewer";
 
 const { Search } = Input;
 const Index = () => {
+  const styleLabel = {
+    fontWeight: "bold",
+  };
   const navigator = useNavigate();
   const [ListPerson, SetListPerson] = useState([]);
   const [OpenModal, SetOpenModal] = useState(false);
+  const [PreviewDonnor, SetPreviewDonnor] = useState(false);
+  const [IDPreview, SetIDPreview] = useState();
+  const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
+  const [IDDonorInfo, setIDDonorInfo] = useState(null);
+  const [DateRegister, SetDateRegister] = useState(dayjs());
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
@@ -34,119 +44,101 @@ const Index = () => {
     };
     FetchPerson(DateSearch);
   }, []);
+  const FindDonnor = ({ dateValue }) => {
+    const DateSearch = {
+      FromDate: dateValue,
+      ToDate: dateValue,
+    };
+    FetchPerson(DateSearch);
+  };
+  const Reload = () => {
+    const DateSearch = {
+      FromDate: DateRegister,
+      ToDate: DateRegister,
+    };
+    FetchPerson(DateSearch);
+  };
+  const ConvertIsStatusDonnor = (_) => {
+    switch (_) {
+      case "1":
+        return <Tag color="#108ee9">Đã đồng bộ</Tag>;
+      case "2":
+        return <Tag color="#87d068">Đã lấy máu</Tag>;
+      case "3":
+        return <Tag color="#f50">Đã hủy lấy máu</Tag>;
+      default:
+        return <Tag color="purple">Chưa thực hiện</Tag>;
+    }
+  };
+
+  const ConvertSex = (_) => {
+    switch (_) {
+      case 0:
+        return <Tag color="#108ee9">Nữ</Tag>;
+      case 1:
+        return <Tag color="#87d068">Nam</Tag>;
+      default:
+        return <Tag color="purple">?</Tag>;
+    }
+  };
+  const ConvertStatus = (_) => {
+    switch (_) {
+      case true:
+        return <Tag color="#108ee9">Cho phép</Tag>;
+      case false:
+        return <Tag color="#f50">Không cho phép</Tag>;
+
+      default:
+        return <Tag color="purple">Chưa thực hiện</Tag>;
+    }
+  };
+  const descriptionCard = (value) => {
+    const {
+      RowID,
+      Name,
+      BirthDay,
+      Sex,
+      CCCD,
+      Phone,
+      DateRegister,
+      Sync,
+      ChoPhepHienMau,
+    } = value;
+
+    return (
+      <>
+        <p>
+          {ConvertIsStatusDonnor(Sync)} {ConvertStatus(ChoPhepHienMau)}
+        </p>
+        <p>
+          {" "}
+          <small style={styleLabel}>Mã lần hiến:</small> {RowID}
+        </p>
+        <p>
+          <small style={styleLabel}>Giới tính:</small> {ConvertSex(Sex)} •{" "}
+          <small style={styleLabel}>CCCD: </small> {CCCD}
+        </p>
+        <p>
+          <small style={styleLabel}>Số điện thoại: </small>{" "}
+          <a href={`tel:+=${Phone}`}>{Phone}</a>
+        </p>
+        <p>
+          <small style={styleLabel}>Ngày sinh: </small>{" "}
+          {dayjs(BirthDay).format("DD/MM/YYYY")} •{" "}
+          <small style={styleLabel}>Ngày hiến: </small>{" "}
+          {dayjs(DateRegister).format("DD/MM/YYYY")}
+        </p>
+      </>
+    );
+  };
+
+  const Title = ({ Name }) => {
+    return <>{Name}</>;
+  };
   const PushPage = ({ ID }) => {
     navigator(`/QuanLyThongTin/${ID}`);
   };
-  const SearchConditionColumns = [
-    {
-      title: "Hiến ngày",
-      visible: true,
-      isFilter: true,
-      dataIndex: "SearchDate",
-      typeData: "SearchDate",
-    },
-  ];
-  const ColumnPerson = [
-    {
-      title: "Mã hiến",
-      width: 300,
-      dataIndex: "RowID",
 
-      render: (_) => {
-        return (
-          <Button
-            type="link"
-            onClick={() => {
-              PushPage({ ID: _ });
-            }}>
-            {_}
-          </Button>
-        );
-      },
-      isFilter: true,
-    },
-    {
-      title: "Tên người hiến",
-      dataIndex: "Name",
-      width: 150,
-      isFilter: true,
-    },
-    {
-      title: "Ngày sinh",
-      dataIndex: "BirthDay",
-      width: 120,
-      render: (_) => {
-        return dayjs(_).format("DD/MM/YYYY");
-      },
-    },
-    {
-      title: "Ngày đăng ký",
-      dataIndex: "DateRegister",
-      width: 120,
-      render: (_) => {
-        return dayjs(_).format("DD/MM/YYYY");
-      },
-    },
-    {
-      title: "Giới tính",
-      dataIndex: "Sex",
-      width: 85,
-      render: (_) => {
-        switch (_) {
-          case 0:
-            return <Tag color="#108ee9">Nữ</Tag>;
-          case 1:
-            return <Tag color="#87d068">Nam</Tag>;
-          default:
-            return <Tag color="purple">?</Tag>;
-        }
-      },
-    },
-    {
-      title: "Điện thoại",
-      dataIndex: "Phone",
-      width: 120,
-
-    },
-    {
-      title: "Cho phép hiến máu",
-      dataIndex: "ChoPhepHienMau",
-
-      width: 85,
-      fixed: 'right',
-      render: (_) => {
-        switch (_) {
-          case true:
-            return <Tag color="#108ee9">Cho phép</Tag>;
-          case false:
-            return <Tag color="#f50">Không cho phép</Tag>;
-
-          default:
-            return <Tag color="purple">Chưa thực hiện</Tag>;
-        }
-      }
-    },
-    {
-      title: "Đồng bộ",
-      dataIndex: "Sync",
-      fixed: 'right',
-      width: 85,
-      sorter: (a, b) => a.Sync - b.Sync,
-      render: (_) => {
-        switch (_) {
-          case "1":
-            return <Tag color="#108ee9">Đã đồng bộ</Tag>;
-          case "2":
-            return <Tag color="#87d068">Đã lấy máu</Tag>;
-          case "3":
-            return <Tag color="#f50">Đã hủy lấy máu</Tag>;
-          default:
-            return <Tag color="purple">Chưa thực hiện</Tag>;
-        }
-      },
-    },
-    ...SearchConditionColumns,
-  ];
   return (
     <>
       <br></br>
@@ -156,13 +148,137 @@ const Index = () => {
         onSearch={(e) => PushPage({ ID: e })}
         enterButton
       />
-      <Tables
-        dataSource={ListPerson}
-        funcReload={FetchPerson}
-        Columns={ColumnPerson}
-        titleTable={"Danh sách người hiến"}
-        Footer={`Số lượng hiến: ${ListPerson?.length ?? 0}`}
-        propsTable={{ scroll: { x: 2000, y: 1500, size: 'small', scrollToFirstRowOnChange: true } }}
+      <Row />
+      <br></br>
+      <div>
+        {ListPerson.length > 0 && (
+          <Row>
+            <Col xs={12} md={4} lg={3}>
+              <Alert
+                message={
+                  `Cho phép hiến máu: ` +
+                  ListPerson.filter((rs) => rs.ChoPhepHienMau === true).length
+                }
+                type="success"
+              />
+            </Col>
+            <Col xs={12} md={4} lg={3}>
+              <Alert
+                message={
+                  `Đã hủy: ` + ListPerson.filter((rs) => rs.Sync === "3").length
+                }
+                type="error"
+              />
+            </Col>
+            <Col xs={12} md={4} lg={3}>
+              <Alert
+                message={
+                  `Đã đồng bộ: ` +
+                  ListPerson.filter((rs) => rs.Sync === "1").length
+                }
+                type="info"
+              />
+            </Col>
+            <Col xs={12} md={4} lg={3}>
+              <Alert
+                message={`Tổng số lượng hiến: ` + ListPerson.length}
+                type="info"
+              />
+            </Col>
+          </Row>
+        )}
+      </div>
+      <br></br>
+      <Card
+        title={`Danh sách người hiến ngày: ${DateRegister.format(
+          "DD/MM/YYYY"
+        )} `}
+        extra={[
+          <DatePicker
+            allowClear={false}
+            defaultValue={dayjs()}
+            onChange={(e) => {
+              FindDonnor({ dateValue: e });
+              SetDateRegister(e);
+            }}
+            format={"DD/MM/YYYY"}
+          />,
+          <Button
+            type="link"
+            title="Tải lại danh sách"
+            onClick={() => {
+              Reload();
+            }}
+            icon={<IconCombine.ReloadOutlined />}
+          />,
+        ]}>
+        {ListPerson.map((rs) => {
+          return (
+            <CardListDonnor
+              avatar={rs.UrlImage}
+              Title={Title({ Name: rs.Name, Sync: rs.Sync })}
+              description={descriptionCard(rs)}
+              ActionArray={[
+                <>
+                  <IconCombine.EyeOutlined
+                    onClick={() => {
+                      SetPreviewDonnor(true);
+                      SetIDPreview(rs.RowID);
+                    }}
+                    title="Xem trước"
+                  />
+                </>,
+                <>
+                  <IconCombine.EditOutlined
+                    title="Sửa chi tiết"
+                    onClick={() => {
+                      PushPage({ ID: rs.RowID });
+                    }}
+                  />
+                </>,
+                <>
+                  {rs.Sync === "1" ? (
+                    <IconCombine.PrinterOutlined
+                      title=" In phiếu ĐK"
+                      onClick={() => {
+                        setIDDonorInfo(rs.RowID);
+                        SetisShowPDFViewer(true);
+                      }}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>,
+              ]}
+            />
+          );
+        })}
+      </Card>
+      <Modal
+        width={1000 + "px"}
+        open={PreviewDonnor}
+        onCancel={() => SetPreviewDonnor(false)}>
+        <Row>
+          <Col xl={12} xs={12}>
+            <iframe
+              src={
+                window.location.protocol +
+                "//" +
+                window.location.host +
+                "/TraCuuThongTin/" +
+                IDPreview
+              }
+              width={950 + "px"}
+              height={950 + "px"}></iframe>
+          </Col>
+        </Row>
+      </Modal>
+      <ViewerPDFDonnor
+        Open={isShowPDFViewer}
+        Cancel={() => {
+          SetisShowPDFViewer(false);
+        }}
+        IDDonnor={IDDonorInfo}
       />
       <Modal
         open={OpenModal}

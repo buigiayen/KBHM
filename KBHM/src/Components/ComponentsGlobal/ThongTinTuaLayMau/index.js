@@ -7,13 +7,19 @@ import btoa from "btoa";
 import ElementCombobox from "../Element.combobox";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
-import PDfViewer from '../../Modal.pdf'
+import PDfViewer from "../../Modal.pdf";
 import { Config } from "../../../Data/Config/config.system";
-import { PUT_PersonTrip, GET_DonorExCheck, GET_PropertiesPerson, GET_Person } from "../../../Data/Api/DangKyKham";
+import {
+  PUT_PersonTrip,
+  GET_DonorExCheck,
+  GET_PropertiesPerson,
+  GET_Person,
+} from "../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../Data/Api/Category";
 import { Post_CreateReport } from "../../../Data/Api/Report";
 
 import "./index.css";
+import ViewerPDFDonnor from "../PreviewDonnor/PDF.Viewer";
 
 const Index = ({ funcReload, ID, dataPerson }) => {
   const navigator = useNavigate();
@@ -21,8 +27,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const [Isload, SetIsLoad] = useState(false);
   const [IsDisable, SeIsDisable] = useState(false);
   const [Category, setCategory] = useState([]);
-  const [DataPDf, SetDataPDF] = useState(null);
-  const [isShowPDFViewer, SetisShowPDFViewer] = useState(false)
+  const [IDDonnor, SetIDDonnor] = useState(null);
+  const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   useEffect(() => {
     form.setFieldsValue(dataPerson);
     GetCategory();
@@ -30,6 +36,13 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const GetCategory = async () => {
     setCategory(await Get_Category());
   };
+
+  const ExportDocumentFile = ({ IDDonnor }) => {
+    console.log(IDDonnor);
+    SetIDDonnor(IDDonnor);
+    SetisShowPDFViewer(true)
+  };
+
   const Putperson = async ({ Sync }) => {
     form
       .validateFields()
@@ -47,11 +60,10 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           rs = { ...rs, RowID: ID, SyncData: Sync };
           await PUT_PersonTrip(rs);
           if (Sync === 3) {
-            navigator('/DanhSachDangKyHienMau')
+            navigator("/DanhSachDangKyHienMau");
           } else {
             funcReload();
           }
-
         }
       })
       .catch((rs) => {
@@ -59,43 +71,6 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       });
   };
 
-  const ExportDocumentFile = async () => {
-    const PersonInfo = await GET_Person(ID);
-    const PersonProperties = await GET_PropertiesPerson(ID)
-    const resultProperties = PersonProperties.reduce((acc, rs) => {
-      acc[rs.Key] = rs.value;
-      return acc;
-    }, {});
-
-    const combinedObject = []
-    combinedObject.push({ ...PersonInfo[0], ...resultProperties });
-    let objJsonStr = JSON.stringify(combinedObject);
-
-    var data = await Post_CreateReport({ reportName: 'Rp_dkhienmau', dataReport: objJsonStr })
-   
-    base64toBlob({DataPDF : data?.data});
-    SetisShowPDFViewer(true)
-  }
-
-  const base64toBlob = ({DataPDF}) => {
-    console.log(DataPDF);
-    if (DataPDF) {
-      const base64WithoutPrefix = DataPDF;
-      const bytes = atob(base64WithoutPrefix);
-      let length = bytes.length;
-      let out = new Uint8Array(length);
-
-      while (length--) {
-        out[length] = bytes.charCodeAt(length);
-      }
-
-      const blob = new Blob([out], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      SetDataPDF(url)
-    } else {
-      return "";
-    }
-  };
   return (
     <>
       <Divider orientation="left">
@@ -167,15 +142,14 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         </Row>
         <Row gutter={[8]}>
           <Col md={6} xs={24}>
-            {
-              dataPerson?.Sync === "1" && <Button
-                onClick={ExportDocumentFile}
+            {dataPerson?.Sync === "1" && (
+              <Button
+                onClick={() => ExportDocumentFile({IDDonnor : ID })}
                 className="btnFull"
                 icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>
                 In phiếu ĐKHM
               </Button>
-            }
-
+            )}
           </Col>
           <Col md={6} xs={24}></Col>
           {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
@@ -199,7 +173,9 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                   <Button
                     className="btnFull"
                     type="primary"
-                    icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
+                    icon={
+                      <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
+                    }
                     onClick={() => Putperson({ Sync: 2 })}
                     loading={Isload}
                     disabled={IsDisable}
@@ -208,13 +184,17 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                   </Button>
                 </Col>
               )}
-
             </>
           )}
         </Row>
       </Form>
-
-      <PDfViewer Open={isShowPDFViewer} onCancel={() => { SetisShowPDFViewer(false) }} urlPDF={DataPDf} />
+      <ViewerPDFDonnor
+        Open={isShowPDFViewer}
+        Cancel={() => {
+          SetisShowPDFViewer(false);
+        }}
+        IDDonnor={IDDonnor}
+      />
     </>
   );
 };

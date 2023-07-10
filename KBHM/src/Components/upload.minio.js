@@ -22,10 +22,8 @@ const App = ({ onChange, Value }) => {
   const handleOK = async (info) => {
     var body = { formFile: info.file, size: 1021, bucket: "avatar" };
     await Post_Minio(body).then((rs) => {
-      console.log(rs);
-
       if (onChange !== undefined) {
-        onChange({ value: rs.filePath });
+        onChange(rs.filePath);
         setimageUrl(rs.filePath);
       }
     });
