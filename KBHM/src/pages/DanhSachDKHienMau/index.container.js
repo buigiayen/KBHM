@@ -165,7 +165,7 @@ const Index = () => {
             <Col xs={12} md={4} lg={3}>
               <Alert
                 message={
-                  `Đã hủy: ` + ListPerson.filter((rs) => rs.Sync === "3").length
+                  `Không cho phép hiến: ` + ListPerson.filter((rs) =>rs.ChoPhepHienMau === false).length
                 }
                 type="error"
               />
