@@ -23,6 +23,7 @@ const Index = () => {
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
   const [DateRegister, SetDateRegister] = useState(dayjs());
+  const [ReportID, SetReportID] = useState();
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
@@ -165,7 +166,8 @@ const Index = () => {
             <Col xs={12} md={4} lg={3}>
               <Alert
                 message={
-                  `Không cho phép hiến: ` + ListPerson.filter((rs) =>rs.ChoPhepHienMau === false).length
+                  `Không cho phép hiến: ` +
+                  ListPerson.filter((rs) => rs.ChoPhepHienMau === false).length
                 }
                 type="error"
               />
@@ -274,6 +276,7 @@ const Index = () => {
         </Row>
       </Modal>
       <ViewerPDFDonnor
+        ReportID={ReportID}
         Open={isShowPDFViewer}
         Cancel={() => {
           SetisShowPDFViewer(false);

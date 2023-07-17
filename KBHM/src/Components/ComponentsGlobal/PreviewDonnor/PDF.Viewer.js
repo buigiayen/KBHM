@@ -5,38 +5,40 @@ import { useEffect } from "react";
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
 import { Post_CreateReport } from "../../../Data/Api/Report";
 
-const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor }) => {
+const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   const [ViewPDf, SetDataPDF] = useState(null);
   useEffect(() => {
     if (IDDonnor !== null) {
       ExportDocumentFile({ IDPerson: IDDonnor });
     }
-  }, [IDDonnor]);
+  }, [IDDonnor, ReportID]);
   const ExportDocumentFile = async ({ IDPerson }) => {
-    const PersonInfo = await GET_Person(IDPerson);
-    const PersonProperties = await GET_PropertiesPerson(IDPerson);
-    const resultProperties = PersonProperties.reduce((acc, rs) => {
-      acc[rs.Key] = rs.value;
-      return acc;
-    }, {});
+    try {
+      const PersonInfo = await GET_Person(IDPerson);
+      const PersonProperties = await GET_PropertiesPerson(IDPerson);
+      const resultProperties = PersonProperties.reduce((acc, rs) => {
+        acc[rs.Key] = rs.value;
+        return acc;
+      }, {});
 
-    const combinedObject = [];
-    combinedObject.push({ ...PersonInfo[0], ...resultProperties });
-    let objJsonStr = JSON.stringify(combinedObject);
+      const combinedObject = [];
+      combinedObject.push({ ...PersonInfo[0], ...resultProperties });
+      let objJsonStr = JSON.stringify(combinedObject);
+      var data = await Post_CreateReport({
+        reportName: ReportID,
+        dataReport: objJsonStr,
+      });
 
-    var data = await Post_CreateReport({
-      reportName: "Rp_dkhienmau",
-      dataReport: objJsonStr,
-    });
-
-    base64toBlob({ DataPDF: data?.data });
+      base64toBlob({ DataPDF: data?.data });
+    } catch (e) {
+      console.log(e);
+    }
   };
   const base64toBlob = ({ DataPDF }) => {
     if (DataPDF) {
-
       const base64WithoutPrefix = DataPDF;
       const bytes = atob(base64WithoutPrefix);
-  
+
       let length = bytes?.length;
       let out = new Uint8Array(length);
 
@@ -47,7 +49,6 @@ const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor }) => {
       const blob = new Blob([out], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       SetDataPDF(url);
-      console.log(url)
     } else {
       return "";
     }

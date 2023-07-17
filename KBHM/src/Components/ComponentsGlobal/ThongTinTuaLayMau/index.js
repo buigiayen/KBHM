@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Divider, Form, Input, Row, Col, Checkbox, Button } from "antd";
-import { Warning } from "../../notification";
-import { Await, useNavigate } from "react-router-dom";
-import btoa from "btoa";
+import { useNavigate } from "react-router-dom";
+
+import ViewerPDFDonnor from "../PreviewDonnor/PDF.Viewer";
 import ElementCombobox from "../Element.combobox";
+import { ReportCombobox, DataReport } from "../Report.Combobox";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
-import PDfViewer from "../../Modal.pdf";
+import { Warning } from "../../notification";
 import { Config } from "../../../Data/Config/config.system";
-import {
-  PUT_PersonTrip,
-  GET_DonorExCheck,
-  GET_PropertiesPerson,
-  GET_Person,
-} from "../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../Data/Api/Category";
-import { Post_CreateReport } from "../../../Data/Api/Report";
-
+import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
 import "./index.css";
-import ViewerPDFDonnor from "../PreviewDonnor/PDF.Viewer";
 
 const Index = ({ funcReload, ID, dataPerson }) => {
   const navigator = useNavigate();
@@ -27,8 +20,11 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const [Isload, SetIsLoad] = useState(false);
   const [IsDisable, SeIsDisable] = useState(false);
   const [Category, setCategory] = useState([]);
-  const [IDDonnor, SetIDDonnor] = useState(null);
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
+  const [ReportID, SetReportID] = useState(
+    process.env.REACT_APP_DEFAULT_REPORT
+  );
+
   useEffect(() => {
     form.setFieldsValue(dataPerson);
     GetCategory();
@@ -36,11 +32,16 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const GetCategory = async () => {
     setCategory(await Get_Category());
   };
-
-  const ExportDocumentFile = ({ IDDonnor }) => {
-    console.log(IDDonnor);
-    SetIDDonnor(IDDonnor);
-    SetisShowPDFViewer(true)
+  const ExportDocumentFile = ({ ReportID }) => {
+    if (ReportID) {
+      SetReportID(ReportID);
+      SetisShowPDFViewer(true);
+    } else {
+      Warning({
+        description: "Xin hãy chọn 1 trang in trong hệ thống!",
+        message: "Cảnh báo",
+      });
+    }
   };
 
   const Putperson = async ({ Sync }) => {
@@ -141,17 +142,16 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           </Col>
         </Row>
         <Row gutter={[8]}>
-          <Col md={6} xs={24}>
-            {dataPerson?.Sync === "1" && (
-              <Button
-                onClick={() => ExportDocumentFile({IDDonnor : ID })}
-                className="btnFull"
-                icon={<IconCombine.FileOutlined></IconCombine.FileOutlined>}>
-                In phiếu ĐKHM
-              </Button>
-            )}
-          </Col>
-          <Col md={6} xs={24}></Col>
+          {dataPerson?.Sync === "1" && (
+            <ReportCombobox
+              from={form}
+              OnChange={SetReportID}
+              OnClick={(e) => {
+                ExportDocumentFile({ ReportID: e });
+              }}
+            />
+          )}
+
           {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
             <>
               {dataPerson?.Sync !== "3" && (
@@ -193,7 +193,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         Cancel={() => {
           SetisShowPDFViewer(false);
         }}
-        IDDonnor={IDDonnor}
+        IDDonnor={ID}
+        ReportID={ReportID}
       />
     </>
   );
