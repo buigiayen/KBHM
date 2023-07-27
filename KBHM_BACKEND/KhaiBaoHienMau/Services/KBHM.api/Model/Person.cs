@@ -47,6 +47,8 @@ namespace KBHM.api.Model
         public Sync? SyncData { get; set; }
         public string UrlImage { get; set; }
         public int? warning { get; set; }
+        public string NgheNghiep { get; set; }
+        public string DiaChiCoQuan { get; set; }    
         public List<PersonProperties> PersonProperties { get; set; }
         
     }

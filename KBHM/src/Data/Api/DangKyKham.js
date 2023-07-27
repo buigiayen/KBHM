@@ -67,6 +67,8 @@ export const POST_SyncDonor = async (ID) => {
         TinhTrangLamSang,
         Mach,
         ChieuCao,
+        NgheNghiep,
+        DiaChiCoQuan
       } = DataPerson[0];
 
       const DataSync = {
@@ -88,6 +90,8 @@ export const POST_SyncDonor = async (ID) => {
         PULSE: `${Mach}`,
         STATUS: TinhTrangLamSang,
         WEIGH: `${ChieuCao}`,
+        JobID:  NgheNghiep,
+        ContactAddress:DiaChiCoQuan
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {

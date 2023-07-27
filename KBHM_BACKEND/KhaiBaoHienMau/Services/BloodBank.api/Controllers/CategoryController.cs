@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BloodBank.api.Controllers
 {
-    [Authorize]
+
     [Route("v1/")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -19,7 +19,7 @@ namespace BloodBank.api.Controllers
         {
             _Category = Category;
         }
-
+        [Authorize]
         [HttpGet("Category")]
         public async Task<IActionResult> GetCateGoryasync()
         {
@@ -31,7 +31,7 @@ namespace BloodBank.api.Controllers
                 Category.Location = await _Category.GetLocation();
                 Category.ML = await _Category.GetMlBoold();
                 Category.Element = await _Category.GetElementBoold();
-
+                Category.Job = await _Category.GetJob();
 
                 aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
                 aPI.Data = Category;
@@ -47,6 +47,25 @@ namespace BloodBank.api.Controllers
             }
 
 
+        }
+        [HttpGet("Category/Job")]
+        public async Task<IActionResult> GetJobasync()
+        {
+            HttpObject.APIresult aPI = new HttpObject.APIresult();
+            try
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
+                aPI.Data = await _Category.GetJob();
+                aPI.Messenger = "Success";
+                return Ok(aPI);
+            }
+            catch (Exception ex)
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.ERROR;
+                aPI.Messenger = ex.Message;
+                aPI.Data = null;
+                return BadRequest(aPI);
+            }
         }
     }
 }

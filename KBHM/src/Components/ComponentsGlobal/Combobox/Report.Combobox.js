@@ -1,7 +1,7 @@
-import { LISTREPORT } from "../../Data/UnitData/Report";
+import { LISTREPORT } from "../../../Data/UnitData/Report";
 import { Col, Row } from "reactstrap";
 import { Select, Form, Button } from "antd";
-import IconCombine from "../Icon";
+import IconCombine from "../../Icon";
 const GetDefault = () => {
   let Report = "";
   if (process.env.REACT_APP_DEFAULT_REPORT) {

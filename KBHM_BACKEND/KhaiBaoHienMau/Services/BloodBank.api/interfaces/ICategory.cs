@@ -9,5 +9,6 @@ namespace BloodBank.api.interfaces
         Task<List<Model.CategoryData>> GetLocation();
         Task<List<Model.CategoryData>> GetMlBoold();
         Task<List<Model.CategoryData>> GetElementBoold();
+        Task<List<Model.CategoryData>> GetJob();
     }
 }

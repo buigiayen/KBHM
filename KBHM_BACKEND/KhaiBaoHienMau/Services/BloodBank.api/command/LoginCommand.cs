@@ -21,7 +21,7 @@ namespace BloodBank.api.command
             login.PasswordWeb = await Services.lib.Password.PasswordMD5.Passwordins.ConvertMD5(login.PasswordWeb).Build();
             string sql = "select UserID,UserName,UserQuickCode from tbl_user where  UserID = @UserID and PasswordWeb = @PasswordWeb";
 
-            var ValueQuery = await Dataprovider.db._Query(sql)._ParamterSQL(login).QueryMapperSingleOrDefaultAsync<Login>();
+            var ValueQuery = await Dataprovider.db._Query(sql)._ParamterSQL<Login>(login).QueryMapperSingleOrDefaultAsync<Login>();
             if (ValueQuery is not null)
             {
                 aPIMapper.code = HttpObject.Enums.Httpstatuscode_API.OK;

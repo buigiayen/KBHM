@@ -1,9 +1,8 @@
 import React from "react";
 import { Row, Col, Form, Input, Button } from "antd";
-import ElementCombobox from "../../Element.combobox";
+import ElementCombobox from "../../Combobox/Element.combobox";
 import "../../index.css";
 import { useState } from "react";
-import IconCombine from "../../../Icon";
 import { useEffect } from "react";
 import {
   PUT_PersonDone,

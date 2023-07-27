@@ -5,35 +5,21 @@ using System.Data;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Services.lib.Http;
+using System.Reflection;
+using System.Linq;
+using System.Text;
+using System.Reflection.Metadata;
+using System.Data.Common;
+using System.Runtime.CompilerServices;
 
 namespace Services.lib.Sql
 {
 
-    public class HttpObject
+    public class HttpObject : HttpObjectData
     {
-        public class Enums
-        {
-            public enum Httpstatuscode_API
-            {
-                OK = 1,
-                ERROR = 0,
-                NULL = -2,
-                WARN = 2,
-            }
-        }
-        public class APIresult : API
-        {
-            public object Data { get; set; }
-        }
-        public class APIMapper<T> : API where T : class
-        {
-            public T Data { get; set; }
-        }
-        public class API : Enums
-        {
-            public Httpstatuscode_API code { get; set; } = Httpstatuscode_API.OK;
-            public string Messenger { get; set; } = "Success!";
-        }
+
     }
     public class Dataprovider : IDisposable
     {
@@ -55,7 +41,6 @@ namespace Services.lib.Sql
         public Dataprovider _Query(string sql)
         {
             _SQL = sql;
-            Logger.Logger.Instance.Messenger(_SQL).build(Logger.Logger._TypeFile.Debug);
             return this;
         }
         private object _Pra;
@@ -69,6 +54,67 @@ namespace Services.lib.Sql
             }
             Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
             return this;
+        }
+        public Dataprovider _ParamterSQL<T>(object Pra) where T : class
+        {
+            _Pra = Pra;
+            string log = "Pra";
+            if (Pra != default)
+            {
+                CheckLogPramter<T>(Pra);
+            }
+            Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
+            return this;
+        }
+        private void CheckLogPramter<T>(object Pra) where T : class
+        {
+            string log = "---- start SQL -----";
+            try
+            {
+
+                Type type = ((T)Pra).GetType();
+                if (type != default)
+                {
+                    PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                    foreach (var x in properties)
+                    {
+                        if (x.GetValue(Pra) == null)
+                        {
+                            log += Environment.NewLine + ($"declare @{x.Name} {GetSqlDbType(x.PropertyType)} ; set @{x.Name} = null");
+                        }
+                        else
+                        {
+                            SqlDbType sqlDbType = GetSqlDbType(x.PropertyType);
+                            var Value = x.GetValue(Pra);
+                            string valueProps = sqlDbType.ToString().ToLower().Contains("char") ? $"'{Value.ToString()}'" : Value.ToString();
+                            log += Environment.NewLine + (string.Format($"declare @{x.Name} {sqlDbType.ToString()}({Value.ToString().Length}) ; set  @{x.Name} = {valueProps}"));
+                        }
+                    }
+                    log += Environment.NewLine + _SQL;
+                    Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
+                    Logger.Logger.Instance.Messenger("---- End SQL -----").build(Logger.Logger._TypeFile.Debug);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Instance.Messenger("Not convert datatype: " + ex.Message).build(Logger.Logger._TypeFile.Error);
+            }
+        }
+        private SqlDbType GetSqlDbType(Type type)
+        {
+            var typeMap = new Dictionary<Type, SqlDbType>
+            {
+                { typeof(string), SqlDbType.NVarChar },
+                { typeof(int), SqlDbType.Int },
+                { typeof(bool), SqlDbType.Bit },
+                { typeof(DateTime), SqlDbType.DateTime },
+                // Thêm các kiểu dữ liệu khác và SqlDbType tương ứng tùy theo yêu cầu của bạn
+        };
+            if (typeMap.TryGetValue(type, out SqlDbType sqlDbType))
+            {
+                return sqlDbType;
+            }
+            return SqlDbType.NVarChar;
         }
         public async Task<HttpObject.APIresult> ExcuteQueryAsync()
         {
@@ -118,7 +164,7 @@ namespace Services.lib.Sql
         {
             IEnumerable<T> Tcontext = default(IEnumerable<T>);
             using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-            {            
+            {
                 Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
                 Tcontext = await sqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
                 Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);

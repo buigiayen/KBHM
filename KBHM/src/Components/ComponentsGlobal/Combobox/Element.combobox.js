@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Get_Category } from "../../Data/Api/Category";
+import { Get_Category } from "../../../Data/Api/Category";
 import { Select, Form } from "antd";
 
 const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler }) => {
@@ -7,7 +7,7 @@ const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler }) => {
     <Form.Item label={Label} name={Name} rules={ruler}>
       <Select
         showSearch
-        filterOption={(input, option) => (option?.label ?? "").includes(input)}
+        filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? "").includes(input.toLocaleLowerCase())}
         filterSort={(optionA, optionB) =>
           (optionA?.label ?? "")
             .toLowerCase()

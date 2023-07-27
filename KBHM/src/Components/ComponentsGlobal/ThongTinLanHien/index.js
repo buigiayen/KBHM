@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useFrom } from "react";
-import { Form, Input, Divider, DatePicker, Button, Checkbox, From } from "antd";
-
-import dayjs from "dayjs";
+import React, {  useState } from "react";
+import { Form, Input, Divider, Checkbox } from "antd";
 import { Row, Col } from "reactstrap";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import SexCombobox from "../Sex.Combobox";
-import RegionCombox from "../../Region.Combobox";
 
-import "../index.css";
+import SexCombobox from "../Combobox/Sex.Combobox";
+import RegionCombox from "../../Region.Combobox";
+import Job from "../Combobox/Job.Combobox";
 import UploadMinio from "../../upload.minio";
 import DateTime from "../DateTime";
+import {Get_Job} from '../../../Data/Api/Category'
+import "../index.css";
+import { useEffect } from "react";
 
 dayjs.extend(customParseFormat);
 
@@ -17,7 +19,15 @@ const { Search } = Input;
 
 const Index = ({ form, FetchPerson }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
+  const [ListJob, SetListJob] = useState([]);
 
+  useEffect(()=>{
+    LoadCategory();
+  }, [])
+  const LoadCategory = async() => {
+    const Data = await Get_Job();
+    SetListJob(Data)
+  }
   const Ruler = [
     {
       message: "Bắt buộc",
@@ -61,7 +71,7 @@ const Index = ({ form, FetchPerson }) => {
               label={"HỌ VÀ TÊN"}
               style={{ fontWeight: "bold" }}
               rules={Ruler}>
-              <Input placeholder="NGUYEN VAN A" />
+              <Input placeholder="NGUYEN VAN A" onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
           </Row>
           <Row>
@@ -153,7 +163,16 @@ const Index = ({ form, FetchPerson }) => {
           </Form.Item>
         </Col>
       </Row>
-
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+            <Job label={"NGHỀ NGHIỆP"} Name={"NgheNghiep"}  DataSource={ListJob}/>
+        </Col>
+        <Col span={12}>
+          <Form.Item label={"ĐỊA CHỈ CƠ QUAN"} name={"DiaChiCoQuan"} style={{ fontWeight: "bold" }}>
+            <Input></Input>
+          </Form.Item>
+        </Col>
+      </Row>
       <Row gutter={[16, 8]}>
         <Col span={24}>
           <Form.Item

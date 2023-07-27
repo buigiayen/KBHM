@@ -1,5 +1,5 @@
-import { Sex } from "../../Data/UnitData/data";
-import Combobox from '../Combobox'
+import { Sex } from "../../../Data/UnitData/data";
+import Combobox from '../../Combobox'
 
 export default function SexCombobox({ onChange, Name, initialValue, PropsFormItem }) {
     return (

@@ -4,8 +4,8 @@ import { Divider, Form, Input, Row, Col, Checkbox, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import ViewerPDFDonnor from "../PreviewDonnor/PDF.Viewer";
-import ElementCombobox from "../Element.combobox";
-import { ReportCombobox, DataReport } from "../Report.Combobox";
+import ElementCombobox from "../Combobox/Element.combobox";
+import { ReportCombobox, DataReport } from "../Combobox/Report.Combobox";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
 import { Warning } from "../../notification";

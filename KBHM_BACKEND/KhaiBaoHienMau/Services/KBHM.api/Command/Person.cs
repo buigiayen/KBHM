@@ -18,7 +18,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> GetPerson(Model.Person person)
         {
             string sql = $" declare @Fdate date;  declare @TDate date; set @Fdate = @FromDate;  set @TDate = @ToDate;   " +
-                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage FROM  Person " +
+                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage, NgheNghiep, DiaChiCoQuan FROM  Person " +
                 $"WHERE    (DateRegister between @Fdate and @TDate) or (RowID=@RowID or Name=@Name) " +
                 $"order by DateRegister desc;";
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).SQLQueryAsync();
@@ -51,7 +51,9 @@ namespace KBHM.api.Command
               ",[DiaChiLienLac] " +
               ",[DiaChiThuongLienLac_ChiTiet] " +
               ",[NoiCapCCCD]" +
-              ",[UrlImage]) " +
+              ",[UrlImage]" +
+              ",[NgheNghiep]" +
+              ",[DiaChiCoQuan]) " +
               " VALUES " +
               "(@ROWIDs " +
               ",@Name " +
@@ -65,7 +67,9 @@ namespace KBHM.api.Command
               ",@DiaChiLienLac" +
               ",@DiaChiThuongLienLac_ChiTiet" +
               ",@NoiCapCCCD" +
-              ",@UrlImage); ";
+              ",@UrlImage" +
+              ",@NgheNghiep" +
+              ",@DiaChiCoQuan); ";
             foreach (var item in person.PersonProperties)
             {
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";
@@ -115,7 +119,9 @@ namespace KBHM.api.Command
               " [DiaChiLienLac]=@DiaChiLienLac ," +
               " [DiaChiThuongLienLac_ChiTiet]=@DiaChiThuongLienLac_ChiTiet ," +
               " [NoiCapCCCD]=@NoiCapCCCD ," +
-              " [UrlImage]=@UrlImage" +
+              " [UrlImage]=@UrlImage," +
+              " [NgheNghiep]=@NgheNghiep," +
+              " [DiaChiCoQuan]=@DiaChiCoQuan" +
               " where RowID = @ROWIDs";
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
         }
