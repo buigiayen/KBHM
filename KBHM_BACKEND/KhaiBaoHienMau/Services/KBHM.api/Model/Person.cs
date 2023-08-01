@@ -49,6 +49,8 @@ namespace KBHM.api.Model
         public int? warning { get; set; }
         public string NgheNghiep { get; set; }
         public string DiaChiCoQuan { get; set; }    
+        public string NguoiLayMau { get; set; }
+        public string NguoiDongBo { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
         
     }

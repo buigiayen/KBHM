@@ -24,7 +24,7 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
   };
   const onSubmit = () => {
     from.validateFields().then(async (rs) => {
-      rs = { ...rs, RowID: ID, SyncData: 1 };
+      rs = { ...rs, RowID: ID, SyncData: 1, NguoiDongBo: localStorage.getItem('userID') };
       const log = await PUT_PersonDone(rs);
       if (log === 1) {
         await POST_SyncDonor(ID);

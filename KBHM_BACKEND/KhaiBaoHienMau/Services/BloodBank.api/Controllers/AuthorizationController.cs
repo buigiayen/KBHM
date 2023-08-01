@@ -26,8 +26,8 @@ namespace BloodBank.api.Controllers
         [ProducesErrorResponseType(typeof(Services.lib.Sql.HttpObject.API))]
         [ProducesResponseType(typeof(Services.lib.Sql.HttpObject.API), 200)]
         [ProducesDefaultResponseType(typeof(Services.lib.Sql.HttpObject.API))]
-        [HttpGet("Authorization")]
-        public async Task<IActionResult> Index([FromHeader] Login login)
+        [HttpPost("Authorization")]
+        public async Task<IActionResult> Index([FromBody] Login login)
         {
             
             var data = await _login.AuthorizationAsync(login);

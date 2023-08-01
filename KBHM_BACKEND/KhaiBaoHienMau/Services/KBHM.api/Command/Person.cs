@@ -90,7 +90,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau where RowID = @ROWIDs";
 
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 
@@ -98,7 +98,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonDone(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien , PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien , PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData, NguoiDongBo=@NguoiDongBo where RowID = @ROWIDs";
 
             return await Dataprovider.db._Query(sql)._ParamterSQL(person).ExcuteQueryAsync();
 

@@ -58,7 +58,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
             message: "Cảnh báo",
           });
         } else {
-          rs = { ...rs, RowID: ID, SyncData: Sync };
+          rs = { ...rs, RowID: ID, SyncData: Sync, NguoiLayMau: localStorage.getItem("UserID") };
           await PUT_PersonTrip(rs);
           if (Sync === 3) {
             navigator("/DanhSachDangKyHienMau");
@@ -82,12 +82,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       <Form labelCol={8} form={form}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item
-              name={"NgayHien"}
-              initialValue={dayjs()}
-              label="Ngày hiến">
-              <DateTime />
-            </Form.Item>
+              <DateTime Name={"NgayHien"}  labelFrom="Ngày hiến" />
           </Col>
           <Col md={12} xs={24}>
             <ElementCombobox

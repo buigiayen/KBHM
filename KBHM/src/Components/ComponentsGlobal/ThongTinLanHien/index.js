@@ -79,10 +79,7 @@ const Index = ({ form, FetchPerson }) => {
               <Row>
                 <Col lg={6}>
                   <DateTime
-                    PropsFormItem={{
-                      label: "NGÀY SINH",
-                      style: { fontWeight: "bold" },
-                    }}
+                    labelFrom={"NGÀY SINH"}
                     Name={"BirthDay"}
                   />
                 </Col>

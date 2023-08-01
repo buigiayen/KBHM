@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosStatic} from "axios";
 import { message, notification } from "antd";
 import { Warning, Error } from "../../Components/notification";
 import { useNavigate } from "react-router-dom";

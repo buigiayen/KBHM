@@ -1,27 +1,12 @@
 import { DatePicker, Form } from "antd";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 
-//1999-11-20T17:00:00.000Z
-dayjs.extend(utc);
-dayjs.extend(timezone);
-const App = ({ onChange, value, Name, PropsFormItem }) => {
-  const onChangeDatetime = (date, dateString) => {
-    if (onChange !== undefined) {
-      onChange(ConvertDate(dateString));
-    }
-  };
-  const ConvertDate = (dateString) => {
-    let strdate = dateString.split("/");
-    let Fomart = `${strdate[2]}-${strdate[1]}-${strdate[0]}` + "T00:00:00.000Z";
-    return dayjs(Fomart);
-  };
+
+const App = ({ labelFrom, Name }) => {
   return (
-    <Form.Item name={Name} {...PropsFormItem}>
+    <Form.Item name={Name} label={labelFrom}  style={{ fontWeight: "bold" }}>
       <DatePicker
         allowClear={false}
-        onChange={onChangeDatetime}
         defaultValue={dayjs()}
         format="DD/MM/YYYY"
         style={{ width: 100 + "%" }}
