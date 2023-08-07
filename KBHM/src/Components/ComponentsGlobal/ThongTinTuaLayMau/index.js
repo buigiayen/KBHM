@@ -137,7 +137,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           </Col>
         </Row>
         <Row gutter={[8]}>
-          {dataPerson?.Sync === "1" && (
+        {dataPerson?.Sync !== "3" && (
             <ReportCombobox
               from={form}
               OnChange={SetReportID}
@@ -145,13 +145,14 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                 ExportDocumentFile({ ReportID: e });
               }}
             />
-          )}
+        )}
 
           {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
             <>
               {dataPerson?.Sync !== "3" && (
-                <Col md={6} xs={24}>
+                <Col sm={24} md={6}>
                   <Button
+                  style={{width: 100 +'%'}}
                     className="btnFull"
                     type="dashed"
                     onClick={() => Putperson({ Sync: 3 })}
@@ -164,8 +165,9 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                 </Col>
               )}
               {dataPerson?.Sync !== "2" && (
-                <Col md={6} xs={24}>
+                <Col sm={24}  md={6}>
                   <Button
+                    style={{width: 100 +'%'}}
                     className="btnFull"
                     type="primary"
                     icon={
