@@ -33,15 +33,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
     setCategory(await Get_Category());
   };
   const ExportDocumentFile = ({ ReportID }) => {
-    if (ReportID) {
-      SetReportID(ReportID);
-      SetisShowPDFViewer(true);
-    } else {
-      Warning({
-        description: "Xin hãy chọn 1 trang in trong hệ thống!",
-        message: "Cảnh báo",
-      });
-    }
+    SetReportID("Rp_dkhienmau");
+    SetisShowPDFViewer(true);
   };
 
   const Putperson = async ({ Sync }) => {
