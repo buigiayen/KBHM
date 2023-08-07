@@ -38,7 +38,6 @@ const Index = () => {
         .validateFields()
         .then((RS) => {
           let personRs = RS;
-          console.log(RS);
           if (RS?.CheckNhuDiaChiThuongTru) {
             personRs = {
               ...RS,
@@ -50,7 +49,6 @@ const Index = () => {
             ...personRs,
             PersonProperties: Properties,
           };
-          console.log(peronClone);
           POST_DangKyHienMau(peronClone).then((rs) => {
             Navigate("TraCuuThongTin/" + rs[0].Code);
           });

@@ -62,7 +62,6 @@ const Index = () => {
   };
   const EditPersonInfo = async () => {
     from.validateFields().then((rs) => {
-      console.log(rs)
       rs = { ...rs, RowID: IDPerson };
       PUT_PersonInfo(rs);
     });

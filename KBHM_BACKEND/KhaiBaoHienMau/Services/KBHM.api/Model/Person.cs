@@ -8,7 +8,7 @@ namespace KBHM.api.Model
     public enum Sync
     {
         None,
-        Sync,
+        Sync,                     
         GetBlood,
         CancelBlood,
         SyncError

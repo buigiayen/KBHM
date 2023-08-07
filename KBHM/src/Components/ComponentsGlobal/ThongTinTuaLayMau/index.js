@@ -26,7 +26,6 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   );
 
   useEffect(() => {
-    console.log(dataPerson)
     form.setFieldsValue(dataPerson);
     GetCategory();
   }, [dataPerson]);
