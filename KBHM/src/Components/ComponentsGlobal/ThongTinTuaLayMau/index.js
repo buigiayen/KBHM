@@ -26,6 +26,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   );
 
   useEffect(() => {
+    console.log(dataPerson)
     form.setFieldsValue(dataPerson);
     GetCategory();
   }, [dataPerson]);
@@ -75,7 +76,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       <Form labelCol={8} form={form}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-              <DateTime Name={"NgayHien"}  labelFrom="Ngày hiến" />
+              <DateTime Name={'DateRegister'} labelFrom="Ngày hiến" />
           </Col>
           <Col md={12} xs={24}>
             <ElementCombobox
