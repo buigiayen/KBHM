@@ -17,7 +17,7 @@ dayjs.extend(customParseFormat);
 
 const { Search } = Input;
 
-const Index = ({ form, FetchPerson, GetBirthDay }) => {
+const Index = ({ form, FetchPerson }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
   const [ListJob, SetListJob] = useState([]);
 
@@ -39,7 +39,7 @@ const Index = ({ form, FetchPerson, GetBirthDay }) => {
     form?.setFieldValue(value);
   };
   const setTimeBirtday = ({ value }) => {
-    GetBirthDay(value)
+   
     form?.setFieldValue(value);
   };
   return (

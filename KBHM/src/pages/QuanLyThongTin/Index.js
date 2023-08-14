@@ -14,6 +14,7 @@ import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayM
 import IconCombine from "../../Components/Icon";
 
 import dayjs from "dayjs";
+import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 
 
 const Index = () => {
@@ -62,7 +63,7 @@ const Index = () => {
   };
   const EditPersonInfo = async () => {
     from.validateFields().then((rs) => {
-      rs = { ...rs, RowID: IDPerson };
+      rs = { ...rs, RowID: IDPerson, BirthDay: ConvertDatetime({DateTime: rs?.BirthDay}) };
       PUT_PersonInfo(rs);
     });
   };
