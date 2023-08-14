@@ -9,12 +9,36 @@ import { useNavigate } from "react-router-dom";
 import { Warning } from "../../Components/notification";
 import { GET_PersonInfo } from "../../Data/Api/DangKyKham";
 import dayjs from "dayjs";
+import moment from "moment";
+import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
+
+
+
+
 const Index = () => {
   const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
   const [Properties, DataProperties] = useState();
   const [IsLoadding, SetLoading] = useState(false);
+
+  let Person = {
+      Name: String,
+      BirthDay: Date,
+      Sex: Number,
+      CCCD: String,
+      NoiCapCCCD: String,
+      Phone: String,
+      Email: String,
+      NgheNghiep: String,
+      DiaChiCoQuan: String,
+      DiaChiThuongTru: String,
+      DiaChiThuongTru_ChiTiet: String,
+      DiaChiLienLac: String,
+      CheckNhuDiaChiThuongTru: Boolean,
+      DiaChiThuongLienLac_ChiTiet: String,
+       PersonProperties: []
+  }
 
   const CheckAge = (dateofbirth, AgeMin) => {
     return dayjs().$y - dayjs(dateofbirth).$y > AgeMin;
@@ -37,23 +61,32 @@ const Index = () => {
       form
         .validateFields()
         .then((RS) => {
-          let personRs = RS;
-          if (RS?.CheckNhuDiaChiThuongTru) {
-            personRs = {
-              ...RS,
-              DiaChiLienLac: RS.DiaChiThuongTru,
-              DiaChiThuongLienLac_ChiTiet: RS.DiaChiThuongTru_ChiTiet,
-            };
+          
+      
+          const BirthDay = ConvertDatetime({ DateTime : RS?.BirthDay})
+          Person = {
+            Name : RS?.Name,
+            BirthDay : BirthDay,
+            Sex :  RS?.Sex,
+            CCCD :  RS?.CCCD,
+            NoiCapCCCD : RS?.NoiCapCCCD,
+            Phone : RS?.Phone,
+            Email : RS?.Email,
+            NgheNghiep : RS?.NgheNghiep,
+            DiaChiCoQuan :  RS?.DiaChiCoQuan,
+            DiaChiThuongTru :  RS?.DiaChiThuongTru,
+            DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongTru_ChiTiet,
+            DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru ?RS?.DiaChiThuongTru  : RS?.DiaChiLienLac,
+            DiaChiThuongLienLac_ChiTiet :  RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongLienLac_ChiTiet,
+            PersonProperties :Properties 
           }
-          const peronClone = {
-            ...personRs,
-            PersonProperties: Properties,
-          };
-          POST_DangKyHienMau(peronClone).then((rs) => {
+          console.log(Person);
+          POST_DangKyHienMau(Person).then((rs) => {
             Navigate("TraCuuThongTin/" + rs[0].Code);
-          });
+           });
         })
         .catch((info) => {
+          console.log(info);
           Warning({
             message: `Xin hãy trả lời các câu hỏi trong mục khảo sát`,
           });
@@ -90,6 +123,7 @@ const Index = () => {
                 ValuePerson={Persons}
                 FetchPerson={FetchPeron}
                 ImagePicture={Persons?.UrlImage}
+                GetBirthDay={(e) => {console.log(e); form.setFieldValue({SN:e})}}
               />
             </Form>
           </Card>

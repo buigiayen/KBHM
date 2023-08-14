@@ -17,7 +17,7 @@ dayjs.extend(customParseFormat);
 
 const { Search } = Input;
 
-const Index = ({ form, FetchPerson }) => {
+const Index = ({ form, FetchPerson, GetBirthDay }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
   const [ListJob, SetListJob] = useState([]);
 
@@ -36,6 +36,10 @@ const Index = ({ form, FetchPerson }) => {
   ];
 
   const setImageForm = ({ value }) => {
+    form?.setFieldValue(value);
+  };
+  const setTimeBirtday = ({ value }) => {
+    GetBirthDay(value)
     form?.setFieldValue(value);
   };
   return (
@@ -81,7 +85,9 @@ const Index = ({ form, FetchPerson }) => {
                   <DateTime
                     labelFrom={"NGÀY SINH"}
                     Name={"BirthDay"}
+                    valueChange={(e) => {setTimeBirtday({value :e } ) } }
                   />
+               
                 </Col>
                 <Col lg={6}>
                   <SexCombobox
@@ -236,4 +242,5 @@ const Index = ({ form, FetchPerson }) => {
     </>
   );
 };
+
 export default Index;
