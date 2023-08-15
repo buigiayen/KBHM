@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const ConvertData = (props) => {
     const useDataReturn = [];
     props.map((rs) => {
@@ -17,11 +19,25 @@ export const FindkeyValueArray = (props) => {
     return ValueReturn;
 };
 export const ConvertDatetime = ({ DateTime }) => {
-    console.log(DateTime);
     if (DateTime) {
-        const { $D, $M, $y } = DateTime;
+        let Day, month;
+        let { $D, $M , $y } = DateTime;
+        month =  $M + 1;
+        if ($D && $D < 10) {
+            Day = "0" + $D
+        }else{
+            Day = $D
+        }
+
+        if (month && month < 10) {
+            month = "0" + month;
+        }else{
+            month = $M + 1
+        }
+     
         // Tạo đối tượng Date với thời gian mặc định là 00:00:00
-        return `${$y}-${$M + 1}-${$D}T00:00:00.000`;
+        var rTime = `${$y}-${month}-${Day}T00:00:00.000`;
+        return rTime;
     } else {
         return undefined;
     }
