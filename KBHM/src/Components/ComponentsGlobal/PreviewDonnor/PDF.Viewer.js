@@ -4,6 +4,8 @@ import PDfViewer from "../../Modal.pdf";
 import { useEffect } from "react";
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
 import { Post_CreateReport } from "../../../Data/Api/Report";
+import  log  from "loglevel";
+import { Get_Job } from "../../../Data/Api/Category";
 
 const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   const [ViewPDf, SetDataPDF] = useState(null);
@@ -14,7 +16,13 @@ const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   }, [IDDonnor, ReportID]);
   const ExportDocumentFile = async ({ IDPerson }) => {
     try {
+      const JobList = await Get_Job();
+      console.log(JobList);
       const PersonInfo = await GET_Person(IDPerson);
+      const mappedJob = JobList.find(job => job.value === PersonInfo[0].NgheNghiep);
+      if(mappedJob){
+        PersonInfo[0].NgheNghiep = mappedJob.label;
+      }
       const PersonProperties = await GET_PropertiesPerson(IDPerson);
       const resultProperties = PersonProperties.reduce((acc, rs) => {
         acc[rs.Key] = rs.value;
