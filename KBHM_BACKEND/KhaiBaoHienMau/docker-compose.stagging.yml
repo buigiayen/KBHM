@@ -7,6 +7,7 @@ services:
       - ASPNETCORE_URLS=http://+:80;https://+:443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.com.vn.pfx
+      - TZ=Asia/Ho_Chi_Minh
     volumes:
       - ${HOME}/Cert:/https
     ports:
@@ -18,6 +19,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - TZ=Asia/Ho_Chi_Minh
     deploy:
         replicas: 4
 
@@ -29,6 +31,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=${MMSQL};Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
       - "MINIO_CONNECTION=${IP};9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;False;9874"
+      - TZ=Asia/Ho_Chi_Minh
       - DOMAIN=${DOMAIN}
       - IP=${IP}
     deploy:
@@ -40,6 +43,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      - TZ=Asia/Ho_Chi_Minh
     deploy:
         replicas: 4
 

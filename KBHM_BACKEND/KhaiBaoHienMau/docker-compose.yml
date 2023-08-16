@@ -30,6 +30,8 @@ services:
 
   serverside:
     image: ${DOCKER_REGISTRY-}reportserver
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
     ports:
      - "80"
     volumes:

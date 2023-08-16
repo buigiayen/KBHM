@@ -4,12 +4,12 @@ import PDfViewer from "../../Modal.pdf";
 import { useEffect } from "react";
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
 import { Post_CreateReport } from "../../../Data/Api/Report";
-import  log  from "loglevel";
 import { Get_Job } from "../../../Data/Api/Category";
 
 const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   const [ViewPDf, SetDataPDF] = useState(null);
   useEffect(() => {
+    SetDataPDF = null;
     if (IDDonnor !== null) {
       ExportDocumentFile({ IDPerson: IDDonnor });
     }
