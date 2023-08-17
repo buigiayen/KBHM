@@ -9,7 +9,7 @@ import { Get_Job } from "../../../Data/Api/Category";
 const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   const [ViewPDf, SetDataPDF] = useState(null);
   useEffect(() => {
-    SetDataPDF = null;
+    SetDataPDF(null);
     if (IDDonnor !== null) {
       ExportDocumentFile({ IDPerson: IDDonnor });
     }

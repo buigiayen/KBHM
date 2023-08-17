@@ -19,6 +19,7 @@ export const FindkeyValueArray = (props) => {
     return ValueReturn;
 };
 export const ConvertDatetime = ({ DateTime }) => {
+    console.log(JSON.stringify(DateTime));
     if (DateTime) {
         let Day, month;
         let { $D, $M , $y } = DateTime;
