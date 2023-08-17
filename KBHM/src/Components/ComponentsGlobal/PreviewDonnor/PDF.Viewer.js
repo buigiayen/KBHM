@@ -63,7 +63,7 @@ const ViewerPDFDonnor = ({ Open, Cancel, IDDonnor, ReportID }) => {
   };
 
   return (
-    <Modal open={Open} onCancel={() => Cancel()} width={1000 + "px"}>
+    <Modal open={Open} onCancel={() => { Cancel() ; ViewPDf(null) }} width={1000 + "px"}>
       <PDfViewer urlPDF={ViewPDf} />
     </Modal>
   );

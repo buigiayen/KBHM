@@ -17,6 +17,7 @@ const RoutesPage = [
   {
     path: "/TraCuuThongTin/:ID",
     element: <TraCuuThongTin />,
+ 
   },
   {
     path: "/TraCuuThongTin",
@@ -25,6 +26,7 @@ const RoutesPage = [
   {
     path: "/DanhSachDangKyHienMau",
     element: <DanhSachDKHienMau />,
+    isAdmin : true
   },
   {
     path: "/Login",
@@ -34,6 +36,7 @@ const RoutesPage = [
   {
     path: "/QuanLyThongTin/:ID",
     element: <QuanLyThongTin />,
+ 
   },
   
   {

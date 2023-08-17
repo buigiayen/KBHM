@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Tag, Input, Modal, Card, DatePicker, Button, Alert } from "antd";
+import {
+  Tag,
+  Input,
+  Modal,
+  Card,
+  DatePicker,
+  Button,
+  Alert,
+  Space,
+  Form,
+} from "antd";
 import dayjs from "dayjs";
 
 import { useNavigate } from "react-router-dom";
@@ -7,8 +17,12 @@ import { GET_AllPerson } from "../../Data/Api/DangKyKham";
 import IconCombine from "../../Components/Icon";
 import QRCam from "../../Components/QR.Camera";
 import CardListDonnor from "../../Components/ComponentsGlobal/Card.ListDonnor/index";
-import { Col, Row } from "reactstrap";
+import { Col, Row } from "antd";
 import ViewerPDFDonnor from "../../Components/ComponentsGlobal/PreviewDonnor/PDF.Viewer";
+import { Get_Category } from "../../Data/Api/Category";
+import ElementCombobox from "../../Components/ComponentsGlobal/Combobox/Element.combobox";
+import PieChart from "../../Components/Charts/PieCharts";
+import PlotsChart from "../../Components/Charts/plotsChart";
 
 const { Search } = Input;
 const Index = () => {
@@ -16,6 +30,7 @@ const Index = () => {
     fontWeight: "bold",
   };
   const navigator = useNavigate();
+  const [IsLoadding, SetIsLoading] = useState(false);
   const [ListPerson, SetListPerson] = useState([]);
   const [OpenModal, SetOpenModal] = useState(false);
   const [PreviewDonnor, SetPreviewDonnor] = useState(false);
@@ -23,11 +38,15 @@ const Index = () => {
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
   const [DateRegister, SetDateRegister] = useState(dayjs());
+  const [DiemlayMau, SetDiemLayMau] = useState();
   const [ReportID, SetReportID] = useState();
+  const [Category, setCategory] = useState([]);
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
+    SetIsLoading(false)
   };
+
   const hideModal = () => {
     SetOpenModal(false);
   };
@@ -44,20 +63,28 @@ const Index = () => {
       ToDate: dayjs(),
     };
     FetchPerson(DateSearch);
+    GetCategory();
   }, []);
-  const FindDonnor = ({ dateValue }) => {
+  const GetCategory = async () => {
+    setCategory(await Get_Category());
+  };
+  const FindDonnor = ({ dateValue, DiemLayMau }) => {
     const DateSearch = {
+      DiemLayMau: DiemLayMau,
       FromDate: dateValue,
       ToDate: dateValue,
     };
     FetchPerson(DateSearch);
   };
   const Reload = () => {
-    const DateSearch = {
+    SetIsLoading(true)
+    const Search = {
+      DiemLayMau: DiemlayMau,
       FromDate: DateRegister,
       ToDate: DateRegister,
     };
-    FetchPerson(DateSearch);
+    console.log(Search);
+    FetchPerson(Search);
   };
   const ConvertIsStatusDonnor = (_) => {
     switch (_) {
@@ -92,6 +119,38 @@ const Index = () => {
       default:
         return <Tag color="purple">Chưa thực hiện</Tag>;
     }
+  };
+  const ColorChar = (label) => {
+    if (label === "Cho phép hiến máu") {
+      return "#52c41a";
+    }
+    if (label === "Không cho phép hiến máu") {
+      return "#ff4d4f";
+    }
+    if (label === "Đã đồng bộ") {
+      return "#3f6600";
+    } else {
+      return "#5B8FF9";
+    }
+  };
+  const DataCharts = () => {
+    const Data = [
+      {
+        label: "Cho phép hiến máu",
+        value: ListPerson.filter((rs) => rs.ChoPhepHienMau === true).length,
+      },
+      {
+        label: "Không cho phép hiến máu",
+        value: ListPerson.filter((rs) => rs.ChoPhepHienMau === false).length,
+      },
+      {
+        label: "Đã đồng bộ",
+        value: ListPerson.filter((rs) => rs.Sync === "1").length,
+      },
+      { label: "Tổng số lượng hiến", value: ListPerson.length },
+    ];
+
+    return Data;
   };
   const descriptionCard = (value) => {
     const {
@@ -143,119 +202,125 @@ const Index = () => {
   return (
     <>
       <br></br>
-      <Search
-        placeholder="Tra cứu nhanh qua mã QR "
-        suffix={suffix}
-        onSearch={(e) => PushPage({ ID: e })}
-        enterButton
-      />
-      <Row />
-      <br></br>
-      <div>
-        {ListPerson.length > 0 && (
+      <Row>
+        <Col xs={24} sm={24} md={6}>
           <Row>
-            <Col xs={12} md={4} lg={3}>
-              <Alert
-                message={
-                  `Cho phép hiến máu: ` +
-                  ListPerson.filter((rs) => rs.ChoPhepHienMau === true).length
-                }
-                type="success"
+            <Card style={{ width: 100 + "%" }}>
+              <Search
+                placeholder="Tra cứu nhanh qua mã QR "
+                suffix={suffix}
+                onSearch={(e) => PushPage({ ID: e })}
+                enterButton
               />
-            </Col>
-            <Col xs={12} md={4} lg={3}>
-              <Alert
-                message={
-                  `Không cho phép hiến: ` +
-                  ListPerson.filter((rs) => rs.ChoPhepHienMau === false).length
-                }
-                type="error"
-              />
-            </Col>
-            <Col xs={12} md={4} lg={3}>
-              <Alert
-                message={
-                  `Đã đồng bộ: ` +
-                  ListPerson.filter((rs) => rs.Sync === "1").length
-                }
-                type="info"
-              />
-            </Col>
-            <Col xs={12} md={4} lg={3}>
-              <Alert
-                message={`Tổng số lượng hiến: ` + ListPerson.length}
-                type="info"
-              />
-            </Col>
+            </Card>
+            <Card style={{ width: 100 + "%" }}>
+              <Form layout="vertical">
+                <Form.Item label="Chọn ngày Hiến">
+                  <DatePicker
+                    style={{ width: 100 + "%" }}
+                    allowClear={false}
+                    defaultValue={dayjs()}
+                    onChange={(e) => {
+                      SetDateRegister(e);
+                    }}
+                    format={"DD/MM/YYYY"}
+                    
+                  />
+                </Form.Item>
+                <ElementCombobox
+                  dataSource={Category?.location}
+                  Name={"DiemLayMau"}
+                  Label="Điểm lấy máu"
+                  autoClear={true}
+                  onChange={(e) => {
+                    SetDiemLayMau(e);
+                  }}
+                />
+                <Form.Item>
+                  <Button
+                    loading={IsLoadding}
+                    type="primary"
+                    style={{ width: 100 + "%" }}
+                    onClick={() => Reload()}>
+                    {" "}
+                    <IconCombine.ReloadOutlined></IconCombine.ReloadOutlined>Tìm
+                    kiếm
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
           </Row>
-        )}
-      </div>
+          <Row>
+            <Card title="BIỂU ĐỒ" style={{ width: 100 + "%" }}>
+              {DataCharts() && (
+                <>
+                  <PieChart
+                    dataSource={DataCharts()}
+                    color={(label) => ColorChar(label)}></PieChart>
+
+                  <PlotsChart
+                    dataSource={DataCharts()}
+                    color={(label) => ColorChar(label)}></PlotsChart>
+                </>
+              )}
+            </Card>
+          </Row>
+        </Col>
+
+        <Col sm={24} md={18}>
+          <Card
+            title={`Danh sách người hiến ngày: ${DateRegister.format(
+              "DD/MM/YYYY"
+            )} `}>
+            {ListPerson.map((rs) => {
+              return (
+                <CardListDonnor
+                  avatar={rs.UrlImage}
+                  Title={Title({ Name: rs.Name, Sync: rs.Sync })}
+                  description={descriptionCard(rs)}
+                  ActionArray={[
+                    <>
+                      <IconCombine.EyeOutlined
+                        onClick={() => {
+                          SetPreviewDonnor(true);
+                          SetIDPreview(rs.RowID);
+                        }}
+                        title="Xem trước"
+                      />
+                    </>,
+                    <>
+                      <IconCombine.EditOutlined
+                        title="Sửa chi tiết"
+                        onClick={() => {
+                          PushPage({ ID: rs.RowID });
+                        }}
+                      />
+                    </>,
+                    <>
+                      {rs.Sync === "1" ? (
+                        <IconCombine.PrinterOutlined
+                          title=" In phiếu ĐK"
+                          onClick={() => {
+                            setIDDonorInfo(rs.RowID);
+                            SetisShowPDFViewer(true);
+                          }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </>,
+                  ]}
+                />
+              );
+            })}
+          </Card>
+        </Col>
+      </Row>
+
       <br></br>
-      <Card
-        title={`Danh sách người hiến ngày: ${DateRegister.format(
-          "DD/MM/YYYY"
-        )} `}
-        extra={[
-          <DatePicker
-            allowClear={false}
-            defaultValue={dayjs()}
-            onChange={(e) => {
-              FindDonnor({ dateValue: e });
-              SetDateRegister(e);
-            }}
-            format={"DD/MM/YYYY"}
-          />,
-          <Button
-            type="link"
-            title="Tải lại danh sách"
-            onClick={() => {
-              Reload();
-            }}
-            icon={<IconCombine.ReloadOutlined />}
-          />,
-        ]}>
-        {ListPerson.map((rs) => {
-          return (
-            <CardListDonnor
-              avatar={rs.UrlImage}
-              Title={Title({ Name: rs.Name, Sync: rs.Sync })}
-              description={descriptionCard(rs)}
-              ActionArray={[
-                <>
-                  <IconCombine.EyeOutlined
-                    onClick={() => {
-                      SetPreviewDonnor(true);
-                      SetIDPreview(rs.RowID);
-                    }}
-                    title="Xem trước"
-                  />
-                </>,
-                <>
-                  <IconCombine.EditOutlined
-                    title="Sửa chi tiết"
-                    onClick={() => {
-                      PushPage({ ID: rs.RowID });
-                    }}
-                  />
-                </>,
-                <>
-                  {rs.Sync === "1" ? (
-                    <IconCombine.PrinterOutlined
-                      title=" In phiếu ĐK"
-                      onClick={() => {
-                        setIDDonorInfo(rs.RowID);
-                        SetisShowPDFViewer(true);
-                      }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </>,
-              ]}
-            />
-          );
-        })}
-      </Card>
+
+      <br></br>
+
       <Modal
         width={1000 + "px"}
         open={PreviewDonnor}

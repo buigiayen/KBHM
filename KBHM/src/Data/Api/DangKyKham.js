@@ -3,7 +3,7 @@ import { HttpRequest } from "../Config/APIConnection";
 export const POST_DangKyHienMau = async (prop) => {
   return await HttpRequest("POST", "/kbhm/Person", prop, true);
 };
-//Person/:ID/Properties  -- lấy thông tin thuộc tính
+
 export const GET_AllPerson = async (props) => {
   return await HttpRequest("GET", `/kbhm/Person`, null, true, props);
 };

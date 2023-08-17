@@ -2,12 +2,24 @@ import { useEffect, useMemo, useState } from "react";
 import { Get_Category } from "../../../Data/Api/Category";
 import { Select, Form } from "antd";
 
-const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler }) => {
+const ComboboxIndex = ({
+  Name,
+  Label,
+  onChange,
+  dataSource,
+  ruler,
+  autoClear = false,
+}) => {
   return (
     <Form.Item label={Label} name={Name} rules={ruler}>
       <Select
+        allowClear={autoClear}
         showSearch
-        filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? "").includes(input.toLocaleLowerCase())}
+        filterOption={(input, option) =>
+          (option?.label.toLocaleLowerCase() ?? "").includes(
+            input.toLocaleLowerCase()
+          )
+        }
         filterSort={(optionA, optionB) =>
           (optionA?.label ?? "")
             .toLowerCase()
