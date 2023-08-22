@@ -1,6 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload, message } from "antd";
-import { useEffect, useMemo, useState } from "react";
+import {  Upload, message } from "antd";
+import { useEffect, useState } from "react";
 import { Post_Minio } from "../Data/Api/Minio";
 
 const App = ({ onChange, Value }) => {

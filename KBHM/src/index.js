@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ConfigProvider, theme } from "antd";
-import "./index.css";
 import App from "./App";
+import locale from "antd/locale/vi_VN";
 import { BrowserRouter } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'dayjs/locale/vi';
-import locale from 'antd/locale/vi_VN';
+import { ConfigProvider, theme } from "antd";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "dayjs/locale/vi";
+import "./index.css";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ConfigProvider
@@ -15,8 +16,7 @@ root.render(
       token: {
         borderRadius: 0,
       },
-    }}
-  >
+    }}>
     <BrowserRouter>
       <App />
     </BrowserRouter>

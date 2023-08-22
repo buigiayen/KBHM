@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import dayjs from "dayjs";
-import { Divider, Form, Input, Row, Col, Checkbox, Button } from "antd";
-import { useNavigate } from "react-router-dom";
-
-import ViewerPDFDonnor from "../PreviewDonnor/PDF.Viewer";
-import ElementCombobox from "../Combobox/Element.combobox";
-import { ReportCombobox, DataReport } from "../Combobox/Report.Combobox";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
+import {
+  ExportDocumentFile,
+  ViewerPDFDonnor,
+} from "../PreviewDonnor/PDF.Viewer";
+import ElementCombobox from "../Combobox/Element.combobox";
+import { Divider, Form, Input, Row, Col, Checkbox, Button, Modal } from "antd";
+import { useNavigate } from "react-router-dom";
 import { Warning } from "../../notification";
 import { Config } from "../../../Data/Config/config.system";
 import { Get_Category } from "../../../Data/Api/Category";
@@ -21,6 +21,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const [IsDisable, SeIsDisable] = useState(false);
   const [Category, setCategory] = useState([]);
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
+  const [DataReport, SetDataReport] = useState();
   const [ReportID, SetReportID] = useState(
     process.env.REACT_APP_DEFAULT_REPORT
   );
@@ -32,11 +33,6 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const GetCategory = async () => {
     setCategory(await Get_Category());
   };
-  const ExportDocumentFile = ({ ReportID }) => {
-    SetReportID("Rp_dkhienmau");
-    SetisShowPDFViewer(true);
-  };
-
   const Putperson = async ({ Sync }) => {
     form
       .validateFields()
@@ -51,7 +47,12 @@ const Index = ({ funcReload, ID, dataPerson }) => {
             message: "Cảnh báo",
           });
         } else {
-          rs = { ...rs, RowID: ID, SyncData: Sync, NguoiLayMau: localStorage.getItem("UserID") };
+          rs = {
+            ...rs,
+            RowID: ID,
+            SyncData: Sync,
+            NguoiLayMau: localStorage.getItem("UserID"),
+          };
           await PUT_PersonTrip(rs);
           if (Sync === 3) {
             navigator("/DanhSachDangKyHienMau");
@@ -64,7 +65,13 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         console.log(rs);
       });
   };
-
+  const GetdataReport = async () => {
+    const data = await ExportDocumentFile({
+      IDPerson: ID,
+      Reportname: ReportID,
+    });
+    SetDataReport(data);
+  };
   return (
     <>
       <Divider orientation="left">
@@ -75,7 +82,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       <Form labelCol={8} form={form}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-              <DateTime Name={'DateRegister'} labelFrom="Ngày hiến" />
+            <DateTime Name={"DateRegister"} labelFrom="Ngày hiến" />
           </Col>
           <Col md={12} xs={24}>
             <ElementCombobox
@@ -130,22 +137,22 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           </Col>
         </Row>
         <Row gutter={[8]}>
-        {dataPerson?.Sync !== "3" && (
-            <ReportCombobox
-              from={form}
-              OnChange={SetReportID}
-              OnClick={(e) => {
-                ExportDocumentFile({ ReportID: e });
-              }}
-            />
-        )}
+          {dataPerson?.Sync !== "3" && (
+            <Button
+              onClick={() => {
+                SetisShowPDFViewer(true);
+                GetdataReport();
+              }}>
+              In phiếu
+            </Button>
+          )}
 
           {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
             <>
               {dataPerson?.Sync !== "3" && (
                 <Col sm={24} md={6}>
                   <Button
-                  style={{width: 100 +'%'}}
+                    style={{ width: 100 + "%" }}
                     className="btnFull"
                     type="dashed"
                     onClick={() => Putperson({ Sync: 3 })}
@@ -158,9 +165,9 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                 </Col>
               )}
               {dataPerson?.Sync !== "2" && (
-                <Col sm={24}  md={6}>
+                <Col sm={24} md={6}>
                   <Button
-                    style={{width: 100 +'%'}}
+                    style={{ width: 100 + "%" }}
                     className="btnFull"
                     type="primary"
                     icon={
@@ -178,14 +185,14 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           )}
         </Row>
       </Form>
-      <ViewerPDFDonnor
-        Open={isShowPDFViewer}
-        Cancel={() => {
+      <Modal
+        width={1000 + "px"}
+        open={isShowPDFViewer}
+        onCancel={() => {
           SetisShowPDFViewer(false);
-        }}
-        IDDonnor={ID}
-        ReportID={ReportID}
-      />
+        }}>
+        <ViewerPDFDonnor ViewPDf={DataReport} />
+      </Modal>
     </>
   );
 };

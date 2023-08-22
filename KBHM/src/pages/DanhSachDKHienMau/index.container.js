@@ -18,7 +18,10 @@ import IconCombine from "../../Components/Icon";
 import QRCam from "../../Components/QR.Camera";
 import CardListDonnor from "../../Components/ComponentsGlobal/Card.ListDonnor/index";
 import { Col, Row } from "antd";
-import ViewerPDFDonnor from "../../Components/ComponentsGlobal/PreviewDonnor/PDF.Viewer";
+import {
+  ExportDocumentFile as ExportDataReport,
+  ViewerPDFDonnor,
+} from "../../Components/ComponentsGlobal/PreviewDonnor/PDF.Viewer";
 import { Get_Category } from "../../Data/Api/Category";
 import ElementCombobox from "../../Components/ComponentsGlobal/Combobox/Element.combobox";
 import PieChart from "../../Components/Charts/PieCharts";
@@ -39,12 +42,13 @@ const Index = () => {
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
   const [DateRegister, SetDateRegister] = useState(dayjs());
   const [DiemlayMau, SetDiemLayMau] = useState();
-  const [ReportID, SetReportID] = useState();
+  const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
+  const [DataReport, SetDataReport] = useState();
   const [Category, setCategory] = useState([]);
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
-    SetIsLoading(false)
+    SetIsLoading(false);
   };
 
   const hideModal = () => {
@@ -76,8 +80,16 @@ const Index = () => {
     };
     FetchPerson(DateSearch);
   };
+
+  const GetdataReport = async ({ ID }) => {
+    const data = await ExportDataReport({
+      IDPerson: ID,
+      Reportname: ReportID,
+    });
+    SetDataReport(data);
+  };
   const Reload = () => {
-    SetIsLoading(true)
+    SetIsLoading(true);
     const Search = {
       DiemLayMau: DiemlayMau,
       FromDate: DateRegister,
@@ -224,7 +236,6 @@ const Index = () => {
                       SetDateRegister(e);
                     }}
                     format={"DD/MM/YYYY"}
-                    
                   />
                 </Form.Item>
                 <ElementCombobox
@@ -297,17 +308,14 @@ const Index = () => {
                       />
                     </>,
                     <>
-                      {rs.Sync === "1" ? (
-                        <IconCombine.PrinterOutlined
-                          title=" In phiếu ĐK"
-                          onClick={() => {
-                            setIDDonorInfo(rs.RowID);
-                            SetisShowPDFViewer(true);
-                          }}
-                        />
-                      ) : (
-                        ""
-                      )}
+                      <IconCombine.PrinterOutlined
+                        title=" In phiếu ĐK"
+                        onClick={() => {
+                          setIDDonorInfo(rs.RowID);
+                          GetdataReport({ ID: rs.RowID });
+                          SetisShowPDFViewer(true);
+                        }}
+                      />
                     </>,
                   ]}
                 />
@@ -340,14 +348,16 @@ const Index = () => {
           </Col>
         </Row>
       </Modal>
-      <ViewerPDFDonnor
-        ReportID={ReportID}
-        Open={isShowPDFViewer}
-        Cancel={() => {
+
+      <Modal
+        width={1000 + "px"}
+        open={isShowPDFViewer}
+        onCancel={() => {
           SetisShowPDFViewer(false);
-        }}
-        IDDonnor={IDDonorInfo}
-      />
+        }}>
+        <ViewerPDFDonnor ViewPDf={DataReport} />
+      </Modal>
+
       <Modal
         open={OpenModal}
         onOk={hideModal}

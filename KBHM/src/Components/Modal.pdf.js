@@ -14,7 +14,7 @@ const PDfViewer = ({ urlPDF }) => {
   return (
     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
       {urlPDF && (
-        <Viewer fileUrl={urlPDF} plugins={[defaultLayoutPluginInstance]} />
+        <Viewer  fileUrl={urlPDF} plugins={[defaultLayoutPluginInstance]} />
       )}
     </Worker>
   );
