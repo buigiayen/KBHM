@@ -54,7 +54,8 @@ namespace KBHM.api.Command
               ",[NoiCapCCCD]" +
               ",[UrlImage]" +
               ",[NgheNghiep]" +
-              ",[DiaChiCoQuan]) " +
+              ",[DiaChiCoQuan]" +
+              ",[DiemLayMau]) " +
               " VALUES " +
               "(@ROWIDs " +
               ",@Name " +
@@ -70,7 +71,8 @@ namespace KBHM.api.Command
               ",@NoiCapCCCD" +
               ",@UrlImage" +
               ",@NgheNghiep" +
-              ",@DiaChiCoQuan); ";
+              ",@DiaChiCoQuan" +
+              ",@DiemLayMau); ";
             foreach (var item in person.PersonProperties)
             {
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";

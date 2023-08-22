@@ -5,7 +5,7 @@ import { Config } from "../../Data/Config/config.system";
 import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
 import { Button, Space, Card, Form } from "antd";
 import { Row, Col } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Warning } from "../../Components/notification";
 import { GET_PersonInfo } from "../../Data/Api/DangKyKham";
 import dayjs from "dayjs";
@@ -16,6 +16,7 @@ import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 
 
 const Index = () => {
+  const { IDDiemHien } = useParams();
   const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
@@ -78,7 +79,8 @@ const Index = () => {
             DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongTru_ChiTiet,
             DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru ?RS?.DiaChiThuongTru  : RS?.DiaChiLienLac,
             DiaChiThuongLienLac_ChiTiet :  RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongLienLac_ChiTiet,
-            PersonProperties :Properties 
+            PersonProperties :Properties ,
+            DiemLayMau: IDDiemHien
           }
           console.log(Person);
           POST_DangKyHienMau(Person).then((rs) => {

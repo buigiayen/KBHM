@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Tag,
-  Input,
-  Modal,
-  Card,
-  DatePicker,
-  Button,
-  Alert,
-  Space,
-  Form,
-} from "antd";
+import { Tag, Input, Modal, Card, DatePicker, Button, Form } from "antd";
 import dayjs from "dayjs";
 
 import { useNavigate } from "react-router-dom";
@@ -26,6 +16,7 @@ import { Get_Category } from "../../Data/Api/Category";
 import ElementCombobox from "../../Components/ComponentsGlobal/Combobox/Element.combobox";
 import PieChart from "../../Components/Charts/PieCharts";
 import PlotsChart from "../../Components/Charts/plotsChart";
+import QRCode from "../../Components/QRCode";
 
 const { Search } = Input;
 const Index = () => {
@@ -33,18 +24,22 @@ const Index = () => {
     fontWeight: "bold",
   };
   const navigator = useNavigate();
+
   const [IsLoadding, SetIsLoading] = useState(false);
   const [ListPerson, SetListPerson] = useState([]);
   const [OpenModal, SetOpenModal] = useState(false);
   const [PreviewDonnor, SetPreviewDonnor] = useState(false);
   const [IDPreview, SetIDPreview] = useState();
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
+  const [isShowQRLocation, SetisShowQRLocation] = useState(false);
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
   const [DateRegister, SetDateRegister] = useState(dayjs());
   const [DiemlayMau, SetDiemLayMau] = useState();
+  const [QRDiemlayMau, SetQRDiemLayMau] = useState();
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
   const [DataReport, SetDataReport] = useState();
   const [Category, setCategory] = useState([]);
+
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
@@ -132,7 +127,7 @@ const Index = () => {
         return <Tag color="purple">Chưa thực hiện</Tag>;
     }
   };
-  const ColorChar = (label) => {
+  const ColorCharts = (label) => {
     if (label === "Cho phép hiến máu") {
       return "#52c41a";
     }
@@ -254,8 +249,19 @@ const Index = () => {
                     style={{ width: 100 + "%" }}
                     onClick={() => Reload()}>
                     {" "}
-                    <IconCombine.ReloadOutlined></IconCombine.ReloadOutlined>Tìm
-                    kiếm
+                    <IconCombine.ReloadOutlined></IconCombine.ReloadOutlined>
+                    Tìm kiếm
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    loading={IsLoadding}
+                    type="dashed"
+                    style={{ width: 100 + "%" }}
+                    onClick={() => SetisShowQRLocation(true)}>
+                    {" "}
+                    <IconCombine.QrcodeOutlined></IconCombine.QrcodeOutlined>{" "}
+                    Tạo QR điểm hiến
                   </Button>
                 </Form.Item>
               </Form>
@@ -267,11 +273,11 @@ const Index = () => {
                 <>
                   <PieChart
                     dataSource={DataCharts()}
-                    color={(label) => ColorChar(label)}></PieChart>
+                    color={(label) => ColorCharts(label)}></PieChart>
 
                   <PlotsChart
                     dataSource={DataCharts()}
-                    color={(label) => ColorChar(label)}></PlotsChart>
+                    color={(label) => ColorCharts(label)}></PlotsChart>
                 </>
               )}
             </Card>
@@ -357,7 +363,31 @@ const Index = () => {
         }}>
         <ViewerPDFDonnor ViewPDf={DataReport} />
       </Modal>
-
+      <Modal
+        title="Chọn điểm hiến"
+        width={500}
+        open={isShowQRLocation}
+        onCancel={() => {
+          SetisShowQRLocation(false);
+        }}>
+        <ElementCombobox
+          dataSource={Category?.location}
+          Name={"DiemLayMau"}
+          Label="Điểm lấy máu"
+          autoClear={true}
+          onChange={(e) => {
+            SetQRDiemLayMau(e);
+          }}
+        />
+        <>
+          {QRDiemlayMau && (
+            <QRCode
+              value={
+                window.location.origin + "/DiemHien/" + QRDiemlayMau
+              }></QRCode>
+          )}
+        </>
+      </Modal>
       <Modal
         open={OpenModal}
         onOk={hideModal}

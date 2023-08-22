@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Row, Col, Alert,  Card, Form, Button } from "antd";
+import { Row, Col, Alert, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  GET_Person,
-  PUT_PersonInfo,
-
-} from "../../Data/Api/DangKyKham";
+import { GET_Person, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
@@ -15,7 +11,6 @@ import IconCombine from "../../Components/Icon";
 
 import dayjs from "dayjs";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
-
 
 const Index = () => {
   const { ID } = useParams();
@@ -40,13 +35,12 @@ const Index = () => {
         });
     }
     FuncReload();
-
   }, []);
   const FuncReload = async () => {
     if (ID !== undefined) {
-      GetQRCode(ID)
+      GetQRCode(ID);
     }
-  }
+  };
 
   const GetQRCode = (pra) => {
     if (pra !== undefined && pra !== "") {
@@ -63,11 +57,14 @@ const Index = () => {
   };
   const EditPersonInfo = async () => {
     from.validateFields().then((rs) => {
-      rs = { ...rs, RowID: IDPerson, BirthDay: ConvertDatetime({DateTime: rs?.BirthDay}) };
+      rs = {
+        ...rs,
+        RowID: IDPerson,
+        BirthDay: ConvertDatetime({ DateTime: rs?.BirthDay }),
+      };
       PUT_PersonInfo(rs);
     });
   };
-
 
   return (
     <>
@@ -80,14 +77,18 @@ const Index = () => {
       </Row>
 
       <Row>
-        <Button type='link' style={{ width: 100 + '%' }} onClick={() => { Navigate('/DanhSachDangKyHienMau') }}>
+        <Button
+          type="link"
+          style={{ width: 100 + "%" }}
+          onClick={() => {
+            Navigate("/DanhSachDangKyHienMau");
+          }}>
           Danh sách hiến máu
         </Button>
-       
 
         {DataPerson?.warning !== 0 &&
-          DataPerson?.warning !== null &&
-          DataPerson?.warning !== undefined ? (
+        DataPerson?.warning !== null &&
+        DataPerson?.warning !== undefined ? (
           <Alert
             style={{ width: 100 + "%" }}
             banner
@@ -105,9 +106,7 @@ const Index = () => {
         <Row>
           <Col sm={24}>
             <Form form={from} layout="vertical">
-              <QuanLyThongTinLanHien
-                form={from}
-              />
+              <QuanLyThongTinLanHien form={from} />
               <Form.Item>
                 {DataPerson?.Sync !== "1" && DataPerson && (
                   <Button
@@ -143,13 +142,15 @@ const Index = () => {
         <Row>
           <Col sm={24}>
             {HienThiThongTinTua && (
-              <ThongTinTuaLaymau funcReload={FuncReload} ID={IDPerson} dataPerson={DataPerson} />
+              <ThongTinTuaLaymau
+                funcReload={FuncReload}
+                ID={IDPerson}
+                dataPerson={DataPerson}
+              />
             )}
           </Col>
         </Row>
       </Card>
-
-    
     </>
   );
 };

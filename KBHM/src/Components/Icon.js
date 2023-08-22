@@ -26,7 +26,8 @@ import {
   InfoOutlined,
   EyeOutlined,
   PrinterOutlined,
-  FilterOutlined
+  FilterOutlined,
+  QrcodeOutlined
 } from "@ant-design/icons";
 
 const IconCombine = {
@@ -57,6 +58,7 @@ const IconCombine = {
   InfoOutlined,
   EyeOutlined,
   PrinterOutlined,
-  FilterOutlined
+  FilterOutlined,
+  QrcodeOutlined
 };
 export default IconCombine;

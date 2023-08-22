@@ -3,7 +3,7 @@ import DangKyKhaiBao from "../pages/DangKyKhaiBao/index";
 import Login from "../pages/DangNhap/index";
 import TraCuuThongTin from "../pages/TraCuuThongTin/index";
 import QuanLyThongTin from "../pages/QuanLyThongTin/Index";
-import DanhSachDKHienMau from '../pages/DanhSachDKHienMau/index'
+import DanhSachDKHienMau from "../pages/DanhSachDKHienMau/index";
 import Error_404 from "../pages/Error/Error_404";
 const RoutesPage = [
   {
@@ -15,9 +15,16 @@ const RoutesPage = [
     element: <DangKyKhaiBao />,
   },
   {
+    path: "/DiemHien/:IDDiemHien",
+    element: <DangKyKhaiBao />,
+  },
+  {
     path: "/TraCuuThongTin/:ID",
     element: <TraCuuThongTin />,
- 
+  },
+  {
+    path: "/DiemHien/:IDDiemHien/TraCuuThongTin/:ID",
+    element: <TraCuuThongTin />,
   },
   {
     path: "/TraCuuThongTin",
@@ -26,7 +33,7 @@ const RoutesPage = [
   {
     path: "/DanhSachDangKyHienMau",
     element: <DanhSachDKHienMau />,
-    isAdmin : true
+    isAdmin: true,
   },
   {
     path: "/Login",
@@ -36,9 +43,8 @@ const RoutesPage = [
   {
     path: "/QuanLyThongTin/:ID",
     element: <QuanLyThongTin />,
- 
   },
-  
+
   {
     path: "*",
     element: <Error_404 />,
