@@ -1,6 +1,7 @@
 ﻿using BloodBank.api.interfaces;
 using BloodBank.api.Model;
 using Services.lib.BloodBank;
+using Services.lib.Http;
 using Services.lib.Sql;
 using System;
 using System.Collections.Generic;
@@ -161,11 +162,73 @@ namespace BloodBank.api.command
 
             return await Services.lib.Sql.Dataprovider.db._Querys(rowguid, ActionDonnor)._ParamterSQL<tbl_Donor>(donnor).ExcuteQueryAsync();
         }
-
         public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string DonorExCode)
         {
             string SQL = "SELECT cast((case when   count(DonorExCode)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  tbl_Donor_Examine  WHERE (DonorExCode = @DonorExCode)";
             return await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { DonorExCode = DonorExCode }).SingleOrDefaultAsync();
         }
+
+        public async Task<HttpObjectData.APIresult> HistoryDonnorAsync(string IdentityID)
+        {
+            HttpObjectData.APIresult aPIresult = new HttpObjectData.APIresult();
+            List<HistoryDonnor> historyDonnor = new List<HistoryDonnor>();
+
+            string Donnor = @"SELECT tgd.KetLuan, de.DateIn, SID
+                                FROM tbl_Donor d INNER JOIN
+                                tbl_Donor_Examine de ON d.DonorID = de.DonorID LEFT OUTER JOIN
+                                tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.IdentityID = @IdentityID order by datein desc";
+            var DonnorEx = await Services.lib.Sql.Dataprovider.db._Query(Donnor)._ParamterSQL(new { IdentityID = IdentityID }).QueryMapperAsync<TestGroupDetail>();
+            foreach (var item in DonnorEx)
+            {
+                HistoryDonnor historyDonnorVM = new HistoryDonnor();
+                if (item != null)
+                {
+                    historyDonnorVM.DateIn = item?.DateIn;
+                    historyDonnorVM.ABORH = item?.KetLuan;
+                    if (!string.IsNullOrEmpty(item.SID))
+                    {
+                        string QueryResultBlood = @"SELECT  top (3)  LOWER(Result) as Result , TestCode
+                                                    FROM  tbl_ResultBlood WHERE (SIDRoot = @SID) AND (NAT = 1) order by DateInsert desc ";
+
+                        var TableSID = await Services.lib.Sql.Dataprovider.db._Query(QueryResultBlood)._ParamterSQL(new { SID = item.SID })
+                            .QueryMapperAsync<ResultBlood>();
+
+                        int PointBIC = 0;
+                        foreach (var items in TableSID)
+                        {
+                            PointBIC += CheckBCI(items.Result);
+                            historyDonnorVM.resultBloods.Add(items);
+                        }
+                        if (PointBIC < 0)
+                            historyDonnorVM.BCI = "Chưa có kết quả";
+                        if (PointBIC == 0)
+                            historyDonnorVM.BCI = "Âm tính";
+                        if (PointBIC > 0)
+                            historyDonnorVM.BCI = "Nghi ngờ";
+                      
+                    }
+
+                }
+                historyDonnor.Add(historyDonnorVM);
+            }
+
+            aPIresult.Data = historyDonnor;
+            return aPIresult;
+        }
+
+        private int CheckBCI(string Result)
+        {
+            switch (Result)
+            {
+                case "phản ứng":
+                    return 1;
+                case "không phản ứng":
+                    return 0;
+                default:
+                    return -1;
+            }
+        }
+
+
     }
 }

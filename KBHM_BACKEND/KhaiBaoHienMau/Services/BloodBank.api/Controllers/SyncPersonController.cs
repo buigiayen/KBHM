@@ -41,5 +41,11 @@ namespace BloodBank.api.Controllers
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
 
+        [HttpGet("SyncDonnor/History")]
+        public async Task<IActionResult> CheckHistoryDonnor([FromQuery] string IdentityID)
+        {
+            var data = await _ISyncDonnor.HistoryDonnorAsync(IdentityID);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }

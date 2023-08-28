@@ -29,7 +29,7 @@ namespace Services.lib.Http
         public class API : Enums
         {
             public Httpstatuscode_API code { get; set; } = Httpstatuscode_API.OK;
-            public string Messenger { get; set; } = "Success!";
+            public string Messenger { get; set; } = "Tải dữ liệu thành công!";
         }
     }
 }

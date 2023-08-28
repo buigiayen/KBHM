@@ -32,6 +32,27 @@ namespace BloodBank.api.Model
             public string STATUS { get; set; }
             public string WEIGH { get; set; }
         }
-
+        public class HistoryDonnor
+        {
+            public HistoryDonnor()
+            {
+                resultBloods = new List<ResultBlood>();
+            }
+            public DateTime? DateIn { get; set; }
+            public string ABORH { get; set; }
+            public string BCI { get; set; }
+            public List<ResultBlood> resultBloods { get; set; }
+        }
+        public class TestGroupDetail
+        {
+            public string SID { get; set; }
+            public DateTime? DateIn { get; set; }
+            public string KetLuan { get; set; }
+        }
+        public class ResultBlood
+        {
+            public string TestCode { get; set; }
+            public string Result { get; set; }
+        }
     }
 }

@@ -224,6 +224,33 @@ namespace Services.lib.Sql
             Dispose();
             return httpObject;
         }
+        public async Task<HttpObject.APIMapper<T>> SingleOrDefaultAsync<T>() where T : class
+        {
+
+            var httpObject = new HttpObject.APIMapper<T>();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
+                {
+                    Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
+                    var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
+                    httpObject = new HttpObject.APIMapper<T> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
+                    Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
+                    sqlConnection.Close();
+                    sqlConnection.Dispose();
+                }
+
+                return httpObject;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
+                httpObject = new HttpObject.APIMapper<T> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
+            }
+            Dispose();
+            return httpObject;
+        }
+     
         private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
         {
             var aPIresultObjects = new HttpObject.APIresult();
