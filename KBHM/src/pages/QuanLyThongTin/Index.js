@@ -5,6 +5,7 @@ import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
 import { GET_Person, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
+import HistoryDonnor from '../../Components/ComponentsGlobal/HistoryDonnor/index'
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
 import IconCombine from "../../Components/Icon";
@@ -87,8 +88,8 @@ const Index = () => {
         </Button>
 
         {DataPerson?.warning !== 0 &&
-        DataPerson?.warning !== null &&
-        DataPerson?.warning !== undefined ? (
+          DataPerson?.warning !== null &&
+          DataPerson?.warning !== undefined ? (
           <Alert
             style={{ width: 100 + "%" }}
             banner
@@ -121,6 +122,14 @@ const Index = () => {
                 )}
               </Form.Item>
             </Form>
+          </Col>
+        </Row>
+      </Card>
+      <br></br>
+      <Card>
+        <Row>
+          <Col sm={24}>
+            <HistoryDonnor Identity={DataPerson?.CCCD} DefaultKey={'0'}></HistoryDonnor>
           </Col>
         </Row>
       </Card>

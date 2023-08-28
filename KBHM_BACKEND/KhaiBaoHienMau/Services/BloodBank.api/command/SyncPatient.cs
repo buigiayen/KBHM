@@ -193,19 +193,23 @@ namespace BloodBank.api.command
                         var TableSID = await Services.lib.Sql.Dataprovider.db._Query(QueryResultBlood)._ParamterSQL(new { SID = item.SID })
                             .QueryMapperAsync<ResultBlood>();
 
-                        int PointBIC = 0;
+                        int PointBIC = -1;
                         foreach (var items in TableSID)
                         {
                             PointBIC += CheckBCI(items.Result);
                             historyDonnorVM.resultBloods.Add(items);
                         }
                         if (PointBIC < 0)
-                            historyDonnorVM.BCI = "Chưa có kết quả";
+                            historyDonnorVM.BCI = "Chưa rõ kết quả";
                         if (PointBIC == 0)
                             historyDonnorVM.BCI = "Âm tính";
                         if (PointBIC > 0)
                             historyDonnorVM.BCI = "Nghi ngờ";
-                      
+
+                    }
+                    else
+                    {
+                        historyDonnorVM.BCI = "Chưa rõ kết quả";
                     }
 
                 }
