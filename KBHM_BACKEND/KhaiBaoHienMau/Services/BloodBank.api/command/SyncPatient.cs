@@ -176,7 +176,7 @@ namespace BloodBank.api.command
             string Donnor = @"SELECT tgd.KetLuan, de.DateIn, SID
                                 FROM tbl_Donor d INNER JOIN
                                 tbl_Donor_Examine de ON d.DonorID = de.DonorID LEFT OUTER JOIN
-                                tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.IdentityID = @IdentityID order by datein desc";
+                                tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.DonorCode = @IdentityID order by datein desc";
             var DonnorEx = await Services.lib.Sql.Dataprovider.db._Query(Donnor)._ParamterSQL(new { IdentityID = IdentityID }).QueryMapperAsync<TestGroupDetail>();
             foreach (var item in DonnorEx)
             {
@@ -193,16 +193,16 @@ namespace BloodBank.api.command
                         var TableSID = await Services.lib.Sql.Dataprovider.db._Query(QueryResultBlood)._ParamterSQL(new { SID = item.SID })
                             .QueryMapperAsync<ResultBlood>();
 
-                        int PointBIC = -1;
+                        int PointBIC = 0;
                         foreach (var items in TableSID)
                         {
                             PointBIC += CheckBCI(items.Result);
                             historyDonnorVM.resultBloods.Add(items);
                         }
                         if (PointBIC < 0)
-                            historyDonnorVM.BCI = "Chưa rõ kết quả";
+                            historyDonnorVM.BCI = "Âm tính"; 
                         if (PointBIC == 0)
-                            historyDonnorVM.BCI = "Âm tính";
+                            historyDonnorVM.BCI = "Chưa rõ kết quả";
                         if (PointBIC > 0)
                             historyDonnorVM.BCI = "Nghi ngờ";
 
@@ -225,11 +225,11 @@ namespace BloodBank.api.command
             switch (Result)
             {
                 case "phản ứng":
-                    return 1;
+                    return 10;
                 case "không phản ứng":
-                    return 0;
-                default:
                     return -1;
+                default:
+                    return 0;
             }
         }
 

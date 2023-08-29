@@ -7,4 +7,5 @@
   margin-right: 8px; /* Thay đổi giá trị này để điều chỉnh khoảng cách theo ý muốn */
 }
 .ant-qrcode-img {
-  background-color: transparent !important; 
+  background-color: transparent !important; /* Đặt nền trong suốt */
+}
