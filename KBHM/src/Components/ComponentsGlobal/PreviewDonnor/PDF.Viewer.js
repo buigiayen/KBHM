@@ -25,7 +25,6 @@ export const ExportDocumentFile = async ({ IDPerson , Reportname }) => {
     combinedObject.push({ ...PersonInfo[0], ...resultProperties });
     let objJsonStr = JSON.stringify(combinedObject);
     var data = await Post_CreateReport({
-      ReportTilte: IDPerson,
       reportName: Reportname,
       dataReport: objJsonStr,
     });
