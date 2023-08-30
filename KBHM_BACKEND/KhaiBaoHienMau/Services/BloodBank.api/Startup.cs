@@ -1,25 +1,18 @@
 using BloodBank.api.command;
 using BloodBank.api.interfaces;
-using BloodBank.api.Model;
 using BloodBank.api.Validator;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Services.lib.authorization;
 using Services.lib.Sql;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BloodBank.api
 {
@@ -42,8 +35,8 @@ namespace BloodBank.api
             services.AddControllers().AddFluentValidation(fv =>
             {
                 fv.RegisterValidatorsFromAssemblyContaining<LoginValidator>();
-                
-            }).ConfigureApiBehaviorOptions(o=>
+
+            }).ConfigureApiBehaviorOptions(o =>
             {
                 o.InvalidModelStateResponseFactory = c =>
                 {
@@ -61,7 +54,7 @@ namespace BloodBank.api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BloodBank.api", Version = "v1" });
-               
+
             });
         }
 

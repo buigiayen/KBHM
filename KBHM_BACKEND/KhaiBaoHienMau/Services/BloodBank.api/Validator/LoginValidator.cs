@@ -7,8 +7,8 @@ namespace BloodBank.api.Validator
     {
         public LoginValidator()
         {
-            RuleFor(x=>x.UserID).NotNull().WithMessage("Username null!");
-            RuleFor(x=>x.PasswordWeb).NotNull().WithMessage("Password null!");
+            RuleFor(x => x.UserID).NotNull().WithMessage("Username null!");
+            RuleFor(x => x.PasswordWeb).NotNull().WithMessage("Password null!");
         }
     }
 }

@@ -1,16 +1,9 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
-using RestSharp;
 using System.api.Interfaces;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.WebSockets;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace System.api.Controllers
 {
@@ -52,8 +45,8 @@ namespace System.api.Controllers
             {
                 return BadRequest(ex);
             }
-         
-         
+
+
         }
     }
 }

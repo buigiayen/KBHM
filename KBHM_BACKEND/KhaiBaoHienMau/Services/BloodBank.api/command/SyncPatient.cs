@@ -5,7 +5,6 @@ using Services.lib.Http;
 using Services.lib.Sql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using static BloodBank.api.Model.Donnor;
 
@@ -173,7 +172,7 @@ namespace BloodBank.api.command
             HttpObjectData.APIresult aPIresult = new HttpObjectData.APIresult();
             List<HistoryDonnor> historyDonnor = new List<HistoryDonnor>();
 
-            string Donnor = @"SELECT tgd.KetLuan, de.DateIn, SID
+            string Donnor = $@"SELECT top(3) tgd.KetLuan, de.DateIn, SID
                                 FROM tbl_Donor d INNER JOIN
                                 tbl_Donor_Examine de ON d.DonorID = de.DonorID LEFT OUTER JOIN
                                 tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.DonorCode = @IdentityID order by datein desc";
@@ -200,7 +199,7 @@ namespace BloodBank.api.command
                             historyDonnorVM.resultBloods.Add(items);
                         }
                         if (PointBIC < 0)
-                            historyDonnorVM.BCI = "Âm tính"; 
+                            historyDonnorVM.BCI = "Âm tính";
                         if (PointBIC == 0)
                             historyDonnorVM.BCI = "Chưa rõ kết quả";
                         if (PointBIC > 0)

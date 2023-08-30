@@ -1,8 +1,4 @@
-﻿
-using KBHM.api.Model;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
-using Services.lib.Sql;
+﻿using Services.lib.Sql;
 using System;
 using System.Threading.Tasks;
 

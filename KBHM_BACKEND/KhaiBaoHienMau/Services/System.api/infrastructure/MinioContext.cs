@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
-using System.Data;
-using Minio;
+﻿using Minio;
 
 namespace System.api.infrastructure
 {
@@ -26,7 +23,7 @@ namespace System.api.infrastructure
                 ACCESSKEY = splitConfig[2];
                 SecretKey = splitConfig[3];
                 HTTPS = Convert.ToBoolean(splitConfig[4]);
-                PORT_GW =splitConfig[5];
+                PORT_GW = splitConfig[5];
             }
             catch (Exception ex)
             {

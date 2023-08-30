@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BloodBank.api.Model
 {
-  
+
     public class SequenceNumInfo
     {
         public const string SequenceIDIdentityID = "IDENTITY_ID";

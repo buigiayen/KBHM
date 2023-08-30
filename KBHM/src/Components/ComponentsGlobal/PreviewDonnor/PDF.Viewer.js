@@ -2,19 +2,28 @@ import PDfViewer from "../../Modal.pdf";
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
 import { Post_CreateReport } from "../../../Data/Api/Report";
 import { Get_Job } from "../../../Data/Api/Category";
+import { CheckHistoryDonnor } from "../../../Data/Api/Donnor";
 
-export const ExportDocumentFile = async ({ IDPerson , Reportname }) => {
+export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
   try {
-    console.log(IDPerson);
     const JobList = await Get_Job();
-    console.log(JobList);
     const PersonInfo = await GET_Person(IDPerson);
+    const GetHistoryDonnor = await CheckHistoryDonnor({
+      IdentityID: PersonInfo[0].CCCD,
+    });
+
     const mappedJob = JobList.find(
       (job) => job.value === PersonInfo[0].NgheNghiep
     );
     if (mappedJob) {
       PersonInfo[0].NgheNghiep = mappedJob.label;
     }
+    let HistoryDonnor = [];
+    console.log(GetHistoryDonnor);
+    if (GetHistoryDonnor) {
+      HistoryDonnor.push(GetHistoryDonnor[0]);
+    }
+    console.log(HistoryDonnor);
     const PersonProperties = await GET_PropertiesPerson(IDPerson);
     const resultProperties = PersonProperties.reduce((acc, rs) => {
       acc[rs.Key] = rs.value;
@@ -22,16 +31,21 @@ export const ExportDocumentFile = async ({ IDPerson , Reportname }) => {
     }, {});
 
     const combinedObject = [];
-    combinedObject.push({ ...PersonInfo[0], ...resultProperties });
+    combinedObject.push({
+      ...PersonInfo[0],
+      ...resultProperties,
+      ...HistoryDonnor[0]
+    });
     let objJsonStr = JSON.stringify(combinedObject);
+
     var data = await Post_CreateReport({
       reportName: Reportname,
       dataReport: objJsonStr,
     });
-    console.log(data);
+
     return base64toBlob({ DataPDF: data?.data });
   } catch (e) {
-    console.log(e);
+    console.log("PDF ERR", e);
   }
 };
 const base64toBlob = ({ DataPDF }) => {
@@ -57,4 +71,3 @@ const base64toBlob = ({ DataPDF }) => {
 export const ViewerPDFDonnor = ({ ViewPDf }) => {
   return <PDfViewer urlPDF={ViewPDf} />;
 };
-

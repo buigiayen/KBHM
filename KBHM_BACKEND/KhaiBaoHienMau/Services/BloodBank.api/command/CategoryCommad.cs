@@ -1,9 +1,9 @@
 ﻿using BloodBank.api.interfaces;
 using BloodBank.api.Model;
 using Services.lib.Sql;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BloodBank.api.command
 {
@@ -11,12 +11,12 @@ namespace BloodBank.api.command
     {
         public CategoryCommad()
         {
-          
+
         }
         public async Task<List<CategoryData>> GetLocation()
         {
             string sql = "select BloodSourceLocationId as value , LOWER(BloodSourceLocationName) as label from tbl_Config_BloodSourceLocation";
-           var data = await Dataprovider.db._Query(sql).QueryMapperAsync<CategoryData>();
+            var data = await Dataprovider.db._Query(sql).QueryMapperAsync<CategoryData>();
             return data.ToList();
         }
 

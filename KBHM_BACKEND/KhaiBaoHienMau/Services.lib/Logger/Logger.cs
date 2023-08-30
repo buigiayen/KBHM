@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Services.lib.Logger
 {
@@ -23,7 +19,7 @@ namespace Services.lib.Logger
         private string _FileName { get; set; }
         public Logger FileName(string filename = "logger.txt")
         {
-            _FileName = DateTime.Now.ToString()+"_"+ filename;
+            _FileName = DateTime.Now.ToString() + "_" + filename;
             return this;
         }
         public Logger Messenger(string exception)
@@ -43,7 +39,7 @@ namespace Services.lib.Logger
             }
             catch (Exception ex)
             {
-                _Messenge = "1001: "+ ex.Message;
+                _Messenge = "1001: " + ex.Message;
             }
             return this;
         }
@@ -53,7 +49,7 @@ namespace Services.lib.Logger
             StreamWriter sw = null;
             try
             {
-                string path = AppDomain.CurrentDomain.BaseDirectory + "log/" + Enum.Parse(typeof(_TypeFile), _TypeFile.ToString()) + "/" ;
+                string path = AppDomain.CurrentDomain.BaseDirectory + "log/" + Enum.Parse(typeof(_TypeFile), _TypeFile.ToString()) + "/";
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

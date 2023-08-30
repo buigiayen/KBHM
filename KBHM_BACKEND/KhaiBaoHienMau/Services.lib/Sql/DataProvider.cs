@@ -1,18 +1,12 @@
 ﻿using Dapper;
+using Microsoft.Data.SqlClient;
+using Services.lib.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Services.lib.Http;
-using System.Reflection;
-using System.Linq;
-using System.Text;
-using System.Reflection.Metadata;
-using System.Data.Common;
-using System.Runtime.CompilerServices;
 
 namespace Services.lib.Sql
 {
@@ -250,7 +244,7 @@ namespace Services.lib.Sql
             Dispose();
             return httpObject;
         }
-     
+
         private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
         {
             var aPIresultObjects = new HttpObject.APIresult();

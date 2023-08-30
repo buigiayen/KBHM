@@ -8,7 +8,7 @@ namespace KBHM.api.Model
         public Guid ID { get; set; }
         public string Key { get; set; }
         public string Label { get; set; }
-        public string value { get; set; }   
+        public string value { get; set; }
         public bool GetBloodbank { get; set; }
     }
 }

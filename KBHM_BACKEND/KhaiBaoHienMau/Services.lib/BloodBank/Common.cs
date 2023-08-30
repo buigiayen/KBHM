@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Services.lib.BloodBank
+﻿namespace Services.lib.BloodBank
 {
     public static class Common
     {
@@ -16,6 +10,6 @@ namespace Services.lib.BloodBank
                 case "2": return "F";
                 default: return "?";
             }
-        }  
+        }
     }
 }

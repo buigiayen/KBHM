@@ -1,23 +1,16 @@
-﻿using Minio.DataModel;
-using Minio.Exceptions;
+﻿using Domain;
 using Minio;
+using Minio.DataModel;
+using Minio.Exceptions;
+using Services.lib.Logger;
+using Services.lib.Sql;
+using System.api.infrastructure;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Threading;
-using System.api.Interfaces;
-using System.api.infrastructure;
-using Domain;
-using System.Reactive.Linq;
-using System.Net.Sockets;
-using Microsoft.Extensions.Logging;
-using Services.lib.Logger;
 using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.AspNetCore.Http;
-using System.Net.WebSockets;
-using Services.lib.Sql;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using static Domain.MinIOservices;
 
 namespace System.api.Command
@@ -129,7 +122,7 @@ namespace System.api.Command
             var objectName = uploadMinios.formFile.FileName;
             try
             {
-               
+
                 bool found = await Minioconection.BucketExistsAsync(bucketName);
                 if (!found)
                 {
@@ -170,7 +163,7 @@ namespace System.api.Command
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }
-   
-    
+
+
     }
 }

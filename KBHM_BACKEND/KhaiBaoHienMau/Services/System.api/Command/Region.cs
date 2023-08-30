@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using Services.lib.Sql;
-using static System.Net.Mime.MediaTypeNames;
+﻿using Services.lib.Sql;
+using System.Threading.Tasks;
 
 namespace System.api.Command
 {
@@ -13,7 +12,7 @@ namespace System.api.Command
         public async Task<Services.lib.Sql.HttpObject.APIresult> GetRegion(int Status, string regionId)
         {
             string sql = "SP_REGION_VN @STATUS = @status ,@TEXT =@TEXT";
-        
+
             return await Dataprovider.db._Query(sql)._ParamterSQL(new
             {
                 STATUS = Status,

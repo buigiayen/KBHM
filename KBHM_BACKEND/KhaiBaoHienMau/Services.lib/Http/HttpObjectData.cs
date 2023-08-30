@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Services.lib.Http
+﻿namespace Services.lib.Http
 {
     public class HttpObjectData
     {

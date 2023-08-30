@@ -1,7 +1,7 @@
 import axios, {AxiosStatic} from "axios";
 import { message, notification } from "antd";
 import { Warning, Error } from "../../Components/notification";
-import { useNavigate } from "react-router-dom";
+
 const Connection = async (
   URI,
   method = "GET",
@@ -61,7 +61,7 @@ export const HttpRequest = async (
 ) => {
   let data = [];
   if (messageShow) {
-    const hide = message.loading("Loading data ...", 0);
+    const hide = message.loading("Đang tải dữ liệu", 0);
     setTimeout(hide, process.env.REACT_APP_TIMEOUT);
   }
   try {
@@ -82,7 +82,7 @@ export const HttpRequestFile = async (
 ) => {
   let data = [];
   if (messageShow) {
-    const hide = message.loading("Loading data ...", 0);
+    const hide = message.loading("Đang tải dữ liệu", 0);
     setTimeout(hide, process.env.REACT_APP_TIMEOUT);
   }
   try {

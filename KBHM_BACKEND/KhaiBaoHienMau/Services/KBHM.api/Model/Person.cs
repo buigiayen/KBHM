@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection.Metadata;
 
 namespace KBHM.api.Model
 {
     public enum Sync
     {
         None,
-        Sync,                     
+        Sync,
         GetBlood,
         CancelBlood,
         SyncError
     }
     public class Person : Filter
     {
-      
+
         public Guid RowID { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
@@ -48,10 +46,10 @@ namespace KBHM.api.Model
         public string UrlImage { get; set; }
         public int? warning { get; set; }
         public string NgheNghiep { get; set; }
-        public string DiaChiCoQuan { get; set; }    
+        public string DiaChiCoQuan { get; set; }
         public string NguoiLayMau { get; set; }
         public string NguoiDongBo { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
-        
+
     }
 }

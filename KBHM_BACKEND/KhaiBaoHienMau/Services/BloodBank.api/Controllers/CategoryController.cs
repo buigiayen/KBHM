@@ -1,10 +1,8 @@
 ﻿using BloodBank.api.interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.lib.Sql;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BloodBank.api.Controllers
