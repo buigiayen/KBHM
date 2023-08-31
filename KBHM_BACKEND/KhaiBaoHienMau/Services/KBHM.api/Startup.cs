@@ -23,7 +23,7 @@ namespace KBHM.api
         {
 
             services.AddControllers();
-            services.AddScoped<Interfaces.Person, Command.Person>();
+            services.AddTransient<Interfaces.Person, Command.Person>();
             services.JWTServices();
             services.AddSwaggerGen(c =>
             {

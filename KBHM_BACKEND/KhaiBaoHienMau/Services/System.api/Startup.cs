@@ -21,9 +21,9 @@ namespace System.api
         {
 
             services.AddControllers();
-            services.AddSingleton<MinioContext>();
-            services.AddSingleton<Interfaces.IRegion, Command.Region>();
-            services.AddScoped<Interfaces.IMinio, Command.MinioCommand>();
+            services.AddTransient<MinioContext>();
+            services.AddTransient<Interfaces.IRegion, Command.Region>();
+            services.AddTransient<Interfaces.IMinio, Command.MinioCommand>();
 
             services.AddSwaggerGen(c =>
             {
