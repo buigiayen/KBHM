@@ -12,12 +12,17 @@ namespace BloodBank.api.command
 {
     public class SyncPatient : ISyncDonnor
     {
+        Dataprovider Dataprovider;
+        public SyncPatient(Dataprovider dataprovider)
+        {
+            Dataprovider = dataprovider;
+        }
         private async Task<HttpObject.APIMapper<SequenceNumInfo>> GetNextSequence()
         {
 
             string sql = "Select SequenceId, StartNum, EndNum, CurrentVal, Mode, UpdateTime, getdate() as ServerTime " +
                 "from dbo.SequenceConfig  where SequenceId=@SequenceId ";
-            var sequenceNum = await Services.lib.Sql.Dataprovider.db._Query(sql)._ParamterSQL(new { SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapperSingleOrDefaultAsync<SequenceNumInfo>();
+            var sequenceNum = await Dataprovider.QueryMapperSingleOrDefaultAsync<SequenceNumInfo>(sql, new { SequenceId = SequenceNumInfo.SequenceIDIdentityID });
             if (sequenceNum != null)
             {
                 long nextVal = sequenceNum.CurrentVal + 1;
@@ -57,7 +62,7 @@ namespace BloodBank.api.command
                     }
                 }
                 string SQL = "update dbo.SequenceConfig  set CurrentVal = @CurrentVal, UpdateTime = getdate()  where SequenceId=@SequenceId";
-                await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { CurrentVal = nextVal, SequenceId = SequenceNumInfo.SequenceIDIdentityID }).QueryMapperSingleOrDefaultAsync<SequenceNumInfo>();
+                await Dataprovider.QueryMapperSingleOrDefaultAsync<SequenceNumInfo>(SQL, new { CurrentVal = nextVal, SequenceId = SequenceNumInfo.SequenceIDIdentityID });
 
             }
             var data = new HttpObject.APIMapper<SequenceNumInfo>();
@@ -72,7 +77,7 @@ namespace BloodBank.api.command
             string sql = "select top 1 d.DonorID " +
                      " from tbl_Donor d " +
                      " where d.IdentityID = @IdentityID ";
-            var data = await Services.lib.Sql.Dataprovider.db._Query(sql)._ParamterSQL(identityID).SingleOrDefaultAsync();
+            var data = await Dataprovider.SingleOrDefaultAsync(sql, identityID);
             if (data.code == HttpObject.Enums.Httpstatuscode_API.OK)
             {
                 result = data.Data.DonorID;
@@ -158,13 +163,13 @@ namespace BloodBank.api.command
 
 
                                     END";
-
-            return await Services.lib.Sql.Dataprovider.db._Querys(rowguid, ActionDonnor)._ParamterSQL<tbl_Donor>(donnor).ExcuteQueryAsync();
+            string Query = rowguid + Environment.NewLine + ActionDonnor;
+            return await Dataprovider.ExcuteQueryAsync(Query, donnor);
         }
         public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string DonorExCode)
         {
             string SQL = "SELECT cast((case when   count(DonorExCode)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  tbl_Donor_Examine  WHERE (DonorExCode = @DonorExCode)";
-            return await Services.lib.Sql.Dataprovider.db._Query(SQL)._ParamterSQL(new { DonorExCode = DonorExCode }).SingleOrDefaultAsync();
+            return await Dataprovider.SingleOrDefaultAsync(SQL, new { DonorExCode = DonorExCode });
         }
 
         public async Task<HttpObjectData.APIresult> HistoryDonnorAsync(string IdentityID)
@@ -176,7 +181,7 @@ namespace BloodBank.api.command
                                 FROM tbl_Donor d INNER JOIN
                                 tbl_Donor_Examine de ON d.DonorID = de.DonorID LEFT OUTER JOIN
                                 tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.DonorCode = @IdentityID order by datein desc";
-            var DonnorEx = await Services.lib.Sql.Dataprovider.db._Query(Donnor)._ParamterSQL(new { IdentityID = IdentityID }).QueryMapperAsync<TestGroupDetail>();
+            var DonnorEx = await Dataprovider.QueryMapperAsync<TestGroupDetail>(Donnor, new { IdentityID = IdentityID });
             foreach (var item in DonnorEx)
             {
                 HistoryDonnor historyDonnorVM = new HistoryDonnor();
@@ -189,8 +194,7 @@ namespace BloodBank.api.command
                         string QueryResultBlood = @"SELECT  top (3)  LOWER(Result) as Result , TestCode
                                                     FROM  tbl_ResultBlood WHERE (SIDRoot = @SID) AND (NAT = 1) order by DateInsert desc ";
 
-                        var TableSID = await Services.lib.Sql.Dataprovider.db._Query(QueryResultBlood)._ParamterSQL(new { SID = item.SID })
-                            .QueryMapperAsync<ResultBlood>();
+                        var TableSID = await Dataprovider.QueryMapperAsync<ResultBlood>(QueryResultBlood, new { SID = item.SID });
 
                         int PointBIC = 0;
                         foreach (var items in TableSID)

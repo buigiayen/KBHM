@@ -1,26 +1,31 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using Services.lib.authorization;
+using Services.lib.ELK;
 using System;
 
-namespace Ocelot_apigateway
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOcelot();
+builder.Services.AddCors();
+builder.Services.JWTServices();
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Host.ConfigLog(builder, Environment.GetEnvironmentVariable("NODEELK"), typeof(Program));
+var app = builder.Build();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-           Host.CreateDefaultBuilder(args)
-               .ConfigureWebHostDefaults(webBuilder =>
-               {
-                   webBuilder.UseStartup<Startup>();
-                   var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                   Console.WriteLine(env);
-                   webBuilder.ConfigureAppConfiguration(conf => conf.AddJsonFile($"ocelot.json"));
+app.UseCors(x => x
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .SetIsOriginAllowed(origin => true) // allow any origin
+           .AllowCredentials()); // allow credentials
 
-               });
-    }
-}
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseOcelot();
+app.UseAuthentication();
+app.UseAuthorization();
+app.Run();
+
+

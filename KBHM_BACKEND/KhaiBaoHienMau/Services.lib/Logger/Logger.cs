@@ -1,73 +1,40 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.Extensions.Logging;
+using Serilog.Events;
 using System.Text.Json;
 
 namespace Services.lib.Logger
 {
+  
     public class Logger
     {
-        public enum _TypeFile
+        private ILogger<Logger> _Ilogger;
+        public  Logger(ILogger<Logger> Ilogger)
         {
-            Debug = 1,
-            Error = 2,
-            Warning = 3,
-            Information = 4,
+            _Ilogger = Ilogger;
         }
-        public static readonly Logger Instance = new Logger();
-
-        private string _Messenge { get; set; }
-        private string _FileName { get; set; }
-        public Logger FileName(string filename = "logger.txt")
+        public void WriteLog(string messenger, LogEventLevel logEventLevel)
         {
-            _FileName = DateTime.Now.ToString() + "_" + filename;
-            return this;
-        }
-        public Logger Messenger(string exception)
-        {
-            _Messenge = DateTime.Now + "  ----------  " + exception;
-            return this;
-        }
-        public Logger MesserngerClass(object exs)
-        {
-            try
+            switch (logEventLevel)
             {
-                if (exs != default)
-                {
-                    _Messenge = JsonSerializer.Serialize(exs);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _Messenge = "1001: " + ex.Message;
-            }
-            return this;
-        }
-        public void build(_TypeFile _TypeFile)
-        {
-            Console.WriteLine(_Messenge);
-            StreamWriter sw = null;
-            try
-            {
-                string path = AppDomain.CurrentDomain.BaseDirectory + "log/" + Enum.Parse(typeof(_TypeFile), _TypeFile.ToString()) + "/";
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                path += _FileName ?? "Logger.txt";
-                if (!File.Exists(path))
-                {
-                    File.Create(path);
-                }
-                sw = new StreamWriter(path, true);
-                sw.WriteLine(_Messenge);
-                sw.Flush();
-                sw.Close();
-            }
-            catch (Exception ex)
-            {
-                // ignored
+                case LogEventLevel.Debug:
+                    _Ilogger.LogDebug(messenger);
+                    break;
+                case LogEventLevel.Information:
+                    _Ilogger.LogInformation(messenger);
+                    break;
+                case LogEventLevel.Warning:
+                    _Ilogger.LogWarning(messenger);
+                    break;
+                case LogEventLevel.Error:
+                    _Ilogger.LogError(messenger);
+                    break;
+                default:
+                    _Ilogger.LogTrace(messenger);
+                    break;
             }
         }
+     
+       
+       
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Domain;
+using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel;
 using Minio.Exceptions;
+using Serilog;
+using Serilog.Core;
 using Services.lib.Logger;
 using Services.lib.Sql;
 using System.api.infrastructure;
@@ -17,10 +20,12 @@ namespace System.api.Command
 {
     public class MinioCommand : Interfaces.IMinio
     {
+        ILogger<MinioCommand> _logger;
         private readonly MinioContext _Minioct;
-        public MinioCommand(MinioContext Minioct)
+        public MinioCommand(MinioContext Minioct, ILogger<MinioCommand>  logger)
         {
             _Minioct = Minioct;
+            _logger = logger;
         }
 
         public async Task<HttpObject.APIresult> DownFileasync(MinIOModel uploadMinios)
@@ -32,7 +37,7 @@ namespace System.api.Command
             }
             catch (Exception ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                _logger.LogError(ex.Message);
                 return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
@@ -49,7 +54,7 @@ namespace System.api.Command
             }
             catch (Exception ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                _logger.LogError(ex.Message);
                 return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
@@ -73,7 +78,7 @@ namespace System.api.Command
             }
             catch (MinioException ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                _logger.LogError(ex.Message);
                 return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
@@ -108,7 +113,7 @@ namespace System.api.Command
             }
             catch (MinioException ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                _logger.LogError(ex.Message);
                 return new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
 
@@ -159,7 +164,7 @@ namespace System.api.Command
             }
             catch (MinioException ex)
             {
-                Logger.Instance.Messenger(ex.Message).build(Logger._TypeFile.Error);
+                _logger.LogError(ex.Message);
                 return (new HttpObject.APIMapper<MinIOservices.FileBucketMinio> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message });
             }
         }

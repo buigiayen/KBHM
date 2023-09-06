@@ -1,72 +1,59 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using Services.lib.Http;
-using System;
-using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Services.lib.Sql
 {
+    public static class DapperExtensions
+    {
+        public static string ArgsAsSql(this DynamicParameters args)
+        {
+            if (args is null) throw new ArgumentNullException(nameof(args));
+            var sb = new StringBuilder();
+            foreach (var name in args.ParameterNames)
+            {
+                var pValue = args.Get<dynamic>(name);
 
+                var type = pValue.GetType();
+
+                if (type == typeof(DateTime))
+                    sb.AppendFormat("DECLARE @{0} DATETIME ='{1}'\n", name, pValue.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                else if (type == typeof(bool))
+                    sb.AppendFormat("DECLARE @{0} BIT = {1}\n", name, (bool)pValue ? 1 : 0);
+                else if (type == typeof(int))
+                    sb.AppendFormat("DECLARE @{0} INT = {1}\n", name, pValue);
+                else if (type == typeof(List<int>))
+                    sb.AppendFormat("-- REPLACE @{0} IN SQL: ({1})\n", name, string.Join(",", (List<int>)pValue));
+                else
+                    sb.AppendFormat("DECLARE @{0} NVARCHAR(MAX) = '{1}'\n", name, pValue.ToString());
+            }
+            return sb.ToString();
+        }
+    }
     public class HttpObject : HttpObjectData
     {
 
     }
-    public class Dataprovider : IDisposable
+    public class Dataprovider
     {
-        public static readonly Dataprovider db = new Dataprovider();
-        private string _SQL;
-        private string DBConnection = Environment.GetEnvironmentVariable("SQL_CONNECTION");
-
-        public Dataprovider _Querys(params string[] query)
+        IDbConnection _IdbConnection;
+        ILogger<Dataprovider> _Logger;
+        public Dataprovider(ILogger<Dataprovider> Logger, IDbConnection IdbConnection)
         {
-
-            foreach (var item in query)
-            {
-                _SQL += item + "\r\n";
-                Logger.Logger.Instance.Messenger(item).build(Logger.Logger._TypeFile.Debug);
-            }
-
-            return this;
+            _Logger = Logger;
+            _IdbConnection = IdbConnection;
         }
-        public Dataprovider _Query(string sql)
+        private void CheckLogPramter(string _SQL, object Pra)
         {
-            _SQL = sql;
-            return this;
-        }
-        private object _Pra;
-        public Dataprovider _ParamterSQL(object Pra)
-        {
-            _Pra = Pra;
-            string log = "Pra";
-            if (Pra != default)
-            {
-                log = JsonSerializer.Serialize(Pra);
-            }
-            Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
-            return this;
-        }
-        public Dataprovider _ParamterSQL<T>(object Pra) where T : class
-        {
-            _Pra = Pra;
-            string log = "Pra";
-            if (Pra != default)
-            {
-                CheckLogPramter<T>(Pra);
-            }
-            Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
-            return this;
-        }
-        private void CheckLogPramter<T>(object Pra) where T : class
-        {
-            string log = "---- start SQL -----";
             try
             {
-
-                Type type = ((T)Pra).GetType();
+                string log = "";
+                Type type = (Pra).GetType();
                 if (type != default)
                 {
                     PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -85,13 +72,12 @@ namespace Services.lib.Sql
                         }
                     }
                     log += Environment.NewLine + _SQL;
-                    Logger.Logger.Instance.Messenger(log).build(Logger.Logger._TypeFile.Debug);
-                    Logger.Logger.Instance.Messenger("---- End SQL -----").build(Logger.Logger._TypeFile.Debug);
+                    _Logger.LogInformation($"SQL {log} ");
                 }
             }
             catch (Exception ex)
             {
-                Logger.Logger.Instance.Messenger("Not convert datatype: " + ex.Message).build(Logger.Logger._TypeFile.Error);
+                _Logger.LogError(ex.Message);
             }
         }
         private SqlDbType GetSqlDbType(Type type)
@@ -110,138 +96,93 @@ namespace Services.lib.Sql
             }
             return SqlDbType.NVarChar;
         }
-        public async Task<HttpObject.APIresult> ExcuteQueryAsync()
+        public async Task<HttpObject.APIresult> ExcuteQueryAsync(string _SQL, object Prameter = null)
         {
             int valueTransaction = 0;
-            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
+            using (var sqlTransaction = _IdbConnection.BeginTransaction())
             {
-                if (sqlConnection.State == ConnectionState.Closed)
+                try
                 {
-                    sqlConnection.Open();
+                    CheckLogPramter(_SQL, Prameter);
+                    valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
+                    sqlTransaction.Commit();
+                    return ReturnStatusObjectSql(valueTransaction);
                 }
-
-                using (var sqlTransaction = sqlConnection.BeginTransaction())
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                        valueTransaction = await sqlConnection.ExecuteAsync(_SQL, _Pra ?? null, sqlTransaction);
-                        Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                        sqlTransaction.Commit();
-                        return ReturnStatusObjectSql(valueTransaction);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Logger.Instance.Messenger("stop :" + ex.Message).build(Logger.Logger._TypeFile.Error);
-                        sqlTransaction.Rollback();
-                        valueTransaction = -2;
-                        return ReturnStatusObjectSql(valueTransaction, ex);
-                    }
+                    sqlTransaction.Rollback();
+                    valueTransaction = -2;
+                    return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
-
-
         }
-        public async Task<T> QueryMapperSingleOrDefaultAsync<T>() where T : class
+        public async Task<T> QueryMapperSingleOrDefaultAsync<T>(string _SQL, object Prameter = null) where T : class
         {
             T Tcontext = default(T);
-            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-            {
-                Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                Tcontext = await sqlConnection.QuerySingleOrDefaultAsync<T>(_SQL, _Pra ?? null);
-                Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-            }
-            Dispose();
+            CheckLogPramter(_SQL, Prameter);
+            Tcontext = await _IdbConnection.QuerySingleOrDefaultAsync<T>(_SQL, Prameter ?? null);
+
             return Tcontext;
         }
-        public async Task<IEnumerable<T>> QueryMapperAsync<T>() where T : class
+        public async Task<IEnumerable<T>> QueryMapperAsync<T>(string _SQL, object Prameter = null) where T : class
         {
             IEnumerable<T> Tcontext = default(IEnumerable<T>);
-            using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-            {
-                Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                Tcontext = await sqlConnection.QueryAsync<T>(_SQL, _Pra ?? null);
-                Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-            }
-            Dispose();
+            CheckLogPramter(_SQL, Prameter);
+            Tcontext = await _IdbConnection.QueryAsync<T>(_SQL, Prameter ?? null);
             return Tcontext;
         }
-        public async Task<HttpObject.APIresult> SQLQueryAsync()
+        public async Task<HttpObject.APIresult> SQLQueryAsync(string _SQL, object Prameter = null)
         {
 
             var httpObject = new HttpObject.APIresult();
             try
             {
-                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-                {
-                    Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = await sqlConnection.QueryAsync(_SQL, _Pra ?? null);
-                    httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
-                    Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    sqlConnection.Close();
-                    sqlConnection.Dispose();
-                }
-
+                CheckLogPramter(_SQL, Prameter);
+                var data = await _IdbConnection.QueryAsync(_SQL, Prameter ?? null);
+                httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
             catch (Exception ex)
             {
-                Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
+                _Logger.LogError(ex.Message);
                 httpObject = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-            Dispose();
             return httpObject;
         }
-        public async Task<HttpObject.APIMapper<dynamic>> SingleOrDefaultAsync()
+        public async Task<HttpObject.APIMapper<dynamic>> SingleOrDefaultAsync(string _SQL, object Prameter = null)
         {
 
             var httpObject = new HttpObject.APIMapper<object>();
             try
             {
-                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-                {
-                    Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
-                    httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
-                    Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    sqlConnection.Close();
-                    sqlConnection.Dispose();
-                }
+                CheckLogPramter(_SQL, Prameter);
+                var data = await _IdbConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
 
+                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
             catch (Exception ex)
             {
-                Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
+                _Logger.LogError(ex.Message);
                 httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-            Dispose();
             return httpObject;
         }
-        public async Task<HttpObject.APIMapper<T>> SingleOrDefaultAsync<T>() where T : class
+        public async Task<HttpObject.APIMapper<T>> SingleOrDefaultAsync<T>(string _SQL, object Prameter = null) where T : class
         {
 
             var httpObject = new HttpObject.APIMapper<T>();
             try
             {
-                using (SqlConnection sqlConnection = new SqlConnection(DBConnection))
-                {
-                    Logger.Logger.Instance.Messenger("start").build(Logger.Logger._TypeFile.Debug);
-                    var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, _Pra ?? null);
-                    httpObject = new HttpObject.APIMapper<T> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
-                    Logger.Logger.Instance.Messenger("Success").build(Logger.Logger._TypeFile.Debug);
-                    sqlConnection.Close();
-                    sqlConnection.Dispose();
-                }
-
+                CheckLogPramter(_SQL, Prameter);
+                var data = await _IdbConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
+                httpObject = new HttpObject.APIMapper<T> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
             catch (Exception ex)
             {
-                Logger.Logger.Instance.Messenger("Stop:" + ex.Message).build(Logger.Logger._TypeFile.Error);
                 httpObject = new HttpObject.APIMapper<T> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
             }
-            Dispose();
             return httpObject;
         }
 
@@ -257,10 +198,7 @@ namespace Services.lib.Sql
             return aPIresultObjects;
         }
 
-        public void Dispose()
-        {
-            _SQL = string.Empty;
-        }
+
     }
 }
 
