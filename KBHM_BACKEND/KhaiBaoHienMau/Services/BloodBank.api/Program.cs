@@ -41,7 +41,7 @@ builder.Services.AddControllers().AddFluentValidation(fv =>
 builder.Services.AddTransient<ICategory, CategoryCommad>();
 builder.Services.AddTransient<ISyncDonnor, SyncPatient>();
 builder.Services.AddTransient<ILogin, LoginCommand>();
-
+Console.WriteLine($"sql {Environment.GetEnvironmentVariable("SQL_CONNECTION")}");
 builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")));
 builder.Services.AddTransient<Dataprovider>();
 

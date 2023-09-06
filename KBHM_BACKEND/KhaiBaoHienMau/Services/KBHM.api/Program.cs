@@ -18,6 +18,7 @@ builder.Services.AddTransient<KBHM.api.Interfaces.Person, KBHM.api.Command.Perso
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+Console.WriteLine($"sql {Environment.GetEnvironmentVariable("SQL_CONNECTION")}");
 builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")));
 builder.Services.AddTransient<Dataprovider>();
 builder.Host.ConfigLog(builder, Environment.GetEnvironmentVariable("NODEELK"), typeof(Program));

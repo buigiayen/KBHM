@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<MinioContext>();
 builder.Services.AddSingleton<System.api.Interfaces.IRegion, System.api.Command.Region>();
 builder.Services.AddSingleton<System.api.Interfaces.IMinio, System.api.Command.MinioCommand>();
-
+Console.WriteLine($"sql {Environment.GetEnvironmentVariable("SQL_CONNECTION")}");
 builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")));
 
 
