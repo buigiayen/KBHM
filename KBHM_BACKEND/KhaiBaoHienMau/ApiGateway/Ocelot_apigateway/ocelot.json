@@ -58,21 +58,6 @@
       "UpstreamPathTemplate": "/rp/{url}",
       "UpstreamHttpMethod": [ "POST" ]
 
-    },
-
-    //Proxy report UI
-    {
-      "DownstreamPathTemplate": "/{url}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "reportserver",
-          "Port": 80
-        }
-      ],
-      "UpstreamPathTemplate": "/rp_ui/{url}",
-      "UpstreamHttpMethod": [ "GET" ]
-
     }
   ],
 

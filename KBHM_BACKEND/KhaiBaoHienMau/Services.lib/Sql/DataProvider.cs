@@ -99,6 +99,10 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync(string _SQL, object Prameter = null)
         {
             int valueTransaction = 0;
+            if (_IdbConnection.State == ConnectionState.Closed)
+            {
+                _IdbConnection.Open();
+            }
             using (var sqlTransaction = _IdbConnection.BeginTransaction())
             {
                 try
@@ -170,7 +174,6 @@ namespace Services.lib.Sql
         }
         public async Task<HttpObject.APIMapper<T>> SingleOrDefaultAsync<T>(string _SQL, object Prameter = null) where T : class
         {
-
             var httpObject = new HttpObject.APIMapper<T>();
             try
             {
