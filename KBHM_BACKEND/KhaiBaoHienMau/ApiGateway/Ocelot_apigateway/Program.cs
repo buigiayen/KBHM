@@ -13,6 +13,10 @@ builder.Services.AddCors();
 builder.Services.JWTServices();
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 builder.Host.ConfigLog(builder, Environment.GetEnvironmentVariable("NODEELK"), typeof(Program));
+
+
+
+
 var app = builder.Build();
 
 app.UseCors(x => x
