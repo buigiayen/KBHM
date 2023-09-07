@@ -53,6 +53,7 @@ namespace Services.lib.Sql
             try
             {
                 string log = "";
+                if (Pra == null) return;
                 Type type = (Pra).GetType();
                 if (type != default)
                 {
@@ -194,9 +195,9 @@ namespace Services.lib.Sql
             var aPIresultObjects = new HttpObject.APIresult();
             switch (status)
             {
-                case -2: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error, Please check log transaction roll back: " + exception ?? exception.Message }; break;
-                case -1: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Error system, Please check log" + exception ?? exception.Message }; break;
-                default: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = status, Messenger = "Success transaction commit" }; break;
+                case -2: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Có lỗi xảy ra: " + exception ?? exception.Message }; break;
+                case -1: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Lỗi hệ thống vui lòng kiểm tra hệ thống ghi log" + exception ?? exception.Message }; break;
+                default: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = status, Messenger = "Thành công" }; break;
             }
             return aPIresultObjects;
         }
