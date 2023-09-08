@@ -191,7 +191,7 @@ namespace BloodBank.api.command
                     historyDonnorVM.ABORH = item?.KetLuan;
                     if (!string.IsNullOrEmpty(item.SID))
                     {
-                        string QueryResultBlood = @"SELECT  top (3)  LOWER(Result) as Result , TestCode
+                        string QueryResultBlood = @"SELECT  top (1)  LOWER(Result) as Result , TestCode
                                                     FROM  tbl_ResultBlood WHERE (SIDRoot = @SID) AND (NAT = 1) order by DateInsert desc ";
 
                         var TableSID = await Dataprovider.QueryMapperAsync<ResultBlood>(QueryResultBlood, new { SID = item.SID });
