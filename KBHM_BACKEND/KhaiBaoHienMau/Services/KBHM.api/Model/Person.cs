@@ -17,6 +17,7 @@ namespace KBHM.api.Model
         public Guid RowID { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
+        public DateTime? DateRegister { get; set; }
         public int? Sex { get; set; }
         public string CCCD { get; set; }
         public string Phone { get; set; }

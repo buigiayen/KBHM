@@ -40,6 +40,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PostPerson(Model.Person person)
         {
             Guid RowsID = Guid.NewGuid();
+            if (person.DateRegister == null) { person.DateRegister = DateTime.Now; }
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{RowsID}';" +
               " INSERT INTO [dbo].[Person] ([RowID]" +
               ",[Name] " +
@@ -56,7 +57,8 @@ namespace KBHM.api.Command
               ",[UrlImage]" +
               ",[NgheNghiep]" +
               ",[DiaChiCoQuan]" +
-              ",[DiemLayMau]) " +
+              ",[DiemLayMau]" +
+              ",[DateRegister]) " +
               " VALUES " +
               "(@ROWIDs " +
               ",@Name " +
@@ -73,7 +75,8 @@ namespace KBHM.api.Command
               ",@UrlImage" +
               ",@NgheNghiep" +
               ",@DiaChiCoQuan" +
-              ",@DiemLayMau); ";
+              ",@DiemLayMau" +
+              ",@DateRegister); ";
             foreach (var item in person.PersonProperties)
             {
                 sql += $"INSERT INTO PersonProperties ([ID] ,[Key] ,Label ,value) VALUES ( @ROWIDs ,N'{item.Key}' ,N'{item.Label}' ,N'{item.value}'); ";

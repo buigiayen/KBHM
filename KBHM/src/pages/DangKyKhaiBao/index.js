@@ -12,11 +12,8 @@ import dayjs from "dayjs";
 import moment from "moment";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 
-
-
-
 const Index = () => {
-  const { IDDiemHien } = useParams();
+  const { IDDiemHien, TimeChecking } = useParams();
   const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
@@ -24,22 +21,22 @@ const Index = () => {
   const [IsLoadding, SetLoading] = useState(false);
 
   let Person = {
-      Name: String,
-      BirthDay: Date,
-      Sex: Number,
-      CCCD: String,
-      NoiCapCCCD: String,
-      Phone: String,
-      Email: String,
-      NgheNghiep: String,
-      DiaChiCoQuan: String,
-      DiaChiThuongTru: String,
-      DiaChiThuongTru_ChiTiet: String,
-      DiaChiLienLac: String,
-      CheckNhuDiaChiThuongTru: Boolean,
-      DiaChiThuongLienLac_ChiTiet: String,
-       PersonProperties: []
-  }
+    Name: String,
+    BirthDay: Date,
+    Sex: Number,
+    CCCD: String,
+    NoiCapCCCD: String,
+    Phone: String,
+    Email: String,
+    NgheNghiep: String,
+    DiaChiCoQuan: String,
+    DiaChiThuongTru: String,
+    DiaChiThuongTru_ChiTiet: String,
+    DiaChiLienLac: String,
+    CheckNhuDiaChiThuongTru: Boolean,
+    DiaChiThuongLienLac_ChiTiet: String,
+    PersonProperties: [],
+  };
 
   const CheckAge = (dateofbirth, AgeMin) => {
     return dayjs().$y - dayjs(dateofbirth).$y > AgeMin;
@@ -62,30 +59,35 @@ const Index = () => {
       form
         .validateFields()
         .then((RS) => {
-          
-      
-          const BirthDay = ConvertDatetime({ DateTime : RS?.BirthDay})
+          const BirthDay = ConvertDatetime({ DateTime: RS?.BirthDay });
           Person = {
-            Name : RS?.Name,
-            BirthDay : BirthDay,
-            Sex :  RS?.Sex,
-            CCCD :  RS?.CCCD,
-            NoiCapCCCD : RS?.NoiCapCCCD,
-            Phone : RS?.Phone,
-            Email : RS?.Email,
-            NgheNghiep : RS?.NgheNghiep,
-            DiaChiCoQuan :  RS?.DiaChiCoQuan,
-            DiaChiThuongTru :  RS?.DiaChiThuongTru,
-            DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongTru_ChiTiet,
-            DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru ?RS?.DiaChiThuongTru  : RS?.DiaChiLienLac,
-            DiaChiThuongLienLac_ChiTiet :  RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet :  RS?.DiaChiThuongLienLac_ChiTiet,
-            PersonProperties :Properties ,
-            DiemLayMau: IDDiemHien
-          }
-          console.log(Person);
+            Name: RS?.Name,
+            BirthDay: BirthDay,
+            Sex: RS?.Sex,
+            CCCD: RS?.CCCD,
+            NoiCapCCCD: RS?.NoiCapCCCD,
+            Phone: RS?.Phone,
+            Email: RS?.Email,
+            NgheNghiep: RS?.NgheNghiep,
+            DiaChiCoQuan: RS?.DiaChiCoQuan,
+            DiaChiThuongTru: RS?.DiaChiThuongTru,
+            DiaChiThuongTru_ChiTiet: RS?.DiaChiThuongTru_ChiTiet,
+            DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru
+              ? RS?.DiaChiThuongTru
+              : RS?.DiaChiLienLac,
+            DiaChiThuongLienLac_ChiTiet: RS?.CheckNhuDiaChiThuongTru
+              ? RS?.DiaChiThuongTru_ChiTiet
+              : RS?.DiaChiThuongLienLac_ChiTiet,
+            PersonProperties: Properties,
+            DiemLayMau: IDDiemHien,
+            DateRegister:
+              TimeChecking === undefined
+                ? null
+                : dayjs(Number(TimeChecking)).format(),
+          };
           POST_DangKyHienMau(Person).then((rs) => {
-            Navigate("TraCuuThongTin/" + rs[0].Code);
-           });
+            Navigate("/TraCuuThongTin/" + rs[0].Code);
+          });
         })
         .catch((info) => {
           console.log(info);
@@ -125,7 +127,10 @@ const Index = () => {
                 ValuePerson={Persons}
                 FetchPerson={FetchPeron}
                 ImagePicture={Persons?.UrlImage}
-                GetBirthDay={(e) => {console.log(e); form.setFieldValue({SN:e})}}
+                GetBirthDay={(e) => {
+                  console.log(e);
+                  form.setFieldValue({ SN: e });
+                }}
               />
             </Form>
           </Card>

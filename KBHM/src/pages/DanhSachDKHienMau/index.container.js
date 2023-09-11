@@ -367,24 +367,50 @@ const Index = () => {
         title="Chọn điểm hiến"
         width={500}
         open={isShowQRLocation}
+        okButtonProps={{ style: { visibility: "hidden" } }}
+        cancelButtonProps={{ style: { visibility: "hidden" } }}
         onCancel={() => {
           SetisShowQRLocation(false);
         }}>
-        <ElementCombobox
-          dataSource={Category?.location}
-          Name={"DiemLayMau"}
-          Label="Điểm lấy máu"
-          autoClear={true}
-          onChange={(e) => {
+        <Form
+          onFinish={(e) => {
             SetQRDiemLayMau(e);
-          }}
-        />
+          }}>
+          <ElementCombobox
+            dataSource={Category?.location}
+            Name={"DiemLayMau"}
+            Label="Điểm lấy máu"
+            autoClear={true}
+            ruler={[
+              {
+                message: "Bắt buộc",
+                required: true,
+              },
+            ]}
+          />
+
+          <Form.Item label="Thời gian hiến: " name={"NgayHien"} initialValue={dayjs()}>
+            <DatePicker
+              format={"DD/MM/YYYY"}></DatePicker>
+          </Form.Item>
+
+          <Button style={{ width: 100 + "%" }} type="primary" htmlType="submit">
+            Tạo QR
+          </Button>
+        </Form>
+
         <>
           {QRDiemlayMau && (
-            <QRCode
-              value={
-                window.location.origin + "/DiemHien/" + QRDiemlayMau
-              }></QRCode>
+            <>
+              <QRCode
+                value={
+                  window.location.origin +
+                  "/DiemHien/" +
+                  QRDiemlayMau?.DiemLayMau +
+                  "/TimeChecking/" +
+                  QRDiemlayMau?.NgayHien
+                }></QRCode>
+            </>
           )}
         </>
       </Modal>
