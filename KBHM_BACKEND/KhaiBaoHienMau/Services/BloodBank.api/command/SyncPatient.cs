@@ -177,7 +177,7 @@ namespace BloodBank.api.command
             HttpObjectData.APIresult aPIresult = new HttpObjectData.APIresult();
             List<HistoryDonnor> historyDonnor = new List<HistoryDonnor>();
 
-            string Donnor = $@"SELECT top(3) tgd.KetLuan, de.DateIn, SID
+            string Donnor = $@"SELECT top(1) tgd.KetLuan, de.DateIn, SID
                                 FROM tbl_Donor d INNER JOIN
                                 tbl_Donor_Examine de ON d.DonorID = de.DonorID LEFT OUTER JOIN
                                 tbl_TestGroupDetail tgd ON de.DonorExCode = tgd.BloodID where d.DonorCode = @IdentityID order by datein desc";
@@ -191,7 +191,7 @@ namespace BloodBank.api.command
                     historyDonnorVM.ABORH = item?.KetLuan;
                     if (!string.IsNullOrEmpty(item.SID))
                     {
-                        string QueryResultBlood = @"SELECT  top (1)  LOWER(Result) as Result , TestCode
+                        string QueryResultBlood = @"SELECT  top (3)  LOWER(Result) as Result , TestCode
                                                     FROM  tbl_ResultBlood WHERE (SIDRoot = @SID) AND (NAT = 1) order by DateInsert desc ";
 
                         var TableSID = await Dataprovider.QueryMapperAsync<ResultBlood>(QueryResultBlood, new { SID = item.SID });
