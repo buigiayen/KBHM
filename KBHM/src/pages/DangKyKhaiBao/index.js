@@ -35,6 +35,7 @@ const Index = () => {
     DiaChiLienLac: String,
     CheckNhuDiaChiThuongTru: Boolean,
     DiaChiThuongLienLac_ChiTiet: String,
+    UrlImage: String,
     PersonProperties: [],
   };
 
@@ -72,6 +73,7 @@ const Index = () => {
             DiaChiCoQuan: RS?.DiaChiCoQuan,
             DiaChiThuongTru: RS?.DiaChiThuongTru,
             DiaChiThuongTru_ChiTiet: RS?.DiaChiThuongTru_ChiTiet,
+            UrlImage: RS?.UrlImage,
             DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru
               ? RS?.DiaChiThuongTru
               : RS?.DiaChiLienLac,
@@ -128,7 +130,6 @@ const Index = () => {
                 FetchPerson={FetchPeron}
                 ImagePicture={Persons?.UrlImage}
                 GetBirthDay={(e) => {
-                  console.log(e);
                   form.setFieldValue({ SN: e });
                 }}
               />
