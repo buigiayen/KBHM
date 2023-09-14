@@ -40,7 +40,7 @@ const Index = () => {
   };
 
   const CheckAge = (dateofbirth, AgeMin) => {
-    return dayjs().$y - dayjs(dateofbirth).$y > AgeMin;
+    return dayjs().$y - dayjs(dateofbirth).$y >= AgeMin;
   };
   const FetchPeron = async (value) => {
     const pra = {
@@ -105,7 +105,7 @@ const Index = () => {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
       flag = false;
     }
-    if (CheckAge(dayjs(form.getFieldValue("BirthDay")), 18) === false) {
+    if (CheckAge(dayjs(form.getFieldValue("BirthDay")), 17) === false) {
       Warning({ message: "Bạn chưa đủ 18 tuổi để hiến máu!" });
       flag = false;
     }
