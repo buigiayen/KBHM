@@ -33,7 +33,7 @@ const Index = () => {
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [isShowQRLocation, SetisShowQRLocation] = useState(false);
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
-  const [DateRegister, SetDateRegister] = useState(dayjs());
+  const [DateRegister, SetDateRegister] = useState(dayjs().format("YYYY-MM-DD"));
   const [DiemlayMau, SetDiemLayMau] = useState();
   const [QRDiemlayMau, SetQRDiemLayMau] = useState();
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
@@ -58,8 +58,8 @@ const Index = () => {
   );
   useEffect(() => {
     const DateSearch = {
-      FromDate: dayjs(),
-      ToDate: dayjs(),
+      FromDate: dayjs().format("YYYY-MM-DD"),
+      ToDate: dayjs().format("YYYY-MM-DD"),
     };
     FetchPerson(DateSearch);
     GetCategory();
@@ -228,7 +228,7 @@ const Index = () => {
                     allowClear={false}
                     defaultValue={dayjs()}
                     onChange={(e) => {
-                      SetDateRegister(e);
+                      SetDateRegister(e.format('YYYY-MM-DD').toString());
                     }}
                     format={"DD/MM/YYYY"}
                   />
@@ -286,9 +286,7 @@ const Index = () => {
 
         <Col sm={24} md={18}>
           <Card
-            title={`Danh sách người hiến ngày: ${DateRegister.format(
-              "DD/MM/YYYY"
-            )} `}>
+            title={`Danh sách người hiến ngày: ${DateRegister} `}>
             {ListPerson.map((rs) => {
               return (
                 <CardListDonnor
