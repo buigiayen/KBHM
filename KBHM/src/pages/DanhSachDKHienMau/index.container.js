@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
-import { Tag, Input, Modal, Card, DatePicker, Button, Form } from "antd";
+import {
+  Tag,
+  Input,
+  Modal,
+  Card,
+  DatePicker,
+  Button,
+  Form,
+  Avatar,
+} from "antd";
 import dayjs from "dayjs";
-
 import { useNavigate } from "react-router-dom";
 import { GET_AllPerson } from "../../Data/Api/DangKyKham";
 import IconCombine from "../../Components/Icon";
@@ -17,6 +25,7 @@ import ElementCombobox from "../../Components/ComponentsGlobal/Combobox/Element.
 import PieChart from "../../Components/Charts/PieCharts";
 import PlotsChart from "../../Components/Charts/plotsChart";
 import QRCode from "../../Components/QRCode";
+import Tables from "../../Components/Table.antd";
 
 const { Search } = Input;
 const Index = () => {
@@ -33,7 +42,9 @@ const Index = () => {
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [isShowQRLocation, SetisShowQRLocation] = useState(false);
   const [IDDonorInfo, setIDDonorInfo] = useState(null);
-  const [DateRegister, SetDateRegister] = useState(dayjs().format("YYYY-MM-DD"));
+  const [DateRegister, SetDateRegister] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
   const [DiemlayMau, SetDiemLayMau] = useState();
   const [QRDiemlayMau, SetQRDiemLayMau] = useState();
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
@@ -159,6 +170,100 @@ const Index = () => {
 
     return Data;
   };
+
+  const initialColumnsDonnor = [
+    {
+      key: "UrlImage",
+      title: "Ảnh",
+      dataIndex: "UrlImage",
+      render: (_) => {
+        return <Avatar src={_}> </Avatar>;
+      },
+    },
+    {
+      key: "RowID",
+      title: "Mã lần hiến",
+      dataIndex: "RowID",
+    },
+    {
+      key: "Name",
+      title: "Họ và tên",
+      dataIndex: "Name",
+      isFilter: true,
+    },
+    {
+      key: "Sex",
+      title: "Giới tính",
+      dataIndex: "Sex",
+      render: (_) => {
+        return ConvertSex(_);
+      },
+    },
+    {
+      key: "CCCD",
+      title: "CCCD",
+      dataIndex: "CCCD",
+      isFilter: true,
+    },
+    {
+      key: "Phone",
+      title: "Điện thoại",
+      dataIndex: "Phone",
+      isFilter: true,
+      render: (_) => <a href={`tel:+=${_}`}>{_}</a>,
+    },
+    {
+      key: "BirthDay",
+      title: "Ngày sinh",
+      dataIndex: "BirthDay",
+      render: (_) => <small>{dayjs(_).format("DD/MM/YYYY")}</small>,
+    },
+    {
+      key: "Sync",
+      title: "Đồng bộ",
+      dataIndex: "Sync",
+      render: (_) => ConvertIsStatusDonnor(_),
+    },
+    {
+      key: "ChoPhepHienMau",
+      title: "Hiến máu",
+      dataIndex: "ChoPhepHienMau",
+      render: (_) => ConvertStatus(_),
+    },
+    {
+      key: "Edit",
+      title: " ",
+      dataIndex: "RowID",
+      render: (_) => {
+        return (
+          <IconCombine.EditOutlined
+          title="Sửa chi tiết"
+          onClick={() => {
+            PushPage({ ID: _ });
+          }}
+        />
+        );
+      }
+    },
+    {
+      key: "Print",
+      title: " ",
+      dataIndex: "RowID",
+      render: (_) => {
+        return (
+          <IconCombine.PrinterOutlined
+            title=" In phiếu ĐK"
+            onClick={() => {
+              setIDDonorInfo(_);
+              GetdataReport({ ID: _ });
+              SetisShowPDFViewer(true);
+            }}
+          />
+      
+        );
+      },
+    },
+  ];
   const descriptionCard = (value) => {
     const {
       RowID,
@@ -228,7 +333,7 @@ const Index = () => {
                     allowClear={false}
                     defaultValue={dayjs()}
                     onChange={(e) => {
-                      SetDateRegister(e.format('YYYY-MM-DD').toString());
+                      SetDateRegister(e.format("YYYY-MM-DD").toString());
                     }}
                     format={"DD/MM/YYYY"}
                   />
@@ -285,9 +390,12 @@ const Index = () => {
         </Col>
 
         <Col sm={24} md={18}>
-          <Card
-            title={`Danh sách người hiến ngày: ${DateRegister} `}>
-            {ListPerson.map((rs) => {
+          <Card title={`Danh sách người hiến ngày: ${DateRegister} `}>
+            <Tables
+              Columns={initialColumnsDonnor}
+              dataSource={ListPerson}></Tables>
+
+            {/* {ListPerson.map((rs) => {
               return (
                 <CardListDonnor
                   avatar={rs.UrlImage}
@@ -324,7 +432,7 @@ const Index = () => {
                   ]}
                 />
               );
-            })}
+            })} */}
           </Card>
         </Col>
       </Row>
@@ -387,9 +495,11 @@ const Index = () => {
             ]}
           />
 
-          <Form.Item label="Thời gian hiến: " name={"NgayHien"} initialValue={dayjs()}>
-            <DatePicker
-              format={"DD/MM/YYYY"}></DatePicker>
+          <Form.Item
+            label="Thời gian hiến: "
+            name={"NgayHien"}
+            initialValue={dayjs()}>
+            <DatePicker format={"DD/MM/YYYY"}></DatePicker>
           </Form.Item>
 
           <Button style={{ width: 100 + "%" }} type="primary" htmlType="submit">
