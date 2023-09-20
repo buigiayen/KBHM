@@ -22,7 +22,7 @@ namespace System.api.Command
     {
         ILogger<MinioCommand> _logger;
         private readonly MinioContext _Minioct;
-        public MinioCommand(MinioContext Minioct, ILogger<MinioCommand>  logger)
+        public MinioCommand(MinioContext Minioct, ILogger<MinioCommand> logger)
         {
             _Minioct = Minioct;
             _logger = logger;
@@ -124,7 +124,7 @@ namespace System.api.Command
 
             var Minioconection = _Minioct.CreateConnection();
             var bucketName = bucket?.ToLower() ?? "newfolder";
-            var objectName = uploadMinios.formFile.FileName;
+            var objectName = Guid.NewGuid().ToString() + "_" + uploadMinios.formFile.FileName;
             try
             {
 
