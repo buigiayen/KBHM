@@ -22,7 +22,7 @@ namespace KBHM.api.Command
             string sql = $" declare @Fdate date;  declare @TDate date; set @Fdate = @FromDate;  set @TDate = @ToDate;   " +
                 $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage, NgheNghiep, DiaChiCoQuan, NgayLayMau FROM  Person " +
                 $"WHERE    (DateRegister between @Fdate and @TDate {FilterDiemHien} ) or (RowID=@RowID or Name=@Name) " +
-                $"order by DateRegister desc;";
+                $"order by createtime desc;";
             return await _dataprovider.SQLQueryAsync(sql, person);
         }
         public async Task<HttpObject.APIresult> GetRowIDPerson(Model.Person person)
