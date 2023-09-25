@@ -105,7 +105,7 @@ const Index = () => {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
       flag = false;
     }
-    if (CheckAge(dayjs(form.getFieldValue("BirthDay")), 17) === false) {
+    if (CheckAge(dayjs(form.getFieldValue("BirthDay")), 18) === false) {
       Warning({ message: "Bạn chưa đủ 18 tuổi để hiến máu!" });
       flag = false;
     }

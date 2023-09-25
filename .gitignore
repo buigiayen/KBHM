@@ -55,9 +55,5 @@ Thumbs.db
 *.mov
 *.wmv
 
-/KBHM_BACKEND/KhaiBaoHienMau/.vs/KhaiBaoHienMau/FileContentIndex
-/KBHM_BACKEND/KhaiBaoHienMau/.vs/KhaiBaoHienMau/v17/.suo
-/KBHM_BACKEND/KhaiBaoHienMau/.vs/KhaiBaoHienMau/DesignTimeBuild/.dtbcache.v2
-/KBHM_BACKEND/KhaiBaoHienMau/.vs/ProjectEvaluation/khaibaohienmau.metadata.v6.1
-/KBHM_BACKEND/KhaiBaoHienMau/.vs/ProjectEvaluation/khaibaohienmau.projects.v6.1
-/KBHM_BACKEND/KhaiBaoHienMau/Services/System.apiTests/Command
+**\.vs\**
+/KBHM_BACKEND/KhaiBaoHienMau/.vs

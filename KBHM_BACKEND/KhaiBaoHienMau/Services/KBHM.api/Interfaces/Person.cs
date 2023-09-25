@@ -1,4 +1,5 @@
 ﻿using Services.lib.Sql;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KBHM.api.Interfaces
@@ -14,6 +15,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> PutPersonTip(Model.Person person);
         Task<HttpObject.APIresult> PutPersonDone(Model.Person person);
         Task<HttpObject.APIresult> GetPerson(Model.Person person);
+        Task<IEnumerable<Model.Person>> GetPersonInfo();
 
     }
 }

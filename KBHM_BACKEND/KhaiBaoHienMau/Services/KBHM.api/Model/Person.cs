@@ -13,6 +13,7 @@ namespace KBHM.api.Model
     }
     public class Person : Filter
     {
+      
 
         public Guid RowID { get; set; }
         public string Name { get; set; }
@@ -51,6 +52,8 @@ namespace KBHM.api.Model
         public string NguoiLayMau { get; set; }
         public string NguoiDongBo { get; set; }
         public List<PersonProperties> PersonProperties { get; set; }
+      
+
 
     }
 }

@@ -1,5 +1,11 @@
-﻿using Services.lib.Sql;
+﻿using KBHM.api.Model;
+using Microsoft.Identity.Client;
+using Services.lib.Http;
+using Services.lib.Sql;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace KBHM.api.Command
@@ -127,9 +133,34 @@ namespace KBHM.api.Command
               " [NoiCapCCCD]=@NoiCapCCCD ," +
               " [UrlImage]=@UrlImage," +
               " [NgheNghiep]=@NgheNghiep," +
-              " [DiaChiCoQuan]=@DiaChiCoQuan" +
+              " [DiaChiCoQuan]=@DiaChiCoQuan," +
+              " [BirthDay] = @BirthDay" +
               " where RowID = @ROWIDs";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
+        }
+
+        public async Task<IEnumerable<Model.Person>> GetPersonInfo()
+        {
+            string sql = "SELECT   * FROM  Person as p INNER JOIN PersonProperties as pp ON p.RowID = pp.ID";
+            Dictionary<Guid, Model.Person> people = new Dictionary<Guid, Model.Person>();
+
+            var test = await _dataprovider.QueryAsync<Model.Person, Model.PersonProperties, Model.Person>(sql, null,
+             (t1, t2) =>
+            {
+                Model.Person person;
+                if (!people.TryGetValue(t1.RowID, out person))
+                {
+                    person = t1;
+                    person.PersonProperties = new List<PersonProperties>();
+                    people.Add(person.RowID, person);
+                }
+                person.PersonProperties.Add(t2);
+                return person;
+            });
+
+            return test;
+
+
         }
     }
 }

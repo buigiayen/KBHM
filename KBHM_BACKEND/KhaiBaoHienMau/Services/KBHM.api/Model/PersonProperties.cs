@@ -11,4 +11,5 @@ namespace KBHM.api.Model
         public string value { get; set; }
         public bool GetBloodbank { get; set; }
     }
+   
 }
