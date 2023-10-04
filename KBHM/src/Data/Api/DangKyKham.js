@@ -68,7 +68,8 @@ export const POST_SyncDonor = async (ID) => {
         Mach,
         ChieuCao,
         NgheNghiep,
-        DiaChiCoQuan
+        DiaChiCoQuan,
+        CanNang
       } = DataPerson[0];
 
       const DataSync = {

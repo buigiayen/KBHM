@@ -75,7 +75,7 @@ const Index = ({ form, FetchPerson }) => {
               label={"HỌ VÀ TÊN"}
               style={{ fontWeight: "bold" }}
               rules={Ruler}>
-              <Input placeholder="NGUYEN VAN A" onInput={e => e.target.value = e.target.value.toUpperCase()}/>
+              <Input placeholder="NGUYỄN VĂN A" onInput={e => e.target.value = e.target.value.toUpperCase()}/>
             </Form.Item>
           </Row>
           <Row>
