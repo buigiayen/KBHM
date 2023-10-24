@@ -16,9 +16,6 @@ namespace BloodBank.api.Controllers
             _ISyncDonnor = ISyncDonnor;
         }
 
-        [ProducesErrorResponseType(typeof(Services.lib.Sql.HttpObject.API))]
-        [ProducesResponseType(typeof(Services.lib.Sql.HttpObject.API), 200)]
-        [ProducesDefaultResponseType(typeof(Services.lib.Sql.HttpObject.API))]
         [HttpGet("TokenVeryfy")]
         public async Task<IActionResult> CheckToken()
         {

@@ -23,12 +23,12 @@ namespace BloodBank.api.Model
             public string BloodVolume { get; set; }
             public string ElementID { get; set; }
             public string ContactAddress { get; set; }
-
             public string BLOODPRESSURE { get; set; }
             public string HGB { get; set; }
             public string PULSE { get; set; }
             public string STATUS { get; set; }
             public string WEIGH { get; set; }
+            public string SID { get; set; }
         }
         public class HistoryDonnor
         {
