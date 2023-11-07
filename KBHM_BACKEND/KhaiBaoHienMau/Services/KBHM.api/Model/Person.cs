@@ -13,8 +13,6 @@ namespace KBHM.api.Model
     }
     public class Person : Filter
     {
-      
-
         public Guid RowID { get; set; }
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
@@ -51,6 +49,9 @@ namespace KBHM.api.Model
         public string DiaChiCoQuan { get; set; }
         public string NguoiLayMau { get; set; }
         public string NguoiDongBo { get; set; }
+        public string ABO { get; set; }
+        public string RH { get; set; }
+            
         public List<PersonProperties> PersonProperties { get; set; }
       
 

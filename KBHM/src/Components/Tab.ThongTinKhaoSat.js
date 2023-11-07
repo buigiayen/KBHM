@@ -5,7 +5,7 @@ import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocH
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 
-const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement , funcReload}) => {
+const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload }) => {
   const [disableTabLayMau, SetDisabledLayMau] = useState();
   useEffect(() => {
     SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
@@ -35,7 +35,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement , funcReload})
     {
       label: `XN trước hiến`,
       key: "3",
-      children: <XNTruochien></XNTruochien>,
+      children: <XNTruochien Person={DataPerson}></XNTruochien>,
     },
     {
       label: `Lấy máu`,

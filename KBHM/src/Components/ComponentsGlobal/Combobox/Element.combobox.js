@@ -8,11 +8,13 @@ const ComboboxIndex = ({
   onChange,
   dataSource,
   ruler,
+  initialValues,
   autoClear = false,
 }) => {
   return (
-    <Form.Item label={Label} name={Name} rules={ruler}>
+    <Form.Item label={Label} name={Name} rules={ruler} initialValue={initialValues}>
       <Select
+        defaultValue={initialValues}
         allowClear={autoClear}
         showSearch
         filterOption={(input, option) =>

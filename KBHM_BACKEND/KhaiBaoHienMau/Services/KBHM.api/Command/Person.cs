@@ -26,7 +26,7 @@ namespace KBHM.api.Command
         {
             string FilterDiemHien = string.IsNullOrEmpty(person.DiemLayMau) ? "" : "and (DiemLayMau = @DiemLayMau)";
             string sql = $" declare @Fdate date;  declare @TDate date; set @Fdate = @FromDate;  set @TDate = @ToDate;   " +
-                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage, NgheNghiep, DiaChiCoQuan, NgayLayMau FROM  Person " +
+                $" SELECT RowID,Name,BirthDay, Sex, CCCD, Phone , DateRegister,Sync, ChoPhepHienMau, UrlImage, NgheNghiep, DiaChiCoQuan, NgayLayMau, ABO, RH FROM  Person " +
                 $"WHERE    (DateRegister between @Fdate and @TDate {FilterDiemHien} ) or (RowID=@RowID or Name=@Name) " +
                 $"order by createtime desc;";
             return await _dataprovider.SQLQueryAsync(sql, person);
@@ -112,9 +112,7 @@ namespace KBHM.api.Command
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
          " UPDATE  [dbo].[Person] set [LuongHien]=@LuongHien , PhanUng=@PhanUng, XuTri=@XuTri, Sync=@SyncData, NguoiDongBo=@NguoiDongBo where RowID = @ROWIDs";
-
             return await _dataprovider.ExcuteQueryAsync(sql, person);
-
         }
 
         public async Task<HttpObject.APIresult> PutPerson(Model.Person person)
@@ -161,6 +159,12 @@ namespace KBHM.api.Command
             return test;
 
 
+        }
+
+        public async Task<HttpObjectData.APIresult> PutPersonABORH(Model.Person person)
+        {
+            string sql = "update Person set ABO=@ABO , RH=@RH where RowID=@RowID";
+            return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
     }
 }

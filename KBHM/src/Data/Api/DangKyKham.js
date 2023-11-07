@@ -34,6 +34,10 @@ export const PUT_PersonTrip = async (prop) => {
 export const PUT_PersonDone = async (prop) => {
   return await HttpRequest("PUT", `/kbhm/Person/Done`, prop, true);
 };
+export const PUT_PersonABORH = async ({RowID,ABO, RH}) => {
+  const body = {RowID,ABO, RH}
+  return await HttpRequest("PUT", `/kbhm/Person/ABORH`, body, true);
+};
 
 export const GET_DonorExCheck = async ({ DonorExCode }) => {
   return await HttpRequest(

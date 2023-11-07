@@ -16,6 +16,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> PutPersonDone(Model.Person person);
         Task<HttpObject.APIresult> GetPerson(Model.Person person);
         Task<IEnumerable<Model.Person>> GetPersonInfo();
+        Task<HttpObject.APIresult> PutPersonABORH(Model.Person person);
 
     }
 }

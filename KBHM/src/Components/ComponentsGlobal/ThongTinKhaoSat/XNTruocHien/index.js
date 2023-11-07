@@ -1,63 +1,30 @@
-import { Input, Row, Col, Button } from "antd";
+import { Button, Col, Form, Row, Space } from "antd";
 import React from "react";
 import { useState } from "react";
-import { labo } from "../../../../Data/UnitData/data";
-import List from "../../../List";
-import IconCombine from "../../../Icon";
-const XnTruocHien = () => {
-  const [stateXNTruocHien, SetStateXNTruocHien] = useState(...labo);
-  const PushState = (value) => {
-  };
-  const columns = [
-    {
-      title: "Chỉ số xét nghiệm",
-      dataIndex: "Name",
-      key: "name",
-      width: 120,
-      filterSearch: true,
-    },
-    {
-      title: "Kết quả",
-      dataIndex: "Result",
-      key: "age",
-      width: 120,
-      render: (_, value) => {
-        return (
-          <Input
-            onChange={(e) => {
-              {
-
-                SetStateXNTruocHien({
-                  ...stateXNTruocHien,
-                  Result: e.target.value,
-                });
-              }
-            }}
-          />
-        );
-      },
-    },
-    {
-      title: "Người valid",
-      dataIndex: "UserValid",
-      key: "address",
-      width: 120,
-      render: (_, value) => {
-        return (
-          <Button
-            icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
-            onClick={() => PushState(value)}
-          >
-            Valid
-          </Button>
-        );
-      },
-    },
-  ];
+import { PUT_PersonABORH } from '../../../../Data/Api/DangKyKham'
+import { ABO, RH } from "../../../../Data/UnitData/data";
+import ComboboxIndex from "../../Combobox/Element.combobox";
+const XnTruocHien = ({ Person }) => {
+  console.log(Person?.ABO);
+  const Confirm = async ({ ABO, RH }) => {
+    const { RowID } = Person;
+    await PUT_PersonABORH({ RowID: RowID, ABO: ABO, RH: RH })
+  }
   return (
     <>
-      <List  data={labo} columns={columns} />
-      <br></br>
+      <Form layout='vertical' onFinish={(e) => {
+        Confirm({ ABO: e.ABO, RH: e.RH });
+      }}>
+        <Row>
+          <Col sm={12} xs={24} >   <ComboboxIndex initialValues={Person?.ABO} dataSource={ABO} Name={"ABO"} Label={"ABO"} ruler={[{ required: true, message: 'yêu cầu nhập ABO!' }]} /> </Col>
+          <Col sm={12} xs={24}>   <ComboboxIndex initialValues={Person?.RH} dataSource={RH} Name={"RH"} Label={"RH"} ruler={[{ required: true, message: 'yêu cầu nhập RH!' }]} /> </Col>
+
+          {Person?.Sync == 1 ? "" : <Button htmlType='submit' type='primary' style={{ width: 100 + '%' }} >Xác nhận</Button>}
+        </Row>
+
+
+
+      </Form>
     </>
   );
 };

@@ -74,6 +74,13 @@ namespace KBHM.api.Controllers
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
 
         }
+        [Authorize]
+        [HttpPut("Person/ABORH")]
+        public async Task<IActionResult> PutPersonABORH([FromBody] Person person)
+        {
+            var data = await _Person.PutPersonABORH(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
 
