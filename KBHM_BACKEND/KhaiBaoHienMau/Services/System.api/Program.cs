@@ -8,11 +8,13 @@ using System;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Services.lib.Sql;
+using Services.lib.authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.JWTServices();
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<MinioContext>();

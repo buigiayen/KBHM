@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.lib.Sql;
 using System.api.Command;
 using System.api.Interfaces;
@@ -21,11 +22,13 @@ namespace System.api.Controllers
         {
             return Ok(await _Iregion.GetRegion(Status, Text));
         }
+        [Authorize]
         [HttpGet("Region/All")]
         public async Task<IActionResult> GetRegionAllAsync(int Status = 6, string Text = "")
         {
             return Ok(await _Iregion.GetAllRegion(Status, Text));
         }
+        [Authorize]
         [HttpPatch("Region")]
         public async Task<IActionResult> PatchRegionXaAsync(string Region, int ID, string Value)
         {
