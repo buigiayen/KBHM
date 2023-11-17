@@ -42,7 +42,7 @@
         }
       ],
       "UpstreamPathTemplate": "/sys/{url}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST","PATCH" ]
 
     },
     //Report server

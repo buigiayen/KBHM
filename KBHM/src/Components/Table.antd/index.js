@@ -12,6 +12,7 @@ import SearchAble from "./Component/SearchAble";
 import dayjs from "dayjs";
 
 const Tables = ({
+  isShowButtonDefault = true,
   Buttons = [],
   titleTable,
   Columns,
@@ -167,6 +168,7 @@ const Tables = ({
     }, 500);
   };
   const ButtonDefault = [
+
     <Popover content={"Làm mới danh sách"}>
       <Button
         type="text"
@@ -238,7 +240,7 @@ const Tables = ({
 
   return (
     <>
-      <Card extra={ButtonDefault} title={titleTable?.toUpperCase()}>
+      <Card extra={isShowButtonDefault == true ?? ButtonDefault} title={titleTable?.toUpperCase()}>
         {FilterKey && (
           <Alert message={`${"Lọc"} : ${FilterKey}`} type="success" />
         )}

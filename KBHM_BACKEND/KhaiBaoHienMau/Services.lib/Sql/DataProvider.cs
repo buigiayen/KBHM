@@ -207,6 +207,22 @@ namespace Services.lib.Sql
             }
 
         }
+        public async Task<IEnumerable<TTesult>> QueryAsync<T1, T2, T3, TTesult>(string _SQL, object Prameter = null, Func<T1, T2, T3, TTesult> FunctionMapping = null, string splitOn = null) where TTesult : class
+        {
+            var httpObject = new HttpObject.APIMapper<TTesult>();
+            try
+            {
+
+                CheckLogPramter(_SQL, Prameter);
+                var data = await _IdbConnection.QueryAsync<T1, T2, T3, TTesult>(_SQL, FunctionMapping, Prameter, splitOn: splitOn);
+                return data.Distinct();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
         {
             var aPIresultObjects = new HttpObject.APIresult();

@@ -1,0 +1,56 @@
+﻿{
+   "CodeGenerationMode": 3,
+   "ContextClassName": "ServicesBaseContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "System.api",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 2,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[AMD_DM_HUYEN]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AMD_DM_QUOCGIA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AMD_DM_TINH]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AMD_DM_XA]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "win-itj46cbs951.ServicesBase.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

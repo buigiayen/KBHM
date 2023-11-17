@@ -15,6 +15,7 @@ import { GET_AllPerson } from "../../Data/Api/DangKyKham";
 import IconCombine from "../../Components/Icon";
 import QRCam from "../../Components/QR.Camera";
 import CardListDonnor from "../../Components/ComponentsGlobal/Card.ListDonnor/index";
+import ExportTabLocation from "../../Components/ComponentsGlobal/Table.Location";
 import { Col, Row } from "antd";
 import {
   ExportDocumentFile as ExportDataReport,
@@ -50,6 +51,7 @@ const Index = () => {
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
   const [DataReport, SetDataReport] = useState();
   const [Category, setCategory] = useState([]);
+  const [ModalLocation, setModalLocation] = useState(false);
 
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
@@ -237,11 +239,11 @@ const Index = () => {
       render: (_) => {
         return (
           <IconCombine.EditOutlined
-          title="Sửa chi tiết"
-          onClick={() => {
-            PushPage({ ID: _ });
-          }}
-        />
+            title="Sửa chi tiết"
+            onClick={() => {
+              PushPage({ ID: _ });
+            }}
+          />
         );
       }
     },
@@ -259,7 +261,7 @@ const Index = () => {
               SetisShowPDFViewer(true);
             }}
           />
-      
+
         );
       },
     },
@@ -367,6 +369,17 @@ const Index = () => {
                     {" "}
                     <IconCombine.QrcodeOutlined></IconCombine.QrcodeOutlined>{" "}
                     Tạo QR điểm hiến
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    loading={IsLoadding}
+                    type="dashed"
+                    style={{ width: 100 + "%" }}
+                    onClick={() => setModalLocation(true)}>
+                    {" "}
+                    <IconCombine.GlobalOutlined></IconCombine.GlobalOutlined>{" "}
+                    Địa danh
                   </Button>
                 </Form.Item>
               </Form>
@@ -541,6 +554,18 @@ const Index = () => {
             }}
           />
         )}
+      </Modal>
+      <Modal
+        open={ModalLocation}
+        width={2000 + 'px'}
+        onOk={() => { setModalLocation(false) }}
+        onCancel={() => { setModalLocation(false) }}
+        title={"Địa danh"}
+        okText="Lấy"
+        cancelText="Tắt"
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}>
+          <ExportTabLocation></ExportTabLocation>
       </Modal>
     </>
   );
