@@ -6,12 +6,21 @@ services:
     build:
       context: .
       dockerfile: ApiGateway/Ocelot_apigateway/Dockerfile
-
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
+            
+         
   kbhm.api:
     image: ${DOCKER_REGISTRY-}kbhmapi
     build:
       context: .
       dockerfile: Services/KBHM.api/Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
 
 
   system.api:
@@ -19,14 +28,20 @@ services:
     build:
       context: .
       dockerfile: Services/System.api/Dockerfile
-
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
 
   bloodbank.api:
     image: ${DOCKER_REGISTRY-}bloodbankapi
     build:
       context: .
       dockerfile: Services/BloodBank.api/Dockerfile
-
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
 
   serverside:
     image: ${DOCKER_REGISTRY-}reportserver
@@ -36,6 +51,10 @@ services:
      - "80"
     volumes:
     - ./Reports:/app/Reports
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
 
 
    

@@ -6,11 +6,11 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;https://+:443
       - ASPNETCORE_Kestrel__Certificates__Default__Password=docker
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.com.vn.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/hienmau.bvdktinhthanhhoa.vn.pfx
       - TZ=Asia/Ho_Chi_Minh
       - NODEELK=${NODEELK}
     volumes:
-      - ${HOME}/Cert:/https
+      - ./Cert/:/https
     ports:
       - "9874:443"
     restart: always
@@ -22,8 +22,7 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=Web_KBHM;User Id=technical;Password=ls109tndq1;TrustServerCertificate=true;"
       - TZ=Asia/Ho_Chi_Minh
       - NODEELK=${NODEELK}
-    deploy:
-        replicas: 4
+ 
 
 
 
@@ -37,8 +36,7 @@ services:
       - DOMAIN=${DOMAIN}
       - IP=${IP}
       - NODEELK=${NODEELK}
-    deploy:
-        replicas: 4
+   
 
 
   bloodbank.api:
@@ -48,7 +46,6 @@ services:
       - "SQL_CONNECTION=Server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=true;"
       - TZ=Asia/Ho_Chi_Minh
       - NODEELK=${NODEELK}
-    deploy:
-        replicas: 4
+   
 
 

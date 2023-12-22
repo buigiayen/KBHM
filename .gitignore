@@ -10,6 +10,7 @@ dist/
 # Csharp
 obj/
 bin/
+**/.vs
 
 #frontend 
 .umi/
@@ -56,4 +57,4 @@ Thumbs.db
 *.wmv
 
 **\.vs\**
-/KBHM_BACKEND/KhaiBaoHienMau/.vs
+
