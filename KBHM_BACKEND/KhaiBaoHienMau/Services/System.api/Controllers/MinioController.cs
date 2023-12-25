@@ -35,7 +35,7 @@ namespace System.api.Controllers
             try
             {
                 WebClient webClient = new WebClient();
-                string Domain = string.Format("{0}:9000/{1}/{2}", "http://192.168.18.8", bucket, filename);
+                string Domain = string.Format("{0}:9000/{1}/{2}", "https://hienmau.bvdktinhthanhoa.vn", bucket, filename);
                 Console.WriteLine(Domain);
                 var ByteDownload = webClient.DownloadData(Domain);
                 Stream stream = new MemoryStream(ByteDownload);
