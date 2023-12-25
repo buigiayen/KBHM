@@ -5,7 +5,7 @@ const App = () => {
     <Image
       width={100 + "%"}
       src={
-        "https://hienmau.bvdktinhthanhhoa.com.vn:9874/sys/Files/banner/banner.png"
+        "https://hienmau.bvdktinhthanhhoa.vn:9874/sys/Files/banner/banner.png"
       }
       preview={false}
       alt="1887-768"
