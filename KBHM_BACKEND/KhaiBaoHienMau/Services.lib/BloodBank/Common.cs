@@ -6,8 +6,9 @@
         {
             switch (Sex)
             {
+                case "0": return "F";
                 case "1": return "M";
-                case "2": return "F";
+             
                 default: return "?";
             }
         }
