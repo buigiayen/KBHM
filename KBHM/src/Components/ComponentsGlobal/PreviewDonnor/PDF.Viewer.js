@@ -42,8 +42,8 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
       reportName: Reportname,
       dataReport: objJsonStr,
     });
-
-    return base64toBlob({ DataPDF: data?.data });
+   
+    return data?.data;
   } catch (e) {
     console.log("PDF ERR", e);
   }
@@ -68,6 +68,4 @@ const base64toBlob = ({ DataPDF }) => {
   }
 };
 
-export const ViewerPDFDonnor = ({ ViewPDf }) => {
-  return <PDfViewer urlPDF={ViewPDf} />;
-};
+

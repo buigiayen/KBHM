@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 ENV TZ=Asia/Ho_Chi_Minh
 RUN npm install -g npm@9.6.2
-RUN npm install --legacy-peer-deps
+RUN npm install --force
 RUN npm run build
 
 # production stage

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
-import {
-  ExportDocumentFile,
-  ViewerPDFDonnor,
-} from "../PreviewDonnor/PDF.Viewer";
+import { ExportDocumentFile } from "../PreviewDonnor/PDF.Viewer";
 import ElementCombobox from "../Combobox/Element.combobox";
 import { Divider, Form, Input, Row, Col, Checkbox, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +9,8 @@ import { Warning } from "../../notification";
 import { Config } from "../../../Data/Config/config.system";
 import { Get_Category } from "../../../Data/Api/Category";
 import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
+import printJS from "print-js";
+
 import "./index.css";
 
 const Index = ({ funcReload, ID, dataPerson }) => {
@@ -69,6 +68,12 @@ const Index = ({ funcReload, ID, dataPerson }) => {
     const data = await ExportDocumentFile({
       IDPerson: ID,
       Reportname: ReportID,
+    });
+    printJS({
+      base64: true,
+      type: "pdf",
+      printable: data,
+      documentTitle: "print",
     });
     SetDataReport(data);
   };
@@ -131,7 +136,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                   required: true,
                   message: "Xin hãy nhập mã túi máu!",
                 },
-              ]}>
+              ]}
+            >
               <Input />
             </Form.Item>
           </Col>
@@ -140,9 +146,9 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           {dataPerson?.Sync !== "3" && (
             <Button
               onClick={() => {
-                SetisShowPDFViewer(true);
                 GetdataReport();
-              }}>
+              }}
+            >
               In phiếu
             </Button>
           )}
@@ -159,7 +165,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                     danger
                     icon={
                       <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
-                    }>
+                    }
+                  >
                     Hủy lấy máu
                   </Button>
                 </Col>
@@ -176,7 +183,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                     onClick={() => Putperson({ Sync: 2 })}
                     loading={Isload}
                     disabled={IsDisable}
-                    htmlType="submit">
+                    htmlType="submit"
+                  >
                     Lấy máu
                   </Button>
                 </Col>
@@ -185,14 +193,6 @@ const Index = ({ funcReload, ID, dataPerson }) => {
           )}
         </Row>
       </Form>
-      <Modal
-        width={1000 + "px"}
-        open={isShowPDFViewer}
-        onCancel={() => {
-          SetisShowPDFViewer(false);
-        }}>
-        <ViewerPDFDonnor ViewPDf={DataReport} />
-      </Modal>
     </>
   );
 };

@@ -27,6 +27,7 @@ import PieChart from "../../Components/Charts/PieCharts";
 import PlotsChart from "../../Components/Charts/plotsChart";
 import QRCode from "../../Components/QRCode";
 import Tables from "../../Components/Table.antd";
+import printJS from "print-js";
 
 const { Search } = Input;
 const Index = () => {
@@ -94,7 +95,7 @@ const Index = () => {
       IDPerson: ID,
       Reportname: ReportID,
     });
-    SetDataReport(data);
+    printJS({ printable: data, type: "pdf", base64: true });
   };
   const Reload = () => {
     SetIsLoading(true);
@@ -245,7 +246,7 @@ const Index = () => {
             }}
           />
         );
-      }
+      },
     },
     {
       key: "Print",
@@ -261,7 +262,6 @@ const Index = () => {
               SetisShowPDFViewer(true);
             }}
           />
-
         );
       },
     },
@@ -354,7 +354,8 @@ const Index = () => {
                     loading={IsLoadding}
                     type="primary"
                     style={{ width: 100 + "%" }}
-                    onClick={() => Reload()}>
+                    onClick={() => Reload()}
+                  >
                     {" "}
                     <IconCombine.ReloadOutlined></IconCombine.ReloadOutlined>
                     Tìm kiếm
@@ -365,7 +366,8 @@ const Index = () => {
                     loading={IsLoadding}
                     type="dashed"
                     style={{ width: 100 + "%" }}
-                    onClick={() => SetisShowQRLocation(true)}>
+                    onClick={() => SetisShowQRLocation(true)}
+                  >
                     {" "}
                     <IconCombine.QrcodeOutlined></IconCombine.QrcodeOutlined>{" "}
                     Tạo QR điểm hiến
@@ -376,7 +378,8 @@ const Index = () => {
                     loading={IsLoadding}
                     type="dashed"
                     style={{ width: 100 + "%" }}
-                    onClick={() => setModalLocation(true)}>
+                    onClick={() => setModalLocation(true)}
+                  >
                     {" "}
                     <IconCombine.GlobalOutlined></IconCombine.GlobalOutlined>{" "}
                     Địa danh
@@ -391,11 +394,13 @@ const Index = () => {
                 <>
                   <PieChart
                     dataSource={DataCharts()}
-                    color={(label) => ColorCharts(label)}></PieChart>
+                    color={(label) => ColorCharts(label)}
+                  ></PieChart>
 
                   <PlotsChart
                     dataSource={DataCharts()}
-                    color={(label) => ColorCharts(label)}></PlotsChart>
+                    color={(label) => ColorCharts(label)}
+                  ></PlotsChart>
                 </>
               )}
             </Card>
@@ -406,46 +411,8 @@ const Index = () => {
           <Card title={`Danh sách người hiến ngày: ${DateRegister} `}>
             <Tables
               Columns={initialColumnsDonnor}
-              dataSource={ListPerson}></Tables>
-
-            {/* {ListPerson.map((rs) => {
-              return (
-                <CardListDonnor
-                  avatar={rs.UrlImage}
-                  Title={Title({ Name: rs.Name, Sync: rs.Sync })}
-                  description={descriptionCard(rs)}
-                  ActionArray={[
-                    <>
-                      <IconCombine.EyeOutlined
-                        onClick={() => {
-                          SetPreviewDonnor(true);
-                          SetIDPreview(rs.RowID);
-                        }}
-                        title="Xem trước"
-                      />
-                    </>,
-                    <>
-                      <IconCombine.EditOutlined
-                        title="Sửa chi tiết"
-                        onClick={() => {
-                          PushPage({ ID: rs.RowID });
-                        }}
-                      />
-                    </>,
-                    <>
-                      <IconCombine.PrinterOutlined
-                        title=" In phiếu ĐK"
-                        onClick={() => {
-                          setIDDonorInfo(rs.RowID);
-                          GetdataReport({ ID: rs.RowID });
-                          SetisShowPDFViewer(true);
-                        }}
-                      />
-                    </>,
-                  ]}
-                />
-              );
-            })} */}
+              dataSource={ListPerson}
+            ></Tables>
           </Card>
         </Col>
       </Row>
@@ -457,7 +424,8 @@ const Index = () => {
       <Modal
         width={1000 + "px"}
         open={PreviewDonnor}
-        onCancel={() => SetPreviewDonnor(false)}>
+        onCancel={() => SetPreviewDonnor(false)}
+      >
         <Row>
           <Col xl={12} xs={12}>
             <iframe
@@ -469,32 +437,26 @@ const Index = () => {
                 IDPreview
               }
               width={950 + "px"}
-              height={950 + "px"}></iframe>
+              height={950 + "px"}
+            ></iframe>
           </Col>
         </Row>
       </Modal>
-
       <Modal
-        width={1000 + "px"}
-        open={isShowPDFViewer}
-        onCancel={() => {
-          SetisShowPDFViewer(false);
-        }}>
-        <ViewerPDFDonnor ViewPDf={DataReport} />
-      </Modal>
-      <Modal
-        title="Chọn điểm hiến"
+        title="Chọn điểm hiến"  
         width={500}
         open={isShowQRLocation}
         okButtonProps={{ style: { visibility: "hidden" } }}
         cancelButtonProps={{ style: { visibility: "hidden" } }}
         onCancel={() => {
           SetisShowQRLocation(false);
-        }}>
+        }}
+      >
         <Form
           onFinish={(e) => {
             SetQRDiemLayMau(e);
-          }}>
+          }}
+        >
           <ElementCombobox
             dataSource={Category?.location}
             Name={"DiemLayMau"}
@@ -511,7 +473,8 @@ const Index = () => {
           <Form.Item
             label="Thời gian hiến: "
             name={"NgayHien"}
-            initialValue={dayjs()}>
+            initialValue={dayjs()}
+          >
             <DatePicker format={"DD/MM/YYYY"}></DatePicker>
           </Form.Item>
 
@@ -530,7 +493,8 @@ const Index = () => {
                   QRDiemlayMau?.DiemLayMau +
                   "/TimeChecking/" +
                   QRDiemlayMau?.NgayHien
-                }></QRCode>
+                }
+              ></QRCode>
             </>
           )}
         </>
@@ -543,7 +507,8 @@ const Index = () => {
         okText="Lấy"
         cancelText="Tắt"
         cancelButtonProps={{ style: { display: "none" } }}
-        okButtonProps={{ style: { display: "none" } }}>
+        okButtonProps={{ style: { display: "none" } }}
+      >
         {OpenModal && (
           <QRCam
             Value={(e) => {
@@ -557,15 +522,20 @@ const Index = () => {
       </Modal>
       <Modal
         open={ModalLocation}
-        width={2000 + 'px'}
-        onOk={() => { setModalLocation(false) }}
-        onCancel={() => { setModalLocation(false) }}
+        width={2000 + "px"}
+        onOk={() => {
+          setModalLocation(false);
+        }}
+        onCancel={() => {
+          setModalLocation(false);
+        }}
         title={"Địa danh"}
         okText="Lấy"
         cancelText="Tắt"
         cancelButtonProps={{ style: { display: "none" } }}
-        okButtonProps={{ style: { display: "none" } }}>
-          <ExportTabLocation></ExportTabLocation>
+        okButtonProps={{ style: { display: "none" } }}
+      >
+        <ExportTabLocation></ExportTabLocation>
       </Modal>
     </>
   );
