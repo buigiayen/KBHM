@@ -44,7 +44,6 @@ const RoutesPage = [
     path: "/QuanLyThongTin/:ID",
     element: <QuanLyThongTin />,
   },
-
   {
     path: "*",
     element: <Error_404 />,

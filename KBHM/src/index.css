@@ -9,3 +9,7 @@
 .ant-qrcode-img {
   background-color: transparent !important; /* Đặt nền trong suốt */
 }
+.ant-card-head{
+  background-color: #21477d !important;
+  color:aliceblue !important;
+}

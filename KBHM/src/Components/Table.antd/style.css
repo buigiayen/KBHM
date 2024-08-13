@@ -1,0 +1,19 @@
+.ant-table-thead .ant-table-cell {
+    text-align: center !important;
+    background-color: #21477d !important;
+    color: white !important;
+  }
+  
+  .table-row-light {
+    background-color: #ffffff;
+  }
+  
+  .table-row-dark {
+    background-color: #fbfbfb;
+  }
+  
+  .ant-table-tbody>tr>td {
+    height: 5px !important;
+    ;
+    padding: 4px !important;
+  }

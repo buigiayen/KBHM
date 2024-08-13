@@ -1,4 +1,4 @@
-import axios, {AxiosStatic} from "axios";
+import axios, { AxiosStatic } from "axios";
 import { message, notification } from "antd";
 import { Warning, Error } from "../../Components/notification";
 
@@ -29,6 +29,25 @@ const Connection = async (
       ...params,
     },
     data: body,
+  }).catch((rs) => {
+    MessengerError({ ObjectTrycatch: rs });
+  });
+};
+export const connectionApiThirdParty = async ({
+  URL,
+  method = "GET",
+  body,
+  params = null,
+  Type = "application/json",
+  headers,
+  responseType
+}) => {
+  return await axios(URL, {
+    method: method,
+    headers: headers,
+    params: params,
+    data: body,
+    responseType: responseType,
   }).catch((rs) => {
     MessengerError({ ObjectTrycatch: rs });
   });
@@ -92,7 +111,6 @@ export const HttpRequestFile = async (
   }
   return data;
 };
-
 
 const ExposeData = ({ ObjectData, ShowToast }) => {
   const { status, data } = ObjectData;

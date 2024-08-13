@@ -1,6 +1,8 @@
-import PDfViewer from "../../Modal.pdf";
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
-import { Post_CreateReport } from "../../../Data/Api/Report";
+import {
+  Post_CreateReport,
+
+} from "../../../Data/Api/Report";
 import { Get_Job } from "../../../Data/Api/Category";
 import { CheckHistoryDonnor } from "../../../Data/Api/Donnor";
 
@@ -23,7 +25,7 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     if (GetHistoryDonnor) {
       HistoryDonnor.push(GetHistoryDonnor[0]);
     }
-    console.log(HistoryDonnor);
+
     const PersonProperties = await GET_PropertiesPerson(IDPerson);
     const resultProperties = PersonProperties.reduce((acc, rs) => {
       acc[rs.Key] = rs.value;
@@ -34,38 +36,19 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     combinedObject.push({
       ...PersonInfo[0],
       ...resultProperties,
-      ...HistoryDonnor[0]
+      ...HistoryDonnor[0],
     });
     let objJsonStr = JSON.stringify(combinedObject);
 
-    var data = await Post_CreateReport({
+    await Post_CreateReport({
       reportName: Reportname,
       dataReport: objJsonStr,
     });
-   
-    return data?.data;
+    // await Post_CreateReportExcel({
+    //   reportName: Reportname,
+    //   dataReport: objJsonStr,
+    // });
   } catch (e) {
     console.log("PDF ERR", e);
   }
 };
-const base64toBlob = ({ DataPDF }) => {
-  if (DataPDF) {
-    const base64WithoutPrefix = DataPDF;
-    const bytes = atob(base64WithoutPrefix);
-
-    let length = bytes?.length;
-    let out = new Uint8Array(length);
-
-    while (length--) {
-      out[length] = bytes.charCodeAt(length);
-    }
-
-    const blob = new Blob([out], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    return url;
-  } else {
-    return "";
-  }
-};
-
-

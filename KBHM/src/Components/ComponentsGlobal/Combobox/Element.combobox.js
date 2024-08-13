@@ -12,8 +12,14 @@ const ComboboxIndex = ({
   autoClear = false,
 }) => {
   return (
-    <Form.Item label={Label} name={Name} rules={ruler} initialValue={initialValues}>
+    <Form.Item
+      label={Label}
+      name={Name}
+      rules={ruler}
+      initialValue={initialValues}
+    >
       <Select
+        placeholder={Label}
         defaultValue={initialValues}
         allowClear={autoClear}
         showSearch

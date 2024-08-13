@@ -9,8 +9,6 @@ import { Warning } from "../../notification";
 import { Config } from "../../../Data/Config/config.system";
 import { Get_Category } from "../../../Data/Api/Category";
 import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
-import printJS from "print-js";
-
 import "./index.css";
 
 const Index = ({ funcReload, ID, dataPerson }) => {
@@ -69,13 +67,6 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       IDPerson: ID,
       Reportname: ReportID,
     });
-    printJS({
-      base64: true,
-      type: "pdf",
-      printable: data,
-      documentTitle: "print",
-    });
-    SetDataReport(data);
   };
   return (
     <>

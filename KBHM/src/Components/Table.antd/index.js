@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Card, Table, Form, Modal, Space } from "antd";
+import { Table, Form, Modal, Space } from "antd";
 import { Button, Input, Popover, Alert } from "antd";
 import {
   ReloadOutlined,
@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import Search from "./Component/Search";
 import SearchAble from "./Component/SearchAble";
-import dayjs from "dayjs";
+import "./style.css";
 
 const Tables = ({
   isShowButtonDefault = true,
@@ -98,7 +98,8 @@ const Tables = ({
         style={{
           padding: 8,
         }}
-        onKeyDown={(e) => e.stopPropagation()}>
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <Input
           ref={searchInput}
           placeholder={`Search ${title}`}
@@ -120,7 +121,8 @@ const Tables = ({
             size="small"
             style={{
               width: 90,
-            }}>
+            }}
+          >
             Search
           </Button>
           <Button
@@ -128,7 +130,8 @@ const Tables = ({
             size="small"
             style={{
               width: 90,
-            }}>
+            }}
+          >
             Reset
           </Button>
           <Button
@@ -136,7 +139,8 @@ const Tables = ({
             size="small"
             onClick={() => {
               close();
-            }}>
+            }}
+          >
             close
           </Button>
         </Space>
@@ -145,7 +149,7 @@ const Tables = ({
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? "#1677ff" : undefined,
+          color: filtered ? "white" : "white",
         }}
       />
     ),
@@ -168,7 +172,6 @@ const Tables = ({
     }, 500);
   };
   const ButtonDefault = [
-
     <Popover content={"Làm mới danh sách"}>
       <Button
         type="text"
@@ -176,7 +179,8 @@ const Tables = ({
         onClick={() => {
           funcReload && funcReload();
           SetFilterKey(null);
-        }}></Button>
+        }}
+      ></Button>
     </Popover>,
     <Popover>
       <Search
@@ -192,7 +196,8 @@ const Tables = ({
         onClick={() => {
           setOpenModalFilter(!OpenModalFilter);
         }}
-        icon={<FilterOutlined style={{ color: "green" }} />}></Button>
+        icon={<FilterOutlined style={{ color: "green" }} />}
+      ></Button>
     </Popover>,
     ...Buttons,
     Delete && (
@@ -207,7 +212,8 @@ const Tables = ({
             TimeOutReload();
           }}
           type="text"
-          icon={<DeleteOutlined style={{ color: "red" }} />}></Button>
+          icon={<DeleteOutlined style={{ color: "red" }} />}
+        ></Button>
       </Popover>
     ),
   ];
@@ -229,9 +235,6 @@ const Tables = ({
       funcReload && funcReload(valueFind);
     }
   };
-  const CallBackValue = ({ value }) => {
-    SetPramter({ ...Pramter, ...value });
-  };
   const onSelect = (newSelectedRowKeys, selectedRows) => {
     setSelectedRowKeys(newSelectedRowKeys);
     onSelectRow && onSelectRow(selectedRows);
@@ -240,25 +243,29 @@ const Tables = ({
 
   return (
     <>
-      <Card extra={isShowButtonDefault == true ?? ButtonDefault} title={titleTable?.toUpperCase()}>
-        {FilterKey && (
-          <Alert message={`${"Lọc"} : ${FilterKey}`} type="success" />
-        )}
-        <Table
-          bordered
-          columns={Column}
-          loading={Loading}
-          dataSource={DataSource}
-          rowSelection={{
-            selectedRowKeys,
-            type: "checkbox",
-            onChange: onSelect,
-          }}
-          size="small"
-          footer={() => Footer}
-          {...propsTable}
-          expandable={expandable}></Table>
-      </Card>
+      {FilterKey && (
+        <Alert message={`${"Lọc"} : ${FilterKey}`} type="success" />
+      )}
+      <Table
+        bordered
+        columns={Column}
+        loading={Loading}
+        dataSource={DataSource}
+        rowSelection={{
+          selectedRowKeys,
+          type: "checkbox",
+          onChange: onSelect,
+        }}
+        size="small"
+        footer={() => Footer}
+        {...propsTable}
+        expandable={expandable}
+        pagination={{ pageSize: 14}}
+        rowClassName={(record, index) =>
+          index % 2 === 0 ? "table-row-light" : "table-row-dark"
+        }
+      ></Table>
+
       <Modal
         open={OpenModalFilter}
         title={"Lọc điều kiện"}
@@ -285,7 +292,8 @@ const Tables = ({
             .catch((er) => {
               console.log(er);
             });
-        }}>
+        }}
+      >
         <Form form={form} layout="vertical">
           {Columns &&
             Columns.filter((p) => p.isFilter === true).map((element) => {
@@ -305,7 +313,8 @@ const Tables = ({
                       .catch((er) => {
                         console.log(er);
                       });
-                  }}></SearchAble>
+                  }}
+                ></SearchAble>
               );
             })}
         </Form>
