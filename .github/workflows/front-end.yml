@@ -19,8 +19,8 @@ jobs:
       - name: Build image
         run: | 
             cd KBHM
-            docker-compose build
-            docker-compose push
+            docker compose build
+            docker compose push
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
