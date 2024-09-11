@@ -234,8 +234,104 @@ namespace Services.lib.Sql
             }
             return aPIresultObjects;
         }
-
-
     }
+
+    public class ConnectionSQL
+    {
+        ILogger<ConnectionSQL> _Logger;
+        public ConnectionSQL(ILogger<ConnectionSQL> logger)
+        {
+            _Logger = logger;
+        }
+        public string SQLConnection { get; set; }
+        private SqlDbType GetSqlDbType(Type type)
+        {
+            var typeMap = new Dictionary<Type, SqlDbType>
+            {
+                { typeof(string), SqlDbType.NVarChar },
+                { typeof(int), SqlDbType.Int },
+                { typeof(bool), SqlDbType.Bit },
+                { typeof(DateTime), SqlDbType.DateTime },
+                // Thêm các kiểu dữ liệu khác và SqlDbType tương ứng tùy theo yêu cầu của bạn
+        };
+            if (typeMap.TryGetValue(type, out SqlDbType sqlDbType))
+            {
+                return sqlDbType;
+            }
+            return SqlDbType.NVarChar;
+        }
+        private void CheckLogPramter(string _SQL, object Pra)
+        {
+            try
+            {
+                string log = "";
+                if (Pra == null) return;
+                Type type = (Pra).GetType();
+                if (type != default)
+                {
+                    PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                    foreach (var x in properties)
+                    {
+                        if (x.GetValue(Pra) == null)
+                        {
+                            log += Environment.NewLine + ($"declare @{x.Name} {GetSqlDbType(x.PropertyType)} ; set @{x.Name} = null");
+                        }
+                        else
+                        {
+                            SqlDbType sqlDbType = GetSqlDbType(x.PropertyType);
+                            var Value = x.GetValue(Pra);
+                            string valueProps = sqlDbType.ToString().ToLower().Contains("char") ? $"'{Value.ToString()}'" : Value.ToString();
+                            log += Environment.NewLine + (string.Format($"declare @{x.Name} {sqlDbType.ToString()}({Value.ToString().Length}) ; set  @{x.Name} = {valueProps}"));
+                        }
+                    }
+                    log += Environment.NewLine + _SQL;
+                    _Logger.LogInformation($"SQL {log} ");
+                }
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex.Message);
+            }
+        }
+        private HttpObject.APIresult ReturnStatusObjectSql(int status, Exception exception = null)
+        {
+            var aPIresultObjects = new HttpObject.APIresult();
+            switch (status)
+            {
+                case -2: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Có lỗi xảy ra: " + exception ?? exception.Message }; break;
+                case -1: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = status, Messenger = "Lỗi hệ thống vui lòng kiểm tra hệ thống ghi log" + exception ?? exception.Message }; break;
+                default: aPIresultObjects = new HttpObject.APIresult { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = status, Messenger = "Thành công" }; break;
+            }
+            return aPIresultObjects;
+        }
+        public async Task<HttpObject.APIresult> ExcuteQueryAsync(string ENV,string _SQL, object Prameter = null)            
+        {
+            string SQLConnectionString = Environment.GetEnvironmentVariable(ENV);
+            SqlConnection sqlConnection = new SqlConnection(SQLConnectionString);
+            int valueTransaction = 0;
+            if (sqlConnection.State == ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+            using (var sqlTransaction = sqlConnection.BeginTransaction())
+            {
+                try
+                {
+                    CheckLogPramter(_SQL, Prameter);
+                    valueTransaction = await sqlConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
+                    sqlTransaction.Commit();
+                    sqlTransaction.Dispose();
+                    return ReturnStatusObjectSql(valueTransaction);
+                }
+                catch (Exception ex)
+                {
+                    sqlTransaction.Rollback();
+                    valueTransaction = -2;
+                    return ReturnStatusObjectSql(valueTransaction, ex);
+                }
+            }
+        }
+    }
+
 }
 

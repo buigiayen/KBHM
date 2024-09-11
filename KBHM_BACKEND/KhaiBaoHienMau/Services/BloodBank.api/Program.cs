@@ -44,7 +44,7 @@ builder.Services.AddTransient<ILogin, LoginCommand>();
 Console.WriteLine($"sql {Environment.GetEnvironmentVariable("SQL_CONNECTION")}");
 builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(Environment.GetEnvironmentVariable("SQL_CONNECTION")));
 builder.Services.AddTransient<Dataprovider>();
-
+builder.Services.AddTransient<ConnectionSQL>();
 builder.Host.ConfigLog(builder, Environment.GetEnvironmentVariable("NODEELK"), typeof(Program));
 
 builder.Services.AddControllers();

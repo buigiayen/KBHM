@@ -12,10 +12,12 @@ namespace BloodBank.api.command
 {
     public class SyncPatient : ISyncDonnor
     {
-        Dataprovider Dataprovider;
-        public SyncPatient(Dataprovider dataprovider)
+        private Dataprovider Dataprovider;
+        private ConnectionSQL _connectionSQL;
+        public SyncPatient(Dataprovider dataprovider, ConnectionSQL connectionSQL)
         {
             Dataprovider = dataprovider;
+            _connectionSQL = connectionSQL;
         }
         private async Task<HttpObject.APIMapper<SequenceNumInfo>> GetNextSequence()
         {
@@ -134,7 +136,7 @@ namespace BloodBank.api.command
                                        IF NOT EXISTS (SELECT * FROM tbl_Donor D  WHERE (D.IdentityID =@IdentityID or D.DonorCode = @DonorCode))
                                                        BEGIN
                                          Print('Insert Patient')
-                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age ,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress ) values(Getdate(),@DonorCode,@Sex,@Age,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress );
+                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age ,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress, ABO ) values(Getdate(),@DonorCode,@Sex,@Age,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress,'?' );
                                          END
                                        ELSE
                                         BEGIN
@@ -165,6 +167,7 @@ namespace BloodBank.api.command
 
                                     END";
             string Query = rowguid + Environment.NewLine + ActionDonnor;
+            await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, donnor);
             return await Dataprovider.ExcuteQueryAsync(Query, donnor);
         }
         public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string DonorExCode)
