@@ -22,8 +22,8 @@ jobs:
       - name: Build image
         run: | 
          cd KBHM_BACKEND/KhaiBaoHienMau/
-          docker-compose -f docker-compose.yml -f docker-compose.stagging.yml build
-          docker-compose -f docker-compose.yml -f docker-compose.stagging.yml push
+          docker compose -f docker-compose.yml -f docker-compose.stagging.yml build
+          docker compose -f docker-compose.yml -f docker-compose.stagging.yml push
 
       
       - name: copy file via ssh password
