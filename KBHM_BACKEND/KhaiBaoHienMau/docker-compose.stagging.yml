@@ -31,7 +31,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "SQL_CONNECTION=Server=${MMSQL};Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=true;"
-      - "MINIO_CONNECTION=${IP};9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;False;9874"
+      - "MINIO_CONNECTION=${IP};9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;True;9874"
       - TZ=Asia/Ho_Chi_Minh
       - DOMAIN=${DOMAIN}
       - IP=${IP}

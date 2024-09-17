@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Domain
 {
@@ -12,7 +13,7 @@ namespace Domain
         }
         public class FileBucketMinio
         {
-            public IFormFile formFile { get; set; }
+            public Stream formFile { get; set; }
             public string FileName { get; set; }
             public string FilePath { get; set; }
             public double Size { get; set; }

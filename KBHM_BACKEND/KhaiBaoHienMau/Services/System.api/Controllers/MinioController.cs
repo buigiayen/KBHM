@@ -1,9 +1,12 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Minio.DataModel;
 using System.api.Interfaces;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using static Services.lib.Http.HttpObjectData;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace System.api.Controllers
 {
@@ -26,8 +29,15 @@ namespace System.api.Controllers
         [HttpPost("File")]
         public async Task<IActionResult> PostFileasync([FromQuery] MinIOservices.FileBucketMinio uploadMinios, [FromQuery] string Bucket)
         {
-            var data = await _minio.PostFileasync(uploadMinios, Bucket);
-            return Ok(data);
+            var Minio = new APIMapper<MinIOservices.FileBucketMinio>();
+            var ListFile = Request.Form.Files;
+            foreach (var item in ListFile)
+            {
+                Stream steam = item.OpenReadStream();
+                Minio = await _minio.PostFileasync(new MinIOservices.FileBucketMinio { formFile = steam, FileName = DateTime.Now.Year + "/" + Guid.NewGuid().ToString("N") +"_"+ item.FileName, Size = item.Length }, Bucket);
+
+            }
+            return Ok(Minio);
         }
         [HttpGet("{bucket}/{filename}")]
         public async Task<IActionResult> PostDownLoadFileasync(string bucket, string filename)
