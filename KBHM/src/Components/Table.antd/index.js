@@ -260,7 +260,7 @@ const Tables = ({
         footer={() => Footer}
         {...propsTable}
         expandable={expandable}
-        pagination={{ pageSize: 14}}
+        
         rowClassName={(record, index) =>
           index % 2 === 0 ? "table-row-light" : "table-row-dark"
         }

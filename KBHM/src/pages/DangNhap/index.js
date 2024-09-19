@@ -1,28 +1,27 @@
 import React from "react";
 import { Button, Card, Form, Input } from "antd";
-import { Row, Col } from "antd";
+
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import { Get_Token } from "../../Data/Api/Login";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const App = () => {
   const [form] = Form.useForm();
   var Navigate = useNavigate();
   const [Login, SetLogin] = useState({ userID: null, PasswordWeb: null });
   const VeryfyLogin = async () => {
-    form?.validateFields().then(async() =>  {
-        await Get_Token(Login)
-        .then((rs) => {
-          localStorage.setItem("Token", rs?.token ?? "");
-          localStorage.setItem("userID", rs?.userID ?? "");
+    form
+      ?.validateFields()
+      .then(async () => {
+        const data = await Get_Token(Login);
+        if (data !== undefined) {
+          localStorage.setItem("Token", data?.token ?? "");
+          localStorage.setItem("userID", data?.userID ?? "");
           Navigate("/DanhSachDangKyHienMau");
-        })
-        .catch();
-    }).catch((e) => {
-
-    })
-  
+        }
+      })
+      .catch((e) => {});
   };
 
   return (
@@ -39,7 +38,8 @@ const App = () => {
         wrapperCol={{
           span: 16,
         }}
-        style={{ maxWidth: 900, marginLeft: 10 }}>
+        style={{ maxWidth: 900, marginLeft: 10 }}
+      >
         <Form.Item
           label="Username"
           name="username"
@@ -48,7 +48,8 @@ const App = () => {
               required: true,
               message: "Please input your username!",
             },
-          ]}>
+          ]}
+        >
           <Input
             onPressEnter={() => {
               VeryfyLogin();
@@ -67,7 +68,8 @@ const App = () => {
               required: true,
               message: "Please input your password!",
             },
-          ]}>
+          ]}
+        >
           <Input.Password
             onPressEnter={() => {
               VeryfyLogin();
@@ -81,12 +83,14 @@ const App = () => {
           wrapperCol={{
             offset: 8,
             span: 16,
-          }}>
+          }}
+        >
           <Button
             type="primary"
             onClick={() => {
               VeryfyLogin();
-            }}>
+            }}
+          >
             Đăng nhập
           </Button>
         </Form.Item>

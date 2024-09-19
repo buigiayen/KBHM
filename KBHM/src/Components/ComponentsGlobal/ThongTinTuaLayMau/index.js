@@ -114,9 +114,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label="In phiếu ĐKHM khi cấp mã túi máu">
-              <Checkbox value={true} />
-            </Form.Item>
+            <Form.Item label=""></Form.Item>
           </Col>
           <Col md={12} xs={24}>
             <Form.Item
@@ -136,6 +134,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         <Row gutter={[8]}>
           {dataPerson?.Sync !== "3" && (
             <Button
+              icon={<IconCombine.PrinterOutlined></IconCombine.PrinterOutlined>}
               onClick={() => {
                 GetdataReport();
               }}

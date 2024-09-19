@@ -109,7 +109,7 @@ const Index = () => {
             <Form form={from} layout="vertical">
               <QuanLyThongTinLanHien form={from} />
               <Form.Item>
-                {DataPerson?.Sync !== "1" && DataPerson && (
+                {/* {DataPerson?.Sync !== "1" && DataPerson && (
                   <Button
                     type="primary"
                     style={{ width: 100 + "%" }}
@@ -119,7 +119,7 @@ const Index = () => {
                     }>
                     Xác nhận thông tin
                   </Button>
-                )}
+                )} */}
               </Form.Item>
             </Form>
           </Col>

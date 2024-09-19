@@ -24,6 +24,7 @@ import PieChart from "../../Components/Charts/PieCharts";
 import PlotsChart from "../../Components/Charts/plotsChart";
 import QRCode from "../../Components/QRCode";
 import Tables from "../../Components/Table.antd";
+import Item from "antd/es/list/Item";
 
 const { Search } = Input;
 const Index = () => {
@@ -224,21 +225,28 @@ const Index = () => {
     },
 
     {
-      key: "UrlImage",
-      title: "Ảnh",
-      dataIndex: "UrlImage",
-      render: (_) => {
-        return <Avatar src={_}> </Avatar>;
-      },
-      align: "center",
-      width: 75,
-    },
-    {
       key: "Name",
       title: "Họ và tên",
       dataIndex: "Name",
       isFilter: true,
       width: 320,
+      render: (_, item) => {
+        return (
+          <>
+            <Avatar
+              src={
+                item.UrlImage ??
+                "https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
+              }
+              alt="https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
+            >
+              {" "}
+            </Avatar>{" "}
+            {"   -  "}
+            <small style={{ fontWeight: "bold", color: "#21477d" }}>{_}</small>
+          </>
+        );
+      },
     },
     {
       key: "Sex",
@@ -318,6 +326,17 @@ const Index = () => {
                   SetDiemLayMau(e);
                 }}
               />
+
+              <Button
+                loading={IsLoadding}
+                type="primary"
+                style={{ width: 100 + "%", marginBottom: "5%" }}
+                onClick={() => Reload()}
+                icon={<IconCombine.ReloadOutlined />}
+              >
+                Tìm kiếm
+              </Button>
+
               <Space>
                 <Button
                   loading={IsLoadding}
@@ -336,15 +355,6 @@ const Index = () => {
                   icon={<IconCombine.GlobalOutlined />}
                 >
                   Địa danh
-                </Button>
-                <Button
-                  loading={IsLoadding}
-                  type="primary"
-                  style={{ width: 100 + "%" }}
-                  onClick={() => Reload()}
-                  icon={<IconCombine.ReloadOutlined />}
-                >
-                  Tìm kiếm
                 </Button>
               </Space>
             </Form>
