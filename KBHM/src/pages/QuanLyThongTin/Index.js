@@ -5,7 +5,7 @@ import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
 import { GET_Person, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
-import HistoryDonnor from '../../Components/ComponentsGlobal/HistoryDonnor/index'
+import HistoryDonnor from "../../Components/ComponentsGlobal/HistoryDonnor/index";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import ThongTinTuaLaymau from "../../Components/ComponentsGlobal/ThongTinTuaLayMau/index";
 import IconCombine from "../../Components/Icon";
@@ -83,13 +83,14 @@ const Index = () => {
           style={{ width: 100 + "%" }}
           onClick={() => {
             Navigate("/DanhSachDangKyHienMau");
-          }}>
+          }}
+        >
           Danh sách hiến máu
         </Button>
 
         {DataPerson?.warning !== 0 &&
-          DataPerson?.warning !== null &&
-          DataPerson?.warning !== undefined ? (
+        DataPerson?.warning !== null &&
+        DataPerson?.warning !== undefined ? (
           <Alert
             style={{ width: 100 + "%" }}
             banner
@@ -109,17 +110,18 @@ const Index = () => {
             <Form form={from} layout="vertical">
               <QuanLyThongTinLanHien form={from} />
               <Form.Item>
-                {/* {DataPerson?.Sync !== "1" && DataPerson && (
+                {DataPerson?.Sync !== "1" && DataPerson && (
                   <Button
                     type="primary"
                     style={{ width: 100 + "%" }}
-                    onClick={EditPersonInfo}
+                    onClick={() => EditPersonInfo()}
                     icon={
                       <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
-                    }>
+                    }
+                  >
                     Xác nhận thông tin
                   </Button>
-                )} */}
+                )}
               </Form.Item>
             </Form>
           </Col>
@@ -129,7 +131,10 @@ const Index = () => {
       <Card>
         <Row>
           <Col sm={24}>
-            <HistoryDonnor Identity={DataPerson?.CCCD} DefaultKey={'0'}></HistoryDonnor>
+            <HistoryDonnor
+              Identity={DataPerson?.CCCD}
+              DefaultKey={"0"}
+            ></HistoryDonnor>
           </Col>
         </Row>
       </Card>
