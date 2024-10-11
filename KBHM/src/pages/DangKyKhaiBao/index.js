@@ -74,18 +74,11 @@ const Index = () => {
             DiaChiThuongTru: RS?.DiaChiThuongTru,
             DiaChiThuongTru_ChiTiet: RS?.DiaChiThuongTru_ChiTiet,
             UrlImage: RS?.UrlImage,
-            DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru
-              ? RS?.DiaChiThuongTru
-              : RS?.DiaChiLienLac,
-            DiaChiThuongLienLac_ChiTiet: RS?.CheckNhuDiaChiThuongTru
-              ? RS?.DiaChiThuongTru_ChiTiet
-              : RS?.DiaChiThuongLienLac_ChiTiet,
+            DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru : RS?.DiaChiLienLac,
+            DiaChiThuongLienLac_ChiTiet: RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet : RS?.DiaChiThuongLienLac_ChiTiet,
             PersonProperties: Properties,
             DiemLayMau: IDDiemHien,
-            DateRegister:
-              TimeChecking === undefined
-                ? null
-                : dayjs(Number(TimeChecking)).format(),
+            DateRegister: TimeChecking === undefined ? null : dayjs(Number(TimeChecking)).format(),
           };
           POST_DangKyHienMau(Person).then((rs) => {
             Navigate("/TraCuuThongTin/" + rs[0].Code);
@@ -101,7 +94,7 @@ const Index = () => {
   };
   const CheckCondition = () => {
     let flag = true;
-    if (Properties.length < 16 || Properties === undefined) {
+    if (Properties === undefined) {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
       flag = false;
     }
@@ -115,9 +108,7 @@ const Index = () => {
     <>
       <Row>
         <Col xl={24}>
-          <h3 style={{ textAlign: "center", color: "red" }}>
-            PHIẾU ĐĂNG KÝ HIẾN MÁU TÌNH NGUYỆN
-          </h3>
+          <h3 style={{ textAlign: "center", color: "red" }}>PHIẾU ĐĂNG KÝ HIẾN MÁU TÌNH NGUYỆN</h3>
         </Col>
       </Row>
       <Row>
@@ -151,23 +142,17 @@ const Index = () => {
               fontWeight: "bold",
               color: "blue",
               fontStyle: "italic",
-            }}>
-            Tôi đã hiểu đầy đủ trả lời trung thực những câu hỏi trên. Nếu tôi
-            phát hiện ra bất cứ thông tin gì liên quan tới an toàn cho đơn vị
-            máu tôi đã hiến tôi sẽ liên hệ ngay với {Config.Name} để đảm bảo an
-            toàn cho người nhận máu của tôi. Hôm nay tôi hoàn toàn khỏe mạnh và
-            sẵn sàng tham gia hiến máu tình nguyện.{" "}
+            }}
+          >
+            Tôi đã hiểu đầy đủ trả lời trung thực những câu hỏi trên. Nếu tôi phát hiện ra bất cứ thông tin gì liên quan tới an toàn cho đơn vị máu tôi đã hiến tôi sẽ liên hệ ngay với {Config.Name} để
+            đảm bảo an toàn cho người nhận máu của tôi. Hôm nay tôi hoàn toàn khỏe mạnh và sẵn sàng tham gia hiến máu tình nguyện.{" "}
           </p>
         </Col>
       </Row>
       <Row>
         <Col lg={4}></Col>
         <Col lg={4} xs={12} sm={12}>
-          <Button
-            type="primary"
-            onClick={Confirm}
-            loading={IsLoadding}
-            style={{ width: 100 + "%" }}>
+          <Button type="primary" onClick={Confirm} loading={IsLoadding} style={{ width: 100 + "%" }}>
             Xác nhận thông tin
           </Button>
         </Col>

@@ -65,5 +65,25 @@ namespace BloodBank.api.Controllers
                 return BadRequest(aPI);
             }
         }
+
+        [HttpGet("Category/Doctor")]
+        public async Task<IActionResult> GetDoctorasync()
+        {
+            HttpObject.APIresult aPI = new HttpObject.APIresult();
+            try
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
+                aPI.Data = await _Category.GetDoctor();
+                aPI.Messenger = "Success";
+                return Ok(aPI);
+            }
+            catch (Exception ex)
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.ERROR;
+                aPI.Messenger = ex.Message;
+                aPI.Data = null;
+                return BadRequest(aPI);
+            }
+        }
     }
 }

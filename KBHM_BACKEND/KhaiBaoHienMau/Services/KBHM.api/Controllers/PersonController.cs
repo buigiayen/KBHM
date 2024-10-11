@@ -81,6 +81,34 @@ namespace KBHM.api.Controllers
             var data = await _Person.PutPersonABORH(person);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+        [Authorize]
+        [HttpPost("Person/Delay")]
+        public async Task<IActionResult> PostPersonDonateDelay([FromBody] PersonDonateDelay person)
+        {
+            var data = await _Person.PostPersonDonateDelay(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+        [Authorize]
+        [HttpGet("Person/Delay/{CCCD}")]
+        public async Task<IActionResult> GetPersonDonateDelay(string CCCD)
+        {
+            var data = await _Person.GetPersonDonateDelay(new PersonDonateDelay { CCCD = CCCD });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+        [Authorize]
+        [HttpPut("Person/Delay")]
+        public async Task<IActionResult> PutPersonDonateDelay([FromBody] PersonDonateDelay person)
+        {
+            var data = await _Person.PutPersonDonateDelay(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+        [Authorize]
+        [HttpPut("Person/Delay/{ID}")]
+        public async Task<IActionResult> DeletePersonDonateDelay(string ID)
+        {
+            var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID) });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
 

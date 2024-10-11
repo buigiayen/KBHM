@@ -34,16 +34,13 @@ export const PUT_PersonTrip = async (prop) => {
 export const PUT_PersonDone = async (prop) => {
   return await HttpRequest("PUT", `/kbhm/Person/Done`, prop, true);
 };
-export const PUT_PersonABORH = async ({RowID,ABO, RH}) => {
-  const body = {RowID,ABO, RH}
+export const PUT_PersonABORH = async ({ RowID, ABO, RH, HST, HBV }) => {
+  const body = { RowID, ABO, RH, HST, HBV };
   return await HttpRequest("PUT", `/kbhm/Person/ABORH`, body, true);
 };
 
 export const GET_DonorExCheck = async ({ DonorExCode }) => {
-  return await HttpRequest(
-    "GET",
-    `/bl/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`
-  );
+  return await HttpRequest("GET", `/bl/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`);
 };
 export const POST_SyncDonor = async (ID) => {
   try {
@@ -72,6 +69,10 @@ export const POST_SyncDonor = async (ID) => {
         NgheNghiep,
         DiaChiCoQuan,
         CanNang,
+        ABO,
+        Rh,
+        HST,
+        HBV,
       } = DataPerson[0];
 
       const DataSync = {
@@ -92,9 +93,14 @@ export const POST_SyncDonor = async (ID) => {
         HGB: "1",
         PULSE: `${Mach}`,
         STATUS: TinhTrangLamSang,
-        WEIGH: `${ChieuCao}`,
+        WEIGH: `${CanNang}`,
+        HEIGH: `${ChieuCao}`,
         JobID: NgheNghiep,
         ContactAddress: DiaChiCoQuan,
+        ABO: ABO,
+        Rh: Rh,
+        HST: HST,
+        HBV: HBV,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
@@ -103,4 +109,52 @@ export const POST_SyncDonor = async (ID) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const POST_SyncDelay = async (ID, data) => {
+  try {
+    let DataPerson = await GET_Person(ID);
+    if (DataPerson !== undefined) {
+      const { RowID, Name, BirthDay, Sex, CCCD, Phone, DateRegister, DiaChiLienLac, DiaChiThuongTru_ChiTiet, NgheNghiep, DiaChiCoQuan } = DataPerson[0];
+      const DataSync = {
+        DateIn: DateRegister,
+        DonorCode: CCCD,
+        DonorName: Name,
+        DonorNameUnsign: Name,
+        Sex: `${Sex}`,
+        Age: null,
+        Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
+        Phone: Phone,
+        BirthDay: BirthDay,
+        JobID: NgheNghiep,
+        ContactAddress: DiaChiCoQuan,
+        ...data,
+      };
+      return await HttpRequest("POST", `/bl/SyncDonnor/Delay`, DataSync, true);
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const POST_SyncDelayDelete = async (data) => {
+  return await HttpRequest("POST", `/bl/SyncDonnor/Delay/Delete`, data, true);
+};
+
+export const POST_PersonDonateDelay = async (data) => {
+  return await HttpRequest("POST", `/kbhm/Person/Delay`, data, true);
+};
+
+export const PUT_PersonDonateDelay = async (data) => {
+  return await HttpRequest("PUT", `/kbhm/Person/Delay`, data, true);
+};
+
+export const GET_PersonDonateDelay = async (CCCD) => {
+  return await HttpRequest("GET", `/kbhm/Person/Delay/${CCCD}`);
+};
+
+export const DELETE_PersonDonateDelay = async (ID) => {
+  return await HttpRequest("PUT", `/kbhm/Person/Delay/${ID}`);
 };
