@@ -157,7 +157,7 @@ namespace BloodBank.api.command
                                                        BEGIN
                                          Print('Insert Donnor_ex')
 											declare @DonorID_Insert int; set @DonorID_Insert =  (select Top(1)  DonorID from tbl_Donor where DonorCode=@DonorCode);
-											insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,BloodVolume,ElementID, DateIn, SID, Weigh,Heigh,Pulse,BloodPressure,DoctorID,Examination,ABO,Rh,HST,HBV) values (@DonorExCode, @DonorID_Insert ,@BloodSourceLocationId,@BloodVolume,@ElementID,@DateIn, @SID, @WEIGH,@HEIGH,@PULSE,@BLOODPRESSURE,@DoctorID,@STATUS,@ABO,@Rh,@HST,@HBV);
+											insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,BloodVolume,ElementID, DateIn, SID, Weigh,Heigh,Pulse,BloodPressure,DoctorID,Examination,ABO,Rh,HST,HBV,Valid,ValidTime) values (@DonorExCode, @DonorID_Insert ,@BloodSourceLocationId,@BloodVolume,@ElementID,@DateIn, @SID, @WEIGH,@HEIGH,@PULSE,@BLOODPRESSURE,@DoctorID,@STATUS,@ABO,@Rh,@HST,@HBV,1,GetDate());
 											declare @DonorIDEx_Insert int; set @DonorIDEx_Insert =  (select Top(1)  DonorExID from tbl_Donor_Examine where DonorExCode=@DonorExCode);
 										{Insert_tbl_Donor_Examine_Attribute}
 										 END

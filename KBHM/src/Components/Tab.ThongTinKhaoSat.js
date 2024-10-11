@@ -35,7 +35,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, d
       label: `Trì hoãn hiến máu`,
       key: "4",
       children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} />,
-      disabled: loadingDelay || disableTabLayMau == true,
+      disabled: loadingDelay,
     },
     {
       label: `Lấy máu`,
