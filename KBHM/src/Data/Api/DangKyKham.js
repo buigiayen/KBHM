@@ -73,6 +73,7 @@ export const POST_SyncDonor = async (ID) => {
         Rh,
         HST,
         HBV,
+        BacSiKham,
       } = DataPerson[0];
 
       const DataSync = {
@@ -101,6 +102,7 @@ export const POST_SyncDonor = async (ID) => {
         Rh: Rh,
         HST: HST,
         HBV: HBV,
+        DoctorID: BacSiKham,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
