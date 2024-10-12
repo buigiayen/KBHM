@@ -1,4 +1,5 @@
-﻿using KBHM.api.Model;
+﻿using KBHM.api.Interfaces;
+using KBHM.api.Model;
 using Microsoft.Identity.Client;
 using Services.lib.Http;
 using Services.lib.Sql;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using static Services.lib.Http.HttpObjectData;
 
 namespace KBHM.api.Command
 {
@@ -95,7 +97,7 @@ namespace KBHM.api.Command
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
              " UPDATE  [dbo].[Person] set [CanNang]=@CanNang,[ChieuCao]=@ChieuCao,[Mach]=@Mach,[HuyetAp]=@HuyetAp,[TinhTrangLamSang]=@TinhTrangLamSang,[ChoPhepHienMau]=@ChoPhepHienMau,[LuongMauLay]=@LuongMauLay   ,[TamHoan] = @TamHoan      ,[NgayHien] =@NgayHien     ,luongMauCoTheHien=@LuongMauCoTheHien," +
-             "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri where RowID = @ROWIDs";
+             "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri,[BacSiKham]=@BacSiKham where RowID = @ROWIDs";
 
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
@@ -163,7 +165,152 @@ namespace KBHM.api.Command
 
         public async Task<HttpObjectData.APIresult> PutPersonABORH(Model.Person person)
         {
-            string sql = "update Person set ABO=@ABO , RH=@RH where RowID=@RowID";
+            string sql = "update Person set ABO=@ABO , RH=@RH, HST=@HST, HBV=@HBV where RowID=@RowID";
+            return await _dataprovider.ExcuteQueryAsync(sql, person);
+        }
+
+        public async Task<HttpObject.APIresult> PostPersonDonateDelay(PersonDonateDelay person)
+        {
+            Guid RowsID = Guid.NewGuid();
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{RowsID}';" +
+              " INSERT INTO [dbo].[PersonDonateDelay] ([RowID]" +
+              ",[CCCD] " +
+              ",[DelayDate] " +
+              ",[DelayTimeline] " +
+              ",[DelayTime]" +
+              ",[HIV_Infection]" +
+              ",[HCV_Infection]" +
+              ",[HBV_Infection]" +
+              ",[VDRL_Infection]" +
+              ",[AIDS_Risk]" +
+              ",[Liver_Risk] " +
+              ",[Tattoo] " +
+              ",[CJD]" +
+              ",[Hormon]" +
+              ",[Weight]" +
+              ",[BloodPressure]" +
+              ",[Pulse]" +
+              ",[Temperature] " +
+              ",[Hb] " +
+              ",[HealthHistory] " +
+              ",[HealthHistoryDetail] " +
+              ",[MCV] " +
+              ",[HCT] " +
+              ",[WhiteBloodCellQuantity] " +
+              ",[SmallVen] " +
+              ",[PlateletQuantity] " +
+              ",[TimeBloodDonorsReiterated] " +
+              ",[HbsAg] " +
+              ",[Other] " +
+              ",[HIV_Positive] " +
+              ",[HCV_Positive] " +
+              ",[HBV_Positive] " +
+              ",[VDRL_Positive] " +
+              ",[CoombsTT_Positive] " +
+              ",[KTBT_Positive] " +
+              ",[HBsAg_Positive] " +
+              ",[ABO_Undetermined] " +
+              ",[Rh_Undetermined]) " +
+              " VALUES " +
+              "(@ROWIDs " +
+              ",@CCCD " +
+              ",@DelayDate " +
+              ",@DelayTimeline " +
+              ",@DelayTime " +
+              ",@HIV_Infection " +
+              ",@HCV_Infection " +
+              ",@HBV_Infection" +
+              ",@VDRL_Infection" +
+              ",@AIDS_Risk" +
+              ",@Liver_Risk" +
+              ",@Tattoo" +
+              ",@CJD" +
+              ",@Hormon" +
+              ",@Weight" +
+              ",@BloodPressure" +
+              ",@Pulse" +
+              ",@Temperature" +
+              ",@Hb" +
+              ",@HealthHistory" +
+              ",@HealthHistoryDetail" +
+              ",@MCV" +
+              ",@HCT" +
+              ",@WhiteBloodCellQuantity" +
+              ",@SmallVen" +
+              ",@PlateletQuantity" +
+              ",@TimeBloodDonorsReiterated" +
+              ",@HbsAg" +
+              ",@Other" +
+              ",@HIV_Positive" +
+              ",@HCV_Positive" +
+              ",@HBV_Positive" +
+              ",@VDRL_Positive" +
+              ",@CoombsTT_Positive" +
+              ",@KTBT_Positive" +
+              ",@HBsAg_Positive" +
+              ",@ABO_Undetermined" +
+              ",@Rh_Undetermined" +
+              "); ";
+            sql += "select @ROWIDs as Code ";
+            return await _dataprovider.SQLQueryAsync(sql, person);
+        }
+
+        public async Task<HttpObject.APIresult> GetPersonDonateDelay(PersonDonateDelay person)
+        {      
+            string sql = "SELECT   * FROM  PersonDonateDelay where CCCD = @CCCD " +
+                         "and (DelayTimeline = 5 or DelayTimeline = 6 or GETDATE() <= CASE WHEN DelayTimeline = 1 THEN DATEADD(DAY, DelayTime, DelayDate) " +
+                         "WHEN DelayTimeline = 2 THEN DATEADD(WEEK, DelayTime, DelayDate) " +
+                         "WHEN DelayTimeline = 3 THEN DATEADD(MONTH, DelayTime, DelayDate) " +
+                         "WHEN DelayTimeline = 4 THEN DATEADD(YEAR, DelayTime, DelayDate) END )";
+            return await _dataprovider.SQLQueryAsync(sql, person);
+        }
+
+        public async Task<HttpObject.APIresult> PutPersonDonateDelay(PersonDonateDelay person)
+        {
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
+             " UPDATE  [dbo].[PersonDonateDelay] set " +
+             " [DelayTimeline] = @DelayTimeline," +
+             " [DelayTime] = @DelayTime ," +
+             " [HIV_Infection]=@HIV_Infection ," +
+             " [HCV_Infection]=@HCV_Infection ," +
+             " [HBV_Infection]=@HBV_Infection, " +
+             " [VDRL_Infection]=@VDRL_Infection," +
+             " [AIDS_Risk]=@AIDS_Risk ," +
+             " [Liver_Risk]=@Liver_Risk ," +
+             " [Tattoo]=@Tattoo ," +
+             " [CJD]=@CJD ," +
+             " [Hormon]=@Hormon," +
+             " [Weight]=@Weight," +
+             " [BloodPressure]=@BloodPressure," +
+             " [Pulse] = @Pulse," +
+             " [Temperature] = @Temperature," +
+             " [Hb] = @Hb," +
+             " [HealthHistory] = @HealthHistory," +
+             " [HealthHistoryDetail] = @HealthHistoryDetail," +
+             " [MCV] = @MCV," +
+             " [HCT] = @HCT," +
+             " [WhiteBloodCellQuantity] = @WhiteBloodCellQuantity," +
+             " [SmallVen] = @SmallVen," +
+             " [PlateletQuantity] = @PlateletQuantity," +
+             " [TimeBloodDonorsReiterated] = @TimeBloodDonorsReiterated," +
+             " [HbsAg] = @HbsAg," +
+             " [Other] = @Other," +
+             " [HIV_Positive] = @HIV_Positive," +
+             " [HCV_Positive] = @HCV_Positive," +
+             " [HBV_Positive] = @HBV_Positive," +
+             " [VDRL_Positive] = @VDRL_Positive," +
+             " [CoombsTT_Positive] = @CoombsTT_Positive," +
+             " [KTBT_Positive] = @KTBT_Positive," +
+             " [HBsAg_Positive] = @HBsAg_Positive," +
+             " [ABO_Undetermined] = @ABO_Undetermined," +
+             " [Rh_Undetermined] = @Rh_Undetermined " +
+             " where RowID = @ROWIDs";
+            return await _dataprovider.ExcuteQueryAsync(sql, person);
+        }
+
+        public async Task<HttpObject.APIresult> DeletePersonDonateDelay(PersonDonateDelay person)
+        {
+            string sql = "Delete PersonDonateDelay where RowID=@RowID";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
     }

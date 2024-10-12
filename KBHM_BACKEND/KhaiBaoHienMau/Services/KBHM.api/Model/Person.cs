@@ -31,6 +31,7 @@ namespace KBHM.api.Model
         public double? Mach { get; set; }
         public string? HuyetAp { get; set; }
         public string TinhTrangLamSang { get; set; }
+        public string BacSiKham { get; set; }
         public bool? ChoPhepHienMau { get; set; }
         public double? LuongMauLay { get; set; }
         public int? TamHoan { get; set; }
@@ -51,6 +52,8 @@ namespace KBHM.api.Model
         public string NguoiDongBo { get; set; }
         public string ABO { get; set; }
         public string RH { get; set; }
+        public string HST { get; set; }
+        public string HBV { get; set; }
             
         public List<PersonProperties> PersonProperties { get; set; }
       

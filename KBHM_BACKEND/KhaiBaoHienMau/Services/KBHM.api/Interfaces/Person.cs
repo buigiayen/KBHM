@@ -1,4 +1,5 @@
-﻿using Services.lib.Sql;
+﻿using KBHM.api.Model;
+using Services.lib.Sql;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,6 +18,10 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> GetPerson(Model.Person person);
         Task<IEnumerable<Model.Person>> GetPersonInfo();
         Task<HttpObject.APIresult> PutPersonABORH(Model.Person person);
+        Task<HttpObject.APIresult> PostPersonDonateDelay(PersonDonateDelay person);
+        Task<HttpObject.APIresult> GetPersonDonateDelay(PersonDonateDelay person);
+        Task<HttpObject.APIresult> PutPersonDonateDelay(PersonDonateDelay person);
+        Task<HttpObject.APIresult> DeletePersonDonateDelay(PersonDonateDelay person);
 
     }
 }

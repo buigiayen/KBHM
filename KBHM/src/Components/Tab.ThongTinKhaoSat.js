@@ -4,8 +4,9 @@ import KhamLamSang from "../Components/ComponentsGlobal/ThongTinKhaoSat/KhamLamS
 import XNTruochien from "../Components/ComponentsGlobal/ThongTinKhaoSat/XNTruocHien/index";
 import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index";
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
+import TriHoanHienMau from "./ComponentsGlobal/ThongTinKhaoSat/TriHoanHienMau";
 
-const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload }) => {
+const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, dataDelay, loadingDelay, GetDataDelay }) => {
   const [disableTabLayMau, SetDisabledLayMau] = useState();
   useEffect(() => {
     SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
@@ -23,14 +24,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload })
     {
       label: `Khám LS`,
       key: "2",
-      children: (
-        <KhamLamSang
-          ID={IDPerson}
-          HienMau={SetdisableTabLayMau}
-          dataPerson={DataPerson}
-          funcReload={funcReload}
-        />
-      ),
+      children: <KhamLamSang ID={IDPerson} HienMau={SetdisableTabLayMau} dataPerson={DataPerson} funcReload={funcReload} dataDelay={dataDelay} />,
     },
     {
       label: `XN trước hiến`,
@@ -38,29 +32,22 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload })
       children: <XNTruochien Person={DataPerson}></XNTruochien>,
     },
     {
-      label: `Lấy máu`,
+      label: `Trì hoãn hiến máu`,
       key: "4",
-      children: (
-        <Laymau
-          ID={IDPerson}
-          dataPerson={DataPerson}
-          dataSourceElement={DataElement}
-          FuncReload={funcReload}
-        />
-      ),
+      children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} />,
+      disabled: loadingDelay,
+    },
+    {
+      label: `Lấy máu`,
+      key: "5",
+      children: <Laymau ID={IDPerson} dataPerson={DataPerson} dataSourceElement={DataElement} FuncReload={funcReload} />,
       disabled: !disableTabLayMau,
     },
   ];
 
   return (
     <div>
-      <Tabs
-        type="card"
-        size={"small"}
-        items={Component}
-        tabIndex={2}
-        defaultActiveKey="2"
-      />
+      <Tabs type="card" size={"small"} items={Component} tabIndex={2} defaultActiveKey="2" />
     </div>
   );
 };

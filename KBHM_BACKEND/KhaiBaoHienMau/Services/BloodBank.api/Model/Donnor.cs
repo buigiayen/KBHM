@@ -28,7 +28,13 @@ namespace BloodBank.api.Model
             public string PULSE { get; set; }
             public string STATUS { get; set; }
             public string WEIGH { get; set; }
+            public string HEIGH { get; set; }
             public string SID { get; set; }
+            public string ABO { get; set; }
+            public string Rh { get; set; }
+            public string HST { get; set; }
+            public string HBV { get; set; }
+            public string DoctorID { get; set; }
         }
         public class HistoryDonnor
         {

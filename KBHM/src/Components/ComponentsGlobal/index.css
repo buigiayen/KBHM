@@ -1,3 +1,6 @@
 .btnFull{
     width: 100%;
 }
+.ant-checkbox-group{
+    display: inline-block
+}

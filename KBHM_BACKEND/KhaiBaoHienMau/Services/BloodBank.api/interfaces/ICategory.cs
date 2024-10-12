@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using BloodBank.api.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BloodBank.api.interfaces
 {
     public interface ICategory
     {
-        Task<List<Model.CategoryData>> GetLocation();
-        Task<List<Model.CategoryData>> GetMlBoold();
-        Task<List<Model.CategoryData>> GetElementBoold();
-        Task<List<Model.CategoryData>> GetJob();
+        Task<List<CategoryData>> GetLocation();
+        Task<List<CategoryData>> GetMlBoold();
+        Task<List<CategoryData>> GetElementBoold();
+        Task<List<CategoryData>> GetJob();
+        Task<List<CategoryData>> GetDoctor();
     }
 }

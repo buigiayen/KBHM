@@ -2,7 +2,7 @@
 
 namespace KBHM.api.Model
 {
-    public class PersonProperties : Model.Person
+    public class PersonProperties 
     {
         public int RowID { get; set; }
         public Guid ID { get; set; }

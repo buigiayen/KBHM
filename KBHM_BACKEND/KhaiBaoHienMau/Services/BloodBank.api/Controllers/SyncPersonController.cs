@@ -1,4 +1,5 @@
 ﻿using BloodBank.api.interfaces;
+using BloodBank.api.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -26,6 +27,20 @@ namespace BloodBank.api.Controllers
         public async Task<IActionResult> SyncDonnorAsync([FromBody] Model.Donnor.tbl_Donor donnor)
         {
             var data = await _ISyncDonnor.SyncDonnorEx(donnor);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("SyncDonnor", data) : BadRequest(data);
+        }
+
+        [HttpPost("SyncDonnor/Delay")]
+        public async Task<IActionResult> SyncDonorDelay([FromBody] Model.BloodDonationDelay delay)
+        {
+            var data = await _ISyncDonnor.SyncDonorDelay(delay);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("SyncDonnor", data) : BadRequest(data);
+        }
+
+        [HttpPost("SyncDonnor/Delay/Delete")]
+        public async Task<IActionResult> SyncDonorDelayDelete([FromBody] Model.BloodDonationDelay delay)
+        {
+            var data = await _ISyncDonnor.SyncDeleteDonorDelay(delay);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Created("SyncDonnor", data) : BadRequest(data);
         }
 

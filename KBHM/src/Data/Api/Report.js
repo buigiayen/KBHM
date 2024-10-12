@@ -1,6 +1,6 @@
 import printJS from "print-js";
 import { connectionApiThirdParty } from "../Config/APIConnection";
-const reportUrl = "https://hienmaubvdktinhthanhhoa.com:9000/report/Rp_dkhienmau.repx";
+const reportUrl = "https://hienmaubvdktinhthanhhoa.com:9000/report/Rp_dkhienmau_test.repx";
 export const Post_CreateReport = async ({ dataReport }) => {
   const body = { ReportUrl: reportUrl, dataReport, tableName: "" };
   var data = await connectionApiThirdParty({
@@ -14,4 +14,3 @@ export const Post_CreateReport = async ({ dataReport }) => {
   const url = URL.createObjectURL(blob);
   printJS({ printable: url, type: "pdf", showModal: true });
 };
-
