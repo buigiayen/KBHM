@@ -64,7 +64,7 @@ export const POST_SyncDonor = async (ID) => {
         LoaiHienThanhPhan,
         HuyetAp,
         TinhTrangLamSang,
-        Mach,
+        Mach || "",
         ChieuCao,
         NgheNghiep,
         DiaChiCoQuan,
