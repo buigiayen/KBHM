@@ -175,7 +175,7 @@ namespace BloodBank.api.command
 
                                     END";
             string Query = rowguid + Environment.NewLine + ActionDonnor;
-            await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, donnor);
+            //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, donnor);
             return await Dataprovider.ExcuteQueryAsync(Query, donnor);
         }
         public async Task<string> SetNameUnsign(string Name)
@@ -364,7 +364,7 @@ namespace BloodBank.api.command
 		                                END                            
                                 END";
             string Query = rowguid + Environment.NewLine + delayrowguid + Environment.NewLine+  SQL;
-            await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, delay);
+            //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, delay);
             return await Dataprovider.ExcuteQueryAsync(Query, delay);
         }
 
@@ -376,7 +376,7 @@ namespace BloodBank.api.command
 			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and RegisterDate = @RegisterDate
 		                                END                            
                                 END";
-            await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", SQL, delay);
+            //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", SQL, delay);
             return await Dataprovider.ExcuteQueryAsync(SQL, delay);
         }
 
