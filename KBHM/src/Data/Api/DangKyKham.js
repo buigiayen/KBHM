@@ -92,7 +92,7 @@ export const POST_SyncDonor = async (ID) => {
         ElementID: LoaiHienThanhPhan,
         BLOODPRESSURE: HuyetAp,
         HGB: "1",
-        PULSE: Mach ? `${Mach}` : null,
+        PULSE: Mach,
         STATUS: TinhTrangLamSang,
         WEIGH: CanNang,
         HEIGH: ChieuCao,
