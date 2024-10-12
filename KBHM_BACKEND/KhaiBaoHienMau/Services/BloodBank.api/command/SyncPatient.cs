@@ -371,10 +371,9 @@ namespace BloodBank.api.command
         public async Task<HttpObjectData.APIresult> SyncDeleteDonorDelay(Model.BloodDonationDelay delay)
         {
             string SQL = $@"BEGIN
-	                                declare @DonorID varchar; set @DonorID = (Select top 1 DonorID from tbl_Donor where DonorCode=@DonorCode);
 		                                BEGIN
 		                                Print('Delete Blood_Donation_Delay')
-			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorID and RegisterDate = @RegisterDate
+			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and RegisterDate = @RegisterDate
 		                                END                            
                                 END";
             await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", SQL, delay);
