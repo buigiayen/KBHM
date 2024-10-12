@@ -70,39 +70,40 @@ export const POST_SyncDonor = async (ID) => {
         DiaChiCoQuan,
         CanNang,
         ABO,
-        Rh,
+        RH,
         HST,
         HBV,
         BacSiKham,
       } = DataPerson[0];
-
       const DataSync = {
         DateIn: DateRegister,
         DonorCode: CCCD,
         DonorName: Name,
         DonorNameUnsign: Name,
         Sex: `${Sex}`,
-        Age: null,
-        Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
+        CCCD: CCCD,
+        Age: new Date(BirthDay).getFullYear(),
+        Address: (DiaChiLienLac || "") + " " + (DiaChiThuongTru_ChiTiet || ""),
         Phone: Phone,
         BirthDay: BirthDay,
         DonorExCode: MaTuiMau,
         BloodSourceLocationId: DiemLayMau,
-        BloodVolume: `${LuongHien}`,
-        ElementID: `${LoaiHienThanhPhan}`,
-        BLOODPRESSURE: `${HuyetAp}`,
+        BloodVolume: LuongHien,
+        ElementID: LoaiHienThanhPhan,
+        BLOODPRESSURE: HuyetAp,
         HGB: "1",
-        PULSE: `${Mach}`,
+        PULSE: Mach,
         STATUS: TinhTrangLamSang,
-        WEIGH: `${CanNang}`,
-        HEIGH: `${ChieuCao}`,
+        WEIGH: CanNang,
+        HEIGH: ChieuCao,
         JobID: NgheNghiep,
         ContactAddress: DiaChiCoQuan,
         ABO: ABO,
-        Rh: Rh,
+        Rh: RH,
         HST: HST,
         HBV: HBV,
         DoctorID: BacSiKham,
+        UserSync: localStorage.getItem("userID"),
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
@@ -117,19 +118,25 @@ export const POST_SyncDelay = async (ID, data) => {
   try {
     let DataPerson = await GET_Person(ID);
     if (DataPerson !== undefined) {
-      const { RowID, Name, BirthDay, Sex, CCCD, Phone, DateRegister, DiaChiLienLac, DiaChiThuongTru_ChiTiet, NgheNghiep, DiaChiCoQuan } = DataPerson[0];
+      const { RowID, Name, BirthDay, Sex, CCCD, Phone, DateRegister, DiaChiLienLac, DiaChiThuongTru_ChiTiet, NgheNghiep, DiaChiCoQuan, ABO, RH, HST, HBV } = DataPerson[0];
       const DataSync = {
         DateIn: DateRegister,
         DonorCode: CCCD,
         DonorName: Name,
         DonorNameUnsign: Name,
         Sex: `${Sex}`,
-        Age: null,
-        Address: DiaChiLienLac + DiaChiThuongTru_ChiTiet,
+        Age: new Date(BirthDay).getFullYear(),
+        Address: (DiaChiLienLac || "") + " " + (DiaChiThuongTru_ChiTiet || ""),
         Phone: Phone,
         BirthDay: BirthDay,
         JobID: NgheNghiep,
         ContactAddress: DiaChiCoQuan,
+        ABO: ABO,
+        Rh: RH,
+        CCCD: CCCD,
+        HST: HST,
+        HBV: HBV,
+        CCCD: CCCD,
         ...data,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor/Delay`, DataSync, true);

@@ -128,7 +128,8 @@ namespace BloodBank.api.command
                  {"HGB",donnor.HGB},
                  {"PULSE",donnor.PULSE },
                  {"STATUS", donnor.STATUS},
-                 {"WEIGH",donnor.WEIGH}
+                 {"WEIGH",donnor.WEIGH?.ToString()},
+                 {"HEIGH",donnor.HEIGH?.ToString()}
             };
             for (int i = 0; i < tbl_Donor_Examine_Attribute.Length / tbl_Donor_Examine_Attribute.Rank; i++)
             {
@@ -143,12 +144,12 @@ namespace BloodBank.api.command
                                        IF NOT EXISTS (SELECT * FROM tbl_Donor D  WHERE (D.IdentityID =@IdentityID or D.DonorCode = @DonorCode))
                                                        BEGIN
                                          Print('Insert Patient')
-                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age ,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress, ABO ) values(Getdate(),@DonorCode,@Sex,@Age,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress,'?' );
+                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age , CCCD,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress, ABO, Rh ) values(Getdate(),@DonorCode,@Sex,@Age,@CCCD,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress,@ABO,@Rh );
                                          END
                                        ELSE
                                         BEGIN
                                         Print('Update Patient')
-                                        update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age ,Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay, JobID=@JobID , ContactAddress=@ContactAddress where  (IdentityID=@IdentityID   or DonorCode=@DonorCode);   
+                                        update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age, CCCD=@CCCD, Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay, JobID=@JobID , ContactAddress=@ContactAddress, ABO=@ABO,Rh=@Rh where  (IdentityID=@IdentityID   or DonorCode=@DonorCode);   
                                       end
 
 
@@ -157,7 +158,7 @@ namespace BloodBank.api.command
                                                        BEGIN
                                          Print('Insert Donnor_ex')
 											declare @DonorID_Insert int; set @DonorID_Insert =  (select Top(1)  DonorID from tbl_Donor where DonorCode=@DonorCode);
-											insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,BloodVolume,ElementID, DateIn, SID, Weigh,Heigh,Pulse,BloodPressure,DoctorID,Examination,ABO,Rh,HST,HBV,Valid,ValidTime) values (@DonorExCode, @DonorID_Insert ,@BloodSourceLocationId,@BloodVolume,@ElementID,@DateIn, @SID, @WEIGH,@HEIGH,@PULSE,@BLOODPRESSURE,@DoctorID,@STATUS,@ABO,@Rh,@HST,@HBV,1,GetDate());
+											insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,BloodVolume,ElementID, DateIn, SID, Weigh,Heigh,Pulse,BloodPressure,DoctorID,Examination,ABO,Rh,HST,HBV,Valid,ValidTime,UserValid) values (@DonorExCode, @DonorID_Insert ,@BloodSourceLocationId,@BloodVolume,@ElementID,@DateIn, @SID, @WEIGH,@HEIGH,@PULSE,@BLOODPRESSURE,@DoctorID,@STATUS,@ABO,@Rh,@HST,@HBV,1,GetDate(),@UserSync);
 											declare @DonorIDEx_Insert int; set @DonorIDEx_Insert =  (select Top(1)  DonorExID from tbl_Donor_Examine where DonorExCode=@DonorExCode);
 										{Insert_tbl_Donor_Examine_Attribute}
 										 END
@@ -275,15 +276,13 @@ namespace BloodBank.api.command
                                        IF NOT EXISTS (SELECT * FROM tbl_Donor D  WHERE (D.IdentityID =@IdentityID or D.DonorCode = @DonorCode))
                                                        BEGIN
                                          Print('Insert Patient')
-                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age ,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress, ABO ) values(Getdate(),@DonorCode,@Sex,@Age,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress,'?' );
+                                        insert into tbl_Donor (DateIn,DonorCode, sex,  Age , CCCD,Address,DonorName,DonorNameUnsign,Phone,BirthDay,IdentityID, TypeOf, rowguid , JobID, ContactAddress, ABO, Rh ) values(Getdate(),@DonorCode,@Sex,@Age,@CCCD,@Address,@DonorName,@DonorNameUnsign,@Phone,@BirthDay,@IdentityID,1,@ID,@JobID,@ContactAddress,@ABO,@Rh );
                                          END
                                        ELSE
                                         BEGIN
                                         Print('Update Patient')
-                                        update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age ,Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay, JobID=@JobID , ContactAddress=@ContactAddress where  (IdentityID=@IdentityID   or DonorCode=@DonorCode);   
+                                        update tbl_Donor set DonorCode=@DonorCode, sex=@Sex,  Age=@Age, CCCD=@CCCD, Address=@Address,DonorName=@DonorName,DonorNameUnsign=@DonorNameUnsign,Phone=@Phone,BirthDay=@BirthDay, JobID=@JobID , ContactAddress=@ContactAddress, ABO=@ABO,Rh=@Rh where  (IdentityID=@IdentityID   or DonorCode=@DonorCode);   
                                       end
-
-	                                declare @DonorID varchar; set @DonorID = (Select top 1 DonorID from tbl_Donor where DonorCode=@DonorCode);
 		                                BEGIN
 		                                Print('Insert Blood_Donation_Delay')
 			                                Insert into tbl_Blood_Donation_Delay
@@ -324,7 +323,7 @@ namespace BloodBank.api.command
                                             ABO,
                                             Rh) 
                                             values
-                                            (@DelayID, @DonorID,
+                                            (@DelayID, @DonorCode,
                                             @RegisterDate,
                                             @Delay,
                                             @TimeDelay,

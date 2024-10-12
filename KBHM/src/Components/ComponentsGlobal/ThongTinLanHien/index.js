@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Form, Input, Divider, Checkbox } from "antd";
 import { Row, Col } from "reactstrap";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import RegionCombox from "../../Region.Combobox";
 import Job from "../Combobox/Job.Combobox";
 import UploadMinio from "../../upload.minio";
 import DateTime from "../DateTime";
-import {Get_Job} from '../../../Data/Api/Category'
+import { Get_Job } from "../../../Data/Api/Category";
 import "../index.css";
 import { useEffect } from "react";
 
@@ -21,13 +21,13 @@ const Index = ({ form, FetchPerson }) => {
   const [isVisibleComponent, setIsVisibleComponet] = useState(false);
   const [ListJob, SetListJob] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     LoadCategory();
-  }, [])
-  const LoadCategory = async() => {
+  }, []);
+  const LoadCategory = async () => {
     const Data = await Get_Job();
-    SetListJob(Data)
-  }
+    SetListJob(Data);
+  };
   const Ruler = [
     {
       message: "Bắt buộc",
@@ -39,15 +39,12 @@ const Index = ({ form, FetchPerson }) => {
     form?.setFieldValue(value);
   };
   const setTimeBirtday = ({ value }) => {
-   
     form?.setFieldValue(value);
   };
   return (
     <>
       <Divider orientation="left">
-        <span style={{ color: "blue", fontStyle: "bold", fontWeight: "bold" }}>
-          THÔNG TIN NGƯỜI HIẾN
-        </span>
+        <span style={{ color: "blue", fontStyle: "bold", fontWeight: "bold" }}>THÔNG TIN NGƯỜI HIẾN</span>
       </Divider>
 
       <Row>
@@ -60,22 +57,16 @@ const Index = ({ form, FetchPerson }) => {
               justifyContent: "center",
               fontWeight: "bold",
             }}
-            label={"ẢNH CHÂN DUNG"}>
-            <UploadMinio
-              Value={form?.getFieldValue("UrlImage")}
-              onChange={setImageForm}
-            />
+            label={"ẢNH CHÂN DUNG"}
+          >
+            <UploadMinio Value={form?.getFieldValue("UrlImage")} onChange={setImageForm} />
           </Form.Item>
         </Col>
 
         <Col lg={10}>
           <Row>
-            <Form.Item
-              name={"Name"}
-              label={"HỌ VÀ TÊN"}
-              style={{ fontWeight: "bold" }}
-              rules={Ruler}>
-              <Input placeholder="NGUYỄN VĂN A" onInput={e => e.target.value = e.target.value.toUpperCase()}/>
+            <Form.Item name={"Name"} label={"HỌ VÀ TÊN"} style={{ fontWeight: "bold" }} rules={Ruler}>
+              <Input placeholder="NGUYỄN VĂN A" onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
             </Form.Item>
           </Row>
           <Row>
@@ -85,9 +76,10 @@ const Index = ({ form, FetchPerson }) => {
                   <DateTime
                     labelFrom={"NGÀY SINH"}
                     Name={"BirthDay"}
-                    valueChange={(e) => {setTimeBirtday({value :e } ) } }
+                    valueChange={(e) => {
+                      setTimeBirtday({ value: e });
+                    }}
                   />
-               
                 </Col>
                 <Col lg={6}>
                   <SexCombobox
@@ -96,7 +88,8 @@ const Index = ({ form, FetchPerson }) => {
                     PropsFormItem={{
                       label: "GIỚI TÍNH",
                       style: { fontWeight: "bold" },
-                    }}></SexCombobox>
+                    }}
+                  ></SexCombobox>
                 </Col>
               </Row>
             </Col>
@@ -117,25 +110,14 @@ const Index = ({ form, FetchPerson }) => {
                 min: 9,
                 message: "CCCD không hợp lệ",
               },
-            ]}>
-            {FetchPerson !== undefined ? (
-              <Search
-                placeholder="Số căn cước"
-                onSearch={FetchPerson}
-                enterButton
-              />
-            ) : (
-              <Input></Input>
-            )}
+            ]}
+          >
+            {FetchPerson !== undefined ? <Search placeholder="Số căn cước" onSearch={FetchPerson} enterButton /> : <Input></Input>}
           </Form.Item>
         </Col>
 
         <Col span={12}>
-          <Form.Item
-            name={"NoiCapCCCD"}
-            label={"NƠI CẤP CCCD"}
-            rules={Ruler}
-            style={{ fontWeight: "bold" }}>
+          <Form.Item name={"NoiCapCCCD"} label={"NƠI CẤP CCCD"} rules={Ruler} style={{ fontWeight: "bold" }}>
             <Input></Input>
           </Form.Item>
         </Col>
@@ -143,11 +125,7 @@ const Index = ({ form, FetchPerson }) => {
 
       <Row gutter={[16, 16]}>
         <Col span={12}>
-          <Form.Item
-            name={"Phone"}
-            label={"SỐ ĐIỆN THOẠI"}
-            style={{ fontWeight: "bold" }}
-            rules={Ruler}>
+          <Form.Item name={"Phone"} label={"SỐ ĐIỆN THOẠI"} style={{ fontWeight: "bold" }} rules={Ruler}>
             <Input />
           </Form.Item>
         </Col>
@@ -161,14 +139,15 @@ const Index = ({ form, FetchPerson }) => {
                 message: "Email không hợp lệ!",
               },
             ]}
-            style={{ fontWeight: "bold" }}>
+            style={{ fontWeight: "bold" }}
+          >
             <Input></Input>
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={12}>
-            <Job label={"NGHỀ NGHIỆP"} Name={"NgheNghiep"}  DataSource={ListJob}/>
+          <Job label={"NGHỀ NGHIỆP"} Name={"NgheNghiep"} DataSource={ListJob} />
         </Col>
         <Col span={12}>
           <Form.Item label={"ĐỊA CHỈ CƠ QUAN"} name={"DiaChiCoQuan"} style={{ fontWeight: "bold" }}>
@@ -178,11 +157,7 @@ const Index = ({ form, FetchPerson }) => {
       </Row>
       <Row gutter={[16, 8]}>
         <Col span={24}>
-          <Form.Item
-            name={"DiaChiThuongTru"}
-            label={"ĐỊA CHỈ THƯỜNG TRÚ (GHI TRÊN CCCD)"}
-            style={{ fontWeight: "bold" }}
-            rules={Ruler}>
+          <Form.Item name={"DiaChiThuongTru"} label={"ĐỊA CHỈ THƯỜNG TRÚ (GHI TRÊN CCCD)"} style={{ fontWeight: "bold" }} rules={Ruler}>
             <Input />
           </Form.Item>
         </Col>
@@ -207,23 +182,17 @@ const Index = ({ form, FetchPerson }) => {
 
       <Row gutter={[16, 8]}>
         <Col span={18}>
-          <Form.Item
-            name={"DiaChiLienLac"}
-            label={"ĐỊA CHỈ LIÊN HỆ"}
-            style={{ fontWeight: "bold" }}>
+          <Form.Item name={"DiaChiLienLac"} label={"ĐỊA CHỈ LIÊN HỆ"} style={{ fontWeight: "bold" }}>
             <Input disabled={isVisibleComponent} />
           </Form.Item>
         </Col>
         <Col span={6}>
-          <Form.Item
-            label={" "}
-            name={"CheckNhuDiaChiThuongTru"}
-            valuePropName="checked"
-            style={{ fontWeight: "bold" }}>
+          <Form.Item label={" "} name={"CheckNhuDiaChiThuongTru"} valuePropName="checked" style={{ fontWeight: "bold" }}>
             <Checkbox
               onChange={(e) => {
                 setIsVisibleComponet(e.target.checked);
-              }}>
+              }}
+            >
               NHƯ ĐỊA CHỈ THƯỜNG TRÚ
             </Checkbox>
           </Form.Item>
@@ -232,11 +201,7 @@ const Index = ({ form, FetchPerson }) => {
 
       <Row>
         <Col span={24}>
-          <RegionCombox
-            disabled={isVisibleComponent}
-            name={"DiaChiThuongLienLac_ChiTiet"}
-            propsFormItem={{ style: { fontWeight: "bold" } }}
-            label={"ĐỊA CHỈ LIÊN LẠC"}></RegionCombox>
+          <RegionCombox disabled={isVisibleComponent} name={"DiaChiThuongLienLac_ChiTiet"} propsFormItem={{ style: { fontWeight: "bold" } }} label={"ĐỊA CHỈ LIÊN LẠC"}></RegionCombox>
         </Col>
       </Row>
     </>
