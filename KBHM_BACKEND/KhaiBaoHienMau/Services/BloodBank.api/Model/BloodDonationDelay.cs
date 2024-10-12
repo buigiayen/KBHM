@@ -127,5 +127,8 @@ namespace BloodBank.api.Model
         public bool? KQVDRL { get; set; }
 
         public bool? HBsAgTN { get; set; }
+
+        public string CCCD { get; set; }
+
     }
 }

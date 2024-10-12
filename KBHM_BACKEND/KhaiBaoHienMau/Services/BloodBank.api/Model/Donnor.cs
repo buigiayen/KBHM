@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace BloodBank.api.Model
@@ -27,14 +28,16 @@ namespace BloodBank.api.Model
             public string HGB { get; set; }
             public string PULSE { get; set; }
             public string STATUS { get; set; }
-            public string WEIGH { get; set; }
-            public string HEIGH { get; set; }
+            public float? WEIGH { get; set; }
+            public float? HEIGH { get; set; }
             public string SID { get; set; }
             public string ABO { get; set; }
             public string Rh { get; set; }
             public string HST { get; set; }
             public string HBV { get; set; }
             public string DoctorID { get; set; }
+            public string CCCD { get; set; }
+            public string UserSync { get; set; }
         }
         public class HistoryDonnor
         {

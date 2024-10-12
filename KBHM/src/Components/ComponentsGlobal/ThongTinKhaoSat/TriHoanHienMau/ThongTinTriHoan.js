@@ -12,7 +12,7 @@ const ThongTinTriHoan = ({}) => {
       <Form.Item label="2. Người hiến máu thuộc nhóm người có nguy cơ">
         <Row>{showRiskCheckbox()}</Row>
       </Form.Item>
-      <Form.Item label="3. Người hiến máu có hình xăm, xỏ khuyển,..." name="Tattoo" valuePropName="checked">
+      <Form.Item label="3. Người hiến máu có hình xăm, xỏ khuyên,..." name="Tattoo" valuePropName="checked">
         <Checkbox />
       </Form.Item>
       <Form.Item label="4. Người hiến máu có các dấu hiệu và triệu chứng của bệnh CJD/ biến thể CJD/ đã chết vì căn bệnh này" name="CJD" valuePropName="checked">
