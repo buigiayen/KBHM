@@ -3,7 +3,7 @@ import Marquee from "react-fast-marquee";
 import { Row, Col, Alert, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
-import { GET_Person, GET_PersonDonateDelay, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
+import { GET_DonorDelay, GET_Person, GET_PersonDonateDelay, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import HistoryDonnor from "../../Components/ComponentsGlobal/HistoryDonnor/index";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
@@ -24,6 +24,7 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
+  const [isDelaySync, setIsDelaySync] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
@@ -165,8 +166,119 @@ const Index = () => {
           }
 
           setReason(newReason);
+          setIsDelaySync(false);
         } else {
-          setDataDelay(null);
+          GET_DonorDelay(ID).then((resp) => {
+            const response = JSON.parse(resp);
+            if (response.length > 0) {
+              setDataDelay(response[0]);
+              let newReason = `Trì hoãn ${response[0].DelayTime || ""} ${TimeTriHoanText[response[0].DelayTimeline]} với lý do `;
+              if (response[0].HIV_Infection) {
+                newReason += "HIV, ";
+              }
+              if (response[0].HCV_Infection) {
+                newReason += "HCV, ";
+              }
+              if (response[0].HBV_Infection) {
+                newReason += "HBV, ";
+              }
+              if (response[0].VDRL_Infection) {
+                newReason += "VDRL, ";
+              }
+              if (response[0].AIDS_Risk) {
+                newReason += "Mắc bệnh AIDS, ";
+              }
+              if (response[0].Liver_Risk) {
+                newReason += "Viêm gan, ";
+              }
+              if (response[0].Tattoo) {
+                newReason += "Hình xăm, xỏ khuyên, ";
+              }
+              if (response[0].CJD) {
+                newReason += "CJD, ";
+              }
+              if (response[0].Hormon) {
+                newReason += "Sử dụng Hormon, ";
+              }
+              if (response[0].Weight) {
+                newReason += "Cân nặng, ";
+              }
+              if (response[0].BloodPressure) {
+                newReason += "Huyết áp, ";
+              }
+              if (response[0].Pulse) {
+                newReason += "Mạch, ";
+              }
+              if (response[0].Temperature) {
+                newReason += "Nhiệt độ, ";
+              }
+              if (response[0].Hb) {
+                newReason += "Hb, ";
+              }
+              if (response[0].HealthHistory) {
+                newReason += "Tiền sử sức khỏe, ";
+              }
+              if (response[0].HealthHistoryDetail) {
+                newReason += `${response[0].HealthHistoryDetail}, `;
+              }
+              if (response[0].MCV) {
+                newReason += "MCV, ";
+              }
+              if (response[0].HCT) {
+                newReason += "HCT, ";
+              }
+              if (response[0].WhiteBloodCellQuantity) {
+                newReason += "Số lượng bạch cầu, ";
+              }
+              if (response[0].SmallVen) {
+                newReason += "Ven nhỏ, ";
+              }
+              if (response[0].PlateletQuantity) {
+                newReason += "Số lượng tiểu cầu, ";
+              }
+              if (response[0].TimeBloodDonorsReiterated) {
+                newReason += "Thời gian hiến mắu nhắc lại, ";
+              }
+              if (response[0].HbsAg) {
+                newReason += "HbsAg (Test nhanh), ";
+              }
+              if (response[0].Other) {
+                newReason += `${response[0].Other}, `;
+              }
+              if (response[0].HIV_Positive) {
+                newReason += "HIV, ";
+              }
+              if (response[0].HCV_Positive) {
+                newReason += "HCV, ";
+              }
+              if (response[0].HBV_Positive) {
+                newReason += "HBV, ";
+              }
+              if (response[0].VDRL_Positive) {
+                newReason += "VDRL, ";
+              }
+              if (response[0].CoombsTT_Positive) {
+                newReason += "Coombs TT, ";
+              }
+              if (response[0].KTBT_Positive) {
+                newReason += "KTBT, ";
+              }
+              if (response[0].HIV_Infection) {
+                newReason += "HBsAg_Positive, ";
+              }
+              if (response[0].ABO_Undetermined) {
+                newReason += "ABO, ";
+              }
+              if (response[0].Rh_Undetermined) {
+                newReason += "RH, ";
+              }
+              setReason(newReason);
+              setIsDelaySync(true);
+            } else {
+              setIsDelaySync(false);
+              setDataDelay(null);
+            }
+          });
         }
         setLoadingDelay(false);
       });
@@ -260,6 +372,7 @@ const Index = () => {
               dataDelay={dataDelay}
               loadingDelay={loadingDelay}
               GetDataDelay={GetDataDelay}
+              isDelaySync={isDelaySync}
             />
           </Col>
         </Row>

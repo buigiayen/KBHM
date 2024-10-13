@@ -1,6 +1,8 @@
 ﻿using BloodBank.api.interfaces;
 using BloodBank.api.Model;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using Services.lib.BloodBank;
 using Services.lib.Http;
 using Services.lib.Sql;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static BloodBank.api.Model.Donnor;
+using static Dapper.SqlMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -363,7 +366,7 @@ namespace BloodBank.api.command
                                             ) 
 		                                END                            
                                 END";
-            string Query = rowguid + Environment.NewLine + delayrowguid + Environment.NewLine+  SQL;
+            string Query = rowguid + Environment.NewLine + delayrowguid + Environment.NewLine + SQL;
             //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, delay);
             return await Dataprovider.ExcuteQueryAsync(Query, delay);
         }
@@ -378,6 +381,76 @@ namespace BloodBank.api.command
                                 END";
             //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", SQL, delay);
             return await Dataprovider.ExcuteQueryAsync(SQL, delay);
+        }
+
+        public async Task<HttpObjectData.APIresult> GetDelayDonor(string DonorCode)
+        {
+            HttpObjectData.APIresult aPIresult = new HttpObjectData.APIresult();
+            List<PersonDonateDelay> delayDonnor = new List<PersonDonateDelay>();
+            string sql = "Select top 1 * from tbl_Blood_Donation_Delay Where DonorID = @DonorCode " +
+                         "and (Delay = 5 or Delay = 6 or GETDATE() <= CASE WHEN Delay = 1 THEN DATEADD(DAY, TimeDelay, RegisterDate) " +
+                         "WHEN Delay = 2 THEN DATEADD(WEEK, TimeDelay, RegisterDate) " +
+                         "WHEN Delay = 3 THEN DATEADD(MONTH, TimeDelay, RegisterDate) " +
+                         "WHEN Delay = 4 THEN DATEADD(YEAR, TimeDelay, RegisterDate) END ) order by RegisterDate DESC";
+
+
+            var DonnorEx = await Dataprovider.QueryMapperAsync<BloodDonationDelay>(sql, new { DonorCode = DonorCode });
+            foreach (var item in DonnorEx)
+            {
+                PersonDonateDelay personDonateDelay = new PersonDonateDelay();
+                if (item != null)
+                {
+                    personDonateDelay.DelayDate = item.RegisterDate;
+                    personDonateDelay.DelayTimeline = item.Delay;
+                    personDonateDelay.DelayTime = item.TimeDelay;
+                    personDonateDelay.HIV_Infection = item.HIV;
+                    personDonateDelay.HCV_Infection = item.HCV;
+                    personDonateDelay.HBV_Infection = item.HBV;
+                    personDonateDelay.VDRL_Infection = item.VDRL;
+                    personDonateDelay.AIDS_Risk = item.AIDS;
+                    personDonateDelay.Liver_Risk = item.VG;
+                    personDonateDelay.Tattoo = item.Xam;
+                    personDonateDelay.CJD = item.CJD;
+                    personDonateDelay.Hormon = item.Hormon;
+                    personDonateDelay.Weight = item.Weight;
+                    personDonateDelay.BloodPressure = item.BloodPressure;
+                    personDonateDelay.Pulse = item.Pulse;
+                    personDonateDelay.Temperature = item.Temperature;
+                    personDonateDelay.Hb = item.Hb;
+                    personDonateDelay.HealthHistory = item.HealthHistory;
+                    personDonateDelay.HealthHistoryDetail = item.Other3;
+                    personDonateDelay.MCV = item.MCV;
+                    personDonateDelay.HCT = item.Hct;
+                    personDonateDelay.WhiteBloodCellQuantity = item.WBCQuantity;
+                    personDonateDelay.SmallVen = item.SmallVeins;
+                    personDonateDelay.PlateletQuantity = item.PLTQuantity;
+                    personDonateDelay.TimeBloodDonorsReiterated = item.TimeBloodDonorsReiterated;
+                    personDonateDelay.HbsAg = item.HBsAgTN;
+                    personDonateDelay.Other = item.Other1;
+                    personDonateDelay.HIV_Positive = item.KQHIV;
+                    personDonateDelay.HCV_Positive = item.KQHCV;
+                    personDonateDelay.HBV_Positive = item.KQHBV;
+                    personDonateDelay.VDRL_Positive = item.KQVDRL;
+                    personDonateDelay.CoombsTT_Positive = item.CoombsTT;
+                    personDonateDelay.KTBT_Positive = item.KTBT;
+                    personDonateDelay.HBsAg_Positive = item.HBsAg;
+                    personDonateDelay.ABO_Undetermined = item.ABO;
+                    personDonateDelay.Rh_Undetermined = item.Rh;
+                  
+
+                }
+                delayDonnor.Add(personDonateDelay);
+            }
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new DefaultNamingStrategy() // This will preserve the original casing
+                }
+            };
+            aPIresult.Data = aPIresult.Data = JsonConvert.SerializeObject(delayDonnor, settings);
+
+            return aPIresult;
         }
 
 

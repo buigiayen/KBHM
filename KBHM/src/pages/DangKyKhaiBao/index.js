@@ -94,7 +94,8 @@ const Index = () => {
   };
   const CheckCondition = () => {
     let flag = true;
-    if (Properties === undefined) {
+    console.log(Properties);
+    if (Properties === undefined || Properties.length < 17) {
       Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
       flag = false;
     }

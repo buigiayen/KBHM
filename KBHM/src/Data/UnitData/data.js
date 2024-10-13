@@ -155,7 +155,7 @@ export const Question = [
         type: formType.checkbox,
       },
       {
-        Key: "4.3",
+        Key: "6.3",
         value: "Đến khám bác sỹ làm xét nghiệm",
         ShowText: true,
         type: formType.checkbox,

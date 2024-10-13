@@ -6,7 +6,7 @@ import { DELETE_PersonDonateDelay, POST_PersonDonateDelay, POST_SyncDelay, POST_
 import { DateTimeToLocaleDate } from "./helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson }) => {
+const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, isDelaySync }) => {
   const [modal, contextHolder] = Modal.useModal();
 
   const formRef = useRef();
@@ -100,9 +100,9 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson }) => {
     <>
       {contextHolder}
       <Form onFinish={UpdateTriHoanInformation} initialValues={dataDelay} ref={formRef} disabled={dataDelay}>
-        <ThoiGianTriHoan onChangeTimeTriHoan={onChangeTimeTriHoan} loaiTriHoan={loaiTriHoan} />
+        <ThoiGianTriHoan onChangeTimeTriHoan={onChangeTimeTriHoan} loaiTriHoan={loaiTriHoan} dataDelay={dataDelay} />
         <ThongTinTriHoan />
-        <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!loaiTriHoan} danger={dataDelay}>
+        <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!loaiTriHoan || isDelaySync} danger={dataDelay}>
           {dataDelay ? "Hủy trì hoãn" : "Xác nhận"}
         </Button>
       </Form>

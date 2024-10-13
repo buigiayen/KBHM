@@ -1,4 +1,5 @@
 ﻿using Services.lib.Http;
+using Services.lib.Sql;
 using System.Threading.Tasks;
 
 namespace BloodBank.api.interfaces
@@ -10,5 +11,6 @@ namespace BloodBank.api.interfaces
         Task<HttpObjectData.APIresult> HistoryDonnorAsync(string IdentityID);
         Task<HttpObjectData.APIresult> SyncDonorDelay(Model.BloodDonationDelay delay);
         Task<HttpObjectData.APIresult> SyncDeleteDonorDelay(Model.BloodDonationDelay delay);
+        Task<HttpObjectData.APIresult> GetDelayDonor(string DonorCode);
     }
 }
