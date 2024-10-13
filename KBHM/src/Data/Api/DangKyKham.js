@@ -167,3 +167,7 @@ export const GET_PersonDonateDelay = async (CCCD) => {
 export const DELETE_PersonDonateDelay = async (ID) => {
   return await HttpRequest("PUT", `/kbhm/Person/Delay/${ID}`);
 };
+
+export const GET_DonorDelay = async (DonorCode) => {
+  return await HttpRequest("GET", `/bl/SyncDonnor/Delay?DonorCode=${DonorCode}`);
+};

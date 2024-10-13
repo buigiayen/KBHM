@@ -58,5 +58,12 @@ namespace BloodBank.api.Controllers
             var data = await _ISyncDonnor.HistoryDonnorAsync(IdentityID);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+
+        [HttpGet("SyncDonnor/Delay")]
+        public async Task<IActionResult> GetDelayDonor([FromQuery] string DonorCode)
+        {
+            var data = await _ISyncDonnor.GetDelayDonor(DonorCode);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
