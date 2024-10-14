@@ -30,6 +30,7 @@ namespace BloodBank.api.Controllers
                 Category.ML = await _Category.GetMlBoold();
                 Category.Element = await _Category.GetElementBoold();
                 Category.Job = await _Category.GetJob();
+                Category.Trip = await _Category.GetTrip();
 
                 aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
                 aPI.Data = Category;
@@ -74,6 +75,26 @@ namespace BloodBank.api.Controllers
             {
                 aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
                 aPI.Data = await _Category.GetDoctor();
+                aPI.Messenger = "Success";
+                return Ok(aPI);
+            }
+            catch (Exception ex)
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.ERROR;
+                aPI.Messenger = ex.Message;
+                aPI.Data = null;
+                return BadRequest(aPI);
+            }
+        }
+
+        [HttpGet("Category/Trip")]
+        public async Task<IActionResult> GetTripasync()
+        {
+            HttpObject.APIresult aPI = new HttpObject.APIresult();
+            try
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
+                aPI.Data = await _Category.GetTrip();
                 aPI.Messenger = "Success";
                 return Ok(aPI);
             }

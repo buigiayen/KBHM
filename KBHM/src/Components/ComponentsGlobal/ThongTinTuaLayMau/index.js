@@ -3,6 +3,7 @@ import IconCombine from "../../Icon";
 import DateTime from "../../ComponentsGlobal/DateTime";
 import { ExportDocumentFile } from "../PreviewDonnor/PDF.Viewer";
 import ElementCombobox from "../Combobox/Element.combobox";
+import TripCombobox from "../Combobox/Trip.combobox";
 import { Divider, Form, Input, Row, Col, Checkbox, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Warning } from "../../notification";
@@ -19,9 +20,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const [Category, setCategory] = useState([]);
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [DataReport, SetDataReport] = useState();
-  const [ReportID, SetReportID] = useState(
-    process.env.REACT_APP_DEFAULT_REPORT
-  );
+  const [ReportID, SetReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
 
   useEffect(() => {
     form.setFieldsValue(dataPerson);
@@ -39,8 +38,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         });
         if (!CheckDonnor) {
           Warning({
-            description:
-              "Đã tồn tại túi máu trong hê thống ngân hàng máu. Xin sử dụng túi khác",
+            description: "Đã tồn tại túi máu trong hê thống ngân hàng máu. Xin sử dụng túi khác",
             message: "Cảnh báo",
           });
         } else {
@@ -71,9 +69,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   return (
     <>
       <Divider orientation="left">
-        <span style={{ color: "blue", fontStyle: "italic" }}>
-          Thông tin tua lấy máu
-        </span>
+        <span style={{ color: "blue", fontStyle: "italic" }}>Thông tin tua lấy máu</span>
       </Divider>
       <Form labelCol={8} form={form}>
         <Row gutter={[12]}>
@@ -114,7 +110,17 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <Form.Item label=""></Form.Item>
+            <TripCombobox
+              ruler={[
+                {
+                  required: true,
+                  message: "Yêu cầu",
+                },
+              ]}
+              dataSource={Category?.trip}
+              Name={"Tua"}
+              Label="Tua"
+            />
           </Col>
           <Col md={12} xs={24}>
             <Form.Item
@@ -127,7 +133,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={10} />
             </Form.Item>
           </Col>
         </Row>
@@ -153,9 +159,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                     type="dashed"
                     onClick={() => Putperson({ Sync: 3 })}
                     danger
-                    icon={
-                      <IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>
-                    }
+                    icon={<IconCombine.CloseCircleOutlined></IconCombine.CloseCircleOutlined>}
                   >
                     Hủy lấy máu
                   </Button>
@@ -167,9 +171,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                     style={{ width: 100 + "%" }}
                     className="btnFull"
                     type="primary"
-                    icon={
-                      <IconCombine.CheckOutlined></IconCombine.CheckOutlined>
-                    }
+                    icon={<IconCombine.CheckOutlined></IconCombine.CheckOutlined>}
                     onClick={() => Putperson({ Sync: 2 })}
                     loading={Isload}
                     disabled={IsDisable}

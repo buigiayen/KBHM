@@ -3,7 +3,7 @@ import { Divider, Row, Col, Radio, Input } from "antd";
 import { useEffect, useState } from "react";
 import { formType, Question } from "../../../Data/UnitData/data";
 
-const Index = ({ Value }) => {
+const Index = ({ Value, Persons }) => {
   const [Properties, SetProperties] = useState({ data: [{ key: null, label: null, value: null }] });
 
   const SetQuestion = (e, value) => {
@@ -37,6 +37,16 @@ const Index = ({ Value }) => {
     }
   }, [Properties]);
 
+  useEffect(() => {
+    let newProperties = Properties;
+    newProperties.data.push({
+      key: "7.1",
+      label: Question.find((x) => x.Key == 7).data.find((x) => x.Key == "7.1").value,
+      value: "false",
+    });
+    SetProperties({ ...newProperties });
+  }, []);
+
   return (
     <>
       <Divider orientation="left">
@@ -64,7 +74,11 @@ const Index = ({ Value }) => {
                       </Col>
                     ) : (
                       <Col span={10} xl={6}>
-                        <Radio.Group onChange={(e) => SetQuestion(e, Value)}>
+                        {console.log(Properties.data.find((x) => x.key == Value.Key))}
+                        <Radio.Group
+                          onChange={(e) => SetQuestion(e, Value)}
+                          value={Properties.data.find((x) => x.key == Value.Key)?.value == "true" ? 1 : Properties.data.find((x) => x.key == Value.Key)?.value == "false" ? 2 : null}
+                        >
                           <Radio value={1} size="small">
                             Có
                           </Radio>

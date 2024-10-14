@@ -38,6 +38,8 @@ namespace BloodBank.api.Model
             public string DoctorID { get; set; }
             public string CCCD { get; set; }
             public string UserSync { get; set; }
+            public int? TripID { get; set; }
+            public int? DonateID { get; set; }
         }
         public class HistoryDonnor
         {
