@@ -44,13 +44,14 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, isDelaySync }
         CCCD: DataPerson.CCCD,
         DelayTimeline: loaiTriHoan,
         DelayDate: delayDate,
+        DelayTime: data.DelayTime || 0,
       };
       await POST_PersonDonateDelay(dataPost).then(async () => {
         const dataSync = {
           RegisterDate: delayDate,
           DonorCode: DataPerson.CCCD,
           Delay: loaiTriHoan,
-          TimeDelay: data.DelayTime,
+          TimeDelay: data.DelayTime || 0,
           HIV: data.HIV_Infection || false,
           HCV: data.HCV_Infection || false,
           HBV: data.HBV_Infection || false,
