@@ -130,5 +130,9 @@ namespace BloodBank.api.Model
 
         public string CCCD { get; set; }
 
+        public string ABO_Donor { get; set; }
+
+        public string Rh_Donor { get; set; }
+
     }
 }

@@ -11,3 +11,7 @@ export const Get_Job = async () => {
 export const Get_Doctor = async () => {
   return await HttpRequest("GET", "/bl/category/doctor", null, true);
 };
+
+export const Get_Trip = async () => {
+  return await HttpRequest("GET", "/bl/category/trip", null, true);
+};

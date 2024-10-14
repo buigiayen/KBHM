@@ -74,6 +74,7 @@ export const POST_SyncDonor = async (ID) => {
         HST,
         HBV,
         BacSiKham,
+        Tua,
       } = DataPerson[0];
       const DataSync = {
         DateIn: DateRegister,
@@ -104,6 +105,7 @@ export const POST_SyncDonor = async (ID) => {
         HBV: HBV,
         DoctorID: BacSiKham,
         UserSync: localStorage.getItem("userID"),
+        TripID: Tua,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
@@ -116,6 +118,7 @@ export const POST_SyncDonor = async (ID) => {
 
 export const POST_SyncDelay = async (ID, data) => {
   try {
+    console.log(data);
     let DataPerson = await GET_Person(ID);
     if (DataPerson !== undefined) {
       const { RowID, Name, BirthDay, Sex, CCCD, Phone, DateRegister, DiaChiLienLac, DiaChiThuongTru_ChiTiet, NgheNghiep, DiaChiCoQuan, ABO, RH, HST, HBV } = DataPerson[0];
@@ -131,8 +134,8 @@ export const POST_SyncDelay = async (ID, data) => {
         BirthDay: BirthDay,
         JobID: NgheNghiep,
         ContactAddress: DiaChiCoQuan,
-        ABO: ABO,
-        Rh: RH,
+        ABO_Donor: ABO,
+        Rh_Donor: RH,
         CCCD: CCCD,
         HST: HST,
         HBV: HBV,

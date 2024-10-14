@@ -45,5 +45,11 @@ namespace BloodBank.api.command
             var data = await dataprovider.QueryMapperAsync<CategoryData>(sql);
             return data.ToList();
         }
+        public async Task<List<CategoryData>> GetTrip()
+        {
+            string sql = " Select TripID as value, UPPER(TripName) as label from tbl_Trip";
+            var data = await dataprovider.QueryMapperAsync<CategoryData>(sql);
+            return data.ToList();
+        }
     }
 }

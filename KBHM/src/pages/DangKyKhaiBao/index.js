@@ -76,7 +76,7 @@ const Index = () => {
             UrlImage: RS?.UrlImage,
             DiaChiLienLac: RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru : RS?.DiaChiLienLac,
             DiaChiThuongLienLac_ChiTiet: RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet : RS?.DiaChiThuongLienLac_ChiTiet,
-            PersonProperties: Properties,
+            PersonProperties: Properties.sort((a, b) => a.key - b.key),
             DiemLayMau: IDDiemHien,
             DateRegister: TimeChecking === undefined ? null : dayjs(Number(TimeChecking)).format(),
           };
@@ -132,7 +132,7 @@ const Index = () => {
       <br />
       <Row>
         <Col sm={24}>
-          <KhaoSatThongTinSucKhoe Value={DataProperties} />
+          <KhaoSatThongTinSucKhoe Value={DataProperties} Persons={Persons} />
         </Col>
       </Row>
       <Row>

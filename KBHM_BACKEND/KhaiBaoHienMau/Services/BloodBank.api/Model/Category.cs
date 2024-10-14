@@ -8,6 +8,7 @@ namespace BloodBank.api.Model
         public List<CategoryData> ML { get; set; }
         public List<CategoryData> Element { get; set; }
         public List<CategoryData> Job { get; set; }
+        public List<CategoryData> Trip { get; set; }
     }
     public class CategoryData
     {
