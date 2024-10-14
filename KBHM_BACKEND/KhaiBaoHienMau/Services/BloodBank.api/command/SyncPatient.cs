@@ -178,7 +178,7 @@ namespace BloodBank.api.command
 
                                     END";
             string Query = rowguid + Environment.NewLine + ActionDonnor;
-            //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, donnor);
+            await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query, donnor);
             return await Dataprovider.ExcuteQueryAsync(Query, donnor);
         }
         public async Task<string> SetNameUnsign(string Name)
