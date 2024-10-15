@@ -33,6 +33,7 @@
     "reactstrap": "^9.2.0",
     "usehooks-ts": "latest",
     "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
     "yarn": "^1.22.19"
   },
   "scripts": {
