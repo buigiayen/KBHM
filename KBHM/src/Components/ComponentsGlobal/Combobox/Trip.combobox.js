@@ -24,7 +24,6 @@ const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues
         allowClear={autoClear}
         showSearch
         filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? "").includes(input.toLocaleLowerCase())}
-        filterSort={(optionA, optionB) => (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())}
         className={`${Math.random()}`}
         onChange={onChange}
         style={{ width: 100 + "%" }}

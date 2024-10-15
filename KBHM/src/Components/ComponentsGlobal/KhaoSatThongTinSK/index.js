@@ -27,7 +27,6 @@ const Index = ({ Value, Persons }) => {
         }
       });
     }
-    console.log(data);
     SetProperties({ data });
   };
   useEffect(() => {
@@ -74,7 +73,6 @@ const Index = ({ Value, Persons }) => {
                       </Col>
                     ) : (
                       <Col span={10} xl={6}>
-                        {console.log(Properties.data.find((x) => x.key == Value.Key))}
                         <Radio.Group
                           onChange={(e) => SetQuestion(e, Value)}
                           value={Properties.data.find((x) => x.key == Value.Key)?.value == "true" ? 1 : Properties.data.find((x) => x.key == Value.Key)?.value == "false" ? 2 : null}

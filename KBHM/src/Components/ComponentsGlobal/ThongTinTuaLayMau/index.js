@@ -23,7 +23,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
   const [ReportID, SetReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
 
   useEffect(() => {
-    form.setFieldsValue(dataPerson);
+    form.setFieldsValue({ ...dataPerson, Tua: dataPerson.Tua || 1 });
     GetCategory();
   }, [dataPerson]);
   const GetCategory = async () => {
