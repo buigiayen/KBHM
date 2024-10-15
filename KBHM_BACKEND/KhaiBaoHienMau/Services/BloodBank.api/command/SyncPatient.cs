@@ -85,7 +85,7 @@ namespace BloodBank.api.command
             string sql = "select top 1 d.DonorID " +
                      " from tbl_Donor d " +
                      " where d.IdentityID = @IdentityID ";
-            var data = await Dataprovider.SingleOrDefaultAsync(sql, identityID);
+            var data = await Dataprovider.SingleOrDefaultAsync(sql, new { IdentityID = identityID });
             if (data.code == HttpObject.Enums.Httpstatuscode_API.OK)
             {
                 result = data.Data.DonorID;
