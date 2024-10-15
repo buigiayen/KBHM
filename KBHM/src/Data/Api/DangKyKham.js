@@ -45,7 +45,7 @@ export const GET_DonorExCheck = async ({ DonorExCode }) => {
 export const POST_SyncDonor = async (ID) => {
   try {
     let DataPerson = await GET_Person(ID);
-    if (DataPerson !== undefined) {
+    if (DataPerson !== undefined && DataPerson.length > 0) {
       const {
         RowID,
         Name,
