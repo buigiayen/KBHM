@@ -118,7 +118,7 @@ namespace BloodBank.api.command
             int? result = null;
 
             string sql = "select count(*) as total " +
-                    " from Blood_Donation_Delay d " +
+                    " from tbl_Blood_Donation_Delay d " +
                     " where d.DonorID = @DonorID ";
             var data = await Dataprovider.SingleOrDefaultAsync(sql, new { DonorID = DonorID });
             if (data.code == HttpObject.Enums.Httpstatuscode_API.OK)
