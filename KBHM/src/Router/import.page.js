@@ -4,7 +4,6 @@ import Login from "../pages/DangNhap/index";
 import TraCuuThongTin from "../pages/TraCuuThongTin/index";
 import QuanLyThongTin from "../pages/QuanLyThongTin/Index";
 import DanhSachDKHienMau from "../pages/DanhSachDKHienMau/index";
-import DongBo from "../pages/DongBo";
 import Error_404 from "../pages/Error/Error_404";
 const RoutesPage = [
   {
@@ -44,10 +43,6 @@ const RoutesPage = [
   {
     path: "/QuanLyThongTin/:ID",
     element: <QuanLyThongTin />,
-  },
-  {
-    path: "/DongBo",
-    element: <DongBo />,
   },
   {
     path: "*",
