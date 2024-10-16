@@ -151,9 +151,12 @@ namespace BloodBank.api.command
         {
             int? result = null;
 
-            string sql = "select count(*) as total " +
-                    " from tbl_Blood_Donation_Delay d " +
-                    " where d.DonorID = @DonorID ";
+            string sql = " SELECT COUNT(*) AS total "+
+                            " FROM( " +
+                                " SELECT DonorID FROM tbl_Blood_Donation_Delay d where d.DonorID = @DonorID " +
+                                " UNION ALL " +
+                                " SELECT DonorID FROM tbl_Blood_Donation_Delay_Del d where d.DonorID = @DonorID " +
+                            " ) AS CombinedTables; ";
             var data = await Dataprovider.SingleOrDefaultAsync(sql, new { DonorID = DonorID });
             if (data.code == HttpObject.Enums.Httpstatuscode_API.OK && data.Data != null)
             {
@@ -569,9 +572,7 @@ namespace BloodBank.api.command
         {
             string SQL = $@"BEGIN
 		                                BEGIN
-		                                Print('Delete Blood_Donation_Delay')
-			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and RegisterDate = @RegisterDate
-                                        Print('Insert Blood_Donation_Delay_Del')
+                                            Print('Insert Blood_Donation_Delay_Del')
                                             Insert into tbl_Blood_Donation_Delay_Del
                                             (AutoID, 
                                             DonorID,
@@ -613,7 +614,7 @@ namespace BloodBank.api.command
                                             values
                                             ((select Top(1)  DonorID from tbl_Donor where  DonorCode=@DonorCode),
                                             @DonorCode,
-                                            GETDATE(),@LeverDelay,
+                                            GETDATE(),(Select LeverDelay from tbl_Blood_Donation_Delay Where DonorID = @DonorCode and RegisterDate = @RegisterDate) ,
                                             @Delay,
                                             @TimeDelay,
                                             @HIV, 
@@ -649,7 +650,10 @@ namespace BloodBank.api.command
                                             @HBsAg, 
                                             @ABO, 
                                             @Rh,@Comment
-                                            )
+                                            );
+		                                    Print('Delete Blood_Donation_Delay')
+			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and RegisterDate = @RegisterDate
+                                     
 		                                END                            
                                 END";
             //await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", SQL, delay);
