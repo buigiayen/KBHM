@@ -257,11 +257,7 @@ namespace KBHM.api.Command
 
         public async Task<HttpObject.APIresult> GetPersonDonateDelay(PersonDonateDelay person)
         {      
-            string sql = "SELECT   * FROM  PersonDonateDelay where CCCD = @CCCD " +
-                         "and (DelayTimeline = 5 or DelayTimeline = 6 or GETDATE() <= CASE WHEN DelayTimeline = 1 THEN DATEADD(DAY, DelayTime, DelayDate) " +
-                         "WHEN DelayTimeline = 2 THEN DATEADD(WEEK, DelayTime, DelayDate) " +
-                         "WHEN DelayTimeline = 3 THEN DATEADD(MONTH, DelayTime, DelayDate) " +
-                         "WHEN DelayTimeline = 4 THEN DATEADD(YEAR, DelayTime, DelayDate) END )";
+            string sql = "SELECT * FROM  PersonDonateDelay where CCCD = @CCCD and IsCancel = 0";
             return await _dataprovider.SQLQueryAsync(sql, person);
         }
 
@@ -310,7 +306,7 @@ namespace KBHM.api.Command
 
         public async Task<HttpObject.APIresult> DeletePersonDonateDelay(PersonDonateDelay person)
         {
-            string sql = "Delete PersonDonateDelay where RowID=@RowID";
+            string sql = "Update PersonDonateDelay set IsCancel = 1, CancelDate = GetDate(), UserCancel = @UserCancel, CancelReason = @CancelReason where RowID=@RowID";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
     }

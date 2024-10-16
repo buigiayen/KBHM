@@ -10,6 +10,12 @@ namespace KBHM.api.Model
 
         public DateTime DelayDate { get; set; }
 
+        public DateTime? CancelDate { get; set; }
+
+        public bool? IsCancel { get; set; }
+
+        public string UserCancel { get; set; }
+
         public int? DelayTimeline { get; set; }
 
         public int? DelayTime { get; set; }
@@ -79,5 +85,7 @@ namespace KBHM.api.Model
         public bool? ABO_Undetermined { get; set; }
 
         public bool? Rh_Undetermined { get; set; }
+
+        public string CancelReason { get; set; }
     }
 }

@@ -331,6 +331,30 @@ namespace Services.lib.Sql
                 }
             }
         }
+        public async Task<HttpObject.APIMapper<dynamic>> SingleOrDefaultAsync(string ENV, string _SQL, object Prameter = null)
+        {
+            var httpObject = new HttpObject.APIMapper<object>();
+            string SQLConnectionString = Environment.GetEnvironmentVariable(ENV);
+            SqlConnection sqlConnection = new SqlConnection(SQLConnectionString);
+            if (sqlConnection.State == ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+            try
+            {
+                CheckLogPramter(_SQL, Prameter);
+                var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
+
+                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
+                return httpObject;
+            }
+            catch (Exception ex)
+            {
+                _Logger.LogError(ex.Message);
+                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.ERROR, Data = null, Messenger = ex.Message };
+            }
+            return httpObject;
+        }
     }
 
 }

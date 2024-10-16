@@ -134,5 +134,7 @@ namespace BloodBank.api.Model
 
         public string Rh_Donor { get; set; }
 
+        public string Comment { get; set; }
+
     }
 }

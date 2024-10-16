@@ -104,9 +104,9 @@ namespace KBHM.api.Controllers
         }
         [Authorize]
         [HttpPut("Person/Delay/{ID}")]
-        public async Task<IActionResult> DeletePersonDonateDelay(string ID)
+        public async Task<IActionResult> DeletePersonDonateDelay(string ID, [FromBody] PersonDonateDelay person)
         {
-            var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID) });
+            var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID),CancelReason = person.CancelReason });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
     }
