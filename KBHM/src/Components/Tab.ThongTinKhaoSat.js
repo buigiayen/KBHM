@@ -6,7 +6,7 @@ import Laymau from "../Components/ComponentsGlobal/ThongTinKhaoSat/LayMau/index"
 import ThongTinKhaoSat from "../Components/ComponentsGlobal/ThongTinKhaoSat/ThongTinKhaoSat/index";
 import TriHoanHienMau from "./ComponentsGlobal/ThongTinKhaoSat/TriHoanHienMau";
 
-const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, dataDelay, loadingDelay, GetDataDelay, isDelaySync }) => {
+const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, dataDelay, loadingDelay, GetDataDelay }) => {
   const [disableTabLayMau, SetDisabledLayMau] = useState();
   useEffect(() => {
     SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
@@ -34,7 +34,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, d
     {
       label: `Trì hoãn hiến máu`,
       key: "4",
-      children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} isDelaySync={isDelaySync} />,
+      children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} />,
       disabled: loadingDelay,
     },
     {

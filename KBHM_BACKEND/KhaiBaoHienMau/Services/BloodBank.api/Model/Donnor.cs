@@ -18,6 +18,7 @@ namespace BloodBank.api.Model
             public String Phone { get; set; }
             public DateTime BirthDay { get; set; }
             public string IdentityID { get; set; }
+            public string DonorIdentity { get; set; }
             public string JobID { get; set; }
             public string DonorExCode { get; set; }
             public string BloodSourceLocationId { get; set; }

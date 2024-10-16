@@ -6,37 +6,127 @@ import { DELETE_PersonDonateDelay, POST_PersonDonateDelay, POST_SyncDelay, POST_
 import { DateTimeToLocaleDate } from "./helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
-const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, isDelaySync }) => {
+const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson }) => {
   const [modal, contextHolder] = Modal.useModal();
-
   const formRef = useRef();
+  const formModalRef = useRef();
   const [loaiTriHoan, setLoaiTriHoan] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
 
   const onChangeTimeTriHoan = (e) => {
     setLoaiTriHoan(e.target.value);
     formRef.current.setFieldValue("DelayTime", null);
   };
 
+  const onCancelDelay = async (data) => {
+    if (dataDelay.RowID) {
+      await DELETE_PersonDonateDelay(dataDelay.RowID, data).then(async () => {
+        formModalRef.current.resetFields();
+        const dataSync = {
+          Comment: data.CancelReason,
+          DonorCode: DataPerson.CCCD,
+          RegisterDate: dataDelay.DelayDate,
+          Delay: loaiTriHoan,
+          TimeDelay: dataDelay.DelayTime || 0,
+          HIV: dataDelay.HIV_Infection || false,
+          HCV: dataDelay.HCV_Infection || false,
+          HBV: dataDelay.HBV_Infection || false,
+          VDRL: dataDelay.VDRL_Infection || false,
+          AIDS: dataDelay.AIDS_Risk || false,
+          VG: dataDelay.Liver_Risk || false,
+          Xam: dataDelay.Tattoo || false,
+          CJD: dataDelay.CJD || false,
+          Hormon: dataDelay.Hormon || false,
+          Weight: dataDelay.Weight || false,
+          BloodPressure: dataDelay.BloodPressure || false,
+          Pulse: dataDelay.Pulse || false,
+          Temperature: dataDelay.Temperature || false,
+          Hb: dataDelay.Hb || false,
+          HealthHistory: dataDelay.HealthHistory || false,
+          Other3: dataDelay.HealthHistoryDetail,
+          MCV: dataDelay.MCV || false,
+          Hct: dataDelay.HCT || false,
+          WBCQuantity: dataDelay.WhiteBloodCellQuantity || false,
+          SmallVeins: dataDelay.SmallVen || false,
+          PLTQuantity: dataDelay.PlateletQuantity || false,
+          TimeBloodDonorsReiterated: dataDelay.TimeBloodDonorsReiterated || false,
+          HBsAgTN: dataDelay.HbsAg || false,
+          Other1: dataDelay.Other,
+          KQHIV: dataDelay.HIV_Positive || false,
+          KQHCV: dataDelay.HCV_Positive || false,
+          KQHBV: dataDelay.HBV_Positive || false,
+          KQVDRL: dataDelay.VDRL_Positive || false,
+          CoombsTT: dataDelay.CoombsTT_Positive || false,
+          KTBT: dataDelay.KTBT_Positive || false,
+          HBsAg: dataDelay.HBsAg_Positive || false,
+          ABO: dataDelay.ABO_Undetermined || false,
+          Rh: dataDelay.Rh_Undetermined || false,
+        };
+        await POST_SyncDelayDelete(dataSync).then(() => {
+          GetDataDelay(DataPerson.CCCD);
+        });
+      });
+      setOpen(false);
+    } else {
+      formModalRef.current.resetFields();
+      const dataSync = {
+        Comment: data.CancelReason,
+        DonorCode: DataPerson.CCCD,
+        RegisterDate: dataDelay.DelayDate,
+        Delay: loaiTriHoan,
+        TimeDelay: dataDelay.DelayTime || 0,
+        HIV: dataDelay.HIV_Infection || false,
+        HCV: dataDelay.HCV_Infection || false,
+        HBV: dataDelay.HBV_Infection || false,
+        VDRL: dataDelay.VDRL_Infection || false,
+        AIDS: dataDelay.AIDS_Risk || false,
+        VG: dataDelay.Liver_Risk || false,
+        Xam: dataDelay.Tattoo || false,
+        CJD: dataDelay.CJD || false,
+        Hormon: dataDelay.Hormon || false,
+        Weight: dataDelay.Weight || false,
+        BloodPressure: dataDelay.BloodPressure || false,
+        Pulse: dataDelay.Pulse || false,
+        Temperature: dataDelay.Temperature || false,
+        Hb: dataDelay.Hb || false,
+        HealthHistory: dataDelay.HealthHistory || false,
+        Other3: dataDelay.HealthHistoryDetail,
+        MCV: dataDelay.MCV || false,
+        Hct: dataDelay.HCT || false,
+        WBCQuantity: dataDelay.WhiteBloodCellQuantity || false,
+        SmallVeins: dataDelay.SmallVen || false,
+        PLTQuantity: dataDelay.PlateletQuantity || false,
+        TimeBloodDonorsReiterated: dataDelay.TimeBloodDonorsReiterated || false,
+        HBsAgTN: dataDelay.HbsAg || false,
+        Other1: dataDelay.Other,
+        KQHIV: dataDelay.HIV_Positive || false,
+        KQHCV: dataDelay.HCV_Positive || false,
+        KQHBV: dataDelay.HBV_Positive || false,
+        KQVDRL: dataDelay.VDRL_Positive || false,
+        CoombsTT: dataDelay.CoombsTT_Positive || false,
+        KTBT: dataDelay.KTBT_Positive || false,
+        HBsAg: dataDelay.HBsAg_Positive || false,
+        ABO: dataDelay.ABO_Undetermined || false,
+        Rh: dataDelay.Rh_Undetermined || false,
+      };
+      await POST_SyncDelayDelete(dataSync).then(() => {
+        GetDataDelay(DataPerson.CCCD);
+      });
+      setOpen(false);
+    }
+  };
+
   const UpdateTriHoanInformation = async (data) => {
     if (dataDelay) {
-      modal.confirm({
-        title: "Xác nhận hủy trì hoãn",
-        icon: <ExclamationCircleOutlined />,
-        content: "",
-        okText: "Xác nhận",
-        cancelText: "Hủy",
-        onOk: async () => {
-          await DELETE_PersonDonateDelay(dataDelay.RowID).then(async () => {
-            const dataSync = {
-              DonorCode: DataPerson.CCCD,
-              RegisterDate: dataDelay.DelayDate,
-            };
-            await POST_SyncDelayDelete(dataSync).then(() => {
-              GetDataDelay(DataPerson.CCCD);
-            });
-          });
-        },
-      });
+      showModal();
     } else {
       let delayDate = DateTimeToLocaleDate(new Date());
       const dataPost = {
@@ -94,6 +184,9 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, isDelaySync }
   useEffect(() => {
     if (dataDelay) {
       setLoaiTriHoan(dataDelay.DelayTimeline);
+    } else {
+      setLoaiTriHoan(null);
+      formRef.current.resetFields();
     }
   }, [dataDelay]);
 
@@ -103,10 +196,30 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, isDelaySync }
       <Form onFinish={UpdateTriHoanInformation} initialValues={dataDelay} ref={formRef} disabled={dataDelay}>
         <ThoiGianTriHoan onChangeTimeTriHoan={onChangeTimeTriHoan} loaiTriHoan={loaiTriHoan} dataDelay={dataDelay} />
         <ThongTinTriHoan />
-        <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!loaiTriHoan || isDelaySync} danger={dataDelay}>
+        <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!loaiTriHoan} danger={dataDelay}>
           {dataDelay ? "Hủy trì hoãn" : "Xác nhận"}
         </Button>
       </Form>
+      <Modal
+        title={
+          <>
+            <ExclamationCircleOutlined style={{ color: "#edd45c" }} /> Xác nhận trì hoãn
+          </>
+        }
+        open={open}
+        onOk={() => {
+          formModalRef.current.submit();
+        }}
+        onCancel={hideModal}
+        okText="Xác nhận"
+        cancelText="Hủy"
+      >
+        <Form layout="vertical" ref={formModalRef} onFinish={onCancelDelay}>
+          <Form.Item name="CancelReason" label="Lý do trì hoãn" rules={[{ required: true, message: "Yêu cầu" }]}>
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

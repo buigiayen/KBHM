@@ -9,7 +9,7 @@ const Index = ({ ID }) => {
     if (ID !== undefined) {
       GET_PropertiesPerson(ID).then((rs) => {
         const data = rs.map((r) => {
-          return { label: r.Label, value: r.value == "true" ? true : r.value == "false" ? false : r.value };
+          return { label: r.Label, value: r.value == "true" ? true : r.value == "false" ? false : r.value, key: r.Key };
         });
         SetPropertiesPerson(data);
       });
@@ -21,10 +21,10 @@ const Index = ({ ID }) => {
       title: "Thông tin câu hỏi?",
       dataIndex: "label",
       key: "label",
-      render: (_, { value }) => (
+      render: (_, { value, key }) => (
         <>
           {value ? (
-            <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type="warning" />
+            <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type={key >= 2 && key < 7 ? "error" : "warning"} />
           ) : (
             <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type="success" />
           )}

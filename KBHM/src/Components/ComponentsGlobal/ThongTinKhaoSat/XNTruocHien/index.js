@@ -19,10 +19,10 @@ const XnTruocHien = ({ Person }) => {
       >
         <Row>
           <Col sm={12} xs={24}>
-            <ComboboxIndex initialValues={Person?.ABO} dataSource={ABO} Name={"ABO"} Label={"ABO"} ruler={[{ required: true, message: "yêu cầu nhập ABO!" }]} />{" "}
+            <ComboboxIndex initialValues={Person?.ABO} dataSource={ABO} Name={"ABO"} Label={"ABO"} />{" "}
           </Col>
           <Col sm={12} xs={24}>
-            <ComboboxIndex initialValues={Person?.RH} dataSource={RH} Name={"RH"} Label={"RH"} ruler={[{ required: true, message: "yêu cầu nhập RH!" }]} />{" "}
+            <ComboboxIndex initialValues={Person?.RH} dataSource={RH} Name={"RH"} Label={"RH"} />{" "}
           </Col>
           <Col sm={12} xs={24}>
             <Form.Item initialValue={Person?.HST} name={"HST"} label={"HST"} rules={[{ required: true, message: "yêu cầu nhập HST!" }]}>

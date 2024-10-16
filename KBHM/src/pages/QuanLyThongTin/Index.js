@@ -24,7 +24,6 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
-  const [isDelaySync, setIsDelaySync] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
@@ -166,7 +165,6 @@ const Index = () => {
           }
 
           setReason(newReason);
-          setIsDelaySync(false);
         } else {
           GET_DonorDelay(ID).then((resp) => {
             const response = JSON.parse(resp);
@@ -273,9 +271,7 @@ const Index = () => {
                 newReason += "RH, ";
               }
               setReason(newReason);
-              setIsDelaySync(true);
             } else {
-              setIsDelaySync(false);
               setDataDelay(null);
             }
           });
@@ -334,7 +330,7 @@ const Index = () => {
         ) : (
           ""
         )}
-        {dataDelay && <Alert style={{ width: "100%" }} banner message={reason} />}
+        {dataDelay && <Alert style={{ width: "100%" }} banner message={<div style={{ fontWeight: "bold", color: "red", fontSize: 18 }}>{reason}</div>} />}
       </Row>
       <Card>
         <Row>
@@ -372,7 +368,6 @@ const Index = () => {
               dataDelay={dataDelay}
               loadingDelay={loadingDelay}
               GetDataDelay={GetDataDelay}
-              isDelaySync={isDelaySync}
             />
           </Col>
         </Row>
