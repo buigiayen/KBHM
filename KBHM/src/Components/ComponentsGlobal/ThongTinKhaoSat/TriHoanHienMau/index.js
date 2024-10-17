@@ -203,7 +203,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson }) => {
       <Modal
         title={
           <>
-            <ExclamationCircleOutlined style={{ color: "#edd45c" }} /> Xác nhận trì hoãn
+            <ExclamationCircleOutlined style={{ color: "#edd45c" }} /> Xác nhận hủy trì hoãn
           </>
         }
         open={open}
@@ -215,7 +215,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson }) => {
         cancelText="Hủy"
       >
         <Form layout="vertical" ref={formModalRef} onFinish={onCancelDelay}>
-          <Form.Item name="CancelReason" label="Lý do trì hoãn" rules={[{ required: true, message: "Yêu cầu" }]}>
+          <Form.Item name="CancelReason" label="Lý do hủy trì hoãn" rules={[{ required: true, message: "Yêu cầu" }]}>
             <Input.TextArea />
           </Form.Item>
         </Form>

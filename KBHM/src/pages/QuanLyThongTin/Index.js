@@ -3,7 +3,7 @@ import Marquee from "react-fast-marquee";
 import { Row, Col, Alert, Card, Form, Button } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
-import { GET_DonorDelay, GET_Person, GET_PersonDonateDelay, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
+import { GET_DonorDelay, GET_LastDonor, GET_Person, GET_PersonDonateDelay, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import HistoryDonnor from "../../Components/ComponentsGlobal/HistoryDonnor/index";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
@@ -13,6 +13,7 @@ import IconCombine from "../../Components/Icon";
 import dayjs from "dayjs";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 import { TimeTriHoan, TimeTriHoanText } from "../../Data/UnitData/data";
+import { DateToStringDate } from "./helper";
 
 const Index = () => {
   const { ID } = useParams();
@@ -24,6 +25,8 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
+  const [qualified, setQualified] = useState(null);
+  const [noteQualify, setNoteQualify] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
@@ -57,13 +60,56 @@ const Index = () => {
     }
   };
 
+  const GetLastDonor = async (ID) => {
+    await GET_LastDonor(ID).then((res) => {
+      if (res.length > 0) {
+        setQualified(false);
+        setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+      } else {
+        setQualified(true);
+        setNoteQualify("");
+      }
+    });
+  };
+
+  const renderToDate = (data) => {
+    let text = "";
+    if (data) {
+      let toDate = new Date(data.DelayDate);
+      if (data.DelayTimeline != TimeTriHoan.Forever && data.DelayTimeline != TimeTriHoan.Temporary) {
+        text = "đến ngày ";
+        switch (data.DelayTimeline) {
+          case TimeTriHoan.Day:
+            toDate.setDate(toDate.getDate() + data.DelayTime);
+            text += DateToStringDate(toDate);
+            break;
+          case TimeTriHoan.Week:
+            toDate.setDate(toDate.getDay() + 7);
+            text += DateToStringDate(toDate);
+            break;
+          case TimeTriHoan.Month:
+            toDate.setMonth(toDate.getMonth() + data.DelayTime);
+            text += DateToStringDate(toDate);
+            break;
+          case TimeTriHoan.Year:
+            toDate.setFullYear(toDate.getFullYear() + data.DelayTime);
+            text += DateToStringDate(toDate);
+            break;
+        }
+      }
+    }
+    return text;
+  };
+
   const GetDataDelay = (ID) => {
     if (ID) {
       setLoadingDelay(true);
       GET_PersonDonateDelay(ID).then((res) => {
         if (res?.length > 0) {
           setDataDelay(res[0]);
-          let newReason = `Trì hoãn ${res[0].DelayTime || ""} ${TimeTriHoanText[res[0].DelayTimeline]} với lý do `;
+          let newReason = `Người hiến máu từng bi trì hoãn ${res[0].DelayTime || ""} ${TimeTriHoanText[res[0].DelayTimeline]} từ ngày ${DateToStringDate(new Date(res[0].DelayDate))} ${renderToDate(
+            res[0]
+          )} do nguyên nhân `;
           if (res[0].HIV_Infection) {
             newReason += "HIV, ";
           }
@@ -294,6 +340,7 @@ const Index = () => {
 
   useEffect(() => {
     if (DataPerson?.CCCD) {
+      GetLastDonor(DataPerson.CCCD);
       GetDataDelay(DataPerson.CCCD);
     }
   }, [DataPerson]);
@@ -322,14 +369,15 @@ const Index = () => {
             style={{ width: 100 + "%" }}
             banner
             message={
-              <Marquee pauseOnHover gradient={false}>
-                Người hiến có những triệu trứng sau cần chú ý
+              <Marquee pauseOnHover gradient={false} style={{ fontWeight: "bold", fontSize: 16 }}>
+                Người hiến có những triệu chứng sau cần chú ý
               </Marquee>
             }
           />
         ) : (
           ""
         )}
+        {qualified == false && <Alert style={{ width: "100%" }} banner message={<div style={{ fontWeight: "bold", fontSize: 16 }}>{noteQualify}</div>} />}
         {dataDelay && <Alert style={{ width: "100%" }} banner message={<div style={{ fontWeight: "bold", color: "red", fontSize: 18 }}>{reason}</div>} />}
       </Row>
       <Card>
@@ -368,6 +416,7 @@ const Index = () => {
               dataDelay={dataDelay}
               loadingDelay={loadingDelay}
               GetDataDelay={GetDataDelay}
+              qualified={qualified}
             />
           </Col>
         </Row>

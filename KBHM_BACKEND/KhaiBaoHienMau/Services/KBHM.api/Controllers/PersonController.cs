@@ -109,6 +109,13 @@ namespace KBHM.api.Controllers
             var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID),CancelReason = person.CancelReason });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+        [Authorize]
+        [HttpGet("Person/Lastdonor/{CCCD}")]
+        public async Task<IActionResult> CheckLastDonor(string CCCD)
+        {
+            var data = await _Person.CheckLastDonor(new Person { CCCD = CCCD });
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
 

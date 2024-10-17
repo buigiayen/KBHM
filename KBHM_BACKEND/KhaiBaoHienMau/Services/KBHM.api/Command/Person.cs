@@ -309,5 +309,11 @@ namespace KBHM.api.Command
             string sql = "Update PersonDonateDelay set IsCancel = 1, CancelDate = GetDate(), UserCancel = @UserCancel, CancelReason = @CancelReason where RowID=@RowID";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
+
+        public async Task<HttpObject.APIresult> CheckLastDonor(Model.Person person)
+        {
+            string sql = "Select top 1 * from Person where CCCD = @CCCD AND DATEDIFF(day, NgayLayMau, GETDATE()) <= 84 Order by NgayLayMau Desc";
+            return await _dataprovider.SQLQueryAsync(sql, person);
+        }
     }
 }

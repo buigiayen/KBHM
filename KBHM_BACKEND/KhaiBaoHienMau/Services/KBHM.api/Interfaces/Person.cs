@@ -22,6 +22,6 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> GetPersonDonateDelay(PersonDonateDelay person);
         Task<HttpObject.APIresult> PutPersonDonateDelay(PersonDonateDelay person);
         Task<HttpObject.APIresult> DeletePersonDonateDelay(PersonDonateDelay person);
-
+        Task<HttpObject.APIresult> CheckLastDonor(Model.Person person);
     }
 }
