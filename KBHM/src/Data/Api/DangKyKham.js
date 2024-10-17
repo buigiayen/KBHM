@@ -174,3 +174,7 @@ export const DELETE_PersonDonateDelay = async (ID, data) => {
 export const GET_DonorDelay = async (DonorCode) => {
   return await HttpRequest("GET", `/bl/SyncDonnor/Delay?DonorCode=${DonorCode}`);
 };
+
+export const GET_LastDonor = async (CCCD) => {
+  return await HttpRequest("GET", `/kbhm/Person/Lastdonor/${CCCD}`);
+};

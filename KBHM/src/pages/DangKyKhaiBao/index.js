@@ -96,11 +96,11 @@ const Index = () => {
     let flag = true;
     console.log(Properties);
     if (Properties === undefined || Properties.length < 17) {
-      Warning({ message: `Xin hãy trả lời các câu hỏi trong mục khảo sát` });
+      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Xin hãy trả lời các câu hỏi trong mục khảo sát</div> });
       flag = false;
     }
     if (CheckAge(dayjs(form.getFieldValue("BirthDay")), 18) === false) {
-      Warning({ message: "Bạn chưa đủ 18 tuổi để hiến máu!" });
+      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Bạn chưa đủ 18 tuổi để hiến máu!</div> });
       flag = false;
     }
     return flag;
