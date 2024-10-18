@@ -25,7 +25,7 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
-  const [qualified, setQualified] = useState(null);
+  const [qualified, setQualified] = useState(true);
   const [noteQualify, setNoteQualify] = useState("");
 
   useEffect(() => {
@@ -340,7 +340,7 @@ const Index = () => {
 
   useEffect(() => {
     if (DataPerson?.CCCD) {
-      GetLastDonor(DataPerson.CCCD);
+      // GetLastDonor(DataPerson.CCCD);
       GetDataDelay(DataPerson.CCCD);
     }
   }, [DataPerson]);
