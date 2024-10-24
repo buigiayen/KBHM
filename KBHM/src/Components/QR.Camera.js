@@ -29,13 +29,7 @@ const QRCaM = ({ Value }) => {
     <div>
       <Form>
         <Form.Item>
-          <QrReader
-            delay={300}
-            style={{ height: 246 + "px" }}
-            onError={handleError}
-            onScan={handleScan}
-            facingMode={chooseDriver}
-          />
+          <QrReader delay={300} style={{ height: 246 + "px" }} onError={handleError} onScan={handleScan} facingMode={chooseDriver} />
         </Form.Item>
       </Form>
 

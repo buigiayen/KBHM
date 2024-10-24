@@ -75,6 +75,8 @@ export const POST_SyncDonor = async (ID) => {
         HBV,
         BacSiKham,
         Tua,
+        NgayBatDau,
+        NgayKetThuc,
       } = DataPerson[0];
       const DataSync = {
         DateIn: DateRegister,
@@ -106,6 +108,8 @@ export const POST_SyncDonor = async (ID) => {
         DoctorID: BacSiKham,
         UserSync: localStorage.getItem("userID"),
         TripID: Tua,
+        ExtractTimeStart: NgayBatDau,
+        ExtractTimeEnd: NgayKetThuc,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {

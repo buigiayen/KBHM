@@ -1,20 +1,20 @@
 import React from "react";
-import { Row, Col, Form, Input, Button } from "antd";
+import { Row, Col, Form, Input, Button, DatePicker } from "antd";
 import ElementCombobox from "../../Combobox/Element.combobox";
 import "../../index.css";
 import { useState } from "react";
 import { useEffect } from "react";
-import {
-  PUT_PersonDone,
-  POST_SyncDonor,
-} from "../../../../Data/Api/DangKyKham";
+import { PUT_PersonDone, POST_SyncDonor } from "../../../../Data/Api/DangKyKham";
 import { Get_Category } from "../../../../Data/Api/Category";
+import dayjs from "dayjs";
+import { DateTimeToLocaleDate } from "../TriHoanHienMau/helper";
+
 const Index = ({ ID, dataPerson, FuncReload }) => {
   const [from] = Form.useForm();
   const [Category, SetCategory] = useState([]);
-  
+
   useEffect(() => {
-    from.setFieldsValue(dataPerson);
+    from.setFieldsValue({ ...dataPerson, ExtractTime: [dataPerson.NgayBatDau ? dayjs(dataPerson.NgayBatDau) : null, dataPerson.NgayKetThuc ? dayjs(dataPerson.NgayKetThuc) : null] });
   }, [dataPerson]);
   useEffect(() => {
     Ml();
@@ -23,14 +23,25 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
     SetCategory(await Get_Category());
   };
   const onSubmit = () => {
-    from.validateFields().then(async (rs) => {
-      rs = { ...rs, RowID: ID, SyncData: 1, NguoiDongBo: localStorage.getItem('userID') };
-      const log = await PUT_PersonDone(rs);
-      if (log === 1) {
-        await POST_SyncDonor(ID);
-      }
-      FuncReload();
-    });
+    from
+      .validateFields()
+      .then(async (rs) => {
+        if (rs.ExtractTime) {
+          let startDate = new Date(dayjs(rs.ExtractTime[0]));
+          let endDate = new Date(dayjs(rs.ExtractTime[1]));
+          startDate.setSeconds(0);
+          endDate.setSeconds(0);
+          rs.NgayBatDau = DateTimeToLocaleDate(startDate);
+          rs.NgayKetThuc = DateTimeToLocaleDate(endDate);
+        }
+        rs = { ...rs, RowID: ID, SyncData: 1, NguoiDongBo: localStorage.getItem("userID") };
+        const log = await PUT_PersonDone(rs);
+        if (log === 1) {
+          await POST_SyncDonor(ID);
+        }
+        FuncReload();
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <React.Fragment>
@@ -49,6 +60,11 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
               ]}
             />
           </Col>
+          <Col md={12} xs={24}>
+            <Form.Item label={"Thời gian lấy máu"} name={"ExtractTime"}>
+              <DatePicker.RangePicker style={{ width: "100%" }} showTime format="DD-MM-YYYY HH:mm" />
+            </Form.Item>
+          </Col>
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
@@ -62,12 +78,9 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
             </Form.Item>
           </Col>
         </Row>
-        {dataPerson?.Sync !== '1' && dataPerson?.Sync === '2' && (
+        {dataPerson?.Sync !== "1" && dataPerson?.Sync === "2" && (
           <Row gutter={[12]}>
-            <Button
-              style={{ width: 100 + "%" }}
-              type="primary"
-              onClick={onSubmit}>
+            <Button style={{ width: 100 + "%" }} type="primary" onClick={onSubmit}>
               Kết thúc lấy máu
             </Button>
           </Row>

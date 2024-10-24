@@ -52,9 +52,12 @@ const Index = () => {
         SetDataPerson(rs[0]);
         SetThongTinTua(rs[0]?.ChoPhepHienMau);
         const PersonInfo = rs[0];
-        PersonInfo["BirthDay"] = dayjs(PersonInfo["BirthDay"]);
-        PersonInfo["DateRegister"] = dayjs(PersonInfo["DateRegister"]);
-        from?.setFieldsValue(PersonInfo);
+        if (PersonInfo) {
+          PersonInfo["BirthDay"] = dayjs(PersonInfo["BirthDay"]);
+          PersonInfo["DateRegister"] = dayjs(PersonInfo["DateRegister"]);
+          from?.setFieldsValue(PersonInfo);
+        }
+
         SetIDPerson(pra);
       });
     }

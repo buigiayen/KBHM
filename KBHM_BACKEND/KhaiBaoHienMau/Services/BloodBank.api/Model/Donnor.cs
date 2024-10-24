@@ -41,6 +41,8 @@ namespace BloodBank.api.Model
             public string UserSync { get; set; }
             public int? TripID { get; set; }
             public int? DonateID { get; set; }
+            public DateTime? ExtractTimeStart { get; set; }
+            public DateTime? ExtractTimeEnd { get; set; }
         }
         public class HistoryDonnor
         {
