@@ -102,36 +102,27 @@ namespace Services.lib.Sql
         public async Task<HttpObject.APIresult> ExcuteQueryAsync(string _SQL, object Prameter = null)
         {
             int valueTransaction = 0;
-
-            // Open the connection if it's closed
             if (_IdbConnection.State == ConnectionState.Closed)
             {
-                _IdbConnection.Open(); // Use synchronous Open
+                _IdbConnection.Open();
             }
-
             using (var sqlTransaction = _IdbConnection.BeginTransaction())
             {
                 try
                 {
                     CheckLogPramter(_SQL, Prameter);
-                    // Assuming ExecuteAsync is an extension method that supports async
-                    valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter, sqlTransaction);
+                    valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
                     sqlTransaction.Commit();
+                    sqlTransaction.Dispose();
+                    _IdbConnection.Dispose();
                     return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
                 {
                     sqlTransaction.Rollback();
+                    _IdbConnection.Dispose();
                     valueTransaction = -2;
                     return ReturnStatusObjectSql(valueTransaction, ex);
-                }
-                finally
-                {
-                    // Ensure the connection is closed if it was opened in this method
-                    if (_IdbConnection.State == ConnectionState.Open)
-                    {
-                        _IdbConnection.Close(); // Use synchronous Close
-                    }
                 }
             }
         }
