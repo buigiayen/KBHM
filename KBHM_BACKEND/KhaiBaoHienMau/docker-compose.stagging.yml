@@ -43,8 +43,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=server=${MMSQL};Database=LabconnBBTH_NEW;User Id=technical;Password=ls109tndq1;TrustServerCertificate=true;"
-      - "SQL_CONNECTION_REGION1=server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;"
+      - "SQL_CONNECTION=server=${MMSQL};Database=LabconnBBTH_NEW;User Id=technical;Password=ls109tndq1;TrustServerCertificate=true;Max Pool Size=300;"
+      - "SQL_CONNECTION_REGION1=server=${MMSQL};Database=BloodBank_DKTH;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;Max Pool Size=300;"
       - TZ=Asia/Ho_Chi_Minh
       - NODEELK=${NODEELK}
    
