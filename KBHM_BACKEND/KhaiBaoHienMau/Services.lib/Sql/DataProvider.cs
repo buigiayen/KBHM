@@ -164,13 +164,9 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIMapper<object>();
             try
             {
-                if (_IdbConnection.State == ConnectionState.Closed)
-                {
-                    _IdbConnection.Open();
-                }
                 CheckLogPramter(_SQL, Prameter);
                 var data = await _IdbConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
-                _IdbConnection.Dispose();
+
                 httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
