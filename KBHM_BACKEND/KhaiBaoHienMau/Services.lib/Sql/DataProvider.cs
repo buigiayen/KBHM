@@ -117,6 +117,7 @@ namespace Services.lib.Sql
                 }
                 catch (Exception ex)
                 {
+                    _IdbConnection.Dispose();
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
                     SqlConnection.ClearPool((SqlConnection)_IdbConnection);
