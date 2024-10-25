@@ -104,14 +104,7 @@ namespace Services.lib.Sql
             int valueTransaction = 0;
             if (_IdbConnection.State == ConnectionState.Closed)
             {
-                try
-                {
-                    _IdbConnection.Open();
-                }
-                catch (Exception ex)
-                {
-                    _IdbConnection.Dispose();
-                }
+                _IdbConnection.Open();
             }
             using (var sqlTransaction = _IdbConnection.BeginTransaction())
             {
@@ -120,13 +113,13 @@ namespace Services.lib.Sql
                     CheckLogPramter(_SQL, Prameter);
                     valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
                     sqlTransaction.Commit();
+                    _IdbConnection.Dispose();
                     return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
                 {
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
-                    _IdbConnection.Dispose();
                     return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
