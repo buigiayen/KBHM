@@ -164,14 +164,14 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIMapper<object>();
             try
             {
-                using(IDbConnection connection = _IdbConnection)
+                if (_IdbConnection.State == ConnectionState.Closed)
                 {
-                    CheckLogPramter(_SQL, Prameter);
-                    var data = await connection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
-                    connection.Dispose();
-                    httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
+                    _IdbConnection.Open();
                 }
-
+                CheckLogPramter(_SQL, Prameter);
+                var data = await _IdbConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
+                _IdbConnection.Dispose();
+                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
             catch (Exception ex)
