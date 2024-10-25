@@ -114,7 +114,6 @@ namespace Services.lib.Sql
                     valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
                     sqlTransaction.Commit();
                     sqlTransaction.Dispose();
-                    _IdbConnection.Dispose();
                     return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
