@@ -104,7 +104,14 @@ namespace Services.lib.Sql
             int valueTransaction = 0;
             if (_IdbConnection.State == ConnectionState.Closed)
             {
-                _IdbConnection.Open();
+                try
+                {
+                    _IdbConnection.Open();
+                }
+                catch (Exception ex)
+                {
+                    _IdbConnection.Dispose();
+                }
             }
             using (var sqlTransaction = _IdbConnection.BeginTransaction())
             {
@@ -117,7 +124,6 @@ namespace Services.lib.Sql
                 }
                 catch (Exception ex)
                 {
-                    _IdbConnection.Dispose();
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
                     SqlConnection.ClearPool((SqlConnection)_IdbConnection);
@@ -306,7 +312,7 @@ namespace Services.lib.Sql
             }
             return aPIresultObjects;
         }
-        public async Task<HttpObject.APIresult> ExcuteQueryAsync(string ENV,string _SQL, object Prameter = null)            
+        public async Task<HttpObject.APIresult> ExcuteQueryAsync(string ENV, string _SQL, object Prameter = null)
         {
             string SQLConnectionString = Environment.GetEnvironmentVariable(ENV);
             SqlConnection sqlConnection = new SqlConnection(SQLConnectionString);
