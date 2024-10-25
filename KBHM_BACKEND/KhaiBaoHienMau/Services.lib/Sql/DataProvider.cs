@@ -119,6 +119,7 @@ namespace Services.lib.Sql
                 {
                     sqlTransaction.Rollback();
                     valueTransaction = -2;
+                    SqlConnection.ClearPool((SqlConnection)_IdbConnection);
                     return ReturnStatusObjectSql(valueTransaction, ex);
                 }
             }
