@@ -164,10 +164,14 @@ namespace Services.lib.Sql
             var httpObject = new HttpObject.APIMapper<object>();
             try
             {
-                CheckLogPramter(_SQL, Prameter);
-                var data = await _IdbConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
+                using(IDbConnection connection = _IdbConnection)
+                {
+                    CheckLogPramter(_SQL, Prameter);
+                    var data = await connection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
+                    connection.Dispose();
+                    httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
+                }
 
-                httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
             catch (Exception ex)
