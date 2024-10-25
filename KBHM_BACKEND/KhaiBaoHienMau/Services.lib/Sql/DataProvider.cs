@@ -113,7 +113,7 @@ namespace Services.lib.Sql
                     CheckLogPramter(_SQL, Prameter);
                     valueTransaction = await _IdbConnection.ExecuteAsync(_SQL, Prameter ?? null, sqlTransaction);
                     sqlTransaction.Commit();
-                    _IdbConnection.Dispose();
+                    sqlTransaction.Dispose();
                     return ReturnStatusObjectSql(valueTransaction);
                 }
                 catch (Exception ex)
