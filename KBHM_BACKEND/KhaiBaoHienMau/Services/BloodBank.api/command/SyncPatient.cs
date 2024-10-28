@@ -274,7 +274,7 @@ namespace BloodBank.api.command
 											declare @DonorID_Insert int; set @DonorID_Insert =  (select Top(1)  DonorID from tbl_Donor where DonorCode=@DonorCode);
 											insert tbl_Donor_Examine (DonorExCode, DonorID,BloodSourceLocationId,DonateID,BloodVolume,ElementID, DateIn, SID, Weigh,Heigh,Pulse,BloodPressure,DoctorID,Examination,ABO,Rh,TestHb,TestHBsAG,Valid,ValidTime,UserValid,TripID) values (@DonorExCode, @DonorID_Insert ,@BloodSourceLocationId,@DonateID,@BloodVolume,@ElementID,@DateIn, @SID, @WEIGH,@HEIGH,@PULSE,@BLOODPRESSURE,@DoctorID,@STATUS,@ABO,@Rh,@HST,@HBV,1,GetDate(),@UserSync,@TripID);
 											declare @DonorIDEx_Insert int; set @DonorIDEx_Insert =  (select Top(1)  DonorExID from tbl_Donor_Examine where DonorExCode=@DonorExCode);
-										{Insert_tbl_Donor_Examine_Attribute}
+										
 										 END
                                        ELSE
                                         BEGIN
@@ -282,7 +282,7 @@ namespace BloodBank.api.command
 										declare @DonorID_Update int; set @DonorID_Update =  (select Top(1)  DonorID from tbl_Donor where  DonorCode=@DonorCode);
                                         update tbl_Donor_Examine set  DonorExCode=@DonorExCode,BloodSourceLocationId=@BloodSourceLocationId,DonateID=@DonateID,BloodVolume=@BloodVolume,ElementID=@ElementID,Weigh=@Weigh,Heigh=@Heigh,Pulse=@Pulse,BloodPressure=@BloodPressure,DoctorID=@DoctorID,Examination=@STATUS,ABO=@ABO,Rh=@Rh,TestHb=@HST,TestHBsAG=@HBV,TripID=@TripID  where DonorID=@DonorID_Update 
                                       	declare @DonorIDEx_Update int; set @DonorIDEx_Update =  (select Top(1)  DonorExID from tbl_Donor_Examine where DonorExCode=@DonorExCode);
-										{Update_tbl_Donor_Examine_Attribute}
+										
 									  end
 
 
