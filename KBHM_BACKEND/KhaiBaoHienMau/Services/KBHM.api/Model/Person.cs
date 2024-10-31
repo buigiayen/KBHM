@@ -57,6 +57,7 @@ namespace KBHM.api.Model
         public int? Tua { get; set; }
         public DateTime? NgayBatDau { get; set; }
         public DateTime? NgayKetThuc { get; set; }
+        public int? NguonHien { get; set; }
             
         public List<PersonProperties> PersonProperties { get; set; }
       

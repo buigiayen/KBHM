@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Row, Space } from "antd";
 import React from "react";
 import { useState } from "react";
 import { PUT_PersonABORH } from "../../../../Data/Api/DangKyKham";
-import { ABO, RH } from "../../../../Data/UnitData/data";
+import { ABO, HbsAg, HST, RH } from "../../../../Data/UnitData/data";
 import ComboboxIndex from "../../Combobox/Element.combobox";
 const XnTruocHien = ({ Person }) => {
   const Confirm = async ({ ABO, RH, HST, HBV }) => {
@@ -19,20 +19,16 @@ const XnTruocHien = ({ Person }) => {
       >
         <Row>
           <Col sm={12} xs={24}>
-            <ComboboxIndex initialValues={Person?.ABO} dataSource={ABO} Name={"ABO"} Label={"ABO"} />{" "}
+            <ComboboxIndex initialValues={Person?.ABO} dataSource={ABO} Name={"ABO"} Label={"ABO"} />
           </Col>
           <Col sm={12} xs={24}>
-            <ComboboxIndex initialValues={Person?.RH} dataSource={RH} Name={"RH"} Label={"RH"} />{" "}
+            <ComboboxIndex initialValues={Person?.RH} dataSource={RH} Name={"RH"} Label={"RH"} />
           </Col>
           <Col sm={12} xs={24}>
-            <Form.Item initialValue={Person?.HST} name={"HST"} label={"HST"} rules={[{ required: true, message: "yêu cầu nhập HST!" }]}>
-              <Input placeholder="HST" />
-            </Form.Item>
+            <ComboboxIndex initialValues={Person?.HST} dataSource={HST} Name={"HST"} Label={"HST"} ruler={[{ required: true, message: "yêu cầu nhập HST!" }]} />
           </Col>
           <Col sm={12} xs={24}>
-            <Form.Item initialValue={Person?.HBV} name={"HBV"} label={"HBV"} rules={[{ required: true, message: "yêu cầu nhập HBV!" }]}>
-              <Input placeholder="HBV" />
-            </Form.Item>
+            <ComboboxIndex initialValues={Person?.HBV} dataSource={HbsAg} Name={"HBV"} Label={"HBsAg"} ruler={[{ required: true, message: "yêu cầu nhập HBsAg!" }]} />
           </Col>
 
           {Person?.Sync == 1 ? (

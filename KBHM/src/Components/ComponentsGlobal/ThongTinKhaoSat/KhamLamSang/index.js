@@ -57,7 +57,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay }) => {
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item label="Mạch (Lần/Phút)" name={"Mach"}>
-              <InputNumber placeholder="Lần/1 Phút" style={{ width: 100 + "%" }} disabled={dataDelay}></InputNumber>
+              <Input autoComplete="on" placeholder="Lần/1 Phút" style={{ width: 100 + "%" }} disabled={dataDelay}></Input>
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>

@@ -4,6 +4,7 @@ import DateTime from "../../ComponentsGlobal/DateTime";
 import { ExportDocumentFile } from "../PreviewDonnor/PDF.Viewer";
 import ElementCombobox from "../Combobox/Element.combobox";
 import TripCombobox from "../Combobox/Trip.combobox";
+import BloodSourceCombobox from "../Combobox/BloodSource.combobox";
 import { Divider, Form, Input, Row, Col, Checkbox, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Warning } from "../../notification";
@@ -110,6 +111,19 @@ const Index = ({ funcReload, ID, dataPerson }) => {
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
+            <BloodSourceCombobox
+              ruler={[
+                {
+                  required: true,
+                  message: "Yêu cầu",
+                },
+              ]}
+              dataSource={Category?.bloodSource}
+              Name={"NguonHien"}
+              Label="Nguồn hiến"
+            />
+          </Col>
+          <Col md={12} xs={24}>
             <TripCombobox
               ruler={[
                 {
@@ -122,6 +136,8 @@ const Index = ({ funcReload, ID, dataPerson }) => {
               Label="Tua"
             />
           </Col>
+        </Row>
+        <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <Form.Item
               label="Mã túi máu"

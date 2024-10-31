@@ -12,5 +12,6 @@ namespace BloodBank.api.interfaces
         Task<List<CategoryData>> GetJob();
         Task<List<CategoryData>> GetDoctor();
         Task<List<CategoryData>> GetTrip();
+        Task<List<CategoryData>> GetBloodSource();
     }
 }

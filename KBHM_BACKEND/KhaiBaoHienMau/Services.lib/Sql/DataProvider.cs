@@ -357,6 +357,26 @@ namespace Services.lib.Sql
             }
             return httpObject;
         }
+        public async Task<IEnumerable<T>> QueryMapperAsync<T>(string ENV, string _SQL, object Prameter = null) where T : class
+        {
+            IEnumerable<T> Tcontext = default(IEnumerable<T>);
+            string SQLConnectionString = Environment.GetEnvironmentVariable(ENV);
+            SqlConnection sqlConnection = new SqlConnection(SQLConnectionString);
+            if (sqlConnection.State == ConnectionState.Closed)
+            {
+                sqlConnection.Open();
+            }
+            try
+            {
+                CheckLogPramter(_SQL, Prameter);
+                Tcontext = await sqlConnection.QueryAsync<T>(_SQL, Prameter ?? null);
+            }
+            catch(Exception ex)
+            {
+                _Logger.LogError(ex.Message);
+            }
+            return Tcontext;           
+        }
     }
 
 }
