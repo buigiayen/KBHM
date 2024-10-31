@@ -222,6 +222,28 @@ export const RH = [
   },
 ];
 
+export const HST = [
+  {
+    label: "< 125",
+    value: "< 125",
+  },
+  {
+    label: "> 125",
+    value: "> 125",
+  },
+];
+
+export const HbsAg = [
+  {
+    label: "Âm tính",
+    value: "Âm tính",
+  },
+  {
+    label: "Dương tính",
+    value: "Dương tính",
+  },
+];
+
 export const TimeTriHoan = {
   Day: 1,
   Week: 2,

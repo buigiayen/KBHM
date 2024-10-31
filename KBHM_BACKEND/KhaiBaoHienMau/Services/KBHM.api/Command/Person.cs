@@ -21,7 +21,7 @@ namespace KBHM.api.Command
         }
         public async Task<HttpObject.APIresult> GetFindPerson(Model.Person person)
         {
-            string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE    Phone=@TEXT or CCCD=@TEXT order by DateRegister desc;";
+            string sql = $"SELECT        TOP (@ROW) * FROM            Person WHERE  CCCD=@TEXT order by DateRegister desc;";
             return await _dataprovider.SQLQueryAsync(sql, person);
         }
         public async Task<HttpObject.APIresult> GetPerson(Model.Person person)
@@ -105,11 +105,12 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua, NguonHien=@NguonHien where RowID = @ROWIDs";
 
             return await _dataprovider.ExcuteQueryAsync(sql, person);
 
         }
+
         public async Task<HttpObject.APIresult> PutPersonDone(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +

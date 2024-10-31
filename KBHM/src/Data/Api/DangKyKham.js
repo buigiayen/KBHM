@@ -77,6 +77,7 @@ export const POST_SyncDonor = async (ID) => {
         Tua,
         NgayBatDau,
         NgayKetThuc,
+        NguonHien,
       } = DataPerson[0];
       const DataSync = {
         DateIn: DateRegister,
@@ -110,6 +111,7 @@ export const POST_SyncDonor = async (ID) => {
         TripID: Tua,
         ExtractTimeStart: NgayBatDau,
         ExtractTimeEnd: NgayKetThuc,
+        SourceID: NguonHien,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {

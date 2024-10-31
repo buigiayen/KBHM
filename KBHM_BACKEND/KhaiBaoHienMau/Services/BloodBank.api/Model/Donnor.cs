@@ -43,6 +43,8 @@ namespace BloodBank.api.Model
             public int? DonateID { get; set; }
             public DateTime? ExtractTimeStart { get; set; }
             public DateTime? ExtractTimeEnd { get; set; }
+            public int? SourceID { get; set; }
+            public string UserID { get; set; }
         }
         public class HistoryDonnor
         {

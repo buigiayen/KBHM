@@ -31,6 +31,7 @@ namespace BloodBank.api.Controllers
                 Category.Element = await _Category.GetElementBoold();
                 Category.Job = await _Category.GetJob();
                 Category.Trip = await _Category.GetTrip();
+                Category.BloodSource = await _Category.GetBloodSource();
 
                 aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
                 aPI.Data = Category;
@@ -95,6 +96,26 @@ namespace BloodBank.api.Controllers
             {
                 aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
                 aPI.Data = await _Category.GetTrip();
+                aPI.Messenger = "Success";
+                return Ok(aPI);
+            }
+            catch (Exception ex)
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.ERROR;
+                aPI.Messenger = ex.Message;
+                aPI.Data = null;
+                return BadRequest(aPI);
+            }
+        }
+
+        [HttpGet("Category/BloodSource")]
+        public async Task<IActionResult> GetBloodSourceAsync()
+        {
+            HttpObject.APIresult aPI = new HttpObject.APIresult();
+            try
+            {
+                aPI.code = HttpObject.Enums.Httpstatuscode_API.OK;
+                aPI.Data = await _Category.GetBloodSource();
                 aPI.Messenger = "Success";
                 return Ok(aPI);
             }

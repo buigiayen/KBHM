@@ -14,7 +14,12 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
   const [Category, SetCategory] = useState([]);
 
   useEffect(() => {
-    from.setFieldsValue({ ...dataPerson, ExtractTime: [dataPerson.NgayBatDau ? dayjs(dataPerson.NgayBatDau) : null, dataPerson.NgayKetThuc ? dayjs(dataPerson.NgayKetThuc) : null] });
+    from.setFieldsValue({
+      ...dataPerson,
+      PhanUng: dataPerson.PhanUng || "Không",
+      XuTri: dataPerson.XuTri || "Không",
+      ExtractTime: [dataPerson.NgayBatDau ? dayjs(dataPerson.NgayBatDau) : dayjs().startOf("day"), dataPerson.NgayKetThuc ? dayjs(dataPerson.NgayKetThuc) : dayjs().endOf("day")],
+    });
   }, [dataPerson]);
   useEffect(() => {
     Ml();
@@ -61,7 +66,16 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
             />
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item label={"Thời gian lấy máu"} name={"ExtractTime"}>
+            <Form.Item
+              label={"Thời gian lấy máu"}
+              name={"ExtractTime"}
+              rules={[
+                {
+                  required: true,
+                  message: "Yêu cầu",
+                },
+              ]}
+            >
               <DatePicker.RangePicker style={{ width: "100%" }} showTime format="DD-MM-YYYY HH:mm" />
             </Form.Item>
           </Col>
