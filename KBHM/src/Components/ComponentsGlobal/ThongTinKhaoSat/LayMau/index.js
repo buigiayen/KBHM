@@ -18,7 +18,7 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
       ...dataPerson,
       PhanUng: dataPerson.PhanUng || "Không",
       XuTri: dataPerson.XuTri || "Không",
-      ExtractTime: [dataPerson.NgayBatDau ? dayjs(dataPerson.NgayBatDau) : dayjs().startOf("day"), dataPerson.NgayKetThuc ? dayjs(dataPerson.NgayKetThuc) : dayjs().endOf("day")],
+      ExtractTime: [dataPerson.NgayBatDau ? dayjs(dataPerson.NgayBatDau) : dayjs(), dataPerson.NgayKetThuc ? dayjs(dataPerson.NgayKetThuc) : dayjs().endOf("day")],
     });
   }, [dataPerson]);
   useEffect(() => {
