@@ -753,7 +753,7 @@ namespace BloodBank.api.command
             patientInfo.CapCuu = false;
             patientInfo.DateGet = null;
             patientInfo.HisCode = "BloodBank";
-            
+
             if (patientInfo.NgaySinh_DateTime == null)
             {
                 if (patientInfo.NamSinh < 100)
@@ -1102,7 +1102,7 @@ namespace BloodBank.api.command
             {
                 data = response.Data.SID;
             }
-          
+
             return !string.IsNullOrEmpty(data);
         }
 
@@ -1213,7 +1213,9 @@ namespace BloodBank.api.command
                 " union select " + ColumnSelect + TableSelect + " and CalculateType = 2 and DATEDIFF (MONTH, @DateOfBirth, @DateIn) between FromAge and ToAge " +
                 " union select " + ColumnSelect + TableSelect + " and CalculateType = 3 and DATEDIFF (YEAR, @DateOfBirth, @DateIn) between FromAge and ToAge) as SelectAllNormalRange";
             var data = await _connectionSQL.QueryMapperAsync<PatientNormalRangeInfo>("SQL_CONNECTION_REGION2", sql, new { TestCode = TestCode, PSex = isMale, DateOfBirth = dateOfBirth, DateIn = dateIn });
-            return data.ToList()[0];
+            if (data.ToList().Count > 0) return data.ToList()[0];
+            else return result;
+
         }
 
     }
