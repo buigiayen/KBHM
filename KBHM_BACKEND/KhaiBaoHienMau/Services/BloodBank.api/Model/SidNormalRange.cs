@@ -33,7 +33,7 @@ namespace BloodBank.api.Model
 
     public class PatientNormalRangeInfo
     {
-        public int? SystemId { get; set; }
+        public int? AutoId { get; set; }
 
         public string TestCode { get; set; }
 
