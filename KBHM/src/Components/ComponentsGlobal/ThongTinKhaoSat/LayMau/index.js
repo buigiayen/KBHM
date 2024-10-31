@@ -76,7 +76,7 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
                 },
               ]}
             >
-              <DatePicker.RangePicker style={{ width: "100%" }} showTime format="DD-MM-YYYY HH:mm" />
+              <DatePicker.RangePicker style={{ width: "100%" }} showTime format="HH:mm DD-MM-YYYY" />
             </Form.Item>
           </Col>
         </Row>
