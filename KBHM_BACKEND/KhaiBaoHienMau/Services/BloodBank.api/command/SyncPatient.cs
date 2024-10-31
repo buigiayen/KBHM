@@ -1205,7 +1205,7 @@ namespace BloodBank.api.command
         public async Task<PatientNormalRangeInfo> GetPatientNormalRangeInfoAsync(DateTime dateOfBirth, string TestCode, bool isMale, DateTime dateIn)
         {
             PatientNormalRangeInfo result = new PatientNormalRangeInfo();
-            const string ColumnSelect = " AutoId , TestCode, FromAge, ToAge, PSex, PNormalRange, PLowerlimit, PHigherlimit, CalculateType ";
+            const string ColumnSelect = " AutoId, TestCode, FromAge, ToAge, PSex, PNormalRange, PLowerlimit, PHigherlimit, CalculateType ";
             const string TableSelect = " from dbo.Tbl_PNormalRange where TestCode = @TestCode and PSex = @PSex ";
 
             string sql = "select top 1 " + ColumnSelect + " from ( " +
