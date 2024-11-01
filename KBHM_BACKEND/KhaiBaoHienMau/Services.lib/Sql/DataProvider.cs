@@ -267,28 +267,36 @@ namespace Services.lib.Sql
             try
             {
                 string log = "";
-                if (Pra == null) return;
-                Type type = (Pra).GetType();
-                if (type != default)
+                if (Pra == null)
                 {
-                    PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    foreach (var x in properties)
-                    {
-                        if (x.GetValue(Pra) == null)
-                        {
-                            log += Environment.NewLine + ($"declare @{x.Name} {GetSqlDbType(x.PropertyType)} ; set @{x.Name} = null");
-                        }
-                        else
-                        {
-                            SqlDbType sqlDbType = GetSqlDbType(x.PropertyType);
-                            var Value = x.GetValue(Pra);
-                            string valueProps = sqlDbType.ToString().ToLower().Contains("char") ? $"'{Value.ToString()}'" : Value.ToString();
-                            log += Environment.NewLine + (string.Format($"declare @{x.Name} {sqlDbType.ToString()}({Value.ToString().Length}) ; set  @{x.Name} = {valueProps}"));
-                        }
-                    }
-                    log += Environment.NewLine + _SQL;
+                    log += _SQL;
                     _Logger.LogInformation($"SQL {log} ");
                 }
+                else
+                {
+                    Type type = (Pra).GetType();
+                    if (type != default)
+                    {
+                        PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                        foreach (var x in properties)
+                        {
+                            if (x.GetValue(Pra) == null)
+                            {
+                                log += Environment.NewLine + ($"declare @{x.Name} {GetSqlDbType(x.PropertyType)} ; set @{x.Name} = null");
+                            }
+                            else
+                            {
+                                SqlDbType sqlDbType = GetSqlDbType(x.PropertyType);
+                                var Value = x.GetValue(Pra);
+                                string valueProps = sqlDbType.ToString().ToLower().Contains("char") ? $"'{Value.ToString()}'" : Value.ToString();
+                                log += Environment.NewLine + (string.Format($"declare @{x.Name} {sqlDbType.ToString()}({Value.ToString().Length}) ; set  @{x.Name} = {valueProps}"));
+                            }
+                        }
+                        log += Environment.NewLine + _SQL;
+                        _Logger.LogInformation($"SQL {log} ");
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -371,11 +379,11 @@ namespace Services.lib.Sql
                 CheckLogPramter(_SQL, Prameter);
                 Tcontext = await sqlConnection.QueryAsync<T>(_SQL, Prameter ?? null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _Logger.LogError(ex.Message);
             }
-            return Tcontext;           
+            return Tcontext;
         }
     }
 
