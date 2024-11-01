@@ -902,7 +902,7 @@ namespace BloodBank.api.command
             {
                 TestCodeInfo tests = new TestCodeInfo();
 
-                if (item.ConfigID == "ABOTESTCODE")
+                if (item.ConfigID.ToUpper() == "ABOTESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
@@ -920,7 +920,7 @@ namespace BloodBank.api.command
                         TestType = TestType.ABORH,
                     });
                 }
-                else if (item.ConfigID == "KTBTTESTCODE")
+                else if (item.ConfigID.ToUpper() == "KTBTTESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
@@ -930,7 +930,7 @@ namespace BloodBank.api.command
                         MappingTestCode = data.FirstOrDefault(x => x.ConfigID.ToUpper() == "KTBTTESTCODEMAPINGNAT")?.Value
                     });
                 }
-                else if (item.ConfigID == "GMAITESTCODE")
+                else if (item.ConfigID.ToUpper() == "GMAITESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
@@ -940,7 +940,7 @@ namespace BloodBank.api.command
                         MappingTestCode = data.FirstOrDefault(x => x.ConfigID.ToUpper() == "GMAITESTCODEMAPING")?.Value
                     });
                 }
-                else if (item.ConfigID == "HBVTESTCODE")
+                else if (item.ConfigID.ToUpper() == "HBVTESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
@@ -950,7 +950,7 @@ namespace BloodBank.api.command
                         MappingTestCode = data.FirstOrDefault(x => x.ConfigID.ToUpper() == "HBVTESTCODEMAPING")?.Value
                     });
                 }
-                else if (item.ConfigID == "HCVTESTCODE")
+                else if (item.ConfigID.ToUpper() == "HCVTESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
@@ -960,7 +960,7 @@ namespace BloodBank.api.command
                         MappingTestCode = data.FirstOrDefault(x => x.ConfigID.ToUpper() == "HCVTESTCODEMAPING")?.Value
                     });
                 }
-                else if (item.ConfigID == "HIVTESTCODE")
+                else if (item.ConfigID.ToUpper() == "HIVTESTCODE")
                 {
                     result.Add(new TestCodeInfo()
                     {
