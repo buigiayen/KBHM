@@ -25,7 +25,7 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
-  const [qualified, setQualified] = useState(true);
+  const [qualified, setQualified] = useState(null);
   const [noteQualify, setNoteQualify] = useState("");
 
   useEffect(() => {
@@ -66,8 +66,10 @@ const Index = () => {
   const GetLastDonor = async (ID) => {
     await GET_LastDonor(ID).then((res) => {
       if (res.length > 0) {
-        setQualified(false);
-        setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+        if (DataPerson.Sync != 1) {
+          setQualified(false);
+          setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+        }
       } else {
         setQualified(true);
         setNoteQualify("");
@@ -343,7 +345,7 @@ const Index = () => {
 
   useEffect(() => {
     if (DataPerson?.CCCD) {
-      // GetLastDonor(DataPerson.CCCD);
+      GetLastDonor(DataPerson.CCCD);
       GetDataDelay(DataPerson.CCCD);
     }
   }, [DataPerson]);
