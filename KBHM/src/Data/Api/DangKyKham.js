@@ -78,6 +78,7 @@ export const POST_SyncDonor = async (ID) => {
         NgayBatDau,
         NgayKetThuc,
         NguonHien,
+        NgayLayMau,
       } = DataPerson[0];
       const DataSync = {
         DateIn: DateRegister,
@@ -112,6 +113,7 @@ export const POST_SyncDonor = async (ID) => {
         ExtractTimeStart: NgayBatDau,
         ExtractTimeEnd: NgayKetThuc,
         SourceID: NguonHien,
+        DateGet: NgayLayMau,
       };
       return await HttpRequest("POST", `/bl/SyncDonnor`, DataSync);
     } else {
