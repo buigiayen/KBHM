@@ -45,6 +45,7 @@ namespace BloodBank.api.Model
             public DateTime? ExtractTimeEnd { get; set; }
             public int? SourceID { get; set; }
             public string UserID { get; set; }
+            public DateTime DateGet { get; set; }
         }
         public class HistoryDonnor
         {
