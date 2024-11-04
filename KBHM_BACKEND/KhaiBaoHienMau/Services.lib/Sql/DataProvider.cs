@@ -354,7 +354,6 @@ namespace Services.lib.Sql
             {
                 CheckLogPramter(_SQL, Prameter);
                 var data = await sqlConnection.QuerySingleOrDefaultAsync(_SQL, Prameter ?? null);
-
                 httpObject = new HttpObject.APIMapper<dynamic> { code = HttpObject.Enums.Httpstatuscode_API.OK, Data = data, Messenger = "Success!" };
                 return httpObject;
             }
