@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PUT_PersonABORH } from "../../../../Data/Api/DangKyKham";
 import { ABO, HbsAg, HST, RH } from "../../../../Data/UnitData/data";
 import ComboboxIndex from "../../Combobox/Element.combobox";
-const XnTruocHien = ({ Person }) => {
+const XnTruocHien = ({ Person, qualified }) => {
   const Confirm = async ({ ABO, RH, HST, HBV }) => {
     const { RowID } = Person;
     await PUT_PersonABORH({ RowID: RowID, ABO: ABO, RH: RH, HST: HST, HBV: HBV });
@@ -34,7 +34,7 @@ const XnTruocHien = ({ Person }) => {
           {Person?.Sync == 1 ? (
             ""
           ) : (
-            <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }}>
+            <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!qualified}>
               Xác nhận
             </Button>
           )}

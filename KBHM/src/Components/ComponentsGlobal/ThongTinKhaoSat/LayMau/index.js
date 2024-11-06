@@ -9,7 +9,7 @@ import { Get_Category } from "../../../../Data/Api/Category";
 import dayjs from "dayjs";
 import { DateTimeToLocaleDate } from "../TriHoanHienMau/helper";
 
-const Index = ({ ID, dataPerson, FuncReload }) => {
+const Index = ({ ID, dataPerson, FuncReload, qualified }) => {
   const [from] = Form.useForm();
   const [Category, SetCategory] = useState([]);
 
@@ -94,7 +94,7 @@ const Index = ({ ID, dataPerson, FuncReload }) => {
         </Row>
         {dataPerson?.Sync !== "1" && dataPerson?.Sync === "2" && (
           <Row gutter={[12]}>
-            <Button style={{ width: 100 + "%" }} type="primary" onClick={onSubmit}>
+            <Button style={{ width: 100 + "%" }} type="primary" onClick={onSubmit} disabled={!qualified}>
               Kết thúc lấy máu
             </Button>
           </Row>

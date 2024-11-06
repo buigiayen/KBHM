@@ -23,13 +23,13 @@ namespace BloodBank.api.command
 
         public async Task<List<CategoryData>> GetMlBoold()
         {
-            string sql = "select Volume as value ,LOWER(Volume)  as label from tbl_BloodVolume";
+            string sql = "select Volume as value ,LOWER(Volume)  as label from tbl_BloodVolume Where AllowDonate = 1";
             var data = await dataprovider.QueryMapperAsync<CategoryData>(sql);
             return data.ToList();
         }
         public async Task<List<CategoryData>> GetElementBoold()
         {
-            string sql = "select ElementID as value, LOWER(ElementName)  as label from tbl_Element";
+            string sql = "select ElementID as value, LOWER(ElementName)  as label from tbl_Element Where AllowDonate = 1";
             var data = await dataprovider.QueryMapperAsync<CategoryData>(sql);
             return data.ToList();
         }
