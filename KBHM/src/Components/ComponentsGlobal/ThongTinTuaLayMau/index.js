@@ -12,8 +12,9 @@ import { Config } from "../../../Data/Config/config.system";
 import { Get_Category } from "../../../Data/Api/Category";
 import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
 import "./index.css";
+import { DateToStringDate } from "../../../pages/QuanLyThongTin/helper";
 
-const Index = ({ funcReload, ID, dataPerson }) => {
+const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQualify, qualified }) => {
   const navigator = useNavigate();
   const [form] = Form.useForm();
   const [Isload, SetIsLoad] = useState(false);
@@ -67,6 +68,57 @@ const Index = ({ funcReload, ID, dataPerson }) => {
       Reportname: ReportID,
     });
   };
+
+  const CheckLastDonor = async (value) => {
+    if (lastDonor) {
+      const LastLoaiThanhPhan = lastDonor.LoaiHienThanhPhan;
+      if (value != "141" && value != "142" && value != "6") {
+        setQualified(true);
+        setNoteQualify("");
+      }
+      if (LastLoaiThanhPhan == "141" || LastLoaiThanhPhan == "142") {
+        if (value == "6") {
+          if (!dataPerson.Sync) {
+            console.log(new Date());
+            console.log(new Date(lastDonor.NgayLayMau));
+            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            if (dayDifference <= 45) {
+              setQualified(false);
+              setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+            } else {
+              setQualified(true);
+              setNoteQualify("");
+            }
+          }
+        } else {
+          setQualified(true);
+          setNoteQualify("");
+        }
+      }
+      if (LastLoaiThanhPhan == "6") {
+        if (value == "141" || value == "142") {
+          if (!dataPerson.Sync) {
+            console.log(new Date());
+            console.log(new Date(lastDonor.NgayLayMau));
+            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            if (dayDifference <= 84) {
+              setQualified(false);
+              setNoteQualify(`Người hiến đã hiến Tiểu cầu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+            } else {
+              setQualified(true);
+              setNoteQualify("");
+            }
+          }
+        } else {
+          setQualified(true);
+          setNoteQualify("");
+        }
+      }
+    }
+  };
+
   return (
     <>
       <Divider orientation="left">
@@ -88,6 +140,9 @@ const Index = ({ funcReload, ID, dataPerson }) => {
               dataSource={Category?.element}
               Name={"LoaiHienThanhPhan"}
               Label="Hiến loại thành phần"
+              onChange={(value) => {
+                CheckLastDonor(value);
+              }}
             />
           </Col>
         </Row>
@@ -165,7 +220,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
             </Button>
           )}
 
-          {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && (
+          {dataPerson?.Sync !== "1" && dataPerson?.ChoPhepHienMau && qualified && (
             <>
               {dataPerson?.Sync !== "3" && (
                 <Col sm={24} md={6}>
@@ -181,7 +236,7 @@ const Index = ({ funcReload, ID, dataPerson }) => {
                   </Button>
                 </Col>
               )}
-              {dataPerson?.Sync !== "2" && (
+              {dataPerson?.Sync !== "2" && qualified && (
                 <Col sm={24} md={6}>
                   <Button
                     style={{ width: 100 + "%" }}

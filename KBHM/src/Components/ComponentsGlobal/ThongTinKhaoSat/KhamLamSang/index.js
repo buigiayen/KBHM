@@ -5,7 +5,7 @@ import "../../index.css";
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 import { Get_Doctor } from "../../../../Data/Api/Category";
 
-const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay }) => {
+const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualified }) => {
   const [doctors, setDoctors] = useState([]);
   const [form] = Form.useForm();
   useEffect(() => {
@@ -114,7 +114,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay }) => {
             onClick={PutPerson}
             className="btnFull"
             icon={dataDelay ? <IconCombine.CloseCircleOutlined /> : <IconCombine.CheckOutlined />}
-            disabled={dataDelay}
+            disabled={dataDelay || !qualified}
           >
             {dataDelay ? "Trì hoãn hiến máu" : "Xác nhận thông tin khám lâm sàng"}
           </Button>

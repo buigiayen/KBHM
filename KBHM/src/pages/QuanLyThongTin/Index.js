@@ -25,8 +25,9 @@ const Index = () => {
   const [dataDelay, setDataDelay] = useState(null);
   const [loadingDelay, setLoadingDelay] = useState(false);
   const [reason, setReason] = useState("");
-  const [qualified, setQualified] = useState(null);
+  const [qualified, setQualified] = useState(true);
   const [noteQualify, setNoteQualify] = useState("");
+  const [lastDonor, setLastDonor] = useState();
 
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
@@ -66,10 +67,11 @@ const Index = () => {
   const GetLastDonor = async (ID) => {
     await GET_LastDonor(ID).then((res) => {
       if (res.length > 0) {
-        if (DataPerson.Sync != 1) {
-          setQualified(false);
-          setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
-        }
+        setLastDonor(res[0]);
+        // if (DataPerson.Sync != 1) {
+        //   setQualified(false);
+        //   setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+        // }
       } else {
         setQualified(true);
         setNoteQualify("");
@@ -429,7 +431,19 @@ const Index = () => {
 
       <Card>
         <Row>
-          <Col sm={24}>{HienThiThongTinTua && <ThongTinTuaLaymau funcReload={FuncReload} ID={IDPerson} dataPerson={DataPerson} />}</Col>
+          <Col sm={24}>
+            {HienThiThongTinTua && (
+              <ThongTinTuaLaymau
+                funcReload={FuncReload}
+                ID={IDPerson}
+                dataPerson={DataPerson}
+                lastDonor={lastDonor}
+                setQualified={setQualified}
+                setNoteQualify={setNoteQualify}
+                qualified={qualified}
+              />
+            )}
+          </Col>
         </Row>
       </Card>
     </>

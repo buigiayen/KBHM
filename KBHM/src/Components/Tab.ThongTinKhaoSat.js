@@ -8,11 +8,6 @@ import TriHoanHienMau from "./ComponentsGlobal/ThongTinKhaoSat/TriHoanHienMau";
 
 const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, dataDelay, loadingDelay, GetDataDelay, qualified }) => {
   const [disableTabLayMau, SetDisabledLayMau] = useState();
-  const [activeKey, setActiveKey] = useState("1");
-
-  useEffect(() => {
-    setActiveKey(qualified ? "2" : "1");
-  }, [qualified]);
 
   useEffect(() => {
     SetDisabledLayMau(DataPerson?.ChoPhepHienMau);
@@ -30,32 +25,30 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, d
     {
       label: `Khám LS`,
       key: "2",
-      children: <KhamLamSang ID={IDPerson} HienMau={SetdisableTabLayMau} dataPerson={DataPerson} funcReload={funcReload} dataDelay={dataDelay} />,
-      disabled: qualified == false,
+      children: <KhamLamSang ID={IDPerson} HienMau={SetdisableTabLayMau} dataPerson={DataPerson} funcReload={funcReload} dataDelay={dataDelay} qualified={qualified} />,
     },
     {
       label: `XN trước hiến`,
       key: "3",
-      children: <XNTruochien Person={DataPerson}></XNTruochien>,
-      disabled: qualified == false,
+      children: <XNTruochien Person={DataPerson} qualified={qualified}></XNTruochien>,
     },
     {
       label: `Trì hoãn hiến máu`,
       key: "4",
-      children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} />,
-      disabled: loadingDelay || qualified == false,
+      children: <TriHoanHienMau ID={IDPerson} dataDelay={dataDelay} GetDataDelay={GetDataDelay} DataPerson={DataPerson} qualified={qualified} />,
+      disabled: loadingDelay,
     },
     {
       label: `Lấy máu`,
       key: "5",
-      children: <Laymau ID={IDPerson} dataPerson={DataPerson} dataSourceElement={DataElement} FuncReload={funcReload} />,
-      disabled: !disableTabLayMau || qualified == false,
+      children: <Laymau ID={IDPerson} dataPerson={DataPerson} dataSourceElement={DataElement} FuncReload={funcReload} qualified={qualified} />,
+      disabled: !disableTabLayMau,
     },
   ];
 
   return (
     <div>
-      <Tabs type="card" size={"small"} items={Component} activeKey={activeKey} onChange={(key) => setActiveKey(key)} />
+      <Tabs type="card" size={"small"} items={Component} defaultActiveKey={"2"} />
     </div>
   );
 };
