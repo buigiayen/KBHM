@@ -12,7 +12,10 @@ import { DateTimeToLocaleDate } from "../TriHoanHienMau/helper";
 const Index = ({ ID, dataPerson, FuncReload, qualified }) => {
   const [from] = Form.useForm();
   const [Category, SetCategory] = useState([]);
-
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current > dayjs().endOf("day");
+  };
   useEffect(() => {
     from.setFieldsValue({
       ...dataPerson,
@@ -76,7 +79,7 @@ const Index = ({ ID, dataPerson, FuncReload, qualified }) => {
                 },
               ]}
             >
-              <DatePicker.RangePicker style={{ width: "100%" }} showTime format="HH:mm DD-MM-YYYY" />
+              <DatePicker.RangePicker style={{ width: "100%" }} disabledDate={disabledDate} showTime format="HH:mm DD-MM-YYYY" />
             </Form.Item>
           </Col>
         </Row>
