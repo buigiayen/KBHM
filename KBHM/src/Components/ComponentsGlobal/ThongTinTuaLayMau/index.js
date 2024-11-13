@@ -79,13 +79,23 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
       if (LastLoaiThanhPhan == "141" || LastLoaiThanhPhan == "142") {
         if (value == "6") {
           if (!dataPerson.Sync) {
-            console.log(new Date());
-            console.log(new Date(lastDonor.NgayLayMau));
             const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
             const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             if (dayDifference <= 45) {
               setQualified(false);
-              setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+            } else {
+              setQualified(true);
+              setNoteQualify("");
+            }
+          }
+        } else if (value == "141" || value == "142") {
+          if (!dataPerson.Sync) {
+            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            if (dayDifference <= 14) {
+              setQualified(false);
+              setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
             } else {
               setQualified(true);
               setNoteQualify("");
@@ -97,15 +107,13 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
         }
       }
       if (LastLoaiThanhPhan == "6") {
-        if (value == "141" || value == "142") {
+        if (value == "141" || value == "142" || value == "6") {
           if (!dataPerson.Sync) {
-            console.log(new Date());
-            console.log(new Date(lastDonor.NgayLayMau));
             const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
             const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             if (dayDifference <= 84) {
               setQualified(false);
-              setNoteQualify(`Người hiến đã hiến Tiểu cầu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
             } else {
               setQualified(true);
               setNoteQualify("");
