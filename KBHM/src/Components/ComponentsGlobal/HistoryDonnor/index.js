@@ -19,7 +19,7 @@ const App = ({ DefaultKey, Identity }) => {
       rs.forEach((data, index) => {
         DataHisApi.push({
           key: index,
-          label: `Lịch sử lần hiến ngày: ${dayjs(data.dateIn).format("DD/MM/YYYY")} - BCI: ${data.bci}  - ABO,RH ${data.aborh}  `,
+          label: `Lịch sử lần hiến ngày: ${dayjs(data.dateIn).format("DD/MM/YYYY")} - BCI: ${data.bci}  - ABO,Rh ${data.aborh}  `,
           children: `Xét nghiệm ${data?.resultBloods
             .map((rb) => {
               return `${rb.testCode?.replace("HAV", "HIV")} : ${rb.result}`;
