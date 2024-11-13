@@ -302,6 +302,7 @@ namespace BloodBank.api.command
                 var testcodes = await GetTestCode();
                 var profiles = await GetListProfile();
                 var datahc = await GetDataHanhChinh();
+                await SendTestBB(donnor.SID, testcodes, donnor.UserID);
                 await SendTestLis(donnor.SID, donnor.DonorExCode, datahc.ObjectID, datahc.LocationID, testcodes, profiles, donnor.UserID);
             }
             return response;
@@ -357,7 +358,7 @@ namespace BloodBank.api.command
                         string QueryResultBlood = @"SELECT  top (3)  LOWER(Result) as Result , TestCode
                                                     FROM  tbl_ResultBlood WHERE (SIDRoot = @SID) AND (NAT = 1) order by DateInsert desc ";
 
-                        var TableSID = await Dataprovider.QueryMapperAsync<ResultBlood>(QueryResultBlood, new { SID = item.SID });
+                        var TableSID = await Dataprovider.QueryMapperAsync<Donnor.ResultBlood>(QueryResultBlood, new { SID = item.SID });
 
                         int PointBIC = 0;
                         foreach (var items in TableSID)
@@ -735,6 +736,49 @@ namespace BloodBank.api.command
             aPIresult.Data = aPIresult.Data = JsonConvert.SerializeObject(delayDonnor, settings);
 
             return aPIresult;
+        }
+
+        public async Task SendTestBB(string SID, List<TestCodeInfo> testcodes, string UserAction)
+        {
+            foreach (var item in testcodes)
+            {
+                if (item.TestType == TestType.NAT)
+                {
+                    if (!string.IsNullOrEmpty(item.TestCode))
+                    {
+                        var itemResultBlood = new Model.ResultBlood { SIDRoot = SID, SIDChild = SID, TestCode = item.TestCode, NAT = true };
+                        if (!await CheckExistTestOrder(itemResultBlood))
+                        {
+                            string sql = "insert tbl_ResultBlood (SIDRoot, SIDchild, UserInsert, DateInsert,TestCode, NAT ) values ( @SIDRoot,  @SIDChild , 'admin',GETDATE(),@TestCode, @NAT )";
+                            await Dataprovider.ExcuteQueryAsync(sql, itemResultBlood);
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(item.MappingTestCode))
+                    {
+                        var itemResultBloodSL = new Model.ResultBlood { SIDRoot = SID, SIDChild = SID, TestCode = item.MappingTestCode };
+                        if (!await CheckExistTestOrder(itemResultBloodSL))
+                        {
+                            string sql = "insert tbl_ResultBlood (SIDRoot, SIDchild, UserInsert, DateInsert,TestCode, NAT ) values ( @SIDRoot,  @SIDChild , 'admin',GETDATE(),@TestCode, @NAT )";
+                            await Dataprovider.ExcuteQueryAsync(sql, itemResultBloodSL);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(item.TestCode))
+                    {
+                        var itemResultBlood = new Model.ResultBlood { SIDRoot = SID, SIDChild = SID, TestCode = item.TestCode };
+                        if (!await CheckExistTestOrder(itemResultBlood))
+                        {
+                            string sql = "insert tbl_ResultBlood (SIDRoot, SIDchild, UserInsert, DateInsert,TestCode, NAT ) values ( @SIDRoot,  @SIDChild , 'admin',GETDATE(),@TestCode, @NAT )";
+                            await Dataprovider.ExcuteQueryAsync(sql, itemResultBlood);
+                        }
+                    }
+                }
+            }
+
+            string sqlUpdate = "Update tbl_Blood SET IsSentTest = 1 WHERE SID =  @SID";
+            await Dataprovider.ExcuteQueryAsync(sqlUpdate, new { SID = SID });
         }
 
         public async Task SendTestLis(string SID, string BloodID, string ObjectOrder, string LocationOrder, List<TestCodeInfo> testcodes, List<string> profiles, string UserAction)
@@ -1218,5 +1262,16 @@ namespace BloodBank.api.command
 
         }
 
+        public async Task<bool> CheckExistTestOrder(Model.ResultBlood resultBlood)
+        {
+            string data = string.Empty;
+            string sql = "SELECT SIDRoot FROM tbl_ResultBlood WHERE SIDRoot=@SIDRoot and SidChild=@SIDChild and TestCode=@TestCode";
+            var response = await Dataprovider.SingleOrDefaultAsync(sql, resultBlood);
+            if (response.code == HttpObject.Enums.Httpstatuscode_API.OK && response.Data != null)
+            {
+                data = response.Data.SIDRoot;
+            }
+            return !string.IsNullOrEmpty(data);
+        }
     }
 }
