@@ -22,7 +22,7 @@ const App = ({ DefaultKey, Identity }) => {
           label: `Lịch sử lần hiến ngày: ${dayjs(data.dateIn).format("DD/MM/YYYY")} - BCI: ${data.bci}  - ABO,RH ${data.aborh}  `,
           children: `Xét nghiệm ${data?.resultBloods
             .map((rb) => {
-              return `${rb.testCode} : ${rb.result}`;
+              return `${rb.testCode?.replace("HAV", "HIV")} : ${rb.result}`;
             })
             .join(". - ")}`,
         });
