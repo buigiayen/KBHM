@@ -75,6 +75,20 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
           <Col md={12} xs={24}>
             <DateTime Name={"DateRegister"} labelFrom="Ngày hiến" />
           </Col>
+          <Col md={12} xs={24}>
+            <Form.Item
+              label="Mã túi máu"
+              name={"MaTuiMau"}
+              rules={[
+                {
+                  required: true,
+                  message: "Xin hãy nhập mã túi máu!",
+                },
+              ]}
+            >
+              <Input maxLength={10} />
+            </Form.Item>
+          </Col>
         </Row>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
@@ -122,22 +136,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
             />
           </Col>
         </Row>
-        <Row gutter={[12]}>
-          <Col md={12} xs={24}>
-            <Form.Item
-              label="Mã túi máu"
-              name={"MaTuiMau"}
-              rules={[
-                {
-                  required: true,
-                  message: "Xin hãy nhập mã túi máu!",
-                },
-              ]}
-            >
-              <Input maxLength={10} />
-            </Form.Item>
-          </Col>
-        </Row>
+        <Row gutter={[12]}></Row>
         <Row gutter={[8]}>
           {dataPerson?.Sync !== "3" && (
             <Button
