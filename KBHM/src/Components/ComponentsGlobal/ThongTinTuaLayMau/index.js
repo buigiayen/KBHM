@@ -77,25 +77,17 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
         setNoteQualify("");
       }
       if (LastLoaiThanhPhan == "141" || LastLoaiThanhPhan == "142") {
-        if (value == "6") {
-          if (!dataPerson.Sync) {
-            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
-            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            if (dayDifference <= 45) {
-              setQualified(false);
-              setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
-            } else {
-              setQualified(true);
-              setNoteQualify("");
-            }
-          }
-        } else if (value == "141" || value == "142") {
+        if (value == "141" || value == "142" || value == "6") {
           if (!dataPerson.Sync) {
             const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
             const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
             if (dayDifference <= 14) {
               setQualified(false);
               setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              Modal.warning({
+                title: "Cảnh báo",
+                content: `Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`,
+              });
             } else {
               setQualified(true);
               setNoteQualify("");
@@ -114,6 +106,11 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
             if (dayDifference <= 84) {
               setQualified(false);
               setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              Modal.warning({
+                width: 870,
+                title: "Cảnh báo",
+                content: <p style={{ fontSize: 18 }}> Người hiến đã hiến Máu toàn phần vào ngày {DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại</p>,
+              });
             } else {
               setQualified(true);
               setNoteQualify("");
@@ -219,6 +216,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
         <Row gutter={[8]}>
           {dataPerson?.Sync !== "3" && (
             <Button
+              disabled={!qualified}
               icon={<IconCombine.PrinterOutlined></IconCombine.PrinterOutlined>}
               onClick={() => {
                 GetdataReport();
