@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 import { TimeTriHoan, TimeTriHoanText } from "../../Data/UnitData/data";
 import { DateToStringDate } from "./helper";
+import { Get_Category } from "../../Data/Api/Category";
 
 const Index = () => {
   const { ID } = useParams();
@@ -28,6 +29,7 @@ const Index = () => {
   const [qualified, setQualified] = useState(true);
   const [noteQualify, setNoteQualify] = useState("");
   const [lastDonor, setLastDonor] = useState();
+  const [Category, setCategory] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
@@ -40,11 +42,16 @@ const Index = () => {
         });
     }
     FuncReload();
+    GetCategory();
   }, []);
   const FuncReload = async () => {
     if (ID !== undefined) {
       GetQRCode(ID);
     }
+  };
+
+  const GetCategory = async () => {
+    setCategory(await Get_Category());
   };
 
   const GetQRCode = (pra) => {
@@ -424,6 +431,10 @@ const Index = () => {
               loadingDelay={loadingDelay}
               GetDataDelay={GetDataDelay}
               qualified={qualified}
+              Category={Category}
+              setQualified={setQualified}
+              setNoteQualify={setNoteQualify}
+              lastDonor={lastDonor}
             />
           </Col>
         </Row>
@@ -441,6 +452,7 @@ const Index = () => {
                 setQualified={setQualified}
                 setNoteQualify={setNoteQualify}
                 qualified={qualified}
+                Category={Category}
               />
             )}
           </Col>

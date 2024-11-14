@@ -97,7 +97,7 @@ namespace KBHM.api.Command
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
              " UPDATE  [dbo].[Person] set [CanNang]=@CanNang,[ChieuCao]=@ChieuCao,[Mach]=@Mach,[HuyetAp]=@HuyetAp,[TinhTrangLamSang]=@TinhTrangLamSang,[ChoPhepHienMau]=@ChoPhepHienMau,[LuongMauLay]=@LuongMauLay   ,[TamHoan] = @TamHoan      ,[NgayHien] =@NgayHien     ,luongMauCoTheHien=@LuongMauCoTheHien," +
-             "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri,[BacSiKham]=@BacSiKham where RowID = @ROWIDs";
+             "[LuongHien] = @LuongHien ,[PhanUng] =@PhanUng,[XuTri]=@XuTri,[BacSiKham]=@BacSiKham, LoaiHienThanhPhan=@LoaiHienThanhPhan where RowID = @ROWIDs";
 
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
@@ -105,7 +105,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , LoaiHienThanhPhan=@LoaiHienThanhPhan, DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua, NguonHien=@NguonHien where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua, NguonHien=@NguonHien where RowID = @ROWIDs";
 
             return await _dataprovider.ExcuteQueryAsync(sql, person);
 
