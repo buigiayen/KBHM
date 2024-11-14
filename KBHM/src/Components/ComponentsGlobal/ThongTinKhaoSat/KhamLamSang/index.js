@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Input, Radio, Space, Button, InputNumber, Select } from "antd";
+import { Row, Col, Form, Input, Radio, Space, Button, InputNumber, Select, Modal } from "antd";
 import IconCombine from "../../../Icon";
 import "../../index.css";
 import { PUT_PersonInfo_healthy } from "../../../../Data/Api/DangKyKham";
 import { Get_Doctor } from "../../../../Data/Api/Category";
+import ElementCombobox from "../../Combobox/Element.combobox";
+import { DateToStringDate } from "../../../../pages/QuanLyThongTin/helper";
 
-const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualified }) => {
+const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualified, Category, setQualified, setNoteQualify, lastDonor }) => {
   const [doctors, setDoctors] = useState([]);
   const [form] = Form.useForm();
   useEffect(() => {
@@ -37,6 +39,61 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualifi
         funcReload();
       })
       .catch((rs) => SetIsloading(false));
+  };
+
+  const CheckLastDonor = async (value) => {
+    if (lastDonor) {
+      const LastLoaiThanhPhan = lastDonor.LoaiHienThanhPhan;
+      if (value != "141" && value != "142" && value != "6") {
+        setQualified(true);
+        setNoteQualify("");
+      }
+      if (LastLoaiThanhPhan == "141" || LastLoaiThanhPhan == "142") {
+        if (value == "141" || value == "142" || value == "6") {
+          if (!dataPerson.Sync) {
+            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            if (dayDifference <= 14) {
+              setQualified(false);
+              setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              Modal.warning({
+                title: "Cảnh báo",
+                content: `Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`,
+              });
+            } else {
+              setQualified(true);
+              setNoteQualify("");
+            }
+          }
+        } else {
+          setQualified(true);
+          setNoteQualify("");
+        }
+      }
+      if (LastLoaiThanhPhan == "6") {
+        if (value == "141" || value == "142" || value == "6") {
+          if (!dataPerson.Sync) {
+            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
+            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            if (dayDifference <= 84) {
+              setQualified(false);
+              setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
+              Modal.warning({
+                width: 870,
+                title: "Cảnh báo",
+                content: <p style={{ fontSize: 18 }}> Người hiến đã hiến Máu toàn phần vào ngày {DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại</p>,
+              });
+            } else {
+              setQualified(true);
+              setNoteQualify("");
+            }
+          }
+        } else {
+          setQualified(true);
+          setNoteQualify("");
+        }
+      }
+    }
   };
 
   return (
@@ -78,6 +135,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualifi
             </Form.Item>
           </Col>
         </Row>
+
         <h2>KẾT LUẬN:</h2>
         <Row>
           <Col md={12} xs={24}>
@@ -90,11 +148,25 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualifi
                 }}
               >
                 <Space direction="vertical">
-                  <Radio value={true}>Cho phép hiến máu</Radio>
-                  {dataPerson?.Sync !== "1" && <Radio value={false}>Không cho phép hiến máu</Radio>}
+                  <Radio value={true}>Cho phép hiến</Radio>
+                  {dataPerson?.Sync !== "1" && <Radio value={false}>Không cho phép hiến</Radio>}
                 </Space>
               </Radio.Group>
             </Form.Item>
+            <ElementCombobox
+              ruler={[
+                {
+                  required: true,
+                  message: "Yêu cầu",
+                },
+              ]}
+              dataSource={Category?.element}
+              Name={"LoaiHienThanhPhan"}
+              Label="Hiến loại thành phần"
+              onChange={(value) => {
+                CheckLastDonor(value);
+              }}
+            />
           </Col>
           <Col md={12} xs={24}>
             <Form.Item label="Lượng máu có thể hiến " name={"LuongMauCoTheHien"}>

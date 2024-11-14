@@ -14,23 +14,19 @@ import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
 import "./index.css";
 import { DateToStringDate } from "../../../pages/QuanLyThongTin/helper";
 
-const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQualify, qualified }) => {
+const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQualify, qualified, Category }) => {
   const navigator = useNavigate();
   const [form] = Form.useForm();
   const [Isload, SetIsLoad] = useState(false);
   const [IsDisable, SeIsDisable] = useState(false);
-  const [Category, setCategory] = useState([]);
   const [isShowPDFViewer, SetisShowPDFViewer] = useState(false);
   const [DataReport, SetDataReport] = useState();
   const [ReportID, SetReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
 
   useEffect(() => {
     form.setFieldsValue({ ...dataPerson, Tua: dataPerson.Tua || 1 });
-    GetCategory();
   }, [dataPerson]);
-  const GetCategory = async () => {
-    setCategory(await Get_Category());
-  };
+
   const Putperson = async ({ Sync }) => {
     form
       .validateFields()
@@ -69,61 +65,6 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
     });
   };
 
-  const CheckLastDonor = async (value) => {
-    if (lastDonor) {
-      const LastLoaiThanhPhan = lastDonor.LoaiHienThanhPhan;
-      if (value != "141" && value != "142" && value != "6") {
-        setQualified(true);
-        setNoteQualify("");
-      }
-      if (LastLoaiThanhPhan == "141" || LastLoaiThanhPhan == "142") {
-        if (value == "141" || value == "142" || value == "6") {
-          if (!dataPerson.Sync) {
-            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
-            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            if (dayDifference <= 14) {
-              setQualified(false);
-              setNoteQualify(`Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
-              Modal.warning({
-                title: "Cảnh báo",
-                content: `Người hiến đã hiến Tiểu cẩu máy vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`,
-              });
-            } else {
-              setQualified(true);
-              setNoteQualify("");
-            }
-          }
-        } else {
-          setQualified(true);
-          setNoteQualify("");
-        }
-      }
-      if (LastLoaiThanhPhan == "6") {
-        if (value == "141" || value == "142" || value == "6") {
-          if (!dataPerson.Sync) {
-            const timeDifference = Math.abs(new Date() - new Date(lastDonor.NgayLayMau));
-            const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            if (dayDifference <= 84) {
-              setQualified(false);
-              setNoteQualify(`Người hiến đã hiến Máu toàn phần vào ngày ${DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại`);
-              Modal.warning({
-                width: 870,
-                title: "Cảnh báo",
-                content: <p style={{ fontSize: 18 }}> Người hiến đã hiến Máu toàn phần vào ngày {DateToStringDate(new Date(lastDonor.NgayLayMau))}, chưa đến ngày được phép hiến lại</p>,
-              });
-            } else {
-              setQualified(true);
-              setNoteQualify("");
-            }
-          }
-        } else {
-          setQualified(true);
-          setNoteQualify("");
-        }
-      }
-    }
-  };
-
   return (
     <>
       <Divider orientation="left">
@@ -133,22 +74,6 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
             <DateTime Name={"DateRegister"} labelFrom="Ngày hiến" />
-          </Col>
-          <Col md={12} xs={24}>
-            <ElementCombobox
-              ruler={[
-                {
-                  required: true,
-                  message: "Yêu cầu",
-                },
-              ]}
-              dataSource={Category?.element}
-              Name={"LoaiHienThanhPhan"}
-              Label="Hiến loại thành phần"
-              onChange={(value) => {
-                CheckLastDonor(value);
-              }}
-            />
           </Col>
         </Row>
         <Row gutter={[12]}>
