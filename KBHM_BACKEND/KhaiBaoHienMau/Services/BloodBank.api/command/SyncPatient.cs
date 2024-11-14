@@ -851,7 +851,7 @@ namespace BloodBank.api.command
                     " @PatientId as PID, @OrderID as OrderID, @OrderCode as OrderCode, @Address as address, " +
                     " (select top 1 LocationID from dbo.tbl_Location where LocationHIS=@MaKhoaPhong) as Locationid, " +
                     " @ChanDoan as Pdescription, @SampleID as SID, @Sequence as Seq, CAST(GETDATE() AS DATE) as DateIn, @DateGet as DateGet, @CapCuu as Urgent, " +
-                    " (select top 1 ObjectID from dbo.tbl_Object where ObjectHIS=@MaDoiTuong) as ObjectID, getdate() as Intime, @GioChiDinh_DateTime as DateOrder, @MaYte, @NgaySinh, @Bed, @InsureNumber,@HisCode ";
+                    " (select top 1 ObjectID from dbo.tbl_Object where ObjectHIS=@MaDoiTuong) as ObjectID, getdate() as Intime, @GioChiDinh_DateTime as DateOrder, @MaYte, (CAST(YEAR(GETDATE()) AS CHAR(4)) + '-01-01'), @Bed, @InsureNumber,@HisCode ";
                     await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION2", sql, patientInfo);
                 }
                 else
