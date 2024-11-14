@@ -4,7 +4,7 @@ import { Select, Form } from "antd";
 
 const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues, autoClear = false }) => {
   return (
-    <Form.Item label={Label} name={Name} rules={ruler} initialValue={initialValues} style={{ marginTop: 20 }}>
+    <Form.Item label={Label} name={Name} rules={ruler} initialValue={initialValues} style={{ marginTop: Name == "LoaiHienThanhPhan" ? 20 : 0 }}>
       <Select
         placeholder={Label}
         defaultValue={initialValues}
@@ -14,7 +14,7 @@ const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues
         filterSort={(optionA, optionB) => (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())}
         className={`${Math.random()}`}
         onChange={onChange}
-        style={{ width: 80 + "%" }}
+        style={{ width: Name == "LoaiHienThanhPhan" ? "80%" : "100%" }}
         options={dataSource ?? []}
       />
     </Form.Item>
