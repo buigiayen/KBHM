@@ -75,10 +75,6 @@ const Index = () => {
     await GET_LastDonor(ID).then((res) => {
       if (res.length > 0) {
         setLastDonor(res[0]);
-        // if (DataPerson.Sync != 1) {
-        //   setQualified(false);
-        //   setNoteQualify(`Người hiến đã hiến máu vào ngày ${DateToStringDate(new Date(res[0].NgayLayMau))}, chưa đến ngày được phép hiến lại`);
-        // }
       } else {
         setQualified(true);
         setNoteQualify("");
@@ -120,6 +116,7 @@ const Index = () => {
       setLoadingDelay(true);
       GET_PersonDonateDelay(ID).then((res) => {
         if (res?.length > 0) {
+          res[0].DelayDate = dayjs(res[0].DelayDate);
           setDataDelay(res[0]);
           let newReason = `Người hiến máu từng bi trì hoãn ${res[0].DelayTime || ""} ${TimeTriHoanText[res[0].DelayTimeline]} từ ngày ${DateToStringDate(new Date(res[0].DelayDate))} ${renderToDate(
             res[0]
@@ -229,6 +226,7 @@ const Index = () => {
           GET_DonorDelay(ID).then((resp) => {
             const response = JSON.parse(resp);
             if (response.length > 0) {
+              response[0].DelayDate = dayjs(response[0].DelayDate);
               setDataDelay(response[0]);
               let newReason = `Trì hoãn ${response[0].DelayTime || ""} ${TimeTriHoanText[response[0].DelayTimeline]} với lý do `;
               if (response[0].HIV_Infection) {
