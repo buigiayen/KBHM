@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Radio, Row, Select } from "antd";
+import { Button, Checkbox, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Radio, Row, Select } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ThoiGianTriHoan from "./ThoiGianTriHoan";
 import ThongTinTriHoan from "./ThongTinTriHoan";
@@ -128,17 +128,15 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
     if (dataDelay) {
       showModal();
     } else {
-      let delayDate = DateTimeToLocaleDate(new Date());
       const dataPost = {
         ...data,
         CCCD: DataPerson.CCCD,
         DelayTimeline: loaiTriHoan,
-        DelayDate: delayDate,
         DelayTime: data.DelayTime || 0,
       };
       await POST_PersonDonateDelay(dataPost).then(async () => {
         const dataSync = {
-          RegisterDate: delayDate,
+          RegisterDate: data.DelayDate,
           DonorCode: DataPerson.CCCD,
           Delay: loaiTriHoan,
           TimeDelay: data.DelayTime || 0,
@@ -194,6 +192,9 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
     <>
       {contextHolder}
       <Form onFinish={UpdateTriHoanInformation} initialValues={dataDelay} ref={formRef} disabled={dataDelay}>
+        <Form.Item label="Ngày trì hoãn" name="DelayDate">
+          <DatePicker />
+        </Form.Item>
         <ThoiGianTriHoan onChangeTimeTriHoan={onChangeTimeTriHoan} loaiTriHoan={loaiTriHoan} dataDelay={dataDelay} />
         <ThongTinTriHoan />
         <Button htmlType="submit" type="primary" style={{ width: 100 + "%" }} disabled={!loaiTriHoan || !qualified} danger={dataDelay}>

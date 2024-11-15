@@ -313,7 +313,7 @@ namespace KBHM.api.Command
 
         public async Task<HttpObject.APIresult> CheckLastDonor(Model.Person person)
         {
-            string sql = "Select top 1 * from Person where CCCD = @CCCD AND SYNC = 1 Order by NgayLayMau Desc";
+            string sql = "Select top 1 * from Person where CCCD = @CCCD AND SYNC = 1 Order by NgayHien Desc";
             return await _dataprovider.SQLQueryAsync(sql, person);
         }
     }
