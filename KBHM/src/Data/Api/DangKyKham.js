@@ -39,6 +39,10 @@ export const PUT_PersonABORH = async ({ RowID, ABO, RH, HST, HBV }) => {
   return await HttpRequest("PUT", `/kbhm/Person/ABORH`, body, true);
 };
 
+export const GET_DonorExCheck_Person = async ({ DonorExCode }) => {
+  return await HttpRequest("GET", `/kbhm/Person/CheckDonnorExCode?MaTuiMau=${DonorExCode}`);
+};
+
 export const GET_DonorExCheck = async ({ DonorExCode }) => {
   return await HttpRequest("GET", `/bl/SyncDonnor/CheckDonnorExCode?DonorExCode=${DonorExCode}`);
 };
@@ -91,7 +95,7 @@ export const POST_SyncDonor = async (ID) => {
         Address: (DiaChiLienLac || "") + " " + (DiaChiThuongTru_ChiTiet || ""),
         Phone: Phone,
         BirthDay: BirthDay,
-        DonorExCode: MaTuiMau,
+        DonorExCode: MaTuiMau?.toUpperCase(),
         BloodSourceLocationId: DiemLayMau,
         BloodVolume: LuongHien,
         ElementID: LoaiHienThanhPhan,
