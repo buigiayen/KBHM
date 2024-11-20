@@ -116,6 +116,13 @@ namespace KBHM.api.Controllers
             var data = await _Person.CheckLastDonor(new Person { CCCD = CCCD });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+        [Authorize]
+        [HttpGet("Person/CheckDonnorExCode")]
+        public async Task<IActionResult> CheckDonnorEx([FromQuery] string MaTuiMau)
+        {
+            var data = await _Person.CheckDonnorEx(MaTuiMau);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
 

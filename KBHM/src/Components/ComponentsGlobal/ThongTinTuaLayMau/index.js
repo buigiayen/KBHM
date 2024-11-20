@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Warning } from "../../notification";
 import { Config } from "../../../Data/Config/config.system";
 import { Get_Category } from "../../../Data/Api/Category";
-import { PUT_PersonTrip, GET_DonorExCheck } from "../../../Data/Api/DangKyKham";
+import { PUT_PersonTrip, GET_DonorExCheck, GET_DonorExCheck_Person } from "../../../Data/Api/DangKyKham";
 import "./index.css";
 import { DateToStringDate } from "../../../pages/QuanLyThongTin/helper";
 
@@ -31,7 +31,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
     form
       .validateFields()
       .then(async (rs) => {
-        const { CheckDonnor } = await GET_DonorExCheck({
+        const { CheckDonnor } = await GET_DonorExCheck_Person({
           DonorExCode: rs.MaTuiMau,
         });
         if (!CheckDonnor) {

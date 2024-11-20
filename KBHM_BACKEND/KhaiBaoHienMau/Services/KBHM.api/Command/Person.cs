@@ -313,8 +313,14 @@ namespace KBHM.api.Command
 
         public async Task<HttpObject.APIresult> CheckLastDonor(Model.Person person)
         {
-            string sql = "Select top 1 * from Person where CCCD = @CCCD AND SYNC = 1 Order by NgayHien Desc";
+            string sql = "Select top 1 * from Person where CCCD = @CCCD AND SYNC = 1 Order by DateRegister Desc";
             return await _dataprovider.SQLQueryAsync(sql, person);
+        }
+
+        public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string MaTuiMau)
+        {
+            string SQL = "SELECT cast((case when   count(MaTuiMau)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  Person  WHERE (MaTuiMau = @MaTuiMau)";
+            return await _dataprovider.SingleOrDefaultAsync(SQL, new { MaTuiMau = MaTuiMau });
         }
     }
 }
