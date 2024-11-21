@@ -795,7 +795,7 @@ namespace BloodBank.api.command
             patientInfo.MaDoiTuong = ObjectOrder;
             patientInfo.MaKhoaPhong = LocationOrder;
             patientInfo.CapCuu = false;
-            patientInfo.DateGet = null;
+            patientInfo.DateGet = DateTime.Now;
             patientInfo.HisCode = "BloodBank";
 
             if (patientInfo.NgaySinh_DateTime == null)
