@@ -193,7 +193,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
     <>
       {contextHolder}
       <Form onFinish={UpdateTriHoanInformation} initialValues={dataDelay} ref={formRef} disabled={dataDelay}>
-        <Form.Item label="Ngày trì hoãn" name="DelayDate">
+        <Form.Item label="Ngày trì hoãn" name="DelayDate" rules={[{ required: true, message: "Yêu cầu" }]}>
           <DatePicker />
         </Form.Item>
         <ThoiGianTriHoan onChangeTimeTriHoan={onChangeTimeTriHoan} loaiTriHoan={loaiTriHoan} dataDelay={dataDelay} />
