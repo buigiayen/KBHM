@@ -31,7 +31,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
     form
       .validateFields()
       .then(async (rs) => {
-        const { CheckDonnor } = await GET_DonorExCheck_Person({
+        const { CheckDonnor } = await GET_DonorExCheck({
           DonorExCode: rs.MaTuiMau,
         });
         if (!CheckDonnor) {
