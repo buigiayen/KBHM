@@ -162,6 +162,7 @@ const Index = ({ ID, dataPerson, IsDone, HienMau, funcReload, dataDelay, qualifi
               ]}
               dataSource={Category?.element}
               Name={"LoaiHienThanhPhan"}
+              disabled={dataDelay}
               Label="Hiến loại thành phần"
               onChange={(value) => {
                 CheckLastDonor(value);
