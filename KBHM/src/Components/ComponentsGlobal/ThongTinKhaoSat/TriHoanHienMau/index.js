@@ -33,7 +33,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
         const dataSync = {
           Comment: data.CancelReason,
           DonorCode: DataPerson.CCCD,
-          RegisterDate: dataDelay.DelayDate,
+          RegisterDate: DateTimeToLocaleDate(new Date(dataDelay.DelayDate)),
           Delay: loaiTriHoan,
           TimeDelay: dataDelay.DelayTime || 0,
           HIV: dataDelay.HIV_Infection || false,
@@ -70,6 +70,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
           ABO: dataDelay.ABO_Undetermined || false,
           Rh: dataDelay.Rh_Undetermined || false,
         };
+        console.log(dataSync);
         await POST_SyncDelayDelete(dataSync).then(() => {
           GetDataDelay(DataPerson.CCCD);
         });
@@ -80,7 +81,7 @@ const TriHoanHienMau = ({ ID, dataDelay, GetDataDelay, DataPerson, qualified }) 
       const dataSync = {
         Comment: data.CancelReason,
         DonorCode: DataPerson.CCCD,
-        RegisterDate: dataDelay.DelayDate,
+        RegisterDate: DateTimeToLocaleDate(new Date(dataDelay.DelayDate)),
         Delay: loaiTriHoan,
         TimeDelay: dataDelay.DelayTime || 0,
         HIV: dataDelay.HIV_Infection || false,
