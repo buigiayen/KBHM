@@ -164,6 +164,7 @@ export const POST_SyncDelay = async (ID, data) => {
 };
 
 export const POST_SyncDelayDelete = async (data) => {
+  console.log(data);
   return await HttpRequest("POST", `/bl/SyncDonnor/Delay/Delete`, data, true);
 };
 
