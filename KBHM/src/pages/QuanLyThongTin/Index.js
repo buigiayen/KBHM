@@ -94,7 +94,7 @@ const Index = () => {
             text += DateToStringDate(toDate);
             break;
           case TimeTriHoan.Week:
-            toDate.setDate(toDate.getDay() + 7);
+            toDate.setDate(toDate.getDate() + data.DelayTime * 7);
             text += DateToStringDate(toDate);
             break;
           case TimeTriHoan.Month:

@@ -626,7 +626,7 @@ namespace BloodBank.api.command
                                             values
                                             ((select Top(1)  DonorID from tbl_Donor where  DonorCode=@DonorCode),
                                             @DonorCode,
-                                            GETDATE(),(Select LeverDelay from tbl_Blood_Donation_Delay Where DonorID = @DonorCode and FORMAT(RegisterDate, 'yyyy-MM-dd HH:mm') = @RegisterDate) ,
+                                            GETDATE(),(Select LeverDelay from tbl_Blood_Donation_Delay Where DonorID = @DonorCode and FORMAT(RegisterDate, 'yyyy-MM-dd HH:mm') = FORMAT(@RegisterDate, 'yyyy-MM-dd HH:mm')) ,
                                             @Delay,
                                             @TimeDelay,
                                             @HIV, 
@@ -664,7 +664,7 @@ namespace BloodBank.api.command
                                             @Rh,@Comment
                                             );
 		                                    Print('Delete Blood_Donation_Delay')
-			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and FORMAT(RegisterDate, 'yyyy-MM-dd HH:mm') = @RegisterDate
+			                                Delete tbl_Blood_Donation_Delay Where DonorID = @DonorCode and FORMAT(RegisterDate, 'yyyy-MM-dd HH:mm') = FORMAT(@RegisterDate, 'yyyy-MM-dd HH:mm')
                                      
 		                                END                            
                                 END";
