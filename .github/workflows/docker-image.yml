@@ -23,6 +23,8 @@ jobs:
 
       - name: Build image
         run: |
+          export DOCKER_REGISTRY=${{ secrets.DOCKER_USER }}
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
           cd KBHM_BACKEND/KhaiBaoHienMau/
            docker compose -f docker-compose.yml -f docker-compose.stagging.yml build
            docker compose -f docker-compose.yml -f docker-compose.stagging.yml push
