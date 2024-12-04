@@ -53,9 +53,8 @@ jobs:
           proxy_port: ${{ secrets.PORT }}
           username: ${{ secrets.SSH_DEPLOY_USER }}
           password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-          source: "KBHM/docker-compose.yml,KBHM/docker-compose.override.yml,KBHM/.env"
-          target: "app"
-          script: docker-compose up -d
+          source: "docker-compose.yml,docker-compose.override.yml"
+          target: "app/KBHM"
 
       - name: Connection SSH - build server docker compose
         uses: appleboy/ssh-action@v0.1.10
