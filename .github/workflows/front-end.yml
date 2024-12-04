@@ -33,7 +33,7 @@ jobs:
         with:
           name: key-docker-compose
           path: |
-            demo-frontend/docker-compose.yml
+            KBHM/docker-compose.yml
           retention-days: 5
 
   deploy:
