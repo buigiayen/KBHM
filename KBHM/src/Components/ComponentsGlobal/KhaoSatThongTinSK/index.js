@@ -38,11 +38,6 @@ const Index = ({ Value, Persons }) => {
 
   useEffect(() => {
     let newProperties = Properties;
-    newProperties.data.push({
-      key: "7.1",
-      label: Question.find((x) => x.Key == 7).data.find((x) => x.Key == "7.1").value,
-      value: "false",
-    });
     SetProperties({ ...newProperties });
   }, []);
 

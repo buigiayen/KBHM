@@ -10,6 +10,7 @@ namespace BloodBank.api.Model
         public List<CategoryData> Job { get; set; }
         public List<CategoryData> Trip { get; set; }
         public List<CategoryData> BloodSource { get; set; }
+        public List<CategoryData> User { get; set; }
     }
     public class CategoryData
     {
