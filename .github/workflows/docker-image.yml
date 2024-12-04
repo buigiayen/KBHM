@@ -4,51 +4,68 @@ on:
   push:
     branches: [main]
 
-
 jobs:
-  build_and_push_backend:
+  docker_login:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v2
-               
       - name: Login container docker
         uses: docker/login-action@v2
         with:
-           username: ${{ secrets.DOCKER_USER }}
-           password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-             
+  build_and_push_backend:
+    runs-on: ubuntu-latest
+    needs: docker_login
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
       - name: Build image
-        run: | 
-         cd KBHM_BACKEND/KhaiBaoHienMau/
-          docker compose -f docker-compose.yml -f docker-compose.stagging.yml build
-          docker compose -f docker-compose.yml -f docker-compose.stagging.yml push
+        run: |
+          cd KBHM_BACKEND/KhaiBaoHienMau/
+           docker compose -f docker-compose.yml -f docker-compose.stagging.yml build
+           docker compose -f docker-compose.yml -f docker-compose.stagging.yml push
 
-      
+      - name: "Upload Docker compose"
+        uses: actions/upload-artifact@v4
+        with:
+          name: key-docker-compose-backend
+          path: |
+            KBHM/docker-compose.yml
+          retention-days: 5
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push_backend
+    steps:
+      - name: Download docker-compose
+        uses: actions/download-artifact@v4
+        with:
+          name: key-docker-compose-backend
+
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
         with:
-            host: ${{ secrets.SSH_DEPLOY_IP }}
-            port: ${{ secrets.PORT }}
-            proxy_port: ${{ secrets.PORT }}
-            username: ${{ secrets.SSH_DEPLOY_USER }}
-            password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-            source: "KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml,KBHM_BACKEND/KhaiBaoHienMau/docker-compose.stagging.yml"
-            target: "app"
-  
+          host: ${{ secrets.SSH_DEPLOY_IP }}
+          port: ${{ secrets.PORT }}
+          proxy_port: ${{ secrets.PORT }}
+          username: ${{ secrets.SSH_DEPLOY_USER }}
+          password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+          source: "docker-compose.yml,docker-compose.stagging.yml"
+          target: "app"
+
       - name: Connection SSH - build server docker compose
         uses: appleboy/ssh-action@v0.1.10
         with:
-            host: ${{ secrets.SSH_DEPLOY_IP }}
-            port: ${{ secrets.PORT }}
-            proxy_port: ${{ secrets.PORT }}
-            username: ${{ secrets.SSH_DEPLOY_USER }}
-            password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-            script: |
-              cd app/KBHM_BACKEND/KhaiBaoHienMau
-              sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
-              docker-compose down
-              docker-compose pull
-              docker-compose -f docker-compose.yml -f docker-compose.stagging.yml up -d --build
-    
+          host: ${{ secrets.SSH_DEPLOY_IP }}
+          port: ${{ secrets.PORT }}
+          proxy_port: ${{ secrets.PORT }}
+          username: ${{ secrets.SSH_DEPLOY_USER }}
+          password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
+          script: |
+            cd app/KBHM_BACKEND/KhaiBaoHienMau
+            sed -i '/build:\|context:\|dockerfile:/d' docker-compose.yml
+            docker-compose down
+            docker-compose pull
+            docker-compose -f docker-compose.yml -f docker-compose.stagging.yml up -d --build
