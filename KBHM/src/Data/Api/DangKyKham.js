@@ -34,8 +34,8 @@ export const PUT_PersonTrip = async (prop) => {
 export const PUT_PersonDone = async (prop) => {
   return await HttpRequest("PUT", `/kbhm/Person/Done`, prop, true);
 };
-export const PUT_PersonABORH = async ({ RowID, ABO, RH, HST, HBV }) => {
-  const body = { RowID, ABO, RH, HST, HBV };
+export const PUT_PersonABORH = async ({ RowID, ABO, RH, HST, HBV, NguoiThAboRh, NguoiThHBsAg }) => {
+  const body = { RowID, ABO, RH, HST, HBV, NguoiThAboRh, NguoiThHBsAg };
   return await HttpRequest("PUT", `/kbhm/Person/ABORH`, body, true);
 };
 

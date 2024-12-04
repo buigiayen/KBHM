@@ -297,14 +297,14 @@ namespace BloodBank.api.command
             string Query_Old = rowguid + Environment.NewLine + ActionDonnor_Old;
             await _connectionSQL.ExcuteQueryAsync("SQL_CONNECTION_REGION1", Query_Old, donnor);
             var response = await Dataprovider.ExcuteQueryAsync(Query, donnor);
-            if (response.code == HttpObject.Enums.Httpstatuscode_API.OK)
-            {
-                var testcodes = await GetTestCode();
-                var profiles = await GetListProfile();
-                var datahc = await GetDataHanhChinh();
-                await SendTestBB(donnor.SID, testcodes, donnor.UserID);
-                await SendTestLis(donnor.SID, donnor.DonorExCode, datahc.ObjectID, datahc.LocationID, testcodes, profiles, donnor.UserID);
-            }
+            //if (response.code == HttpObject.Enums.Httpstatuscode_API.OK)
+            //{
+            //    var testcodes = await GetTestCode();
+            //    var profiles = await GetListProfile();
+            //    var datahc = await GetDataHanhChinh();
+            //    await SendTestBB(donnor.SID, testcodes, donnor.UserID);
+            //    await SendTestLis(donnor.SID, donnor.DonorExCode, datahc.ObjectID, datahc.LocationID, testcodes, profiles, donnor.UserID);
+            //}
             return response;
         }
         public async Task<string> SetNameUnsign(string Name)

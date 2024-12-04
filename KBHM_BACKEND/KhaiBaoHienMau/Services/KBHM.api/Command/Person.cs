@@ -166,7 +166,7 @@ namespace KBHM.api.Command
 
         public async Task<HttpObjectData.APIresult> PutPersonABORH(Model.Person person)
         {
-            string sql = "update Person set ABO=@ABO , RH=@RH, HST=@HST, HBV=@HBV where RowID=@RowID";
+            string sql = "update Person set ABO=@ABO , RH=@RH, HST=@HST, HBV=@HBV, NguoiThAboRh=@NguoiThAboRh, NguoiThHBsAg=@NguoiThHBsAg where RowID=@RowID";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
 

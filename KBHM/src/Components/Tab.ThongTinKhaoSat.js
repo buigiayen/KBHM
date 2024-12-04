@@ -43,7 +43,7 @@ const App = ({ IDPerson, IsBloodDonation, DataPerson, DataElement, funcReload, d
     {
       label: `XN trước hiến`,
       key: "3",
-      children: <XNTruochien Person={DataPerson} qualified={qualified}></XNTruochien>,
+      children: <XNTruochien Person={DataPerson} qualified={qualified} Category={Category}></XNTruochien>,
     },
     {
       label: `Trì hoãn hiến máu`,

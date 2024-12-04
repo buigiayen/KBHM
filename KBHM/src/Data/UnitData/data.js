@@ -19,54 +19,71 @@ export const Sex = [
 export const Question = [
   {
     Key: 1,
-    value: "1. Anh/Chị đã từng hiến máu chưa?",
+    value: "1. Hiện tại anh/chị có các bệnh:",
     data: [
       {
         Key: "1.1",
-        value: "Anh/Chị đã từng hiến máu chưa",
-        ShowText: false,
-        type: formType.checkbox,
-      },
-    ],
-    warning: false,
-  },
-  {
-    Key: 2,
-    value: "2. Hiện tại anh/chị có các bệnh:",
-    data: [
-      {
-        Key: "2.1",
-        value: "Viêm khớp, đau dạ dày, viêm gan, bệnh tim, huyết áp thấp/cao, hen, ho kéo dài, bệnh máu, bệnh lao?",
+        value: "Các bệnh mãn tính hoặc cấp tính về thần kinh, tâm thần, hô hấp, tuần hoàn, tiết niệu, tiêu hóa, gan mật, nội tiết, máu, bệnh hệ thống, bệnh tự miễn, tình trạng dị ứng nặng",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "2.2",
-        value: "Bệnh khác",
+        Key: "1.2",
+        value: "Mang thai vào thời điểm đăng ký hiến máu",
         ShowText: true,
-        type: formType.text,
+        type: formType.checkbox,
+      },
+      {
+        Key: "1.3",
+        value: "Có tiền sử lấy, hiến, ghép bộ phận cơ thể người",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "1.4",
+        value: "Nghiện ma túy, nghiện rượu",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "1.5",
+        value: "Khuyết tật nặng",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "1.6",
+        value: "Các bệnh lây truyền qua đường máu, đường tình dục tại thời điểm đăng ký hiến máu",
+        ShowText: true,
+        type: formType.checkbox,
       },
     ],
     warning: true,
   },
   {
-    Key: 3,
-    value: "3. Trong vòng 12 tháng gần đây anh/chị có bị mắc các bệnh và đã được điều trị khỏi",
+    Key: 2,
+    value: "2. Trong vòng 12 tháng anh/chị có",
     data: [
       {
-        Key: "3.1",
-        value: "Sốt rét, Giang mai, Lao, Viêm não, viêm màng não, phẫu thuật ngoại khoa?",
+        Key: "2.1",
+        value: "Mắc bệnh Sốt rét, Giang mai, Lao, Viêm não, viêm màng não, uốn ván",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "3.2",
-        value: "Kết thúc đợt tiêm vắc xin phòng bệnh dại sau khi bị động vật cắn hoặc tiêm, truyền máu, chế phẩm máu và các chế phẩm sinh học nguồn gốc từ máu?",
+        Key: "2.2",
+        value: "Phẫu thuật ngoại khoa?",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "3.3",
+        Key: "2.3",
+        value: "Kết thúc đợt tiêm vắc xin phòng bệnh dại hoặc tiêm, truyền máu, chế phẩm máu và các chế phẩm sinh học nguồn gốc từ máu?",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "2.4",
         value: "Sinh con hoặc chấm dứt thai nghén?",
         ShowText: true,
         type: formType.checkbox,
@@ -75,62 +92,55 @@ export const Question = [
     warning: true,
   },
   {
-    Key: 4,
-    value: "4. Trong vòng 6 tháng gần đây, anh/chị có bị một trong các triệu chứng sau không?",
+    Key: 3,
+    value: "3. Trong vòng 6 tháng gần đây, anh/chị có",
     data: [
       {
-        Key: "4.1",
+        Key: "3.1",
         value: "Sút cân >= 4Kg không rõ nguyên nhân, Nổi hạch kéo dài, Chữa rang, châm cứu?",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "4.2",
+        Key: "3.2",
         value: "Xăm mình, xỏ lỗ qua da(tai, mũi...)",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "4.3",
-        value: "Sử dụng tiêm chích ma túy, Quan hệ tình dục với người cùng giới?",
+        Key: "3.3",
+        value: "Phơi nhiễm với máu và dịch cơ thể từ người có nguy cơ hoặc đã nhiễm các bệnh lây truyền qua đường máu",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "4.4",
-        value: "Quan hệ tình dục với người nhiễm HIV hoặc người có nguy cơ lây nhiễm HIV?",
-        ShowText: true,
-        type: formType.checkbox,
-      },
-      {
-        Key: "4.5",
+        Key: "3.4",
         value: "Khỏi bệnh sau khi mắc một trong các bệnh: Thương hàn, nhiễm trùng huyết, viêm tắc động, tĩnh mạch, viêm tủy xương, viêm tụy?",
         ShowText: true,
         type: formType.checkbox,
       },
     ],
-
     warning: true,
   },
   {
-    Key: 5,
-    value: "5. Trong vòng 4 tuần gần đây, anh/chị có bị mắc các bệnh và đã được điều trị khỏi",
+    Key: 4,
+    value: "4. Trong vòng 4 tuần gần đây, anh/chị có",
     data: [
       {
-        Key: "5.1",
+        Key: "4.1",
         value:
           "Khỏi bệnh sau khi mắc một trong các bệnh: Viêm dạ dày ruột, viêm đường tiết niệu, viêm da nhiễm trùng, viêm phế quản, viêm phổi, sởi, ho gà, quai bị, sốt xuất huyết, kiết lỵ, rubella, tả?",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "5.2",
+        Key: "4.2",
         value: "Kết thúc đợt tiêm vắc xin phòng: Rubella, sởi, thương hàn, tả, quai bị, thủy đậu, BCG?",
         ShowText: true,
         type: formType.checkbox,
       },
       {
-        Key: "5.3",
+        Key: "4.3",
         value: "Đi vào vùng có dịch bệnh lưu hành(Sốt rét, Sốt xuất huyết, Zika...)",
         ShowText: true,
         type: formType.checkbox,
@@ -139,24 +149,12 @@ export const Question = [
     warning: true,
   },
   {
-    Key: 6,
-    value: "6. Trong vòng 7 ngày gần đây, anh/chị có",
+    Key: 5,
+    value: "5. Trong vòng 7 ngày gần đây, anh/chị có",
     data: [
       {
-        Key: "6.1",
-        value: "Bị cúm, ho, nhức đầu, sốt hoặc đang dùng thuốc kháng sinh, Aspirin, Corticoid...",
-        ShowText: true,
-        type: formType.checkbox,
-      },
-      {
-        Key: "6.2",
+        Key: "5.1",
         value: "Tiêm vacxin phòng virut viêm gan B",
-        ShowText: true,
-        type: formType.checkbox,
-      },
-      {
-        Key: "6.3",
-        value: "Đến khám bác sỹ làm xét nghiệm",
         ShowText: true,
         type: formType.checkbox,
       },
@@ -165,12 +163,12 @@ export const Question = [
     warning: true,
   },
   {
-    Key: 7,
-    value: "7. Câu hỏi dành cho phụ nữ.",
+    Key: 6,
+    value: "6. Trong vòng 14 ngày gần đây anh/chị có",
     data: [
       {
-        Key: "7.1",
-        value: "Hiện có thai, hoặc nuôi con dưới 12 tháng tuổi?",
+        Key: "6.1",
+        value: "Bị cúm ho, nhức đầu, sốt hoặc đang dùng thuốc kháng sinh, Aspirin, Corticoid...",
         ShowText: true,
         type: formType.checkbox,
       },

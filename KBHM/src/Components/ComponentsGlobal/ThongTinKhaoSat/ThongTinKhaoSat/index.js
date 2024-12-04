@@ -24,7 +24,7 @@ const Index = ({ ID }) => {
       render: (_, { value, key }) => (
         <>
           {value ? (
-            <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type={key >= 2 && key < 7 ? "error" : "warning"} />
+            <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type={"error"} />
           ) : (
             <Alert message={`${_}: ${value == true ? "Có" : value == false ? "Không" : value}`} type="success" />
           )}
