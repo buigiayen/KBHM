@@ -55,6 +55,6 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
+.env
 **\.vs\**
 
