@@ -8,7 +8,7 @@ const Connection = async (URI, method = "GET", body, params = null, Type = "appl
     UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI;
   }
   if (process.env.NODE_ENV === "production") {
-    UrlBase = "api-gw" + URI;
+    UrlBase =  "/api-gw" + URI;
   }
   if (process.env.NODE_ENV === "test") {
     UrlBase = process.env.REACT_APP_PUBLIC_URL_TEST + URI;
