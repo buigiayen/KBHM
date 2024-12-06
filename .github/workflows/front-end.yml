@@ -4,23 +4,46 @@ on:
     branches: [main]
 
 jobs:
-  build_front_end:
+  docker_login:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v2
-
       - name: Login container docker
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
+  build_front_end:
+    runs-on: ubuntu-latest
+    needs: docker_login
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
       - name: Build image
-        run: | 
-            cd KBHM
-            docker compose build
-            docker compose push
+        run: |
+          export DOCKER_REGISTRY=${{ secrets.DOCKER_USER }}
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+          cd KBHM
+          docker compose build
+          docker compose push
+
+      - name: "Upload Docker compose"
+        uses: actions/upload-artifact@v4
+        with:
+          name: key-docker-compose-frontend
+          path: |
+            KBHM/docker-compose.yml
+          retention-days: 5
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_front_end
+    steps:
+      - name: Download docker-compose
+        uses: actions/download-artifact@v4
+        with:
+          name: key-docker-compose-frontend
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
@@ -30,9 +53,8 @@ jobs:
           proxy_port: ${{ secrets.PORT }}
           username: ${{ secrets.SSH_DEPLOY_USER }}
           password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
-          source: "KBHM/docker-compose.yml,KBHM/docker-compose.override.yml,KBHM/.env"
-          target: "app"
-          script: docker-compose up -d
+          source: "docker-compose.yml,docker-compose.override.yml"
+          target: "app/KBHM"
 
       - name: Connection SSH - build server docker compose
         uses: appleboy/ssh-action@v0.1.10
