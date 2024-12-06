@@ -53,5 +53,8 @@ const RoutesPage = [
     path: "*",
     element: <Error_404 />,
   },
+  {
+    path: "/api-gw/",
+  },
 ];
 export default RoutesPage;
