@@ -2,20 +2,14 @@ import axios, { AxiosStatic } from "axios";
 import { message, notification } from "antd";
 import { Warning, Error } from "../../Components/notification";
 
-const Connection = async (
-  URI,
-  method = "GET",
-  body,
-  params = null,
-  Type = "application/json"
-) => {
+const Connection = async (URI, method = "GET", body, params = null, Type = "application/json") => {
   var UrlBase;
   if (process.env.NODE_ENV === "development") {
     UrlBase = process.env.REACT_APP_PUBLIC_URL_DEV + URI;
   }
-  if (process.env.NODE_ENV === "production") {
-    UrlBase = process.env.REACT_APP_PUBLIC_URL_PRODUCT + URI;
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   UrlBase = process.env.REACT_APP_PUBLIC_URL_PRODUCT + URI;
+  // }
   if (process.env.NODE_ENV === "test") {
     UrlBase = process.env.REACT_APP_PUBLIC_URL_TEST + URI;
   }
@@ -33,15 +27,7 @@ const Connection = async (
     MessengerError({ ObjectTrycatch: rs });
   });
 };
-export const connectionApiThirdParty = async ({
-  URL,
-  method = "GET",
-  body,
-  params = null,
-  Type = "application/json",
-  headers,
-  responseType
-}) => {
+export const connectionApiThirdParty = async ({ URL, method = "GET", body, params = null, Type = "application/json", headers, responseType }) => {
   return await axios(URL, {
     method: method,
     headers: headers,
@@ -70,14 +56,7 @@ const ShowMessenger = (typeMessenger, Title) => {
   }
 };
 
-export const HttpRequest = async (
-  method = "GET",
-  URI,
-  body,
-  messageShow = false,
-  params,
-  Type
-) => {
+export const HttpRequest = async (method = "GET", URI, body, messageShow = false, params, Type) => {
   let data = [];
   if (messageShow) {
     const hide = message.loading("Đang tải dữ liệu", 0);
@@ -91,14 +70,7 @@ export const HttpRequest = async (
   }
   return data;
 };
-export const HttpRequestFile = async (
-  method = "GET",
-  URI,
-  body,
-  messageShow = false,
-  params,
-  Type
-) => {
+export const HttpRequestFile = async (method = "GET", URI, body, messageShow = false, params, Type) => {
   let data = [];
   if (messageShow) {
     const hide = message.loading("Đang tải dữ liệu", 0);
