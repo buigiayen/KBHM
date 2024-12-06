@@ -86,7 +86,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
                 },
               ]}
             >
-              <Input maxLength={10} />
+              <Input maxLength={15} />
             </Form.Item>
           </Col>
         </Row>
