@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import KhaoSatThongTinSucKhoe from "../../Components/ComponentsGlobal/KhaoSatThongTinSK/index";
 import { Config } from "../../Data/Config/config.system";
 import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
-import { Button, Space, Card, Form } from "antd";
+import { Button, Space, Card, Form, Result } from "antd";
 import { Row, Col } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { Warning } from "../../Components/notification";
@@ -11,15 +11,16 @@ import { GET_PersonInfo } from "../../Data/Api/DangKyKham";
 import dayjs from "dayjs";
 import moment from "moment";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 const Index = () => {
-  const { IDDiemHien, TimeChecking } = useParams();
+  const { IDDiemHien, TimeChecking, TimeIn } = useParams();
   const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
   const [Properties, DataProperties] = useState();
   const [IsLoadding, SetLoading] = useState(false);
-
+  const [expiredQR, setExpiredQR] = useState(false);
   let Person = {
     Name: String,
     BirthDay: Date,
@@ -38,6 +39,21 @@ const Index = () => {
     UrlImage: String,
     PersonProperties: [],
   };
+
+  useEffect(() => {
+    if (TimeIn) {
+      const parsedTimeIn = dayjs(Number(TimeIn));
+      const formattedDate = parsedTimeIn.format("YYYY-MM-DD");
+      if (formattedDate) {
+        const now = new Date();
+        const timeDifference = now - new Date(formattedDate);
+        const differenceInDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
+        if (differenceInDays > 15) {
+          setExpiredQR(true);
+        }
+      }
+    }
+  }, []);
 
   const CheckAge = (dateofbirth, AgeMin) => {
     return dayjs().$y - dayjs(dateofbirth).$y >= AgeMin;
@@ -95,7 +111,7 @@ const Index = () => {
   const CheckCondition = () => {
     let flag = true;
     console.log(Properties);
-    if (Properties === undefined || Properties.length < 17) {
+    if (Properties === undefined || Properties.length < 19) {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Xin hãy trả lời các câu hỏi trong mục khảo sát</div> });
       flag = false;
     }
@@ -107,57 +123,65 @@ const Index = () => {
   };
   return (
     <>
-      <Row>
-        <Col xl={24}>
-          <h3 style={{ textAlign: "center", color: "red" }}>PHIẾU ĐĂNG KÝ HIẾN MÁU TÌNH NGUYỆN</h3>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={12} lg={12} md={12}>
-          <Card>
-            <Form form={form} layout="vertical">
-              <ThongTinLanHien
-                from={form}
-                ValuePerson={Persons}
-                FetchPerson={FetchPeron}
-                ImagePicture={Persons?.UrlImage}
-                GetBirthDay={(e) => {
-                  form.setFieldValue({ SN: e });
+      {!expiredQR ? (
+        <>
+          <Row>
+            <Col xl={24}>
+              <h3 style={{ textAlign: "center", color: "red" }}>PHIẾU ĐĂNG KÝ HIẾN MÁU TÌNH NGUYỆN</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={12} lg={12} md={12}>
+              <Card>
+                <Form form={form} layout="vertical">
+                  <ThongTinLanHien
+                    from={form}
+                    ValuePerson={Persons}
+                    FetchPerson={FetchPeron}
+                    ImagePicture={Persons?.UrlImage}
+                    GetBirthDay={(e) => {
+                      form.setFieldValue({ SN: e });
+                    }}
+                  />
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col sm={24}>
+              <KhaoSatThongTinSucKhoe Value={DataProperties} Persons={Persons} />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={24}>
+              <p
+                style={{
+                  fontSize: 12,
+                  fontWeight: "bold",
+                  color: "blue",
+                  fontStyle: "italic",
                 }}
-              />
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col sm={24}>
-          <KhaoSatThongTinSucKhoe Value={DataProperties} Persons={Persons} />
-        </Col>
-      </Row>
-      <Row>
-        <Col sm={24}>
-          <p
-            style={{
-              fontSize: 12,
-              fontWeight: "bold",
-              color: "blue",
-              fontStyle: "italic",
-            }}
-          >
-            Tôi đã hiểu đầy đủ trả lời trung thực những câu hỏi trên. Nếu tôi phát hiện ra bất cứ thông tin gì liên quan tới an toàn cho đơn vị máu tôi đã hiến tôi sẽ liên hệ ngay với {Config.Name} để
-            đảm bảo an toàn cho người nhận máu của tôi. Hôm nay tôi hoàn toàn khỏe mạnh và sẵn sàng tham gia hiến máu tình nguyện.{" "}
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={4}></Col>
-        <Col lg={4} xs={12} sm={12}>
-          <Button type="primary" onClick={Confirm} loading={IsLoadding} style={{ width: 100 + "%" }}>
-            Xác nhận thông tin
-          </Button>
-        </Col>
-      </Row>
+              >
+                Tôi đã hiểu đầy đủ trả lời trung thực những câu hỏi trên. Nếu tôi phát hiện ra bất cứ thông tin gì liên quan tới an toàn cho đơn vị máu tôi đã hiến tôi sẽ liên hệ ngay với{" "}
+                {Config.Name} để đảm bảo an toàn cho người nhận máu của tôi. Hôm nay tôi hoàn toàn khỏe mạnh và sẵn sàng tham gia hiến máu tình nguyện.{" "}
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4}></Col>
+            <Col lg={4} xs={12} sm={12}>
+              <Button type="primary" onClick={Confirm} loading={IsLoadding} style={{ width: 100 + "%" }}>
+                Xác nhận thông tin
+              </Button>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <>
+          <Result status="error" title="Mã QR đã hết hạn" extra={[]}></Result>
+        </>
+      )}
     </>
   );
 };

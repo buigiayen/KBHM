@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Tag,
-  Input,
-  Modal,
-  Card,
-  DatePicker,
-  Button,
-  Form,
-  Avatar,
-  Space,
-} from "antd";
+import { Tag, Input, Modal, Card, DatePicker, Button, Form, Avatar, Space } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { GET_AllPerson } from "../../Data/Api/DangKyKham";
@@ -33,14 +23,13 @@ const Index = () => {
   const [ListPerson, SetListPerson] = useState([]);
   const [OpenModal, SetOpenModal] = useState(false);
   const [isShowQRLocation, SetisShowQRLocation] = useState(false);
-  const [DateRegister, SetDateRegister] = useState(
-    dayjs().format("YYYY-MM-DD")
-  );
+  const [DateRegister, SetDateRegister] = useState(dayjs().format("YYYY-MM-DD"));
   const [DiemlayMau, SetDiemLayMau] = useState();
   const [QRDiemlayMau, SetQRDiemLayMau] = useState();
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
   const [Category, setCategory] = useState([]);
   const [ModalLocation, setModalLocation] = useState(false);
+  const currentDate = dayjs();
 
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
@@ -234,10 +223,7 @@ const Index = () => {
         return (
           <>
             <Avatar
-              src={
-                item.UrlImage ??
-                "https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
-              }
+              src={item.UrlImage ?? "https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"}
               alt="https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
             >
               {" "}
@@ -327,33 +313,15 @@ const Index = () => {
                 }}
               />
 
-              <Button
-                loading={IsLoadding}
-                type="primary"
-                style={{ width: 100 + "%", marginBottom: "5%" }}
-                onClick={() => Reload()}
-                icon={<IconCombine.ReloadOutlined />}
-              >
+              <Button loading={IsLoadding} type="primary" style={{ width: 100 + "%", marginBottom: "5%" }} onClick={() => Reload()} icon={<IconCombine.ReloadOutlined />}>
                 Tìm kiếm
               </Button>
 
               <Space>
-                <Button
-                  loading={IsLoadding}
-                  type="dashed"
-                  style={{ width: 100 + "%" }}
-                  onClick={() => SetisShowQRLocation(true)}
-                  icon={<IconCombine.QrcodeOutlined />}
-                >
+                <Button loading={IsLoadding} type="dashed" style={{ width: 100 + "%" }} onClick={() => SetisShowQRLocation(true)} icon={<IconCombine.QrcodeOutlined />}>
                   Tạo QR điểm hiến
                 </Button>
-                <Button
-                  loading={IsLoadding}
-                  type="dashed"
-                  style={{ width: 100 + "%" }}
-                  onClick={() => setModalLocation(true)}
-                  icon={<IconCombine.GlobalOutlined />}
-                >
+                <Button loading={IsLoadding} type="dashed" style={{ width: 100 + "%" }} onClick={() => setModalLocation(true)} icon={<IconCombine.GlobalOutlined />}>
                   Địa danh
                 </Button>
               </Space>
@@ -364,10 +332,7 @@ const Index = () => {
             <Card title="BIỂU ĐỒ" style={{ width: 100 + "%" }}>
               {DataCharts() && (
                 <>
-                  <PlotsChart
-                    dataSource={DataCharts()}
-                    color={(label) => ColorCharts(label)}
-                  ></PlotsChart>
+                  <PlotsChart dataSource={DataCharts()} color={(label) => ColorCharts(label)}></PlotsChart>
                 </>
               )}
             </Card>
@@ -379,19 +344,9 @@ const Index = () => {
             className="CardListTable"
             style={{ padding: "0%" }}
             title={`Danh sách người hiến ngày: ${DateRegister} `}
-            extra={[
-              <Search
-                placeholder="Tra cứu nhanh qua mã QR "
-                suffix={suffix}
-                onSearch={(e) => PushPage({ ID: e })}
-                enterButton
-              />,
-            ]}
+            extra={[<Search placeholder="Tra cứu nhanh qua mã QR " suffix={suffix} onSearch={(e) => PushPage({ ID: e })} enterButton />]}
           >
-            <Tables
-              Columns={initialColumnsDonnor}
-              dataSource={ListPerson}
-            ></Tables>
+            <Tables Columns={initialColumnsDonnor} dataSource={ListPerson}></Tables>
           </Card>
         </Col>
       </Row>
@@ -423,11 +378,7 @@ const Index = () => {
             ]}
           />
 
-          <Form.Item
-            label="Thời gian hiến: "
-            name={"NgayHien"}
-            initialValue={dayjs()}
-          >
+          <Form.Item label="Thời gian hiến: " name={"NgayHien"} initialValue={dayjs()}>
             <DatePicker format={"DD/MM/YYYY"}></DatePicker>
           </Form.Item>
 
@@ -438,15 +389,7 @@ const Index = () => {
         <>
           {QRDiemlayMau && (
             <>
-              <QRCode
-                value={
-                  window.location.origin +
-                  "/DiemHien/" +
-                  QRDiemlayMau?.DiemLayMau +
-                  "/TimeChecking/" +
-                  QRDiemlayMau?.NgayHien
-                }
-              ></QRCode>
+              <QRCode value={window.location.origin + "/DiemHien/" + QRDiemlayMau?.DiemLayMau + "/TimeChecking/" + QRDiemlayMau?.NgayHien + "/TimeIn/" + currentDate}></QRCode>
             </>
           )}
         </>
@@ -455,7 +398,7 @@ const Index = () => {
         open={OpenModal}
         onOk={hideModal}
         onCancel={hideModal}
-        title={"Quét QR"}
+        title={"Quét RQ"}
         okText="Lấy"
         cancelText="Tắt"
         cancelButtonProps={{ style: { display: "none" } }}

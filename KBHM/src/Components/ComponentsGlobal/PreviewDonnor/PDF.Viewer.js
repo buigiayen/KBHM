@@ -1,8 +1,5 @@
 import { GET_Person, GET_PropertiesPerson } from "../../../Data/Api/DangKyKham";
-import {
-  Post_CreateReport,
-
-} from "../../../Data/Api/Report";
+import { Post_CreateReport } from "../../../Data/Api/Report";
 import { Get_Job } from "../../../Data/Api/Category";
 import { CheckHistoryDonnor } from "../../../Data/Api/Donnor";
 
@@ -13,16 +10,17 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     const GetHistoryDonnor = await CheckHistoryDonnor({
       IdentityID: PersonInfo[0].CCCD,
     });
-
-    const mappedJob = JobList.find(
-      (job) => job.value === PersonInfo[0].NgheNghiep
-    );
+    let oldResult = "HBV.................... HCV................... HIV..................";
+    const mappedJob = JobList.find((job) => job.value === PersonInfo[0].NgheNghiep);
     if (mappedJob) {
       PersonInfo[0].NgheNghiep = mappedJob.label;
     }
     let HistoryDonnor = [];
-    console.log(GetHistoryDonnor);
     if (GetHistoryDonnor) {
+      if (GetHistoryDonnor[0]?.resultBloods)
+        oldResult = `HBV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HBV")?.result}   HCV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HCV")?.result}   HIV ${
+          GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HAV")?.result
+        }`;
       HistoryDonnor.push(GetHistoryDonnor[0]);
     }
 
@@ -37,6 +35,8 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
       ...PersonInfo[0],
       ...resultProperties,
       ...HistoryDonnor[0],
+      DaHien: HistoryDonnor[0] != null,
+      oldResult: oldResult,
     });
     let objJsonStr = JSON.stringify(combinedObject);
 
