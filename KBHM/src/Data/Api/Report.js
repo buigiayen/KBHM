@@ -4,7 +4,7 @@ const reportUrl = "https://hienmaubvdktinhthanhhoa.com:9000/report/Rp_dkhienmau_
 export const Post_CreateReport = async ({ dataReport }) => {
   const body = { ReportUrl: reportUrl, dataReport, tableName: "" };
   var data = await connectionApiThirdParty({
-    URL: "https://hienmaubvdktinhthanhhoa.com/ReportServer/api/Reports/ReportView/PDF/Preview",
+    URL: "/ReportServer/api/Reports/ReportView/PDF/Preview",
     method: "POST",
     body: body,
     headers: null,
