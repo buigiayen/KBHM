@@ -10,7 +10,7 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     const GetHistoryDonnor = await CheckHistoryDonnor({
       IdentityID: PersonInfo[0].CCCD,
     });
-    let oldResult = "HBV.................... HCV................... HIV..................";
+    let oldResult = "HBV ................   HCV................   HIV..................";
     const mappedJob = JobList.find((job) => job.value === PersonInfo[0].NgheNghiep);
     if (mappedJob) {
       PersonInfo[0].NgheNghiep = mappedJob.label;
@@ -18,9 +18,9 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     let HistoryDonnor = [];
     if (GetHistoryDonnor) {
       if (GetHistoryDonnor[0]?.resultBloods)
-        oldResult = `HBV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HBV")?.result}   HCV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HCV")?.result}   HIV ${
-          GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HAV")?.result
-        }`;
+        oldResult = `HBV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HBV")?.result || "................"}   HCV ${
+          GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HCV")?.result || "................"
+        }   HIV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HAV")?.result || "................"}`;
       HistoryDonnor.push(GetHistoryDonnor[0]);
     }
 
