@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Form, Input, Button, DatePicker } from "antd";
+import { Row, Col, Form, Input, Button, DatePicker, message } from "antd";
 import ElementCombobox from "../../Combobox/Element.combobox";
 import "../../index.css";
 import { useState } from "react";
@@ -39,6 +39,14 @@ const Index = ({ ID, dataPerson, FuncReload, qualified }) => {
           let endDate = new Date(dayjs(rs.ExtractTime[1]));
           startDate.setSeconds(0);
           endDate.setSeconds(0);
+          if (
+            startDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0] ||
+            endDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0]
+          ) {
+            message.warning("Ngày lấy máu phải trùng với ngày hiến");
+            return;
+          }
+
           rs.NgayBatDau = DateTimeToLocaleDate(startDate);
           rs.NgayKetThuc = DateTimeToLocaleDate(endDate);
         }
