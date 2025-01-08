@@ -322,5 +322,12 @@ namespace KBHM.api.Command
             string SQL = "SELECT cast((case when   count(MaTuiMau)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  Person  WHERE (MaTuiMau = @MaTuiMau)";
             return await _dataprovider.SingleOrDefaultAsync(SQL, new { MaTuiMau = MaTuiMau });
         }
+
+        public async Task<HttpObject.APIresult> ChangeStatus(Model.Person person)
+        {
+            string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
+                  " UPDATE  [dbo].[Person] set Sync=@SyncData where RowID = @ROWIDs";
+            return await _dataprovider.ExcuteQueryAsync(sql, person);
+        }
     }
 }

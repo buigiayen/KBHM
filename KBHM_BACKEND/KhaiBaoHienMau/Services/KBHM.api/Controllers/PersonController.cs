@@ -1,5 +1,6 @@
 ﻿using KBHM.api.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace KBHM.api.Controllers
     public class PersonController : ControllerBase
     {
         public Interfaces.Person _Person { get; set; }
-        public PersonController(Interfaces.Person Person) { _Person = Person; }
+        public Interfaces.QrDonation _QrDonation { get; set; }
+        public PersonController(Interfaces.Person Person, Interfaces.QrDonation qrDonation) { _Person = Person; _QrDonation = qrDonation; }
         [HttpPost("Person")]
         public async Task<IActionResult> PostPerson([FromBody] Person person)
         {
@@ -106,7 +108,7 @@ namespace KBHM.api.Controllers
         [HttpPut("Person/Delay/{ID}")]
         public async Task<IActionResult> DeletePersonDonateDelay(string ID, [FromBody] PersonDonateDelay person)
         {
-            var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID),CancelReason = person.CancelReason });
+            var data = await _Person.DeletePersonDonateDelay(new PersonDonateDelay { RowID = new Guid(ID), CancelReason = person.CancelReason });
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
         [Authorize]
@@ -121,6 +123,36 @@ namespace KBHM.api.Controllers
         public async Task<IActionResult> CheckDonnorEx([FromQuery] string MaTuiMau)
         {
             var data = await _Person.CheckDonnorEx(MaTuiMau);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+
+        [Authorize]
+        [HttpPut("Person/ChangeStatus")]
+        public async Task<IActionResult> ChangeStatus([FromBody] Person person)
+        {
+            var data = await _Person.ChangeStatus(person);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+
+        [Authorize]
+        [HttpPost("Person/CreateQr")]
+        public async Task<IActionResult> CreateQr([FromBody] QrDonation qrDonation)
+        {
+            var data = await _QrDonation.CreateQR(qrDonation);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+
+        [HttpGet("Person/GetQrDonationActive")]
+        public async Task<IActionResult> GetQrDonationActive([FromQuery] Guid RowID)
+        {
+            var data = await _QrDonation.GetQrDonationActive(RowID);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
+
+        [HttpPut("Person/ChangeActive")]
+        public async Task<IActionResult> ChangeActive([FromBody] QrDonation qrDonation)
+        {
+            var data = await _QrDonation.ChangeActive(qrDonation);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
     }

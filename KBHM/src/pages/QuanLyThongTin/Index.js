@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { Row, Col, Alert, Card, Form, Button } from "antd";
+import { Row, Col, Alert, Card, Form, Button, Radio, FloatButton, Tooltip, Modal } from "antd";
 import { Get_Token_Veryfy } from "../../Data/Api/Login";
 import { useNavigate, useParams } from "react-router-dom";
-import { GET_DonorDelay, GET_LastDonor, GET_Person, GET_PersonDonateDelay, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
+import { GET_DonorDelay, GET_LastDonor, GET_Person, GET_PersonDonateDelay, PUT_ChangeStatus, PUT_PersonInfo } from "../../Data/Api/DangKyKham";
 import TabThongtinKhaoSat from "../../Components/Tab.ThongTinKhaoSat";
 import HistoryDonnor from "../../Components/ComponentsGlobal/HistoryDonnor/index";
 import QuanLyThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
@@ -13,7 +13,7 @@ import IconCombine from "../../Components/Icon";
 import dayjs from "dayjs";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 import { TimeTriHoan, TimeTriHoanText } from "../../Data/UnitData/data";
-import { DateToStringDate } from "./helper";
+import { DateToStringDate, optionStatus } from "./helper";
 import { Get_Category } from "../../Data/Api/Category";
 
 const Index = () => {
@@ -30,7 +30,8 @@ const Index = () => {
   const [noteQualify, setNoteQualify] = useState("");
   const [lastDonor, setLastDonor] = useState();
   const [Category, setCategory] = useState([]);
-
+  const { confirm } = Modal;
+  const user = localStorage.getItem("userID")?.trim();
   useEffect(() => {
     if (localStorage.getItem("Token") === undefined || localStorage.getItem("Token") === null || localStorage.getItem("Token") === "") {
       Navigate("/login");
@@ -349,6 +350,22 @@ const Index = () => {
       PUT_PersonInfo(rs);
     });
   };
+  const reOpenPerson = () => {
+    confirm({
+      title: "Xác nhận mở lại phiếu",
+      icon: <IconCombine.ExclamationCircleFilled />,
+      content: "",
+      onOk() {
+        return new Promise((resolve, reject) => {
+          PUT_ChangeStatus({ RowID: IDPerson, Sync: null }).then((res) => {
+            FuncReload();
+          });
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        }).catch(() => console.log("Oops errors!"));
+      },
+      onCancel() {},
+    });
+  };
 
   useEffect(() => {
     if (DataPerson?.CCCD) {
@@ -359,12 +376,17 @@ const Index = () => {
 
   return (
     <>
+      {DataPerson?.Sync && (user == "mdx" || user == "admin" || user == "ldvuong" || user == "nvhoang") && (
+        <Tooltip title="Mở lại phiếu" placement="left">
+          <FloatButton onClick={() => reOpenPerson()} style={{ marginBottom: 120 }} icon={<IconCombine.IssuesCloseOutlined />} />
+        </Tooltip>
+      )}
+
       <Row>
         <Col sm={24}>
           <h2 style={{ textAlign: "center", color: "red" }}>THÔNG TIN LẦN HIẾN</h2>
         </Col>
       </Row>
-
       <Row>
         <Button
           type="link"

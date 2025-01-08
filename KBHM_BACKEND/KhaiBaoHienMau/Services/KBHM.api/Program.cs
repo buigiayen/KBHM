@@ -15,6 +15,7 @@ builder.Services.JWTServices();
 
 
 builder.Services.AddTransient<KBHM.api.Interfaces.Person, KBHM.api.Command.Person>();
+builder.Services.AddTransient<KBHM.api.Interfaces.QrDonation, KBHM.api.Command.QrDonation>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

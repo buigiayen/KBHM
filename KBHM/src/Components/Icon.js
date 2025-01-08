@@ -28,7 +28,9 @@ import {
   PrinterOutlined,
   FilterOutlined,
   QrcodeOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  IssuesCloseOutlined,
+  ExclamationCircleFilled,
 } from "@ant-design/icons";
 
 const IconCombine = {
@@ -61,6 +63,8 @@ const IconCombine = {
   PrinterOutlined,
   FilterOutlined,
   QrcodeOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  IssuesCloseOutlined,
+  ExclamationCircleFilled,
 };
 export default IconCombine;
