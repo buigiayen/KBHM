@@ -13,7 +13,7 @@ const RoutesPage = [
   },
   {
     path: "/DangKyKhaiBao",
-    element: <DangKyKhaiBao />,
+    element: <DangKyKhaiBao />, 
   },
   {
     path: "/DiemHien/:IDDiemHien/TimeChecking/:TimeChecking/TimeIn/:TimeIn",
