@@ -56,7 +56,7 @@ jobs:
           username: ${{ secrets.SSH_DEPLOY_USER }}
           password: ${{ secrets.SSH_DEPLOY_PASSWORD }}
           source: "docker-compose.yml,docker-compose.stagging.yml"
-          target: "app"
+          target: "app/KBHM_BACKEND/KhaiBaoHienMau"
 
       - name: Connection SSH - build server docker compose
         uses: appleboy/ssh-action@v0.1.10
