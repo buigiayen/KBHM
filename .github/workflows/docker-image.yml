@@ -34,8 +34,8 @@ jobs:
         with:
           name: key-docker-compose-backend
           path: |
-            app/KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml
-            app/KBHM_BACKEND/KhaiBaoHienMau/docker-compose.stagging.yml
+            KBHM_BACKEND/KhaiBaoHienMau/docker-compose.yml
+            KBHM_BACKEND/KhaiBaoHienMau/docker-compose.stagging.yml
           retention-days: 5
 
   deploy:
