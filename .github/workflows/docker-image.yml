@@ -35,6 +35,7 @@ jobs:
           name: key-docker-compose-backend
           path: |
             KBHM/docker-compose.yml
+            KBHM/docker-compose.stagging.yml
           retention-days: 5
 
   deploy:
