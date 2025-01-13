@@ -15,6 +15,8 @@ import PlotsChart from "../../Components/Charts/plotsChart";
 import QRCode from "../../Components/QRCode";
 import Tables from "../../Components/Table.antd";
 import Item from "antd/es/list/Item";
+import { DateTimeToLocaleDate } from "../../Components/ComponentsGlobal/ThongTinKhaoSat/TriHoanHienMau/helper";
+import { POST_CreateQr } from "../../Data/Api/QrDonation";
 
 const { Search } = Input;
 const Index = () => {
@@ -29,12 +31,26 @@ const Index = () => {
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
   const [Category, setCategory] = useState([]);
   const [ModalLocation, setModalLocation] = useState(false);
-  const currentDate = dayjs();
-
+  const [linkQr, setLinkQr] = useState(null);
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
     SetIsLoading(false);
+  };
+
+  const createQr = async (formQr) => {
+    const currentDate = dayjs();
+    const body = {
+      DiemLayMau: formQr?.DiemLayMau,
+      NgayHien: DateTimeToLocaleDate(new Date(formQr?.NgayHien)),
+      UserCreate: localStorage.getItem("userID"),
+      CreateTime: DateTimeToLocaleDate(new Date(currentDate)),
+    };
+    POST_CreateQr(body).then((res) => {
+      if (res.length > 0) {
+        setLinkQr(window.location.origin + "/RowID/" + res[0].RowID);
+      }
+    });
   };
 
   const hideModal = () => {
@@ -362,7 +378,7 @@ const Index = () => {
       >
         <Form
           onFinish={(e) => {
-            SetQRDiemLayMau(e);
+            createQr(e);
           }}
         >
           <ElementCombobox
@@ -387,9 +403,9 @@ const Index = () => {
           </Button>
         </Form>
         <>
-          {QRDiemlayMau && (
+          {linkQr && (
             <>
-              <QRCode value={window.location.origin + "/DiemHien/" + QRDiemlayMau?.DiemLayMau + "/TimeChecking/" + QRDiemlayMau?.NgayHien + "/TimeIn/" + currentDate}></QRCode>
+              <QRCode value={linkQr}></QRCode>
             </>
           )}
         </>

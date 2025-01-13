@@ -12,15 +12,20 @@ import dayjs from "dayjs";
 import moment from "moment";
 import { ConvertDatetime } from "../../Data/UnitData/Convert.Properties";
 import Paragraph from "antd/es/skeleton/Paragraph";
+import { GetQrDonationActive, PUT_ChangeActive } from "../../Data/Api/QrDonation";
 
 const Index = () => {
-  const { IDDiemHien, TimeChecking, TimeIn } = useParams();
+  const { RowID } = useParams();
+  const [IDDiemHien, setIDDiemHien] = useState(null);
+  const [TimeChecking, setTimeChecking] = useState(null);
   const [form] = Form.useForm();
   const Navigate = useNavigate();
   const [Persons, DataPersons] = useState();
   const [Properties, DataProperties] = useState();
   const [IsLoadding, SetLoading] = useState(false);
   const [expiredQR, setExpiredQR] = useState(false);
+  const [existQR, setExistQR] = useState(false);
+
   let Person = {
     Name: String,
     BirthDay: Date,
@@ -40,19 +45,35 @@ const Index = () => {
     PersonProperties: [],
   };
 
-  useEffect(() => {
-    if (TimeIn) {
-      const parsedTimeIn = dayjs(Number(TimeIn));
-      const formattedDate = parsedTimeIn.format("YYYY-MM-DD");
-      if (formattedDate) {
-        const now = new Date();
-        const timeDifference = now - new Date(formattedDate);
-        const differenceInDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
-        if (differenceInDays > 15) {
-          setExpiredQR(true);
+  const GetQrDonation = () => {
+    if (RowID) {
+      GetQrDonationActive(RowID).then((rs) => {
+        if (rs) {
+          if (rs.length > 0) {
+            setIDDiemHien(rs[0].DiemLayMau);
+            setTimeChecking(rs[0].NgayHien);
+            const formattedDate = dayjs(rs[0].CreateTime).format("YYYY-MM-DD");
+            if (formattedDate) {
+              const now = new Date();
+              const timeDifference = now - new Date(formattedDate);
+              const differenceInDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) - 1;
+              if (differenceInDays > 15) {
+                setExpiredQR(true);
+                PUT_ChangeActive({ RowID: RowID, Active: false });
+              }
+            }
+          } else {
+            setExpiredQR(true);
+          }
+        } else {
+          setExistQR(true);
         }
-      }
+      });
     }
+  };
+
+  useEffect(() => {
+    GetQrDonation();
   }, []);
 
   const CheckAge = (dateofbirth, AgeMin) => {
@@ -94,7 +115,7 @@ const Index = () => {
             DiaChiThuongLienLac_ChiTiet: RS?.CheckNhuDiaChiThuongTru ? RS?.DiaChiThuongTru_ChiTiet : RS?.DiaChiThuongLienLac_ChiTiet,
             PersonProperties: Properties.sort((a, b) => a.key - b.key),
             DiemLayMau: IDDiemHien,
-            DateRegister: TimeChecking === undefined ? null : dayjs(Number(TimeChecking)).format(),
+            DateRegister: TimeChecking,
           };
           POST_DangKyHienMau(Person).then((rs) => {
             Navigate("/TraCuuThongTin/" + rs[0].Code);
@@ -110,7 +131,6 @@ const Index = () => {
   };
   const CheckCondition = () => {
     let flag = true;
-    console.log(Properties);
     if (Properties === undefined || Properties.length < 19) {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Xin hãy trả lời các câu hỏi trong mục khảo sát</div> });
       flag = false;
@@ -123,7 +143,7 @@ const Index = () => {
   };
   return (
     <>
-      {!expiredQR ? (
+      {!expiredQR && !existQR ? (
         <>
           <Row>
             <Col xl={24}>
@@ -177,10 +197,16 @@ const Index = () => {
             </Col>
           </Row>
         </>
-      ) : (
+      ) : expiredQR ? (
         <>
           <Result status="error" title="Mã QR đã hết hạn" extra={[]}></Result>
         </>
+      ) : (
+        existQR && (
+          <>
+            <Result status="error" title="Không tồn tại mã QR" extra={[]}></Result>
+          </>
+        )
       )}
     </>
   );

@@ -22,6 +22,7 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
           GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HCV")?.result || "................"
         }   HIV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HAV")?.result || "................"}`;
       HistoryDonnor.push(GetHistoryDonnor[0]);
+      GetHistoryDonnor[0].aborh = GetHistoryDonnor[0].aborh || "...........................................................";
     }
 
     const PersonProperties = await GET_PropertiesPerson(IDPerson);
