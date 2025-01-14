@@ -380,7 +380,7 @@ namespace BloodBank.api.command
                                              " where SIDRoot=@SID and SIDchild=@SID " +
                                              " and TestCode in (Select value from tbl_Config where ConfigID in ('HBVTestCodeMaping','HCVTestCodeMaping','HIVTestCodeMaping'))";
                         var TableResult = await Dataprovider.QueryMapperAsync<Donnor.ResultBlood>(QueryResultBlood, new { SID = item.SID });
-                        foreach (var items in TableSID)
+                        foreach (var items in TableResult)
                         {
                             historyDonnorVM.results.Add(items);
                         }
