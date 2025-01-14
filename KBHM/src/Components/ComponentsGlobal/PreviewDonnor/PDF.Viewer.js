@@ -17,10 +17,10 @@ export const ExportDocumentFile = async ({ IDPerson, Reportname }) => {
     }
     let HistoryDonnor = [];
     if (GetHistoryDonnor) {
-      if (GetHistoryDonnor[0]?.resultBloods)
-        oldResult = `HBV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HBV")?.result || "................"}   HCV ${
-          GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HCV")?.result || "................"
-        }   HIV ${GetHistoryDonnor[0]?.resultBloods?.find((x) => x.testCode == "HAV")?.result || "................"}`;
+      if (GetHistoryDonnor[0]?.results)
+        oldResult = `HBV ${GetHistoryDonnor[0]?.results?.find((x) => x.testCode == "HBV")?.result || "................"}   HCV ${
+          GetHistoryDonnor[0]?.results?.find((x) => x.testCode == "HCV")?.result || "................"
+        }   HIV ${GetHistoryDonnor[0]?.results?.find((x) => x.testCode == "HIV")?.result || "................"}`;
       HistoryDonnor.push(GetHistoryDonnor[0]);
     }
 
