@@ -20,7 +20,7 @@ const App = ({ DefaultKey, Identity }) => {
         DataHisApi.push({
           key: index,
           label: `Lịch sử lần hiến ngày: ${dayjs(data.dateIn).format("DD/MM/YYYY")} - BCI: ${data.bci || ""}  - ABO,Rh ${data.aborh || ""}  `,
-          children: `Xét nghiệm ${data?.resultBloods
+          children: `Xét nghiệm ${data?.results
             .map((rb) => {
               return `${rb.testCode?.replace("HAV", "HIV")} : ${rb.result}`;
             })

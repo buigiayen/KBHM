@@ -52,11 +52,14 @@ namespace BloodBank.api.Model
             public HistoryDonnor()
             {
                 resultBloods = new List<ResultBlood>();
+                results = new List<ResultBlood>();
             }
             public DateTime? DateIn { get; set; }
             public string ABORH { get; set; }
             public string BCI { get; set; }
             public List<ResultBlood> resultBloods { get; set; }
+            public List<ResultBlood> results { get; set; }
+
         }
         public class TestGroupDetail
         {
