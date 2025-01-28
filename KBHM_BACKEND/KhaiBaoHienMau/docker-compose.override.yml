@@ -32,7 +32,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "SQL_CONNECTION=Server=${MMSQL};Database=ServicesBase;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;"
+      - "SQL_CONNECTION=Server=${MMSQL};Database=ServiceProvince;User Id=technical;Password=ls109tndq1;TrustServerCertificate=True;"
       - "MINIO_CONNECTION=hienmau.bvdktinhthanhhoa.com.vn;9000;vzGdxmLOU5aOECgc;RFcTw59qRxbXVQd6mpTg99wPQcQWLVcP;False;9874"
       - DOMAIN=${DOMAIN}
       - IP=${IP}
