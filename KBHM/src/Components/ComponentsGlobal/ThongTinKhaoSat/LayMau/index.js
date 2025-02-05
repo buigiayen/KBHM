@@ -39,13 +39,13 @@ const Index = ({ ID, dataPerson, FuncReload, qualified }) => {
           let endDate = new Date(dayjs(rs.ExtractTime[1]));
           startDate.setSeconds(0);
           endDate.setSeconds(0);
-          if (
-            startDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0] ||
-            endDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0]
-          ) {
-            message.warning("Ngày lấy máu phải trùng với ngày hiến");
-            return;
-          }
+          // if (
+          //   startDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0] ||
+          //   endDate.toLocaleDateString().split("T")[0] != new Date(dayjs(dataPerson.DateRegister)).toLocaleDateString().split("T")[0]
+          // ) {
+          //   message.warning("Ngày lấy máu phải trùng với ngày hiến");
+          //   return;
+          // }
 
           rs.NgayBatDau = DateTimeToLocaleDate(startDate);
           rs.NgayKetThuc = DateTimeToLocaleDate(endDate);
