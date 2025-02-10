@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Get_Category } from "../../../Data/Api/Category";
 import { Select, Form } from "antd";
 
-const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues, autoClear = false }) => {
+const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues, autoClear = false, disabled }) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (dataSource?.length > 0) {
@@ -28,6 +28,7 @@ const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues
         onChange={onChange}
         style={{ width: 100 + "%" }}
         options={data ?? []}
+        disabled={disabled || false}
       />
     </Form.Item>
   );

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Get_Category } from "../../../Data/Api/Category";
 import { Select, Form } from "antd";
 
-const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues, autoClear = false }) => {
+const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues, autoClear = false, disabled }) => {
   return (
     <Form.Item label={Label} name={Name} rules={ruler} initialValue={initialValues} style={{ marginTop: Name == "LoaiHienThanhPhan" ? 20 : 0 }}>
       <Select
@@ -16,6 +16,7 @@ const ComboboxIndex = ({ Name, Label, onChange, dataSource, ruler, initialValues
         onChange={onChange}
         style={{ width: Name == "LoaiHienThanhPhan" ? "80%" : "100%" }}
         options={dataSource ?? []}
+        disabled={disabled || false}
       />
     </Form.Item>
   );

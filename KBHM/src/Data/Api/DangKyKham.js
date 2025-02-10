@@ -39,8 +39,8 @@ export const PUT_PersonABORH = async ({ RowID, ABO, RH, HST, HBV, NguoiThAboRh, 
   return await HttpRequest("PUT", `/kbhm/Person/ABORH`, body, true);
 };
 
-export const GET_DonorExCheck_Person = async ({ DonorExCode }) => {
-  return await HttpRequest("GET", `/kbhm/Person/CheckDonnorExCode?MaTuiMau=${DonorExCode}`);
+export const GET_DonorExCheck_Person = async ({ DonorExCode, RowID }) => {
+  return await HttpRequest("GET", `/kbhm/Person/CheckDonnorExCode?MaTuiMau=${DonorExCode}&RowID=${RowID}`);
 };
 
 export const GET_DonorExCheck = async ({ DonorExCode }) => {

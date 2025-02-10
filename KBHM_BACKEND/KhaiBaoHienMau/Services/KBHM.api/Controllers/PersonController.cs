@@ -120,9 +120,9 @@ namespace KBHM.api.Controllers
         }
         [Authorize]
         [HttpGet("Person/CheckDonnorExCode")]
-        public async Task<IActionResult> CheckDonnorEx([FromQuery] string MaTuiMau)
+        public async Task<IActionResult> CheckDonnorEx([FromQuery] string MaTuiMau, Guid RowID)
         {
-            var data = await _Person.CheckDonnorEx(MaTuiMau);
+            var data = await _Person.CheckDonnorEx(MaTuiMau, RowID);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
 

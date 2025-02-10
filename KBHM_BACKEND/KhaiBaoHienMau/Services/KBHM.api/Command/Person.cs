@@ -105,7 +105,7 @@ namespace KBHM.api.Command
         public async Task<HttpObject.APIresult> PutPersonTip(Model.Person person)
         {
             string sql = $"Declare @ROWIDs uniqueidentifier; set @ROWIDs = '{person.RowID}';" +
-         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua, NguonHien=@NguonHien where RowID = @ROWIDs";
+         " UPDATE  [dbo].[Person] set [MaTuiMau]=@MaTuiMau , DiemLayMau=@DiemLayMau, NgayHien=@NgayHien, Sync=@SyncData,NguoiLayMau=@NguoiLayMau, NgayLayMau=GetDate(), Tua=@Tua, NguonHien=@NguonHien, DateRegister=@DateRegister where RowID = @ROWIDs";
 
             return await _dataprovider.ExcuteQueryAsync(sql, person);
 
@@ -317,10 +317,10 @@ namespace KBHM.api.Command
             return await _dataprovider.SQLQueryAsync(sql, person);
         }
 
-        public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string MaTuiMau)
+        public async Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string MaTuiMau, Guid RowID)
         {
-            string SQL = "SELECT cast((case when   count(MaTuiMau)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  Person  WHERE (MaTuiMau = @MaTuiMau)";
-            return await _dataprovider.SingleOrDefaultAsync(SQL, new { MaTuiMau = MaTuiMau });
+            string SQL = "SELECT cast((case when   count(MaTuiMau)  = 1 then 0 else 1 end )  as bit) as CheckDonnor FROM  Person  WHERE MaTuiMau = @MaTuiMau and RowID != @RowID";
+            return await _dataprovider.SingleOrDefaultAsync(SQL, new { MaTuiMau = MaTuiMau, RowID = RowID });
         }
 
         public async Task<HttpObject.APIresult> ChangeStatus(Model.Person person)

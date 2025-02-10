@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 //1999-08-20T17:00:00.000Z
 
-const App = ({ labelFrom, Name, valueChange }) => {
+const App = ({ labelFrom, Name, valueChange, disabled }) => {
   const onChange = (value, datestring) => {
     //Tách chuỗi ngày thành ngày, tháng và năm
     const [day, month, year] = datestring.split("/");
@@ -28,6 +28,7 @@ const App = ({ labelFrom, Name, valueChange }) => {
         onBlur={(e) => {
           onChange(null, e.target.value);
         }}
+        disabled={disabled || false}
       />
     </Form.Item>
   );

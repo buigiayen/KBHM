@@ -13,6 +13,7 @@ import { Get_Category } from "../../../Data/Api/Category";
 import { PUT_PersonTrip, GET_DonorExCheck, GET_DonorExCheck_Person } from "../../../Data/Api/DangKyKham";
 import "./index.css";
 import { DateToStringDate } from "../../../pages/QuanLyThongTin/helper";
+import dayjs from "dayjs";
 
 const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQualify, qualified, Category }) => {
   const navigator = useNavigate();
@@ -33,6 +34,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
       .then(async (rs) => {
         const { CheckDonnor } = await GET_DonorExCheck_Person({
           DonorExCode: rs.MaTuiMau,
+          RowID: dataPerson.RowID,
         });
         if (!CheckDonnor) {
           Warning({
@@ -45,6 +47,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
             RowID: ID,
             SyncData: Sync,
             NguoiLayMau: localStorage.getItem("UserID"),
+            DateRegister: dayjs(Number(rs.DateRegister)).format(),
           };
           await PUT_PersonTrip(rs);
           if (Sync === 3) {
@@ -73,7 +76,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
       <Form labelCol={8} form={form}>
         <Row gutter={[12]}>
           <Col md={12} xs={24}>
-            <DateTime Name={"DateRegister"} labelFrom="Ngày hiến" />
+            <DateTime Name={"DateRegister"} labelFrom="Ngày hiến" disabled={dataPerson?.Sync === "2"} />
           </Col>
           <Col md={12} xs={24}>
             <Form.Item
@@ -86,7 +89,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
                 },
               ]}
             >
-              <Input maxLength={15} />
+              <Input maxLength={15} disabled={dataPerson?.Sync === "2"} />
             </Form.Item>
           </Col>
         </Row>
@@ -102,6 +105,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
               dataSource={Category?.location}
               Name={"DiemLayMau"}
               Label="Điểm lấy máu"
+              disabled={dataPerson?.Sync === "2"}
             />
           </Col>
           <Col md={12} xs={24}>
@@ -120,6 +124,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
               dataSource={Category?.bloodSource}
               Name={"NguonHien"}
               Label="Nguồn hiến"
+              disabled={dataPerson?.Sync === "2"}
             />
           </Col>
           <Col md={12} xs={24}>
@@ -133,6 +138,7 @@ const Index = ({ funcReload, ID, dataPerson, lastDonor, setQualified, setNoteQua
               dataSource={Category?.trip}
               Name={"Tua"}
               Label="Tua"
+              disabled={dataPerson?.Sync === "2"}
             />
           </Col>
         </Row>

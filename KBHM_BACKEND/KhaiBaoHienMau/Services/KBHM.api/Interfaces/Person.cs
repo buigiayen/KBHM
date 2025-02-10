@@ -24,7 +24,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> PutPersonDonateDelay(PersonDonateDelay person);
         Task<HttpObject.APIresult> DeletePersonDonateDelay(PersonDonateDelay person);
         Task<HttpObject.APIresult> CheckLastDonor(Model.Person person);
-        Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string MaTuiMau);
+        Task<HttpObject.APIMapper<dynamic>> CheckDonnorEx(string MaTuiMau, Guid RowID);
         Task<HttpObject.APIresult> ChangeStatus(Model.Person person);
     }
 }
