@@ -1,4 +1,5 @@
-﻿using Services.lib.Sql;
+﻿using Microsoft.AspNetCore.Mvc;
+using Services.lib.Sql;
 using System;
 using System.Threading.Tasks;
 
@@ -36,6 +37,11 @@ namespace KBHM.api.Command
             return await _dataprovider.SQLQueryAsync(sql, qrDonation);
         }
 
-
+        public async Task<HttpObject.APIresult> GetListQrDonation(Model.QrDonation query)
+        {
+            string FilterDiemHien = string.IsNullOrEmpty(query.DiemLayMau) ? "" : "and (DiemLayMau = @DiemLayMau)";
+            string sql = $@"Select * from QrDonation WHERE Cast(NgayHien as date) = @NgayHien {FilterDiemHien} Order by CreateTime desc";
+            return await _dataprovider.SQLQueryAsync(sql, query);
+        }
     }
 }

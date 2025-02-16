@@ -11,5 +11,7 @@ namespace KBHM.api.Interfaces
         Task<HttpObject.APIresult> GetQrDonationActive(Guid RowID);
 
         Task<HttpObject.APIresult> ChangeActive(Model.QrDonation qrDonation);
+
+        Task<HttpObject.APIresult> GetListQrDonation(Model.QrDonation query);
     }
 }

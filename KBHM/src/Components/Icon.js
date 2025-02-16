@@ -31,6 +31,7 @@ import {
   GlobalOutlined,
   IssuesCloseOutlined,
   ExclamationCircleFilled,
+  QqSquareFilled
 } from "@ant-design/icons";
 
 const IconCombine = {
@@ -65,6 +66,6 @@ const IconCombine = {
   QrcodeOutlined,
   GlobalOutlined,
   IssuesCloseOutlined,
-  ExclamationCircleFilled,
+  ExclamationCircleFilled,QqSquareFilled
 };
 export default IconCombine;

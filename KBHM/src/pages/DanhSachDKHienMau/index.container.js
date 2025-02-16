@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Tag, Input, Modal, Card, DatePicker, Button, Form, Avatar, Space } from "antd";
+import {
+  Tag,
+  Input,
+  Modal,
+  Card,
+  DatePicker,
+  Button,
+  Form,
+  Avatar,
+  Space,
+} from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { GET_AllPerson } from "../../Data/Api/DangKyKham";
@@ -16,22 +26,38 @@ import QRCode from "../../Components/QRCode";
 import Tables from "../../Components/Table.antd";
 import Item from "antd/es/list/Item";
 import { DateTimeToLocaleDate } from "../../Components/ComponentsGlobal/ThongTinKhaoSat/TriHoanHienMau/helper";
-import { POST_CreateQr } from "../../Data/Api/QrDonation";
+import { GET_ListQr, POST_CreateQr } from "../../Data/Api/QrDonation";
+import DanhSachQR from "../DanhSachQR";
 
 const { Search } = Input;
 const Index = () => {
   const navigator = useNavigate();
+  const viewModes = {
+    DanhSachDangKy: "DanhSachDangKy",
+    DanhSachQR: "DanhSachQR",
+  };
   const [IsLoadding, SetIsLoading] = useState(false);
   const [ListPerson, SetListPerson] = useState([]);
   const [OpenModal, SetOpenModal] = useState(false);
   const [isShowQRLocation, SetisShowQRLocation] = useState(false);
-  const [DateRegister, SetDateRegister] = useState(dayjs().format("YYYY-MM-DD"));
+  const [DateRegister, SetDateRegister] = useState(
+    dayjs().format("YYYY-MM-DD")
+  );
   const [DiemlayMau, SetDiemLayMau] = useState();
   const [QRDiemlayMau, SetQRDiemLayMau] = useState();
   const [ReportID] = useState(process.env.REACT_APP_DEFAULT_REPORT);
   const [Category, setCategory] = useState([]);
   const [ModalLocation, setModalLocation] = useState(false);
   const [linkQr, setLinkQr] = useState(null);
+  const [viewMode, setViewMode] = useState(viewModes.DanhSachDangKy);
+  const [dataSourceQR, setDataSourceQR] = useState([]);
+
+  const FetchListQr = async (props) => {
+    const data = await GET_ListQr(props);
+    setDataSourceQR(data);
+    SetIsLoading(false);
+  };
+
   const FetchPerson = async (props) => {
     const data = await GET_AllPerson(props);
     SetListPerson(data);
@@ -64,11 +90,21 @@ const Index = () => {
     />
   );
   useEffect(() => {
-    const DateSearch = {
-      FromDate: dayjs().format("YYYY-MM-DD"),
-      ToDate: dayjs().format("YYYY-MM-DD"),
-    };
-    FetchPerson(DateSearch);
+    if (viewMode == viewModes.DanhSachDangKy) {
+      const DateSearch = {
+        FromDate: dayjs().format("YYYY-MM-DD"),
+        ToDate: dayjs().format("YYYY-MM-DD"),
+      };
+      FetchPerson(DateSearch);
+    } else if (viewMode == viewModes.DanhSachQR) {
+      const DateSearch = {
+        NgayHien: dayjs().format("YYYY-MM-DD"),
+      };
+      FetchListQr(DateSearch);
+    }
+  }, [viewMode]);
+
+  useEffect(() => {
     GetCategory();
   }, []);
 
@@ -88,13 +124,20 @@ const Index = () => {
   };
   const Reload = () => {
     SetIsLoading(true);
-    const Search = {
-      DiemLayMau: DiemlayMau,
-      FromDate: DateRegister,
-      ToDate: DateRegister,
-    };
-    console.log(Search);
-    FetchPerson(Search);
+    if (viewMode == viewModes.DanhSachDangKy) {
+      const Search = {
+        DiemLayMau: DiemlayMau,
+        FromDate: DateRegister,
+        ToDate: DateRegister,
+      };
+      FetchPerson(Search);
+    } else if (viewMode == viewModes.DanhSachQR) {
+      const Search = {
+        DiemlayMau: DiemlayMau,
+        NgayHien: DateRegister,
+      };
+      FetchListQr(Search);
+    }
   };
   const ConvertIsStatusDonnor = (_) => {
     switch (_) {
@@ -239,7 +282,10 @@ const Index = () => {
         return (
           <>
             <Avatar
-              src={item.UrlImage ?? "https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"}
+              src={
+                item.UrlImage ??
+                "https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
+              }
               alt="https://hienmaubvdktinhthanhhoa.com:9000/avatar/blank/blank-profile-picture-973460_1280.png"
             >
               {" "}
@@ -329,18 +375,58 @@ const Index = () => {
                 }}
               />
 
-              <Button loading={IsLoadding} type="primary" style={{ width: 100 + "%", marginBottom: "5%" }} onClick={() => Reload()} icon={<IconCombine.ReloadOutlined />}>
+              <Button
+                loading={IsLoadding}
+                type="primary"
+                style={{ width: 100 + "%", marginBottom: "5%" }}
+                onClick={() => Reload()}
+                icon={<IconCombine.ReloadOutlined />}
+              >
                 Tìm kiếm
               </Button>
 
               <Space>
-                <Button loading={IsLoadding} type="dashed" style={{ width: 100 + "%" }} onClick={() => SetisShowQRLocation(true)} icon={<IconCombine.QrcodeOutlined />}>
+                <Button
+                  loading={IsLoadding}
+                  type="dashed"
+                  style={{ width: 100 + "%" }}
+                  onClick={() => SetisShowQRLocation(true)}
+                  icon={<IconCombine.QrcodeOutlined />}
+                >
                   Tạo QR điểm hiến
                 </Button>
-                <Button loading={IsLoadding} type="dashed" style={{ width: 100 + "%" }} onClick={() => setModalLocation(true)} icon={<IconCombine.GlobalOutlined />}>
+
+                <Button
+                  loading={IsLoadding}
+                  type="dashed"
+                  style={{ width: 100 + "%" }}
+                  onClick={() => setModalLocation(true)}
+                  icon={<IconCombine.GlobalOutlined />}
+                >
                   Địa danh
                 </Button>
               </Space>
+              {viewMode == viewModes.DanhSachDangKy ? (
+                <Button
+                  loading={IsLoadding}
+                  type="dashed"
+                  style={{ width: 100 + "%", marginTop: 10 }}
+                  onClick={() => setViewMode(viewModes.DanhSachQR)}
+                >
+                  Danh sách QR
+                </Button>
+              ) : viewMode == viewModes.DanhSachQR ? (
+                <Button
+                  loading={IsLoadding}
+                  type="dashed"
+                  style={{ width: 100 + "%", marginTop: 10 }}
+                  onClick={() => setViewMode(viewModes.DanhSachDangKy)}
+                >
+                  Danh sách đăng ký hiến máu
+                </Button>
+              ) : (
+                <></>
+              )}
             </Form>
           </Card>
 
@@ -348,7 +434,10 @@ const Index = () => {
             <Card title="BIỂU ĐỒ" style={{ width: 100 + "%" }}>
               {DataCharts() && (
                 <>
-                  <PlotsChart dataSource={DataCharts()} color={(label) => ColorCharts(label)}></PlotsChart>
+                  <PlotsChart
+                    dataSource={DataCharts()}
+                    color={(label) => ColorCharts(label)}
+                  ></PlotsChart>
                 </>
               )}
             </Card>
@@ -356,14 +445,30 @@ const Index = () => {
         </Col>
 
         <Col sm={24} md={18}>
-          <Card
-            className="CardListTable"
-            style={{ padding: "0%" }}
-            title={`Danh sách người hiến ngày: ${DateRegister} `}
-            extra={[<Search placeholder="Tra cứu nhanh qua mã QR " suffix={suffix} onSearch={(e) => PushPage({ ID: e })} enterButton />]}
-          >
-            <Tables Columns={initialColumnsDonnor} dataSource={ListPerson}></Tables>
-          </Card>
+          {viewMode == viewModes.DanhSachDangKy ? (
+            <Card
+              className="CardListTable"
+              style={{ padding: "0%" }}
+              title={`Danh sách người hiến ngày: ${DateRegister} `}
+              extra={[
+                <Search
+                  placeholder="Tra cứu nhanh qua mã QR "
+                  suffix={suffix}
+                  onSearch={(e) => PushPage({ ID: e })}
+                  enterButton
+                />,
+              ]}
+            >
+              <Tables
+                Columns={initialColumnsDonnor}
+                dataSource={ListPerson}
+              ></Tables>
+            </Card>
+          ) : viewMode == viewModes.DanhSachQR ? (
+            <DanhSachQR DateRegister={DateRegister} dataSource={dataSourceQR} />
+          ) : (
+            <></>
+          )}
         </Col>
       </Row>
       <Modal
@@ -394,7 +499,11 @@ const Index = () => {
             ]}
           />
 
-          <Form.Item label="Thời gian hiến: " name={"NgayHien"} initialValue={dayjs()}>
+          <Form.Item
+            label="Thời gian hiến: "
+            name={"NgayHien"}
+            initialValue={dayjs()}
+          >
             <DatePicker format={"DD/MM/YYYY"}></DatePicker>
           </Form.Item>
 

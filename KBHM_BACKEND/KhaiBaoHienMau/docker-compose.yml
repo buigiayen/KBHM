@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   ocelot_apigateway:
-    image: ${DOCKER_REGISTRY-}/ocelotapigateway
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
     build:
       context: .
       dockerfile: ApiGateway/Ocelot_apigateway/Dockerfile
@@ -13,7 +13,7 @@ services:
             
          
   kbhm.api:
-    image: ${DOCKER_REGISTRY-}/kbhmapi
+    image: ${DOCKER_REGISTRY-}kbhmapi
     build:
       context: .
       dockerfile: Services/KBHM.api/Dockerfile
@@ -24,7 +24,7 @@ services:
 
 
   system.api:
-    image: ${DOCKER_REGISTRY-}/systemapi
+    image: ${DOCKER_REGISTRY-}systemapi
     build:
       context: .
       dockerfile: Services/System.api/Dockerfile
@@ -34,7 +34,7 @@ services:
           max-size: "50m"
 
   bloodbank.api:
-    image: ${DOCKER_REGISTRY-}/bloodbankapi
+    image: ${DOCKER_REGISTRY-}bloodbankapi
     build:
       context: .
       dockerfile: Services/BloodBank.api/Dockerfile
