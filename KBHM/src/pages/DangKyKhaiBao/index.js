@@ -116,7 +116,7 @@ const Index = () => {
   };
   const CheckCondition = async () => {
     let flag = true;
-    if (Properties === undefined || Properties.length < 19) {
+    if (Properties === undefined || Properties.length < 21) {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Xin hãy trả lời các câu hỏi trong mục khảo sát</div> });
       flag = false;
     }
