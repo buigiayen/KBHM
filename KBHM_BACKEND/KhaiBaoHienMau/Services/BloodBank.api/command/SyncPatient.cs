@@ -247,7 +247,7 @@ namespace BloodBank.api.command
                                         BEGIN
                                         Print('Update Donnor_ex')
 										declare @DonorID_Update int; set @DonorID_Update =  (select Top(1)  DonorID from tbl_Donor where  DonorCode=@DonorCode);
-                                        update tbl_Donor_Examine set  DonorExCode=@DonorExCode,BloodSourceLocationId=@BloodSourceLocationId,DonateID=@DonateID,BloodVolume=@BloodVolume,ElementID=@ElementID,Weigh=@Weigh,Heigh=@Heigh,Pulse=@Pulse,BloodPressure=@BloodPressure,DoctorID=@DoctorID,Examination=@STATUS,ABO=@ABO,Rh=@Rh,TestHb=@HST,TestHBsAG=@HBV,TripID=@TripID,ExtractTimeStart=@ExtractTimeStart,ExtractTimeEnd=@ExtractTimeEnd,SourceID=@SourceID where DonorID=@DonorID_Update 
+                                        update tbl_Donor_Examine set  DonorExCode=@DonorExCode,BloodSourceLocationId=@BloodSourceLocationId,DonateID=@DonateID,BloodVolume=@BloodVolume,ElementID=@ElementID,Weigh=@Weigh,Heigh=@Heigh,Pulse=@Pulse,BloodPressure=@BloodPressure,DoctorID=@DoctorID,Examination=@STATUS,ABO=@ABO,Rh=@Rh,TestHb=@HST,TestHBsAG=@HBV,TripID=@TripID,ExtractTimeStart=@ExtractTimeStart,ExtractTimeEnd=@ExtractTimeEnd,SourceID=@SourceID where DonorID=@DonorID_Update and DateIn=@DateIn
                                       	declare @DonorIDEx_Update int; set @DonorIDEx_Update =  (select Top(1)  DonorExID from tbl_Donor_Examine where DonorExCode=@DonorExCode);
 										{Update_tbl_Donor_Examine_Attribute}
 									  end
