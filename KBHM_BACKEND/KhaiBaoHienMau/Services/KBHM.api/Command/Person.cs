@@ -329,5 +329,12 @@ namespace KBHM.api.Command
                   " UPDATE  [dbo].[Person] set Sync=@SyncData where RowID = @ROWIDs";
             return await _dataprovider.ExcuteQueryAsync(sql, person);
         }
+
+
+        public async Task<HttpObject.APIMapper<dynamic>> CheckDonorDelay(string CCCD)
+        {
+            string SQL = " Select cast((case when count(CCCD) > 0 then 1 else 0 end ) as bit) as CheckDonnor From PersonDonateDelay where CCCD = @CCCD and DelayTimeLine = 5 and IsCancel = 0 ";
+            return await _dataprovider.SingleOrDefaultAsync(SQL, new { CCCD = CCCD });
+        }
     }
 }

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import ThongTinLanHien from "../../Components/ComponentsGlobal/ThongTinLanHien/index";
 import KhaoSatThongTinSucKhoe from "../../Components/ComponentsGlobal/KhaoSatThongTinSK/index";
 import { Config } from "../../Data/Config/config.system";
-import { POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
-import { Button, Space, Card, Form, Result } from "antd";
+import { GET_CheckDonorDelay, POST_DangKyHienMau } from "../../Data/Api/DangKyKham";
+import { Button, Space, Card, Form, Result, message, Alert } from "antd";
 import { Row, Col } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { Warning } from "../../Components/notification";
@@ -59,20 +59,26 @@ const Index = () => {
     return dayjs().$y - dayjs(dateofbirth).$y >= AgeMin;
   };
   const FetchPeron = async (value) => {
-    const pra = {
-      text: value,
-      row: 1,
-    };
-    await GET_PersonInfo(pra).then((rs) => {
-      if (rs !== undefined && rs.length > 0) {
-        rs[0].BirthDay = dayjs(rs[0].BirthDay);
-        form?.setFieldsValue(rs[0]);
-        DataPersons(rs[0]);
-      }
-    });
+    const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: value });
+    if (CheckDonnor) {
+      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
+      return;
+    } else {
+      const pra = {
+        text: value,
+        row: 1,
+      };
+      await GET_PersonInfo(pra).then((rs) => {
+        if (rs !== undefined && rs.length > 0) {
+          rs[0].BirthDay = dayjs(rs[0].BirthDay);
+          form?.setFieldsValue(rs[0]);
+          DataPersons(rs[0]);
+        }
+      });
+    }
   };
-  const Confirm = () => {
-    if (CheckCondition()) {
+  const Confirm = async () => {
+    if (await CheckCondition()) {
       form
         .validateFields()
         .then((RS) => {
@@ -108,9 +114,8 @@ const Index = () => {
         });
     }
   };
-  const CheckCondition = () => {
+  const CheckCondition = async () => {
     let flag = true;
-    console.log(Properties);
     if (Properties === undefined || Properties.length < 19) {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Xin hãy trả lời các câu hỏi trong mục khảo sát</div> });
       flag = false;
@@ -119,6 +124,19 @@ const Index = () => {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Bạn chưa đủ 18 tuổi để hiến máu!</div> });
       flag = false;
     }
+    const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: form.getFieldValue("CCCD") });
+    if (CheckDonnor) {
+      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
+      flag = false;
+    }
+    if (
+      (CheckAge(dayjs(form.getFieldValue("BirthDay")), 56) === true && form.getFieldValue("Sex") == 0) ||
+      (CheckAge(dayjs(form.getFieldValue("BirthDay")), 61) === true && form.getFieldValue("Sex") == 1)
+    ) {
+      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Bạn đã quá tuổi để hiến máu!</div> });
+      flag = false;
+    }
+
     return flag;
   };
   return (

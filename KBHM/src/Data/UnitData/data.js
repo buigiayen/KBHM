@@ -29,30 +29,36 @@ export const Question = [
       },
       {
         Key: "1.2",
-        value: "Mang thai vào thời điểm đăng ký hiến máu",
+        value: "Căn bệnh ác tính như ung thư phổi, ung thư gan, ung thư da...",
         ShowText: true,
         type: formType.checkbox,
       },
       {
         Key: "1.3",
-        value: "Có tiền sử lấy, hiến, ghép bộ phận cơ thể người",
+        value: "Mang thai vào thời điểm đăng ký hiến máu",
         ShowText: true,
         type: formType.checkbox,
       },
       {
         Key: "1.4",
-        value: "Nghiện ma túy, nghiện rượu",
+        value: "Có tiền sử lấy, hiến, ghép bộ phận cơ thể người",
         ShowText: true,
         type: formType.checkbox,
       },
       {
         Key: "1.5",
-        value: "Khuyết tật nặng",
+        value: "Nghiện ma túy, nghiện rượu",
         ShowText: true,
         type: formType.checkbox,
       },
       {
         Key: "1.6",
+        value: "Khuyết tật nặng",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "1.7",
         value: "Các bệnh lây truyền qua đường máu, đường tình dục tại thời điểm đăng ký hiến máu",
         ShowText: true,
         type: formType.checkbox,
@@ -124,24 +130,11 @@ export const Question = [
   },
   {
     Key: 4,
-    value: "4. Trong vòng 4 tuần gần đây, anh/chị có",
+    value: "4. Trong vòng 4 tháng: Anh/chị có",
     data: [
       {
         Key: "4.1",
-        value:
-          "Khỏi bệnh sau khi mắc một trong các bệnh: Viêm dạ dày ruột, viêm đường tiết niệu, viêm da nhiễm trùng, viêm phế quản, viêm phổi, sởi, ho gà, quai bị, sốt xuất huyết, kiết lỵ, rubella, tả?",
-        ShowText: true,
-        type: formType.checkbox,
-      },
-      {
-        Key: "4.2",
-        value: "Kết thúc đợt tiêm vắc xin phòng: Rubella, sởi, thương hàn, tả, quai bị, thủy đậu, BCG?",
-        ShowText: true,
-        type: formType.checkbox,
-      },
-      {
-        Key: "4.3",
-        value: "Đi vào vùng có dịch bệnh lưu hành(Sốt rét, Sốt xuất huyết, Zika...)",
+        value: "Thực hiện thủ thuật/phẫu thuật nội soi không?",
         ShowText: true,
         type: formType.checkbox,
       },
@@ -150,10 +143,36 @@ export const Question = [
   },
   {
     Key: 5,
-    value: "5. Trong vòng 7 ngày gần đây, anh/chị có",
+    value: "5. Trong vòng 4 tuần gần đây, anh/chị có",
     data: [
       {
         Key: "5.1",
+        value:
+          "Khỏi bệnh sau khi mắc một trong các bệnh: Viêm dạ dày ruột, viêm đường tiết niệu, viêm da nhiễm trùng, viêm phế quản, viêm phổi, sởi, ho gà, quai bị, sốt xuất huyết, kiết lỵ, rubella, tả?",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "5.2",
+        value: "Kết thúc đợt tiêm vắc xin phòng: Rubella, sởi, thương hàn, tả, quai bị, thủy đậu, BCG?",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+      {
+        Key: "5.3",
+        value: "Đi vào vùng có dịch bệnh lưu hành(Sốt rét, Sốt xuất huyết, Zika...)",
+        ShowText: true,
+        type: formType.checkbox,
+      },
+    ],
+    warning: true,
+  },
+  {
+    Key: 6,
+    value: "6. Trong vòng 7 ngày gần đây, anh/chị có",
+    data: [
+      {
+        Key: "6.1",
         value: "Tiêm vacxin phòng virut viêm gan B",
         ShowText: true,
         type: formType.checkbox,
@@ -163,11 +182,11 @@ export const Question = [
     warning: true,
   },
   {
-    Key: 6,
-    value: "6. Trong vòng 14 ngày gần đây anh/chị có",
+    Key: 7,
+    value: "7. Trong vòng 14 ngày gần đây anh/chị có",
     data: [
       {
-        Key: "6.1",
+        Key: "7.1",
         value: "Bị cúm ho, nhức đầu, sốt hoặc đang dùng thuốc kháng sinh, Aspirin, Corticoid...",
         ShowText: true,
         type: formType.checkbox,

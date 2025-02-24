@@ -155,6 +155,13 @@ namespace KBHM.api.Controllers
             var data = await _QrDonation.ChangeActive(qrDonation);
             return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
         }
+
+        [HttpGet("Person/CheckDonorDelay")]
+        public async Task<IActionResult> CheckDonorDelay([FromQuery] string CCCD)
+        {
+            var data = await _Person.CheckDonorDelay(CCCD);
+            return data.code == Services.lib.Sql.HttpObject.Enums.Httpstatuscode_API.OK ? Ok(data) : BadRequest(data);
+        }
     }
 }
 

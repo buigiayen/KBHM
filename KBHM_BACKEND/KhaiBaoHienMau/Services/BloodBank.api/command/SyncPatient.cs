@@ -379,11 +379,17 @@ namespace BloodBank.api.command
                                              " join tbl_Config c on rb.TestCode = c.Value and c.ConfigID in ('HBVTestCodeMaping','HCVTestCodeMaping','HIVTestCodeMaping') " +
                                              " where SIDRoot=@SID and SIDchild=@SID " +
                                              " and TestCode in (Select value from tbl_Config where ConfigID in ('HBVTestCodeMaping','HCVTestCodeMaping','HIVTestCodeMaping'))";
+
+
                         var TableResult = await Dataprovider.QueryMapperAsync<Donnor.ResultBlood>(queryResult, new { SID = item.SID });
+
                         foreach (var items in TableResult)
                         {
+                            items.Result = (bool)items.Result?.ToLower().Contains("không phản ứng") ? "Không phản ứng" : (bool)items.Result?.ToLower().Contains("phản ứng") ? "Phản ứng" : items.Result;
                             historyDonnorVM.results.Add(items);
                         }
+
+
                     }
                     else
                     {

@@ -195,3 +195,7 @@ export const GET_LastDonor = async (CCCD) => {
 export const PUT_ChangeStatus = async (data) => {
   return await HttpRequest("PUT", `/kbhm/Person/ChangeStatus`, data, true);
 };
+
+export const GET_CheckDonorDelay = async ({ CCCD }) => {
+  return await HttpRequest("GET", `/kbhm/Person/CheckDonorDelay?CCCD=${CCCD}`);
+};
