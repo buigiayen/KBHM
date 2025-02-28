@@ -16,7 +16,7 @@ namespace BloodBank.api.command
         }
         public async Task<List<CategoryData>> GetLocation()
         {
-            string sql = "select BloodSourceLocationId as value , LOWER(BloodSourceLocationName) as label from tbl_Config_BloodSourceLocation";
+            string sql = "select BloodSourceLocationId as value , UPPER(BloodSourceLocationName) as label from tbl_Config_BloodSourceLocation";
             var data = await dataprovider.QueryMapperAsync<CategoryData>(sql);
             return data.ToList();
         }
