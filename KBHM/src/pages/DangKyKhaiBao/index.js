@@ -59,23 +59,23 @@ const Index = () => {
     return dayjs().$y - dayjs(dateofbirth).$y >= AgeMin;
   };
   const FetchPeron = async (value) => {
-    const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: value });
-    if (CheckDonnor) {
-      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
-      return;
-    } else {
-      const pra = {
-        text: value,
-        row: 1,
-      };
-      await GET_PersonInfo(pra).then((rs) => {
-        if (rs !== undefined && rs.length > 0) {
-          rs[0].BirthDay = dayjs(rs[0].BirthDay);
-          form?.setFieldsValue(rs[0]);
-          DataPersons(rs[0]);
-        }
-      });
-    }
+    // const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: value });
+    // if (CheckDonnor) {
+    //   Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
+    //   return;
+    // } else {
+    const pra = {
+      text: value,
+      row: 1,
+    };
+    await GET_PersonInfo(pra).then((rs) => {
+      if (rs !== undefined && rs.length > 0) {
+        rs[0].BirthDay = dayjs(rs[0].BirthDay);
+        form?.setFieldsValue(rs[0]);
+        DataPersons(rs[0]);
+      }
+    });
+    // }
   };
   const Confirm = async () => {
     if (await CheckCondition()) {
@@ -124,11 +124,11 @@ const Index = () => {
       Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Bạn chưa đủ 18 tuổi để hiến máu!</div> });
       flag = false;
     }
-    const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: form.getFieldValue("CCCD") });
-    if (CheckDonnor) {
-      Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
-      flag = false;
-    }
+    // const { CheckDonnor } = await GET_CheckDonorDelay({ CCCD: form.getFieldValue("CCCD") });
+    // if (CheckDonnor) {
+    //   Warning({ message: <div style={{ fontWeight: "bold", fontSize: 16 }}>Người hiến bị trì hoãn hiến máu vĩnh viễn!</div> });
+    //   flag = false;
+    // }
     if (
       (CheckAge(dayjs(form.getFieldValue("BirthDay")), 56) === true && form.getFieldValue("Sex") == 0) ||
       (CheckAge(dayjs(form.getFieldValue("BirthDay")), 61) === true && form.getFieldValue("Sex") == 1)
